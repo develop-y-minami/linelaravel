@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Lines\LineBotController;
+use App\Http\Controllers\Apis\LineBotController;
 
 /*
 |--------------------------------------------------------------------------

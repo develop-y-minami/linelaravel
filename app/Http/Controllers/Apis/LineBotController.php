@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Lines;
+namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,6 +28,16 @@ class LineBotController extends Controller
      * @param Request request リクエスト
      */
     public function webhook(Request $request) {
-        return 200;
+        try
+        {
+            return 200;
+
+            
+            
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
     }
 }
