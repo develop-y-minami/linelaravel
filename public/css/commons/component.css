@@ -1,0 +1,27 @@
+@charset "utf-8";
+/******************************************************
+*   共通レイアウト
+******************************************************/
+.breadcrumbTrail {
+    display: flex;
+}
+
+.breadcrumbTrail .link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    width: 120px;
+    font-weight: bold;
+    color: var(--themeColor);
+    cursor: pointer;
+}
+
+.breadcrumbTrail .link::after {
+    content: "▶";
+    font-size: 8px;
+}
+
+.breadcrumbTrail .link:last-child::after { content: ""; }
+
+.breadcrumbTrail .link:hover { background-color: white; }

@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\LineController;
+use App\Http\Controllers\Webs\TopController;
 
 /*
 |--------------------------------------------------------------------------
-| Line Routes
+| Top Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -14,9 +14,9 @@ use App\Http\Controllers\Apis\LineController;
 |
 */
 /**
- * ボットの情報を取得する
+ * トップページ
  * HTTP Method Get
- * https://{host}/api/line/bot/info
+ * https://{host}
  * 
  */
-Route::get('/bot/info', [LineController::class, 'botInfo'])->name('line.bot.info');
+Route::get('/', [TopController::class, 'index'])->name('top.index');

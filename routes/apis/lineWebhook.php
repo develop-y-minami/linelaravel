@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\LineController;
+use App\Http\Controllers\Apis\LineBotController;
 
 /*
 |--------------------------------------------------------------------------
-| Line Routes
+| Line Webhook Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -14,9 +14,9 @@ use App\Http\Controllers\Apis\LineController;
 |
 */
 /**
- * ボットの情報を取得する
- * HTTP Method Get
- * https://{host}/api/line/bot/info
+ * Line Webhook
+ * HTTP Method Post
+ * https://{host}/api/line/webhook
  * 
  */
-Route::get('/bot/info', [LineController::class, 'botInfo'])->name('line.bot.info');
+Route::post('/', [LineBotController::class, 'webhook'])->name('line.webhook');

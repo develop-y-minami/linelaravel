@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+:root {
+    --fontSize: 14px;
+    --fontColor: #111111;
+    --colorGreen: #00c321;
+    --colorLightGreen: #00ff2b;
+    --colorGray: #bdbdbd;
+    --colorLightGray: #f1f1f1;
+    --colorDarkGray: #333333;
+}
+
+/******************************************************
+*   body
+******************************************************/
+body {
+    color: var(--fontColor);
+    font-size: var(--fontSize);
+    font-family: 'Yu Gothic UI', 'メイリオ', 'Meiryo', sans-serif;
+}

@@ -9,4 +9,19 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    /**
+     * JsonのResponseを行う
+     * 
+     * @return Json
+     */
+    public function jsonResponse($data, $code = 200)
+    {
+        return response()->json(
+            $data,
+            $code,
+            ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+            JSON_UNESCAPED_UNICODE
+        );
+    }
 }

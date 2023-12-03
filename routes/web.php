@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+if (config('app.env') === 'production' or config('app.env') === 'staging') {
+    // asset()やurl()がhttpsで生成される
+    URL::forceScheme('https');
+}
