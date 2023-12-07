@@ -23,7 +23,8 @@ class LineController extends Controller
      * 
      * @param LineServiceInterface lineService LineService
      */
-    public function __construct(LineServiceInterface $lineService) {
+    public function __construct(LineServiceInterface $lineService)
+    {
         $this->lineService = $lineService;
     }
 
@@ -34,14 +35,18 @@ class LineController extends Controller
      * 
      * @param Request request リクエスト
      */
-    public function botInfo(Request $request) {
-        try {
+    public function botInfo(Request $request)
+    {
+        try
+        {
             // ボットの情報を取得する
             $data = $this->lineService->getBotInfo();
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($data);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }

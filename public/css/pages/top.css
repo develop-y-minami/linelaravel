@@ -1,0 +1,77 @@
+@charset "utf-8";
+
+:root {
+    --themeColor: var(--colorGreen);
+}
+
+/******************************************************
+*   トップページ
+******************************************************/
+.topPageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/******************************************************
+*   見出し
+******************************************************/
+.pageCaption { padding-bottom: 10px; }
+
+/******************************************************
+*   見出しの「LINE」の文言を緑色に設定
+******************************************************/
+.pageCaption .comment .line {
+    color: var(--colorGreen);
+    font-weight: bold;
+}
+
+/******************************************************
+*   通知リストコンテナー
+******************************************************/
+.lineNoticeListContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/******************************************************
+*   通知リスト上部
+******************************************************/
+.lineNoticeListContainer .topContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lineNoticeListContainer .topContainer .content {
+    margin: 10px;
+}
+
+/******************************************************
+*   通知リスト検索条件コンテナー
+******************************************************/
+.lineNoticeListContainer .searchContainer {
+    flex: 1;
+    display: flex;
+}
+
+/******************************************************
+*   通知リスト表示順,リロードボタンコンテナー
+******************************************************/
+.lineNoticeListContainer .rightContainer {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/******************************************************
+*   通知リストグリッド
+******************************************************/
+.lineNoticeListContainer .gridContainer {
+    flex: 1;
+}
+
+.lineNoticeListContainer .gridContainer .grid {
+    height: 100%;
+}
+

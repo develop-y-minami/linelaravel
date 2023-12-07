@@ -24,7 +24,8 @@ class LineBotController extends Controller
      * 
      * @param LineServiceInterface lineService LineService
      */
-    public function __construct(LineServiceInterface $lineService) {
+    public function __construct(LineServiceInterface $lineService)
+    {
         $this->lineService = $lineService;
     }
     
@@ -35,13 +36,16 @@ class LineBotController extends Controller
      * 
      * @param Request request リクエスト
      */
-    public function webhook(Request $request) {
-        try {
+    public function webhook(Request $request)
+    {
+        try
+        {
             // webhookイベントを取得
             $events = $request->input('events');
 
             // 受信したwebhookイベントを順次処理
-            foreach($events as $event) {
+            foreach($events as $event)
+            {
                 // webhookイベントのタイプを取得
                 $type = $event['type'];
 
@@ -49,7 +53,8 @@ class LineBotController extends Controller
                 $replyToken = $event['replyToken'];
                 
                 // webhookイベントのタイプ毎の処理を実行
-                switch ($type) {
+                switch ($type)
+                {
                     // メッセージイベント
                     case 'message':
                         $this->lineService->replyFollow($replyToken);
@@ -70,7 +75,9 @@ class LineBotController extends Controller
 
             // HTTPステータスコード:200 
             return Response::HTTP_CREATED;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }

@@ -3,6 +3,7 @@
 :root {
     --fontSize: 14px;
     --fontColor: #111111;
+    --colorBlue: #0072ff;
     --colorGreen: #00c321;
     --colorLightGreen: #00ff2b;
     --colorGray: #bdbdbd;
@@ -17,4 +18,83 @@ body {
     color: var(--fontColor);
     font-size: var(--fontSize);
     font-family: 'Yu Gothic UI', 'メイリオ', 'Meiryo', sans-serif;
+}
+
+/******************************************************
+*   input
+******************************************************/
+input {
+    padding: 5px 15px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 1px 1px var(--colorGray);
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+/******************************************************
+*   select
+******************************************************/
+select {
+    padding: 5px 15px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 1px 1px var(--colorGray);
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+.selectBox {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+}
+
+.selectBox select {
+    padding-right: 40px;
+}
+
+.selectBox::before {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 8px;
+    color: var(--colorBlue);
+    pointer-events: none;
+}
+
+/******************************************************
+*   button
+******************************************************/
+button {
+    padding: 5px 15px;
+    width: max-content;
+    box-shadow: 0px 0px 1px 1px var(--colorGray);
+    border-radius: 3px;
+}
+
+button:focus, button:hover {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+button.blue {
+    color: white;
+    box-shadow: 0px 0px 1px 1px var(--colorBlue);
+    background-color: var(--colorBlue);
+}
+
+button.blue:focus, button:hover {
+    color: var(--colorBlue);
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
 }

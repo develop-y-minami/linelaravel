@@ -45,7 +45,8 @@ class LineService implements LineServiceInterface
      * 
      * @param string channelAccessToken チャネルアクセストークン
      */
-    public function __construct($channelAccessToken) {
+    public function __construct($channelAccessToken)
+    {
         $this->channelAccessToken = $channelAccessToken;
         $this->client = new Client();
         $this->config = new Configuration();
@@ -58,8 +59,10 @@ class LineService implements LineServiceInterface
      * 
      * @return BotInfo
      */
-    public function getBotInfo() {
-        try {
+    public function getBotInfo()
+    {
+        try
+        {
             // リプライメッセージ送信
             $response = $this->messagingApi->getBotInfo();
 
@@ -69,7 +72,9 @@ class LineService implements LineServiceInterface
             $pictureUrl = $response->getPictureUrl();
 
             return new BotInfo($basicId, $displayName, $pictureUrl);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }
@@ -81,7 +86,8 @@ class LineService implements LineServiceInterface
      * 
      * @return TextMessage
      */
-    public function getTextMessage($text) {
+    public function getTextMessage($text)
+    {
         return new TextMessage(['type' => 'text','text' => $text]);
     }
 
@@ -93,7 +99,8 @@ class LineService implements LineServiceInterface
      * 
      * @return FlexMessage
      */
-    public function getFlexMessage($altText, $contents) {
+    public function getFlexMessage($altText, $contents)
+    {
         return new FlexMessage(['type' => 'flex','altText' => $altText, 'contents' => $contents]);
     }
 
@@ -105,8 +112,10 @@ class LineService implements LineServiceInterface
      * 
      * @return ReplyMessageResponse
      */
-    public function replyTextMessage($replyToken, $text) {
-        try {
+    public function replyTextMessage($replyToken, $text)
+    {
+        try
+        {
             // テキストメッセージを生成
             $message = $this->getTextMessage($text);
 
@@ -117,7 +126,9 @@ class LineService implements LineServiceInterface
             $response = $this->messagingApi->replyMessage($request);
 
             return $response;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }
@@ -131,7 +142,8 @@ class LineService implements LineServiceInterface
      * @return ReplyMessageResponse
      */
     public function replyTextMessages($replyToken, $messages) {
-        try {
+        try
+        {
             // リクエストを生成
             $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => $messages]);
 
@@ -139,7 +151,9 @@ class LineService implements LineServiceInterface
             $response = $this->messagingApi->replyMessage($request);
 
             return $response;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }
@@ -151,8 +165,10 @@ class LineService implements LineServiceInterface
      * 
      * @return ReplyMessageResponse
      */
-    public function replyFollow($replyToken) {
-        try {
+    public function replyFollow($replyToken)
+    {
+        try
+        {
             // テキストメッセージを生成
             $textMessage = $this->getTextMessage('友達追加しましたね！\nユーザー登録をしてください');
             // フレックスメッセージを取得
@@ -162,7 +178,9 @@ class LineService implements LineServiceInterface
             $response = $this->replyTextMessages($replyToken, [$textMessage, $flexMessage]);
 
             return $response;
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }
@@ -172,7 +190,8 @@ class LineService implements LineServiceInterface
      * 
      * @return FlexMessage
      */
-    private function getUserRegisterFlexMessage() {
+    private function getUserRegisterFlexMessage()
+    {
         // ユーザー登録メッセージのコンテンツを取得を取得
         $userRegisterFlexContents = $this->getUserRegisterFlexContents();
         // フレックスメッセージを生成
@@ -186,7 +205,8 @@ class LineService implements LineServiceInterface
      * 
      * @return array
      */
-    private function getUserRegisterFlexContents() {
+    private function getUserRegisterFlexContents()
+    {
         // 表示コンテンツの配列を生成
         $flexContents = [
             'altText' => 'ユーザー登録',

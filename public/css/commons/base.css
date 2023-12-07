@@ -58,25 +58,25 @@
 /******************************************************
 *   LINE公式アカウント表示エリア
 ******************************************************/
-.lineAccountContainer {
+.lineOfficialAccountContainer {
     margin: 0 1px;
 }
 
-.lineAccountContainer header {
+.lineOfficialAccountContainer header {
     padding: 10px;
     text-align: center;
     font-weight: bold;
     color: var(--colorLightGreen);
 }
 
-.lineAccountContainer .container {
+.lineOfficialAccountContainer .container {
     background-color: white;
 }
 
 /******************************************************
 *   LINE公式アカウントプロフィール画像
 ******************************************************/
-.lineAccountContainer .imgContainer {
+.lineOfficialAccountContainer .imgContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,7 +84,7 @@
     border-bottom: solid 1px var(--colorDarkGray);
 }
 
-.lineAccountContainer .imgContainer .imgBox {
+.lineOfficialAccountContainer .imgContainer .imgBox {
     width: 145px;
     height: 145px;
     border: solid 1px var(--colorGray);
@@ -94,24 +94,23 @@
 /******************************************************
 *   LINE公式アカウントプロフィール情報
 ******************************************************/
-.lineAccountContainer .infoContainer {
-    padding: 10px 5px; 
+.lineOfficialAccountContainer .infoContainer {
     border-bottom: solid 1px var(--colorDarkGray);
 }
 
-.lineAccountContainer .infoTable {
+.lineOfficialAccountContainer .infoTable {
     width: 100%;
     font-size: 12px;
     border: solid 1px var(--colorLightGray);
 }
 
-.lineAccountContainer .infoTable tr { border-bottom: solid 1px var(--colorLightGray); }
+.lineOfficialAccountContainer .infoTable tr { border-bottom: solid 1px var(--colorLightGray); }
 
-.lineAccountContainer .infoTable tr:last-child { border-bottom: none; }
+.lineOfficialAccountContainer .infoTable tr:last-child { border-bottom: none; }
 
-.lineAccountContainer .infoTable th, .lineAccountContainer .infoTable td { padding: 10px; }
+.lineOfficialAccountContainer .infoTable th, .lineOfficialAccountContainer .infoTable td { padding: 10px; }
 
-.lineAccountContainer .infoTable th {
+.lineOfficialAccountContainer .infoTable th {
     width: 100px;
     background-color: var(--colorLightGray);
 }

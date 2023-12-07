@@ -1,6 +1,7 @@
 @charset "utf-8";
+
 /******************************************************
-*   共通レイアウト
+*   パンくずリスト
 ******************************************************/
 .breadcrumbTrail {
     display: flex;
@@ -25,3 +26,18 @@
 .breadcrumbTrail .link:last-child::after { content: ""; }
 
 .breadcrumbTrail .link:hover { background-color: white; }
+
+/******************************************************
+*   ページ見出し
+******************************************************/
+.pageCaption { padding: 15px; }
+
+.pageCaption .caption {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.pageCaption .comment {
+    margin-top: 10px;
+    margin-left: 15px;
+}

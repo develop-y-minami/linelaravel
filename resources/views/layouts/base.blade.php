@@ -9,58 +9,54 @@
         {{--タイトル--}}
         <title>@yield('title')</title>
 
-        {{--CSS：外部--}}
+        {{--Reset CSS--}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@4.0.0/destyle.min.css">
 
-        {{--CSS：共通--}}
+        {{--共通CSS--}}
         <link rel="stylesheet" href="{{ asset('css/commons/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/base.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/component.css') }}">
 
-        {{--CSS：固有--}}
+        {{--各ページのCSSを読み込み--}}
         @stack('css')
 
-        {{--JavaScript：JQuery--}}
+        {{--JQuery--}}
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-        {{--JavaScript：共通--}}
+        {{--共通JavaScript--}}
         <script src="{{ asset('js/commons/consts/const.js') }}"></script>
         <script src="{{ asset('js/commons/base.js') }}"></script>
-        <script src="{{ asset('js/apis/fetch-api.js') }}"></script>
+        <script src="{{ asset('js/commons/components/lineOfficialAccountContainer.js') }}"></script>
+        <script src="{{ asset('js/apis/fetchApi.js') }}"></script>
+        <script src="{{ asset('js/apis/lineApi.js') }}"></script>
 
-        {{--JavaScript：固有--}}
+        {{--各ページのJavaScript：固有を読み込み--}}
         @stack('js')
 
     </head>
 
     <body class="base">
-
         {{--ヘッダー--}}
         <header class="baseHeader">
-
             {{--システム名--}}
             <div class="systemName">System Name</div>
-
             <div class="container">
                 <div class="user-container">
 
                 </div>
             </div>
-
         </header>
 
         <div class="baseContainer">
-
             {{--サイドメニュー--}}
             <aside class="baseSideContainer">
-
                 {{--公式LINEアカウント--}}
-                <div class="lineAccountContainer">
+                <div class="lineOfficialAccountContainer">
                     <header>LINE</header>
                     <div class="container">
                         <div class="imgContainer">
                             <div class="imgBox">
-                                <img id="imgPictureUrl" src="">
+                                <img id="imgOfficialAccountPictureUrl" src="">
                             </div>
                         </div>
                         <div class="infoContainer">
@@ -68,15 +64,11 @@
                                 <tbody>
                                     <tr>
                                         <th>LINE ID</th>
-                                        <td id="tdLineBasicId"></td>
+                                        <td id="tdLineOfficialAccountBasicId"></td>
                                     </tr>
                                     <tr>
                                         <th>アカウント名</th>
-                                        <td id="tdLineDisplayName"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>友達数</th>
-                                        <td></td>
+                                        <td id="tdLineOfficialAccountDisplayName"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -89,7 +81,6 @@
                     <ul class="menuGroup">
                         <li class="menu parent">Top</li>
                     </ul>
-
                     <ul class="menuGroup">
                         <li class="menu parent">設定</li>
                         <li class="menu child">マスタ設定</li>
@@ -101,7 +92,6 @@
 
             {{--ページ--}}
             <main class="basePageContainer">
-
                 {{--ページヘッダー--}}
                 <header class="basePageHeader">
                     {{--パンくずリスト--}}
@@ -115,10 +105,8 @@
                 
                 {{--ページコンテンツ--}}
                 <div class="basePageContent">
-
-                    {{--固有ページ--}}
+                    {{--各ページのコンテンツを表示--}}
                     @yield('page')
-
                 </div>
             </main>
         </div>
