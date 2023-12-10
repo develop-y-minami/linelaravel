@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Objects\SelectItem;
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Jsons\LineApis\Line;
 use App\Jsons\LineApis\LineAccountStatus;

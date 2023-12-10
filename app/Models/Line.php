@@ -15,4 +15,17 @@ class Line extends Model
     use \App\Traits\Relations\BelongsToLineAccountStatus;
     use \App\Traits\Relations\BelongsToLineAccountType;
     use \App\Traits\Relations\BelongsToUser;
+
+    /**
+     * 登録/更新を許可するカラム
+     *
+     */
+    protected $fillable = [
+        'account_id',
+        'display_name',
+        'picture_url',
+        'line_account_type_id',
+        'line_account_status_id',
+        'user_id',
+    ];
 }

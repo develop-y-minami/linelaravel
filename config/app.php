@@ -185,6 +185,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'LineAccountType' =>  App\Consts\LineAccountType::class,
+        'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
+        'AppFacade' => App\Facades\AppFacadeClass::class,
     ])->toArray(),
 
 ];

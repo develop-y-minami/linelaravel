@@ -35,6 +35,19 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // LineWebhookService
+        $this->app->bind(
+            \App\Services\LineWebhookServiceInterface::class,
+            function ($app) {
+                return new \App\Services\LineWebhookService(
+                    config('line.message_channel_access_token'),
+                    $app->make(\App\Repositorys\LineNoticeRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineRepositoryInterface::class)
+                );
+            },
+        );
+
         // UserService
         $this->app->bind(
             \App\Services\UserServiceInterface::class,

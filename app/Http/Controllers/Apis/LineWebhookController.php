@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Apis;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Services\LineServiceInterface;
+use App\Services\LineWebhookServiceInterface;
 
 /**
  * LineWebhookController
@@ -14,19 +14,19 @@ use App\Services\LineServiceInterface;
 class LineWebhookController extends Controller
 {
     /**
-     * LineService
+     * LineWebhookService
      * 
      */
-    private $lineService;
+    private $lineWebhookService;
 
     /**
      * __construct
      * 
-     * @param LineServiceInterface lineService LineService
+     * @param LineWebhookServiceInterface lineWebhookService
      */
-    public function __construct(LineServiceInterface $lineService)
+    public function __construct(LineWebhookServiceInterface $lineWebhookService)
     {
-        $this->lineService = $lineService;
+        $this->lineWebhookService = $lineWebhookService;
     }
     
     /**
@@ -48,9 +48,12 @@ class LineWebhookController extends Controller
             {
                 // webhookイベントのタイプを取得
                 $type = $event['type'];
-
                 // 応答トークンを取得
-                $replyToken = $event['replyToken'];
+                $replyToken = \AppFacade::getArrayValue($event, 'replyToken');
+                // タイムスタンプを取得
+                $timestamp = \AppFacade::getArrayValue($event, 'timestamp');
+                // ソースを取得
+                $source = \AppFacade::getArrayValue($event, 'source');
                 
                 // webhookイベントのタイプ毎の処理を実行
                 switch ($type)
@@ -63,10 +66,12 @@ class LineWebhookController extends Controller
                     
                     // フォローイベント
                     case 'follow':
-                        $this->lineService->replyFollow($replyToken);
-
+                        $this->lineWebhookService->follow($type, $source['userId'], $timestamp);
                         break;
-
+                    // フォロー解除イベント
+                    case 'unfollow':
+                        $this->lineWebhookService->unfollow($type, $source['userId'], $timestamp);
+                        break;
                     default:
                         break;
                 }

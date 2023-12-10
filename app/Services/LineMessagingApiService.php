@@ -21,21 +21,18 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
      * 
      */
     private $channelAccessToken;
-
     /**
      * client
      * 
      */
     private $client;
-
     /**
      * client
      * 
      */
     private $config;
-
     /**
-     * LineBot
+     * MessagingApi
      * 
      */
     private $messagingApi;
@@ -77,179 +74,5 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
         {
             throw $e;
         }
-    }
-
-    /**
-     * TextMessageを返却
-     * 
-     * @param string text メッセージ
-     * 
-     * @return TextMessage
-     */
-    public function getTextMessage($text)
-    {
-        return new TextMessage(['type' => 'text','text' => $text]);
-    }
-
-    /**
-     * FlexMessageを返却
-     * 
-     * @param string altText  メッセージ
-     * @param string contents 表示コンテンツ
-     * 
-     * @return FlexMessage
-     */
-    public function getFlexMessage($altText, $contents)
-    {
-        return new FlexMessage(['type' => 'flex','altText' => $altText, 'contents' => $contents]);
-    }
-
-    /**
-     * リプライメッセージを送信
-     * 
-     * @param string replyToken リプライトークン
-     * @param string text メッセージ
-     * 
-     * @return ReplyMessageResponse
-     */
-    public function replyTextMessage($replyToken, $text)
-    {
-        try
-        {
-            // テキストメッセージを生成
-            $message = $this->getTextMessage($text);
-
-            // リクエストを生成
-            $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => [$message]]);
-
-            // リプライメッセージ送信
-            $response = $this->messagingApi->replyMessage($request);
-
-            return $response;
-        }
-        catch (\Exception $e)
-        {
-            throw $e;
-        }
-    }
-
-    /**
-     * リプライメッセージ(複数)を送信
-     * 
-     * @param string replyToken リプライトークン
-     * @param array  messages   メッセージ
-     * 
-     * @return ReplyMessageResponse
-     */
-    public function replyTextMessages($replyToken, $messages) {
-        try
-        {
-            // リクエストを生成
-            $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => $messages]);
-
-            // リプライメッセージ送信
-            $response = $this->messagingApi->replyMessage($request);
-
-            return $response;
-        }
-        catch (\Exception $e)
-        {
-            throw $e;
-        }
-    }
-
-    /**
-     * 友達追加時のリプライメッセージを送信
-     * 
-     * @param string replyToken リプライトークン
-     * 
-     * @return ReplyMessageResponse
-     */
-    public function replyFollow($replyToken)
-    {
-        try
-        {
-            // テキストメッセージを生成
-            $textMessage = $this->getTextMessage('友達追加しましたね！\nユーザー登録をしてください');
-            // フレックスメッセージを取得
-            $flexMessage = $this->getUserRegisterFlexMessage();
-
-            // リプライメッセージ送信
-            $response = $this->replyTextMessages($replyToken, [$textMessage, $flexMessage]);
-
-            return $response;
-        }
-        catch (\Exception $e)
-        {
-            throw $e;
-        }
-    }
-
-    /**
-     * ユーザー登録用のフレックスメッセージを返却
-     * 
-     * @return FlexMessage
-     */
-    private function getUserRegisterFlexMessage()
-    {
-        // ユーザー登録メッセージのコンテンツを取得を取得
-        $userRegisterFlexContents = $this->getUserRegisterFlexContents();
-        // フレックスメッセージを生成
-        $flexMessage = $this->getFlexMessage($userRegisterFlexContents['altText'], $userRegisterFlexContents['contents']);
-
-        return $flexMessage;
-    }
-
-    /**
-     * ユーザー登録用のフレックスメッセージの表示コンテンツを返却
-     * 
-     * @return array
-     */
-    private function getUserRegisterFlexContents()
-    {
-        // 表示コンテンツの配列を生成
-        $flexContents = [
-            'altText' => 'ユーザー登録',
-            'contents' =>  array (
-                'type' => 'bubble',
-                'body' => 
-                array (
-                  'type' => 'box',
-                  'layout' => 'vertical',
-                  'contents' => 
-                  array (
-                    0 => 
-                    array (
-                      'type' => 'image',
-                      'url' => 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
-                      'aspectMode' => 'cover',
-                      'size' => 'full',
-                    ),
-                  ),
-                  'paddingAll' => 'none',
-                ),
-                'footer' => 
-                array (
-                  'type' => 'box',
-                  'layout' => 'vertical',
-                  'contents' => 
-                  array (
-                    0 => 
-                    array (
-                      'type' => 'button',
-                      'action' => 
-                      array (
-                        'type' => 'uri',
-                        'label' => 'ユーザー登録',
-                        'uri' => 'https://liff.line.me/2001775635-bAdzwvoB',
-                      ),
-                      'style' => 'primary',
-                    ),
-                  ),
-                ),
-              )
-        ];
-        
-        return $flexContents;
     }
 }
