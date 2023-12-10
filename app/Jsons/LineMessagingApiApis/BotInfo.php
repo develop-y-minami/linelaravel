@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jsons\LineApis;
+namespace App\Jsons\LineMessagingApiApis;
 
 /**
  * BotInfo
@@ -17,7 +17,7 @@ class BotInfo implements \JsonSerializable
      */
     public function __construct(
         public readonly string $basicId,
-        public readonly string $displayName,
+        public readonly ?string $displayName,
         public readonly ?string $pictureUrl
     )
     {

@@ -34,24 +34,22 @@ class LineOfficialAccountContainer {
      * 
      */
     async init() {
-
         try {
             // API経由でボットの情報を取得
-            let result = await LineApi.getBotInfo();
+            let result = await LineMessagingApi.getBotInfo();
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // 取得したデータをコンテナーに設定
                 this.setLineOfficialAccountContainer(
-                    result.data.pictureUrl,
-                    result.data.basicId,
-                    result.data.displayName
+                    result.data.botInfo.pictureUrl,
+                    result.data.botInfo.basicId,
+                    result.data.botInfo.displayName
                 );
             }
     
         } catch(error) {
             throw error;
         }
-
     }
 
     /**

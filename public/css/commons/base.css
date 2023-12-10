@@ -85,8 +85,8 @@
 }
 
 .lineOfficialAccountContainer .imgContainer .imgBox {
-    width: 145px;
-    height: 145px;
+    width: 130px;
+    height: 130px;
     border: solid 1px var(--colorGray);
     border-radius: 50%;
 }

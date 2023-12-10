@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Services\LineServiceInterface;
 
 /**
- * LineBotController
+ * LineWebhookController
  * 
  */
-class LineBotController extends Controller
+class LineWebhookController extends Controller
 {
     /**
      * LineService

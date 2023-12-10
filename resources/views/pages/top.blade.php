@@ -18,6 +18,12 @@
 @push('js')
     {{--AG Grid--}}
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <script src="{{ asset('js/commons/components/grids/agGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/lineNoticeType.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/lineNoticeGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/labelBoxCellRenderer.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/linkCellRenderer.js') }}"></script>
+    <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     <script src="{{ asset('js/pages/top.js') }}"></script>
 @endpush
 
@@ -34,37 +40,31 @@
         <div class="lineNoticeListContainer">
             <div class="topContainer">
                 <div class="searchContainer">
+                    {{--LINE通知日テキストボックス--}}
+                    <div class="content">
+                        <input type="date" id="txtSearchLineNoticeDate" value="{{ $data->lineNoticeDate }}">
+                    </div>
                     {{--担当者セレクトボックス--}}
                     <div class="content">
                         <x-selects.user id="selSearchUser" :selectItems='$data->userSelectItems'></x-selects.user>
                     </div>
+                    {{--通知種別セレクトボックス--}}
+                    <div class="content">
+                        <x-selects.lineNoticeType id="selSearchLineNoticeType" :selectItems='$data->lineNoticeTypeSelectItems'></x-selects.lineNoticeType>
+                    </div>
                     {{--トーク相手/グループテキストボックス--}}
                     <div class="content">
-                        <input type="text" placeholder="トーク相手/グループを入力">
-                    </div>
-                    {{--通知区分セレクトボックス--}}
-                    <div class="content">
-                        <div class="selectBox">
-                            <select>
-                                <option>通知区分を選択</option>
-                                <option>担当者A</option>
-                                <option>担当者B</option>
-                            </select>
-                        </div>
+                        <input type="text" id="txtSearchLineDisplayName" placeholder="トーク相手/グループを入力">
                     </div>
                     {{--検索ボタン--}}
                     <div class="content">
-                        <button class="blue">検索</button>
+                        <button id="btnSearch" class="blue">検索</button>
                     </div>
                 </div>
                 <div class="rightContainer">
-                    {{--新着順セレクトボックス--}}
+                    {{--リロードボタン--}}
                     <div class="content">
-                        <div class="selectBox">
-                            <select>
-                                <option>新着順</option>
-                            </select>
-                        </div>
+                        <x-buttons.reload id="btnReload"></x-buttons.reload>
                     </div>
                 </div>
             </div>

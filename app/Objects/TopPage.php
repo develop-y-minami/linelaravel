@@ -11,9 +11,15 @@ class TopPage
     /**
      * __construct
      * 
-     * @param array userSelectItems 担当者セレクトボックス選択項目
+     * @param string lineNoticeDate            LINE通知日
+     * @param array  lineNoticeTypeSelectItems 通知種別セレクトボックス選択項目
+     * @param array  userSelectItems           担当者セレクトボックス選択項目
      */
-    public function __construct(public readonly array $userSelectItems)
+    public function __construct(
+        public readonly string $lineNoticeDate,
+        public readonly array $lineNoticeTypeSelectItems,
+        public readonly array $userSelectItems
+    )
     {
         
     }

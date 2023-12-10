@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Webs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Services\LineNoticeTypeServiceInterface;
 use App\Services\UserServiceInterface;
 use App\Objects\TopPage;
 
@@ -14,6 +16,11 @@ use App\Objects\TopPage;
 class TopController extends Controller
 {
     /**
+     * LineNoticeTypeServiceInterface
+     * 
+     */
+    private $lineNoticeTypeService;
+    /**
      * UserServiceInterface
      * 
      */
@@ -22,10 +29,15 @@ class TopController extends Controller
     /**
      * __construct
      * 
+     * @param LineNoticeTypeServiceInterface lineNoticeTypeService
      * @param UserServiceInterface userService
      */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(
+        LineNoticeTypeServiceInterface $lineNoticeTypeService,
+        UserServiceInterface $userService
+    )
     {
+        $this->lineNoticeTypeService = $lineNoticeTypeService;
         $this->userService = $userService;
     }
 
@@ -39,11 +51,15 @@ class TopController extends Controller
     public function index(Request $request) {
         try
         {
+            // 通知日の初期値を設定
+            $lineNoticeDate = Carbon::now()->toDateString();
+            // 通知種別セレクトボックス設定データを取得
+            $lineNoticeTypeSelectItems = $this->lineNoticeTypeService->getSelectItems();
             // 担当者セレクトボックス設定データを取得
             $userSelectItems = $this->userService->getSelectItems();
 
             // 返却データに設定
-            $result = new TopPage($userSelectItems);
+            $result = new TopPage($lineNoticeDate, $lineNoticeTypeSelectItems, $userSelectItems);
 
             return view('pages.top')->with('data', $result);
         }

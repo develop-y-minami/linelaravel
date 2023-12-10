@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\LineServiceInterface;
+use App\Services\LineNoticeServiceInterface;
+use App\Jsons\LineApis\Responses\NoticeResponse;
 
 /**
  * LineController
@@ -13,37 +14,51 @@ use App\Services\LineServiceInterface;
 class LineController extends Controller
 {
     /**
-     * LineService
+     * LineNoticeService
      * 
      */
-    private $lineService;
+    private $lineNoticeService;
 
     /**
      * __construct
      * 
-     * @param LineServiceInterface lineService LineService
+     * @param LineNoticeServiceInterface lineNoticeService
      */
-    public function __construct(LineServiceInterface $lineService)
+    public function __construct(LineNoticeServiceInterface $lineNoticeService)
     {
-        $this->lineService = $lineService;
+        $this->lineNoticeService = $lineNoticeService;
     }
 
     /**
-     * ボットの情報を取得する
-     * HTTP Method Get
-     * https://{host}/api/line/bot/info
+     * LINE通知情報を取得する
+     * HTTP Method Post
+     * https://{host}/api/line/notice
      * 
      * @param Request request リクエスト
+     * @return Json
      */
-    public function botInfo(Request $request)
+    public function notice(Request $request)
     {
         try
         {
-            // ボットの情報を取得する
-            $data = $this->lineService->getBotInfo();
+            // パラメータを取得
+            $noticeDate = $request->input('noticeDate');
+            $lineNoticeTypeId = $request->input('lineNoticeTypeId');
+            $displayName = $request->input('displayName');
+            $userId = $request->input('userId');
+
+            // キャスト
+            $lineNoticeTypeId = $lineNoticeTypeId == null ? null : (int)$lineNoticeTypeId;
+            $userId = $userId == null ? null : (int)$userId;
+
+            // LINE通知情報を取得する
+            $notices = $this->lineNoticeService->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $userId);
+            
+            // レスポンスデータを生成
+            $response = new NoticeResponse($notices);
 
             // HTTPステータスコード:200 
-            return $this->jsonResponse($data);
+            return $this->jsonResponse($response);
         }
         catch (\Exception $e)
         {

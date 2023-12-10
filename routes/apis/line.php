@@ -5,7 +5,7 @@ use App\Http\Controllers\Apis\LineController;
 
 /*
 |--------------------------------------------------------------------------
-| Line Routes
+| Line Api Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -14,9 +14,11 @@ use App\Http\Controllers\Apis\LineController;
 |
 */
 /**
- * ボットの情報を取得する
- * HTTP Method Get
- * https://{host}/api/line/bot/info
+ * LINE通知情報を取得する
+ * HTTP Method Post
+ * https://{host}/api/line/notice
  * 
+ * @param Request request リクエスト
+ * @return Json
  */
-Route::get('/bot/info', [LineController::class, 'botInfo'])->name('line.bot.info');
+Route::post('/notice', [LineController::class, 'notice'])->name('line.notice');

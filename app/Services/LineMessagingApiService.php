@@ -8,13 +8,13 @@ use LINE\Clients\MessagingApi\Api\MessagingApiApi;
 use LINE\Clients\MessagingApi\Model\ReplyMessageRequest;
 use LINE\Clients\MessagingApi\Model\TextMessage;
 use LINE\Clients\MessagingApi\Model\FlexMessage;
-use App\Jsons\LineApis\BotInfo;
+use App\Jsons\LineMessagingApiApis\BotInfo;
 
 /**
- * LineService
+ * LineMessagingApiService
  * 
  */
-class LineService implements LineServiceInterface
+class LineMessagingApiService implements LineMessagingApiServiceInterface
 {
     /**
      * チャネルアクセストークン

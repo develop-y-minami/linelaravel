@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\LineBotController;
+use App\Http\Controllers\Apis\LineWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,4 @@ use App\Http\Controllers\Apis\LineBotController;
  * https://{host}/api/line/webhook
  * 
  */
-Route::post('/', [LineBotController::class, 'webhook'])->name('line.webhook');
+Route::post('/', [LineWebhookController::class, 'webhook'])->name('line.webhook');

@@ -24,11 +24,12 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
         {{--共通JavaScript--}}
-        <script src="{{ asset('js/commons/consts/const.js') }}"></script>
+        <script src="{{ asset('js/commons/utils/dateTimeUtil.js') }}"></script>
+        <script src="{{ asset('js/commons/utils/stringUtil.js') }}"></script>
         <script src="{{ asset('js/commons/base.js') }}"></script>
-        <script src="{{ asset('js/commons/components/lineOfficialAccountContainer.js') }}"></script>
+        <script src="{{ asset('js/commons/components/containers/lineOfficialAccountContainer.js') }}"></script>
         <script src="{{ asset('js/apis/fetchApi.js') }}"></script>
-        <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+        <script src="{{ asset('js/apis/lineMessagingApi.js') }}"></script>
 
         {{--各ページのJavaScript：固有を読み込み--}}
         @stack('js')

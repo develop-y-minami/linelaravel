@@ -17,6 +17,18 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // LineNoticeRepository
+        $this->app->bind(
+            \App\Repositorys\LineNoticeRepositoryInterface::class,
+            \App\Repositorys\LineNoticeRepository::class
+        );
+
+        // LineNoticeTypeRepository
+        $this->app->bind(
+            \App\Repositorys\LineNoticeTypeRepositoryInterface::class,
+            \App\Repositorys\LineNoticeTypeRepository::class
+        );
+
         // UserRepository
         $this->app->bind(
             \App\Repositorys\UserRepositoryInterface::class,

@@ -1,49 +1,59 @@
 $(function() {
     /**
-     * ID
+     * LINE通知日テキストボックス
      * 
      */
-    const lineNoticeGridId = '#lineNoticeGrid';
-
+    $txtSearchLineNoticeDate = $('#txtSearchLineNoticeDate');
     /**
-     * 通知リストグリッドカラム定義
+     * 担当者セレクトボックス
      * 
      */
-    const columnDefs = [
-        {
-            field: 'userId',
-            headerName: '担当者',
-        },
-        {
-            field: 'noticeDateTime',
-            headerName: '通知日時',
-        },
-        {
-            field: 'lineDisplayName',
-            headerName: 'トーク相手/グループ',
-        },
-        {
-            field: 'noticeType',
-            headerName: '通知区分',
-        },
-        {
-            field: 'content',
-            headerName: '内容',
-            flex: 1,
-        },
-    ]
-
+    $selSearchUser = $('#selSearchUser');
     /**
-     * 通知リストグリッド
+     * LINE通知種別
      * 
      */
-    let gridOptions = {};
-
+    $selSearchLineNoticeType = $('#selSearchLineNoticeType');
     /**
-     * 通知リストグリッド Api
+     * LINE表示名テキストボックス
      * 
      */
-    let gridApi;
+    $txtSearchLineDisplayName = $('#txtSearchLineDisplayName');
+    /**
+     * 検索ボタン
+     * 
+     */
+    $btnSearch = $('#btnSearch');
+    /**
+     * リロードボタン
+     * 
+     */
+    $btnReload = $('#btnReload');
+    /**
+     * LineNoticeGrid
+     * 
+     */
+    let lineNoticeGrid;
+    /**
+     * LINE通知日の入力値
+     * 
+     */
+    let searchLineNoticeDate = null;
+    /**
+     * 担当者の選択値
+     * 
+     */
+    let searchUser = null;
+    /**
+     * LINE通知種別の選択値
+     * 
+     */
+    let searchLineNoticeType = null;
+    /**
+     * LINE表示名の入力値
+     * 
+     */
+    let searchLineDisplayName = null;
 
     try {
         // 初期化処理を実行
@@ -59,51 +69,66 @@ $(function() {
      */
     function init() {
         try {
+            // インスタンスを生成
+            lineNoticeGrid = new LineNoticeGrid('lineNoticeGrid');
+
+            // LINE通知情報の検索条件を設定
+            setLineNoticeConditions();
+
             // 通知リストグリッドを初期化
-            initLineNoticeGrid();
-    
+            lineNoticeGrid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
         } catch(error) {
             throw error;
         }
     }
 
-    function initLineNoticeGrid() {
-        
+    /**
+     * LINE通知情報の検索条件を設定
+     * 
+     */
+    function setLineNoticeConditions() {
+        // 通知日
+        searchLineNoticeDate = null;
+        if ($txtSearchLineNoticeDate.val() !== '') {
+            searchLineNoticeDate = $txtSearchLineNoticeDate.val();
+        }
 
-        let rowData = [
-            {
-                userId: 'AAA',
-                noticeDateTime: '2023年11月12日 23時04分',
-                lineDisplayName: '南　優毅',
-                noticeType: '友達追加',
-                content: '友達追加されました',
-            },
-            {
-                userId: 'AAA',
-                noticeDateTime: '2023年11月12日 23時04分',
-                lineDisplayName: '南　優毅',
-                noticeType: '友達追加',
-                content: '友達追加されました',
-            },
-            {
-                userId: 'AAA',
-                noticeDateTime: '2023年11月12日 23時04分',
-                lineDisplayName: '南　優毅',
-                noticeType: '友達追加',
-                content: '友達追加されました',
-            },
-        ];
+        // 担当者セレクトボックス
+        searchUser = null;
+        if ($selSearchUser.val() !== '0') {
+            searchUser = Number($selSearchUser.val());
+        }
 
-        // カラムを設定
-        gridOptions.columnDefs = columnDefs;
+        // LINE通知種別セレクトボックス
+        searchLineNoticeType = null;
+        if ($selSearchLineNoticeType.val() !== '0') {
+            searchLineNoticeType = Number($selSearchLineNoticeType.val());
+        }
 
-        gridOptions.rowData = rowData;
-
-        gridOptions.headerHeight = 33;
-        gridOptions.rowHeight = 33;
-
-        // グリッド生成
-        let gridDiv = document.querySelector(lineNoticeGridId);
-        gridApi = agGrid.createGrid(gridDiv, gridOptions);
+        // LINE表示名
+        searchLineDisplayName = null;
+        if (StringUtil.isInputBlank($txtSearchLineDisplayName.val()) !== '') {
+            searchLineDisplayName = $txtSearchLineDisplayName.val().trim();
+        }
     }
+
+    /**
+     * 検索ボタンクリック時
+     * 
+     */
+    $btnSearch.on('click', function() {
+        // LINE通知情報の検索条件を設定
+        setLineNoticeConditions();
+        // 通知リストグリッドを設定
+        lineNoticeGrid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+    });
+
+    /**
+     * リロードボタンクリック時
+     * 
+     */
+    $btnReload.on('click', function() {
+        // 通知リストグリッドを設定
+        lineNoticeGrid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+    });
 });

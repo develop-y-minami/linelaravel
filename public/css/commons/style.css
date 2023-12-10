@@ -3,12 +3,15 @@
 :root {
     --fontSize: 14px;
     --fontColor: #111111;
+    --colorRed: #d60000;
     --colorBlue: #0072ff;
+    --colorLightBlue: #00c9eb;
     --colorGreen: #00c321;
     --colorLightGreen: #00ff2b;
     --colorGray: #bdbdbd;
     --colorLightGray: #f1f1f1;
     --colorDarkGray: #333333;
+    --colorViolet: #9800df;
 }
 
 /******************************************************
@@ -21,15 +24,29 @@ body {
 }
 
 /******************************************************
-*   input
+*   input[type=text]
 ******************************************************/
-input {
+input[type=text] {
     padding: 5px 15px;
     border-radius: 3px;
     box-shadow: 0px 0px 1px 1px var(--colorGray);
 }
 
-input:focus {
+input[type=text]:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+/******************************************************
+*   input[type=date]
+******************************************************/
+input[type=date] {
+    padding: 4px 15px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 1px 1px var(--colorGray);
+}
+
+input[type=date]:focus {
     outline: none;
     box-shadow: 0px 0px 2px 1px var(--colorBlue);
 }
@@ -97,4 +114,12 @@ button.blue:focus, button:hover {
     color: var(--colorBlue);
     background-color: white;
     box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+/******************************************************
+*   a
+******************************************************/
+a {
+    color: var(--colorBlue);
+    cursor: pointer;
 }

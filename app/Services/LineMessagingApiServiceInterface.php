@@ -3,15 +3,15 @@
 namespace App\Services;
 
 /**
- * LineServiceInterface
+ * LineMessagingApiServiceInterface
  * 
  */
-interface LineServiceInterface
+interface LineMessagingApiServiceInterface
 {
     /**
      * ボットの情報を取得する
      * 
-     * @return BotInfo
+     * @return LineBotInfo
      */
     public function getBotInfo();
 

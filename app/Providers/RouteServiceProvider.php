@@ -39,11 +39,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/webs/top.php'));
-
+            
             Route::prefix('api/line')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/apis/line.php'));
+
+            Route::prefix('api/line/messaging/api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/apis/lineMessagingApi.php'));
 
             Route::prefix('api/line/webhook')
                 ->middleware('api')

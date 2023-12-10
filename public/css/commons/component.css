@@ -41,3 +41,58 @@
     margin-top: 10px;
     margin-left: 15px;
 }
+
+/******************************************************
+*   labelBox
+******************************************************/
+.labelBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 15px;
+    width: max-content;
+    border-radius: 3px;
+    border: solid 1px var(--colorGray);
+}
+
+.labelBox.red {
+    color: var(--colorRed);
+    border: solid 1px var(--colorRed);
+}
+
+.labelBox.blue {
+    color: var(--colorBlue);
+    border: solid 1px var(--colorBlue);
+}
+
+.labelBox.lightBlue {
+    color: var(--colorLightBlue);
+    border: solid 1px var(--colorLightBlue);
+}
+
+.labelBox.green {
+    color: var(--colorGreen);
+    border: solid 1px var(--colorGreen);
+}
+
+.labelBox.violet {
+    color: var(--colorViolet);
+    border: solid 1px var(--colorViolet);
+}
+
+/******************************************************
+*   リロードボタン
+******************************************************/
+button.reload { padding: 5px; }
+
+button.reload svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+button.reload svg path { fill: white !important; }
+
+button.reload:hover svg path,
+button.reload:focus svg path {
+    fill: var(--colorBlue) !important;
+}
