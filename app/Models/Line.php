@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Line extends Model
 {
     use HasFactory;
+    use \App\Traits\Relations\BelongsToLineAccountStatus;
     use \App\Traits\Relations\BelongsToLineAccountType;
     use \App\Traits\Relations\BelongsToUser;
 }

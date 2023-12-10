@@ -29,7 +29,7 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
     {
         $query = LineNotice::query();
 
-        $query->with(['line.lineAccountType']);
+        $query->with(['line.lineAccountType', 'line.lineAccountStatus']);
 
         // 通知日
         if ($noticeDate != null) $query->where('notice_date_time', 'LIKE', "$noticeDate%");

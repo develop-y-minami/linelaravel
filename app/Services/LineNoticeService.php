@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Objects\SelectItem;
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Jsons\LineApis\Line;
+use App\Jsons\LineApis\LineAccountStatus;
 use App\Jsons\LineApis\LineAccountType;
 use App\Jsons\LineApis\LineNotice;
 use App\Jsons\LineApis\LineNoticeType;
@@ -57,10 +58,12 @@ class LineNoticeService implements LineNoticeServiceInterface
         {
             // ユーザー情報を設定
             $user = new User($data->line->user->id, $data->line->user->name);
+            // LINEアカウント状態を設定
+            $lineAccountStatus = new LineAccountStatus($data->line->lineAccountStatus->id, $data->line->lineAccountStatus->name);
             // LINEアカウント種別を設定
             $lineAccountType = new LineAccountType($data->line->lineAccountType->id, $data->line->lineAccountType->name);
             // LINE情報を設定
-            $line = new Line($data->line->id, $data->line->display_name, $data->line->picture_url, $lineAccountType, $user);
+            $line = new Line($data->line->id, $data->line->display_name, $data->line->picture_url, $lineAccountStatus, $lineAccountType, $user);
             // LINE通知種別を設定
             $lineNoticeType = new LineNoticeType($data->lineNoticeType->id, $data->lineNoticeType->display_name);
             // LINE通知情報を設定
