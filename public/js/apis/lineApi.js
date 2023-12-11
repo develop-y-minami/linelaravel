@@ -9,12 +9,16 @@ class LineApi {
      * 
      */
     static PREFIX = 'line';
-
     /**
-     * line/bot
+     * line/notices
      * 
      */
-    static PREFIX_NOTICE = LineApi.PREFIX + '/notice';
+    static PREFIX_NOTICES = LineApi.PREFIX + '/notices';
+    /**
+     * line/lines
+     * 
+     */
+    static PREFIX_LINES = LineApi.PREFIX + '/lines';
 
     /**
      * LINE通知情報を取得する
@@ -33,8 +37,28 @@ class LineApi {
         if (displayName !== null) data.displayName = displayName;
         if (userId !== null) data.userId = userId;
 
-        let response = await FetchApi.post(LineApi.PREFIX_NOTICE, data);
+        let response = await FetchApi.post(LineApi.PREFIX_NOTICES, data);
         return response;
     }
 
+    /**
+     * LINE情報を取得する
+     * 
+     * @param {number} lineAccountTypeId   LINEアカウント種別ID
+     * @param {number} lineAccountStatusId LINEアカウント状態
+     * @param {string} displayName         LINE表示名
+     * @param {number} userId              担当者ID
+     * @returns {object} 
+     */
+    static async getLines(lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, userId = null) {
+        // パラメータを設定
+        let data = {};
+        if (lineAccountTypeId !== null) data.lineAccountTypeId = lineAccountTypeId;
+        if (lineAccountStatusId !== null) data.lineAccountStatusId = lineAccountStatusId;
+        if (displayName !== null) data.displayName = displayName;
+        if (userId !== null) data.userId = userId;
+
+        let response = await FetchApi.post(LineApi.PREFIX_LINES, data);
+        return response;
+    }
 }

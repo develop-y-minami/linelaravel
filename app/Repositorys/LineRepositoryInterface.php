@@ -11,8 +11,24 @@ interface LineRepositoryInterface
     /**
      * LINE情報を取得
      * 
-     * @param string accountId LINEアカウントID
+     * @param int    lineAccountTypeId   LINEアカウント種別
+     * @param int    lineAccountStatusId LINEアカウント状態
+     * @param string displayName         LINE 表示名
+     * @param int    userId              担当者ID
      * @return Collection LINE情報
+     */
+    public function findByconditions(
+        $lineAccountTypeId = null,
+        $lineAccountStatusId = null,
+        $displayName = null,
+        $userId = null
+    );
+
+    /**
+     * LINE情報を取得
+     * 
+     * @param string accountId LINEアカウントID
+     * @return Line LINE情報
      */
     public function findByAccountId($accountId);
 

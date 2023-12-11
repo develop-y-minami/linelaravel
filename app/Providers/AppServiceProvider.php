@@ -11,6 +11,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // LineAccountStatusService
+        $this->app->bind(
+            \App\Services\LineAccountStatusServiceInterface::class,
+            function ($app) {
+                return new \App\Services\LineAccountStatusService($app->make(\App\Repositorys\LineAccountStatusRepositoryInterface::class));
+            },
+        );
+
         // LineMessagingApiService
         $this->app->bind(
             \App\Services\LineMessagingApiServiceInterface::class,
@@ -32,6 +40,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\LineNoticeTypeServiceInterface::class,
             function ($app) {
                 return new \App\Services\LineNoticeTypeService($app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class));
+            },
+        );
+
+        // LineService
+        $this->app->bind(
+            \App\Services\LineServiceInterface::class,
+            function ($app) {
+                return new \App\Services\LineService($app->make(\App\Repositorys\LineRepositoryInterface::class));
             },
         );
 

@@ -140,8 +140,8 @@ class LineWebhookService implements LineWebhookServiceInterface
 
             // 通知種別の情報を取得
             $lineNoticeTypes = $this->lineNoticeTypeRepository->findByType($type);
-            $lineNoticeTypeId = $lineNoticeTypes[0]->id;
-            $content = $lineNoticeTypes[0]->content;
+            $lineNoticeTypeId = $lineNoticeTypes->id;
+            $content = $lineNoticeTypes->content;
 
             // LINE通知情報を取得
             return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
@@ -164,9 +164,6 @@ class LineWebhookService implements LineWebhookServiceInterface
     {
         try
         {
-            // LINE情報
-            $line;
-
             // sourseタイプを取得
             $sourceType = $source['type'];
 
@@ -184,16 +181,11 @@ class LineWebhookService implements LineWebhookServiceInterface
             }
 
             // LINE情報を取得
-            $lines = $this->lineRepository->findByAccountId($sourceId);
-            if ($lines->count() == 0)
+            $line = $this->lineRepository->findByAccountId($sourceId);
+            if ($line == null)
             {
                 // LINE情報に登録
                 $line = $this->createLine($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
-            }
-            else
-            {
-                // 登録済みのLINE情報を設定
-                $line = $lines[0];
             }
 
             // LINE通知情報を作成
@@ -258,12 +250,9 @@ class LineWebhookService implements LineWebhookServiceInterface
     {
         try
         {
-            // LINE情報
-            $line;
-
             // LINE情報を取得
-            $lines = $this->lineRepository->findByAccountId($userId);
-            if ($lines->count() == 0)
+            $line = $this->lineRepository->findByAccountId($userId);
+            if ($line == null)
             {
                 // LINE情報に登録
                 $line = $this->createLine($userId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
@@ -271,7 +260,6 @@ class LineWebhookService implements LineWebhookServiceInterface
             else
             {
                 // LINE情報が既に登録済み時の処理を実行
-                $line = $lines[0];
                 if ($line->line_account_status_id == \LineAccountStatus::UNFOLLOW)
                 {
                     // ブロック中の場合は友達に状態を変更
@@ -300,8 +288,8 @@ class LineWebhookService implements LineWebhookServiceInterface
         try
         {
             // LINE情報を取得
-            $lines = $this->lineRepository->findByAccountId($userId);
-            if ($lines->count() == 0)
+            $line = $this->lineRepository->findByAccountId($userId);
+            if ($line == null)
             {
                 // LINE情報に登録
                 $line = $this->createLine($userId, \LineAccountStatus::UNFOLLOW, \LineAccountType::ONE_TO_ONE);
@@ -309,7 +297,6 @@ class LineWebhookService implements LineWebhookServiceInterface
             else
             {
                 // LINE情報が既に登録済み時の処理を実行
-                $line = $lines[0];
                 if ($line->line_account_status_id == \LineAccountStatus::FOLLOW)
                 {
                     // ブロック中の場合は友達に状態を変更

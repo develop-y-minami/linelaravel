@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2023-12-11 09:45:50
+-- 生成日時: 2023-12-11 15:09:51
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.2.12
 
@@ -66,7 +66,8 @@ CREATE TABLE `lines` (
 DROP TABLE IF EXISTS `line_account_statuses`;
 CREATE TABLE `line_account_statuses` (
   `id` int(1) NOT NULL,
-  `name` varchar(10) NOT NULL
+  `name` varchar(10) NOT NULL,
+  `line_account_type_id` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

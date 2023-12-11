@@ -59,10 +59,6 @@ class LineNoticeGrid {
         this.setRowData(noticeDate, lineNoticeTypeId, displayName, userId);
     }
 
-    name(params) {
-        return params.data.line.user.name;
-    }
-
     /**
      * columnDefsを設定
      * 
@@ -90,7 +86,7 @@ class LineNoticeGrid {
             },
             {
                 field: 'line',
-                headerName: 'トーク相手グループ',
+                headerName: 'LINE',
                 cellRenderer : LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};

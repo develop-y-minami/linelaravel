@@ -3,18 +3,18 @@
 namespace App\Jsons\LineApis\Responses;
 
 /**
- * NoticeResponse
+ * LinesResponse
  * 
  */
-class NoticeResponse implements \JsonSerializable
+class LinesResponse implements \JsonSerializable
 {
     /**
      * __construct
      * 
-     * @param array lineNotice 通知情報
+     * @param array lines LINE情報
      * 
      */
-    public function __construct(public readonly array $lineNotices)
+    public function __construct(public readonly array $lines)
     {
 
     }

@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\LineWebhookController;
+use App\Http\Controllers\Webs\LineController;
 
 /*
 |--------------------------------------------------------------------------
-| Line Webhook Routes
+| Top Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -14,10 +14,11 @@ use App\Http\Controllers\Apis\LineWebhookController;
 |
 */
 /**
- * Line Webhook
- * HTTP Method Post
- * https://{host}/api/line/webhook
+ * １対１トークページ
+ * HTTP Method Get
+ * https://{host}/line/one-to-one
  * 
  * @param Request request リクエスト
+ * @return View
  */
-Route::post('/', [LineWebhookController::class, 'webhook'])->name('line.webhook');
+Route::get('/one-to-one', [LineController::class, 'oneToOne'])->name('line.oneToOne');

@@ -80,13 +80,19 @@
                 {{--サイドメニュー--}}
                 <div class="sideMenuContainer">
                     <ul class="menuGroup">
-                        <li class="menu parent">Top</li>
+                        <li class="menu parent"><a href="{{ route('top.index') }}">Top</a></li>
                     </ul>
                     <ul class="menuGroup">
-                        <li class="menu parent">設定</li>
-                        <li class="menu child">マスタ設定</li>
-                        <li class="menu child">担当者設定</li>
-                        <li class="menu child">システム設定</li>
+                        <li class="menu parent"><a href="{{ url('/') }}">LINE</a></li>
+                        <li class="menu child"><a href="{{ route('line.oneToOne') }}">１対１トーク</a></li>
+                        <li class="menu child"><a href="">グループトーク</a></li>
+                        <li class="menu child"><a href="">ユーザー</a></li>
+                    </ul>    
+                    <ul class="menuGroup">
+                        <li class="menu parent"><a href="">設定</a></li>
+                        <li class="menu child"><a href="">マスタ設定</a></li>
+                        <li class="menu child"><a href="">担当者設定</a></li>
+                        <li class="menu child"><a href="">システム設定</a></li>
                     </ul>
                 </div>
             </aside>

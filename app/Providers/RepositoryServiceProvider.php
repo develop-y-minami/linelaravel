@@ -17,6 +17,12 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // LineAccountStatusRepository
+        $this->app->bind(
+            \App\Repositorys\LineAccountStatusRepositoryInterface::class,
+            \App\Repositorys\LineAccountStatusRepository::class
+        );
+
         // LineMessageImageRepository
         $this->app->bind(
             \App\Repositorys\LineMessageImageRepositoryInterface::class,

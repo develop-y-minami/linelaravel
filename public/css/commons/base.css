@@ -124,28 +124,40 @@
     background: white;
 }
 
+.sideMenuContainer .menu a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .sideMenuContainer .menu.parent {
-    padding: 15px;
-    font-weight: bold;
-    color: var(--themeColor);
     border-bottom: solid 1px var(--themeColor);
+}
+
+.sideMenuContainer .menu.parent a {
+    padding: 15px;
+    font-weight: bold !important;
+    color: var(--themeColor) !important;
 }
 
 .sideMenuContainer .menu.child {
     display: flex;
     align-items: center;
+}
+
+.sideMenuContainer .menu.child a {
     padding: 10px 30px;
     font-size: 12px;
     color: white;
 }
 
-.sideMenuContainer .menu.child::before {
+.sideMenuContainer .menu.child a::before {
     content: "▶";
     margin-right: 10px;
     font-size: 8px;
 }
 
-.sideMenuContainer .menu.child:hover { color: var(--themeColor); }
+.sideMenuContainer .menu.child a:hover { color: var(--themeColor); }
 
 /******************************************************
 *   ページコンテンツ表示エリア

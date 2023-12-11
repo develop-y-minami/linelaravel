@@ -18,5 +18,7 @@ use App\Http\Controllers\Webs\TopController;
  * HTTP Method Get
  * https://{host}
  * 
+ * @param Request request リクエスト
+ * @return View
  */
 Route::get('/', [TopController::class, 'index'])->name('top.index');

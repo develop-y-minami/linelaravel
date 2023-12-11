@@ -24,10 +24,10 @@ class LineNoticeTypeRepository implements LineNoticeTypeRepositoryInterface
     /**
      * LINE通知種別を取得
      * 
-     * @return Collection LINE通知種別
+     * @return LineNoticeType LINE通知種別
      */
     public function findByType($type)
     {
-        return LineNoticeType::whereType($type)->get();
+        return LineNoticeType::whereType($type)->first();
     }
 }

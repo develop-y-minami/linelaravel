@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 /******************************************************
-*   トップページ
+*   １対１トークページ
 ******************************************************/
-.topPageContainer {
+.lineOneToOnePageContainer {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -23,50 +23,50 @@
 }
 
 /******************************************************
-*   通知リストコンテナー
+*   LINEリストコンテナー
 ******************************************************/
-.lineNoticeListContainer {
+.lineListContainer {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 /******************************************************
-*   通知リスト上部
+*   LINEリスト上部
 ******************************************************/
-.lineNoticeListContainer .topContainer {
+.lineListContainer .topContainer {
     display: flex;
     justify-content: space-between;
 }
 
-.lineNoticeListContainer .topContainer .content {
+.lineListContainer .topContainer .content {
     margin: 10px;
 }
 
 /******************************************************
-*   通知リスト検索条件コンテナー
+*   LINEリスト検索条件コンテナー
 ******************************************************/
-.lineNoticeListContainer .searchContainer {
+.lineListContainer .searchContainer {
     flex: 1;
     display: flex;
 }
 
 /******************************************************
-*   通知リスト表示順,リロードボタンコンテナー
+*   LINEリスト表示順,リロードボタンコンテナー
 ******************************************************/
-.lineNoticeListContainer .rightContainer {
+.lineListContainer .rightContainer {
     flex: 1;
     display: flex;
     justify-content: flex-end;
 }
 
 /******************************************************
-*   通知リストグリッド
+*   LINEリストグリッド
 ******************************************************/
-.lineNoticeListContainer .gridContainer {
+.lineListContainer .gridContainer {
     flex: 1;
 }
 
-.lineNoticeListContainer .gridContainer .grid {
+.lineListContainer .gridContainer .grid {
     height: 100%;
 }

@@ -41,10 +41,7 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
         if ($noticeDate != null) $query->whereDate('notice_date_time', $noticeDate);
 
         // LINE通知種別
-        if ($lineNoticeTypeId != null)
-        {
-            $query->withWhereHas('lineNoticeType', function($query) use ($lineNoticeTypeId) { $query->whereId($lineNoticeTypeId); });
-        }
+        if ($lineNoticeTypeId != null) $query->whereLineNoticeTypeId($lineNoticeTypeId);
 
         // LINE 表示名
         if ($displayName != null)

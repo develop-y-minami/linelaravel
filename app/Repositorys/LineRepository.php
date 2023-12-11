@@ -12,14 +12,55 @@ use App\Models\Line;
 class LineRepository implements LineRepositoryInterface
 {
     /**
+     * LINE通知情報を取得
+     * 
+     * @param int    lineAccountTypeId   LINEアカウント種別
+     * @param int    lineAccountStatusId LINEアカウント状態
+     * @param string displayName         LINE 表示名
+     * @param int    userId              担当者ID
+     * @return Collection LINE通知情報
+     */
+    public function findByconditions(
+        $lineAccountTypeId = null,
+        $lineAccountStatusId = null,
+        $displayName = null,
+        $userId = null
+    )
+    {
+        $query = Line::query();
+
+        $query->with([
+            'user',
+            'lineAccountType',
+            'lineAccountStatus'
+        ]);
+
+        // LINEアカウント種別
+        if ($lineAccountTypeId !== null) $query->whereLineAccountTypeId($lineAccountTypeId);
+
+        // LINEアカウント状態
+        if ($lineAccountStatusId !== null) $query->whereLineAccountStatusId($lineAccountStatusId);
+
+        // LINE 表示名
+        if ($displayName != null) $query->where('display_name', 'LIKE', "$displayName%");
+
+        // 担当者ID
+        if ($userId != null) $query->whereUserId($userId);
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->get();
+    }
+
+    /**
      * LINE情報を取得
      * 
      * @param string accountId LINEアカウントID
-     * @return Collection LINE情報
+     * @return Line LINE情報
      */
     public function findByAccountId($accountId)
     {
-        return Line::whereAccountId($accountId)->get();
+        return Line::whereAccountId($accountId)->first();
     }
 
     /**

@@ -16,9 +16,19 @@ use App\Http\Controllers\Apis\LineController;
 /**
  * LINE通知情報を取得する
  * HTTP Method Post
- * https://{host}/api/line/notice
+ * https://{host}/api/line/notices
  * 
  * @param Request request リクエスト
  * @return Json
  */
-Route::post('/notice', [LineController::class, 'notice'])->name('line.notice');
+Route::post('/notices', [LineController::class, 'notices'])->name('line.notices');
+
+/**
+ * LINE情報を取得する
+ * HTTP Method Post
+ * https://{host}/api/line/lines
+ * 
+ * @param Request request リクエスト
+ * @return Json
+ */
+Route::post('/lines', [LineController::class, 'lines'])->name('line.lines');
