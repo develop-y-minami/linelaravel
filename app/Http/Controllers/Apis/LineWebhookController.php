@@ -60,8 +60,7 @@ class LineWebhookController extends Controller
                 {
                     // メッセージイベント
                     case 'message':
-                        $this->lineService->replyFollow($replyToken);
-
+                        $this->lineWebhookService->message($type, $source, $event['message'], $timestamp);
                         break;
                     
                     // フォローイベント

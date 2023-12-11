@@ -41,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
             function ($app) {
                 return new \App\Services\LineWebhookService(
                     config('line.message_channel_access_token'),
+                    $app->make(\App\Repositorys\LineMessageImageRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineMessageRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineMessageTextRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineNoticeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineRepositoryInterface::class)

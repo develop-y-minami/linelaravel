@@ -9,6 +9,16 @@ namespace App\Services;
 interface LineWebhookServiceInterface
 {
     /**
+     * メッセージイベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param array  source    送信元情報
+     * @param array  message   メッセージ情報
+     * @param int    timestamp タイムスタンプ
+     */
+    public function message($type, $source, $message, $timestamp);
+
+    /**
      * フォローイベント時の処理を実行
      * 
      * @param string type      タイプ

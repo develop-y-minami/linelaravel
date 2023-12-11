@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use App\Repositorys\LineMessageImageRepositoryInterface;
+use App\Repositorys\LineMessageRepositoryInterface;
+use App\Repositorys\LineMessageTextRepositoryInterface;
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Repositorys\LineNoticeTypeRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
@@ -57,13 +60,19 @@ class LineWebhookService implements LineWebhookServiceInterface
     /**
      * __construct
      * 
-     * @param string                            channelAccessToken チャネルアクセストークン
-     * @param LineNoticeRepositoryInterface     lineNoticeRepository
-     * @param LineNoticeTypeRepositoryInterface lineNoticeTypeRepository
-     * @param LineRepositoryInterface           lineRepository
+     * @param string                              channelAccessToken チャネルアクセストークン
+     * @param LineMessageImageRepositoryInterface lineMessageImageRepository
+     * @param LineMessageRepositoryInterface      lineMessageRepository
+     * @param LineMessageTextRepositoryInterface  lineMessageTextRepository
+     * @param LineNoticeRepositoryInterface       lineNoticeRepository
+     * @param LineNoticeTypeRepositoryInterface   lineNoticeTypeRepository
+     * @param LineRepositoryInterface             lineRepository
      */
     public function __construct(
         $channelAccessToken,
+        LineMessageImageRepositoryInterface $lineMessageImageRepository,
+        LineMessageRepositoryInterface $lineMessageRepository,
+        LineMessageTextRepositoryInterface $lineMessageTextRepository,
         LineNoticeRepositoryInterface $lineNoticeRepository,
         LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository,
         LineRepositoryInterface $lineRepository
@@ -74,6 +83,9 @@ class LineWebhookService implements LineWebhookServiceInterface
         $this->config = new Configuration();
         $this->config->setAccessToken($this->channelAccessToken);
         $this->messagingApi = new MessagingApiApi($this->client, $this->config);
+        $this->lineMessageImageRepository = $lineMessageImageRepository;
+        $this->lineMessageRepository = $lineMessageRepository;
+        $this->lineMessageTextRepository = $lineMessageTextRepository;
         $this->lineNoticeRepository = $lineNoticeRepository;
         $this->lineNoticeTypeRepository = $lineNoticeTypeRepository;
         $this->lineRepository = $lineRepository;
@@ -133,6 +145,101 @@ class LineWebhookService implements LineWebhookServiceInterface
 
             // LINE通知情報を取得
             return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * メッセージイベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param array  source    送信元情報
+     * @param array  message   メッセージ情報
+     * @param int    timestamp タイムスタンプ
+     */
+    public function message($type, $source, $message, $timestamp)
+    {
+        try
+        {
+            // LINE情報
+            $line;
+
+            // sourseタイプを取得
+            $sourceType = $source['type'];
+
+            // idを設定
+            $sourceId;
+            if ($sourceType == 'user')
+            {
+                // ユーザーIDを設定
+                $sourceId = $source['userId'];
+            }
+            else
+            {
+                // グループIDを設定
+                $sourceId = $source['groupId'];
+            }
+
+            // LINE情報を取得
+            $lines = $this->lineRepository->findByAccountId($sourceId);
+            if ($lines->count() == 0)
+            {
+                // LINE情報に登録
+                $line = $this->createLine($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
+            }
+            else
+            {
+                // 登録済みのLINE情報を設定
+                $line = $lines[0];
+            }
+
+            // LINE通知情報を作成
+            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
+
+            // LINEメッセージ情報を登録
+            $messageType = $message['type'];
+            $messageId = $message['id'];
+            $messageQuoteToken = $message['quoteToken'];
+            $lineMessage = $this->lineMessageRepository->create($messageType, $messageId, $messageQuoteToken);
+
+            // メッセージタイプに対応する処理を実行
+            switch ($messageType)
+            {
+                case \LineMessageType::TEXT:
+                    // LINEテキストメッセージを登録
+                    $text = $message['text'];
+                    $this->lineMessageTextRepository->create($lineMessage->id, $text);
+                    break;
+                case \LineMessageType::IMAGE:
+                    // LINE画像メッセージを登録
+                    $contentProvider = $message['contentProvider'];
+                    $contentProviderType = $contentProvider['type'];
+                    $contentProviderOriginalContentUrl = \AppFacade::getArrayValue($contentProvider, 'originalContentUrl');
+                    $contentProviderPreviewImageUrl = \AppFacade::getArrayValue($contentProvider, 'previewImageUrl');
+                    $imageSet = \AppFacade::getArrayValue($message, 'imageSet');
+                    $imageSetId = null;
+                    $imageSetIndex = null;
+                    $imageSetTotal = null;
+                    if ($imageSet != null)
+                    {
+                        $imageSetId = $imageSet['id'];
+                        $imageSetIndex = $imageSet['index'];
+                        $imageSetTotal = $imageSet['total'];
+                    }
+                    $this->lineMessageImageRepository->create(
+                        $lineMessage->id,
+                        $contentProviderType,
+                        $contentProviderOriginalContentUrl,
+                        $contentProviderPreviewImageUrl,
+                        $imageSetId,
+                        $imageSetIndex,
+                        $imageSetTotal
+                    );
+                    break;
+            }
         }
         catch (\Exception $e)
         {

@@ -13,6 +13,7 @@ class LineNotice extends Model
 {
     use HasFactory;
     use \App\Traits\Relations\BelongsToLine;
+    use \App\Traits\Relations\BelongsToLineMessage;
     use \App\Traits\Relations\BelongsToLineNoticeType;
 
     /**

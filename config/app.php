@@ -187,6 +187,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'LineAccountType' =>  App\Consts\LineAccountType::class,
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
+        'LineMessageType' =>  App\Consts\LineMessageType::class,
         'AppFacade' => App\Facades\AppFacadeClass::class,
     ])->toArray(),
 
