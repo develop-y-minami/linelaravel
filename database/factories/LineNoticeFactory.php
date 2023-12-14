@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Line;
 use App\Models\LineNoticeType;
+use App\Models\LineMessage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LineNotice>
@@ -23,11 +24,25 @@ class LineNoticeFactory extends Factory
     {
         $lineId = Line::all()->random(1)[0]->id;
         $lineNoticeType = LineNoticeType::all()->random(1)[0];
+        $lineNoticeTypeId = $lineNoticeType->id;
+
+        $address = fake()->address();
 
         return [
             'notice_date_time' => fake()->dateTimeBetween($startDate = '-2 week', $endDate = 'now'),
             'line_notice_type_id' => $lineNoticeType->id,
             'line_id' => $lineId,
+            'line_message_id' => function() use ($lineNoticeTypeId, $address)
+            {
+                if ($lineNoticeTypeId == 1)
+                {
+                    return LineMessage::factory()->hasLineMessageText(['text' => $address])->create();
+                }
+                else
+                {
+                    return null;
+                }
+            },
             'content' => $lineNoticeType->content,
         ];
     }

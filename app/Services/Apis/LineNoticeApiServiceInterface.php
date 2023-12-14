@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Apis;
 
 /**
- * LineNoticeServiceInterface
+ * LineNoticeApiServiceInterface
  * 
  */
-interface LineNoticeServiceInterface
+interface LineNoticeApiServiceInterface
 {
     /**
      * LINE通知情報を返却

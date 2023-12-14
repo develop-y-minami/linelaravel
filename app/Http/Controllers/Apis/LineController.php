@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\LineNoticeServiceInterface;
-use App\Services\LineServiceInterface;
+use App\Services\Apis\LineNoticeApiServiceInterface;
+use App\Services\Apis\LineApiServiceInterface;
 use App\Jsons\LineApis\Responses\NoticesResponse;
 use App\Jsons\LineApis\Responses\LinesResponse;
 
@@ -16,24 +16,24 @@ use App\Jsons\LineApis\Responses\LinesResponse;
 class LineController extends Controller
 {
     /**
-     * LineNoticeService
+     * LineNoticeApiService
      * 
      */
-    private $lineNoticeService;
+    private $lineNoticeApiService;
 
     /**
      * __construct
      * 
-     * @param LineNoticeServiceInterface lineNoticeService
-     * @param LineServiceInterface       lineServiceInterface
+     * @param LineNoticeApiServiceInterface lineNoticeApiService
+     * @param LineApiServiceInterface       lineApiServiceInterface
      */
     public function __construct(
-        LineNoticeServiceInterface $lineNoticeService,
-        LineServiceInterface $lineServiceInterface
+        LineNoticeApiServiceInterface $lineNoticeApiService,
+        LineApiServiceInterface $lineApiServiceInterface
     )
     {
-        $this->lineNoticeService = $lineNoticeService;
-        $this->lineServiceInterface = $lineServiceInterface;
+        $this->lineNoticeApiService = $lineNoticeApiService;
+        $this->lineApiServiceInterface = $lineApiServiceInterface;
     }
 
     /**
@@ -59,7 +59,7 @@ class LineController extends Controller
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE通知情報を取得する
-            $notices = $this->lineNoticeService->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $userId);
+            $notices = $this->lineNoticeApiService->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $userId);
             
             // レスポンスデータを生成
             $response = new NoticesResponse($notices);
@@ -97,7 +97,7 @@ class LineController extends Controller
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE情報を取得する
-            $lines = $this->lineServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $userId);
+            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $userId);
             
             // レスポンスデータを生成
             $response = new LinesResponse($lines);

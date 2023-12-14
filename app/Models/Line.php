@@ -15,6 +15,7 @@ class Line extends Model
     use \App\Traits\Relations\BelongsToLineAccountStatus;
     use \App\Traits\Relations\BelongsToLineAccountType;
     use \App\Traits\Relations\BelongsToUser;
+    use \App\Traits\Relations\HasOneLineUser;
 
     /**
      * 登録/更新を許可するカラム

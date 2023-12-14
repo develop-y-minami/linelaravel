@@ -55,7 +55,7 @@
                 <div class="lineOfficialAccountContainer">
                     <header>LINE</header>
                     <div class="container">
-                        <div class="imgContainer">
+                        <div class="circleImgContainer">
                             <div class="imgBox">
                                 <img id="imgOfficialAccountPictureUrl" src="">
                             </div>

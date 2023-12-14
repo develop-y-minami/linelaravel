@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Apis;
 
 use GuzzleHttp\Client;
 use LINE\Clients\MessagingApi\Configuration;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Apis;
 
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Jsons\LineApis\Line;
@@ -11,10 +11,10 @@ use App\Jsons\LineApis\LineNoticeType;
 use App\Jsons\LineApis\User;
 
 /**
- * LineNoticeService
+ * LineNoticeApiService
  * 
  */
-class LineNoticeService implements LineNoticeServiceInterface
+class LineNoticeApiService implements LineNoticeApiServiceInterface
 {
     /**
      * LineNoticeRepositoryInterface

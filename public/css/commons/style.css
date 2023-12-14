@@ -95,6 +95,7 @@ select:focus {
 button {
     padding: 5px 15px;
     width: max-content;
+    text-align: center;
     box-shadow: 0px 0px 1px 1px var(--colorGray);
     border-radius: 3px;
 }
@@ -110,10 +111,34 @@ button.blue {
     background-color: var(--colorBlue);
 }
 
-button.blue:focus, button:hover {
+button.blue:focus, button.blue:hover {
     color: var(--colorBlue);
     background-color: white;
     box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+button.green {
+    color: white;
+    box-shadow: 0px 0px 1px 1px var(--colorGreen);
+    background-color: var(--colorGreen);
+}
+
+button.green:focus, button.green:hover {
+    color: var(--colorGreen);
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px var(--colorGreen);
+}
+
+button.red {
+    color: white;
+    box-shadow: 0px 0px 1px 1px var(--colorRed);
+    background-color: var(--colorRed);
+}
+
+button.red:focus, button.red:hover {
+    color: var(--colorRed);
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px var(--colorRed);
 }
 
 /******************************************************

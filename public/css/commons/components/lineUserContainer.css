@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+/******************************************************
+*   LINEユーザー情報コンテナー
+******************************************************/
+.lineUserContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/******************************************************
+*   LINEユーザー情報コンテナー：ヘッダー
+******************************************************/
+.lineUserContainer > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-top: solid 1px var(--colorViolet);
+    border-bottom: solid 1px var(--colorViolet);
+}
+
+.lineUserContainer > header .caption {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--colorViolet);
+}
+
+.lineUserContainer > header .labelBox { min-width: 120px; }
+
+/******************************************************
+*   LINEユーザー情報コンテナー：メイン
+******************************************************/
+.lineUserContainer > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/******************************************************
+*   LINEユーザー情報コンテナー：テーブル
+******************************************************/
+.lineUserContainer .tableContainer { flex: 1; }
+
+.lineUserContainer .tableContainer .infoTable {
+    width: 100%;
+    height: 100%;
+}
+
+.lineUserContainer .tableContainer .infoTable th,
+.lineUserContainer .tableContainer .infoTable td { vertical-align: middle; }
+
+/******************************************************
+*   LINEユーザー情報コンテナー：ボタン
+******************************************************/
+.lineUserContainer .buttonContainer {
+    padding: 15px;
+    text-align: right;
+}
+
+.lineUserContainer .buttonContainer button { 
+    margin-left: 10px;
+    min-width: 120px;
+}

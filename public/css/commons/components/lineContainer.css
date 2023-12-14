@@ -1,0 +1,69 @@
+@charset "utf-8";
+
+/******************************************************
+*   LINE情報コンテナー
+******************************************************/
+.lineContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/******************************************************
+*   LINE情報コンテナー：ヘッダー
+******************************************************/
+.lineContainer > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-top: solid 1px var(--colorGreen);
+    border-bottom: solid 1px var(--colorGreen);
+}
+
+.lineContainer > header .caption {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--colorGreen);
+}
+
+.lineContainer > header .labelBox { min-width: 120px; }
+
+/******************************************************
+*   LINE情報コンテナー：メイン
+******************************************************/
+.lineContainer > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/******************************************************
+*   LINE情報コンテナー：最新情報取得ボタン
+******************************************************/
+.lineContainer > main .buttonContainer { padding: 1px; }
+
+.lineContainer > main .buttonContainer button {
+    width: 100%;
+    text-align: left;
+    border-radius: 0px;
+}
+
+/******************************************************
+*   LINE情報コンテナー：プロフィール
+******************************************************/
+.lineContainer .profileContainer {
+    display: flex;
+}
+
+/******************************************************
+*   LINE情報コンテナー：プロフィールテーブル
+******************************************************/
+.lineContainer .profileContainer .tableContainer { flex: 1; }
+
+.lineContainer .profileContainer .tableContainer .infoTable {
+    width: 100%;
+    height: 100%;
+}
+
+.lineContainer .profileContainer .tableContainer .infoTable th,
+.lineContainer .profileContainer .tableContainer .infoTable td { vertical-align: middle; }

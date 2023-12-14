@@ -101,3 +101,41 @@ button.reload:hover svg path,
 button.reload:focus svg path {
     fill: var(--colorBlue) !important;
 }
+
+/******************************************************
+*   情報テーブル
+******************************************************/
+.infoTable tr { border-bottom: solid 1px var(--colorLightGray); }
+
+.infoTable tr:last-child { border-bottom: none; }
+
+.infoTable th, .infoTable td { padding: 10px; }
+
+.infoTable th {
+    width: 100px;
+    background-color: var(--colorLightGray);
+}
+
+/******************************************************
+*   丸マーク画像表示コンテナー
+******************************************************/
+.circleImgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.circleImgContainer .imgBox {
+    width: 130px;
+    height: 130px;
+    border: solid 1px var(--colorGray);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.circleImgContainer .imgBox img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

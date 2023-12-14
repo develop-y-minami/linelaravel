@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Apis;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Services\LineWebhookServiceInterface;
+use App\Services\Apis\LineWebhookServiceInterface;
 
 /**
  * LineWebhookController
@@ -35,6 +35,7 @@ class LineWebhookController extends Controller
      * https://{host}/api/line/webhook
      * 
      * @param Request request リクエスト
+     * @return int HTTPステータスコード
      */
     public function webhook(Request $request)
     {

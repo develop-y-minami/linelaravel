@@ -27,7 +27,7 @@
     <script src="{{ asset('js/pages/lineOneToOne.js') }}"></script>
 @endpush
 
-{{--表示コンテンツ：トップページ--}}
+{{--表示コンテンツ：１対１トークページ--}}
 @section('page')
     <div class="lineOneToOnePageContainer">
         {{--非表示領域--}}

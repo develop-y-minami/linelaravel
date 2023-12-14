@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Webs;
 
 use App\Objects\SelectItem;
 use App\Repositorys\UserRepositoryInterface;

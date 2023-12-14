@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\LineAccountType;
-use App\Models\User;
+use App\Models\LineAccountStatus;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Line>
@@ -21,14 +21,13 @@ class LineFactory extends Factory
      */
     public function definition(): array
     {
-        $userId = User::all()->random(1)[0]->id;
-        $lineAccountTypeId = LineAccountType::all()->random(1)[0]->id;
+        $lineAccountStatus = LineAccountStatus::all()->random(1)[0];
 
         return [
             'account_id' => fake()->uuid(),
             'display_name' => fake()->name(),
-            'user_id' => $userId,
-            'line_account_type_id' => $lineAccountTypeId,
+            'line_account_type_id' => $lineAccountStatus->line_account_type_id,
+            'line_account_status_id' => $lineAccountStatus->id
         ];
     }
 

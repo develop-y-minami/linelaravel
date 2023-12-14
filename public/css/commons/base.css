@@ -76,20 +76,7 @@
 /******************************************************
 *   LINE公式アカウントプロフィール画像
 ******************************************************/
-.lineOfficialAccountContainer .imgContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 150px;
-    border-bottom: solid 1px var(--colorDarkGray);
-}
-
-.lineOfficialAccountContainer .imgContainer .imgBox {
-    width: 130px;
-    height: 130px;
-    border: solid 1px var(--colorGray);
-    border-radius: 50%;
-}
+.lineOfficialAccountContainer .circleImgContainer { border-bottom: solid 1px var(--colorDarkGray); }
 
 /******************************************************
 *   LINE公式アカウントプロフィール情報
@@ -102,17 +89,6 @@
     width: 100%;
     font-size: 12px;
     border: solid 1px var(--colorLightGray);
-}
-
-.lineOfficialAccountContainer .infoTable tr { border-bottom: solid 1px var(--colorLightGray); }
-
-.lineOfficialAccountContainer .infoTable tr:last-child { border-bottom: none; }
-
-.lineOfficialAccountContainer .infoTable th, .lineOfficialAccountContainer .infoTable td { padding: 10px; }
-
-.lineOfficialAccountContainer .infoTable th {
-    width: 100px;
-    background-color: var(--colorLightGray);
 }
 
 /******************************************************
@@ -174,4 +150,5 @@
 
 .basePageContent {
     flex: 1;
+    overflow: hidden;
 }

@@ -22,3 +22,14 @@ use App\Http\Controllers\Webs\LineController;
  * @return View
  */
 Route::get('/one-to-one', [LineController::class, 'oneToOne'])->name('line.oneToOne');
+
+/**
+ * LINE情報ページ
+ * HTTP Method Get
+ * https://{host}/line/info/{id}
+ * 
+ * @param Request request リクエスト
+ * @param string  id      ID
+ * @return View
+ */
+Route::get('/info/{id}', [LineController::class, 'info'])->whereNumber('id')->name('line.info');

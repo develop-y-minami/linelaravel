@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Apis;
 
 use App\Repositorys\LineRepositoryInterface;
 use App\Jsons\LineApis\Line;
@@ -9,10 +9,10 @@ use App\Jsons\LineApis\LineAccountType;
 use App\Jsons\LineApis\User;
 
 /**
- * LineService
+ * LineApiService
  * 
  */
-class LineService implements LineServiceInterface
+class LineApiService implements LineApiServiceInterface
 {
     /**
      * LineRepositoryInterface
@@ -37,7 +37,7 @@ class LineService implements LineServiceInterface
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
      * @param int    userId              担当者ID
-     * @return array LINE通知情報
+     * @return array LINE情報
      */
     public function getLines(
         $lineAccountTypeId = null,
@@ -49,7 +49,7 @@ class LineService implements LineServiceInterface
         // 返却データ
         $result = array();
 
-        // LINE通知情報を取得
+        // LINE情報を取得
         $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $displayName, $userId);
         foreach ($datas as $data)
         {

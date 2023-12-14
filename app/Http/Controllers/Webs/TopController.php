@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Webs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Services\LineNoticeTypeServiceInterface;
-use App\Services\UserServiceInterface;
-use App\Objects\TopPage;
+use App\Services\Webs\LineNoticeTypeServiceInterface;
+use App\Services\Webs\UserServiceInterface;
+use App\Objects\Pages\TopPage;
 
 /**
  * TopController
@@ -47,6 +47,7 @@ class TopController extends Controller
      * https://{host}
      * 
      * @param Request request リクエスト
+     * @return View
      */
     public function index(Request $request) {
         try

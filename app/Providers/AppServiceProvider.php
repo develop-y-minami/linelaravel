@@ -11,51 +11,35 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // LineAccountStatusService
+        // LineApiService
         $this->app->bind(
-            \App\Services\LineAccountStatusServiceInterface::class,
+            \App\Services\Apis\LineApiServiceInterface::class,
             function ($app) {
-                return new \App\Services\LineAccountStatusService($app->make(\App\Repositorys\LineAccountStatusRepositoryInterface::class));
+                return new \App\Services\Apis\LineApiService($app->make(\App\Repositorys\LineRepositoryInterface::class));
             },
         );
 
         // LineMessagingApiService
         $this->app->bind(
-            \App\Services\LineMessagingApiServiceInterface::class,
+            \App\Services\Apis\LineMessagingApiServiceInterface::class,
             function ($app) {
-                return new \App\Services\LineMessagingApiService(config('line.message_channel_access_token'));
+                return new \App\Services\Apis\LineMessagingApiService(config('line.message_channel_access_token'));
             },
         );
 
-        // LineNoticeService
+        // LineNoticeApiService
         $this->app->bind(
-            \App\Services\LineNoticeServiceInterface::class,
+            \App\Services\Apis\LineNoticeApiServiceInterface::class,
             function ($app) {
-                return new \App\Services\LineNoticeService($app->make(\App\Repositorys\LineNoticeRepositoryInterface::class));
-            },
-        );
-
-        // LineNoticeTypeService
-        $this->app->bind(
-            \App\Services\LineNoticeTypeServiceInterface::class,
-            function ($app) {
-                return new \App\Services\LineNoticeTypeService($app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class));
-            },
-        );
-
-        // LineService
-        $this->app->bind(
-            \App\Services\LineServiceInterface::class,
-            function ($app) {
-                return new \App\Services\LineService($app->make(\App\Repositorys\LineRepositoryInterface::class));
+                return new \App\Services\Apis\LineNoticeApiService($app->make(\App\Repositorys\LineNoticeRepositoryInterface::class));
             },
         );
 
         // LineWebhookService
         $this->app->bind(
-            \App\Services\LineWebhookServiceInterface::class,
+            \App\Services\Apis\LineWebhookServiceInterface::class,
             function ($app) {
-                return new \App\Services\LineWebhookService(
+                return new \App\Services\Apis\LineWebhookService(
                     config('line.message_channel_access_token'),
                     $app->make(\App\Repositorys\LineMessageImageRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineMessageRepositoryInterface::class),
@@ -67,11 +51,35 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // LineAccountStatusService
+        $this->app->bind(
+            \App\Services\Webs\LineAccountStatusServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\LineAccountStatusService($app->make(\App\Repositorys\LineAccountStatusRepositoryInterface::class));
+            },
+        );
+
+        // LineNoticeTypeService
+        $this->app->bind(
+            \App\Services\Webs\LineNoticeTypeServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\LineNoticeTypeService($app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class));
+            },
+        );
+
+        // LineService
+        $this->app->bind(
+            \App\Services\Webs\LineServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\LineService($app->make(\App\Repositorys\LineRepositoryInterface::class));
+            },
+        );
+
         // UserService
         $this->app->bind(
-            \App\Services\UserServiceInterface::class,
+            \App\Services\Webs\UserServiceInterface::class,
             function ($app) {
-                return new \App\Services\UserService($app->make(\App\Repositorys\UserRepositoryInterface::class));
+                return new \App\Services\Webs\UserService($app->make(\App\Repositorys\UserRepositoryInterface::class));
             },
         );
     }

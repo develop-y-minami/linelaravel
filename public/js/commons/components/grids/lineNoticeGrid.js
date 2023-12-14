@@ -90,7 +90,7 @@ class LineNoticeGrid {
                 cellRenderer : LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.url = params.data.line.id;
+                    result.url = 'line\\info\\' + params.data.line.id;
                     result.name = params.data.line.displayName;
                     return result;
                 }

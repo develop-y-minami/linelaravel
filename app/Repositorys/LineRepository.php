@@ -12,13 +12,34 @@ use App\Models\Line;
 class LineRepository implements LineRepositoryInterface
 {
     /**
-     * LINE通知情報を取得
+     * LINE情報を取得
+     * 
+     * @param int id ID
+     * @return Line LINE情報
+     */
+    public function findById($id)
+    {
+        return Line::with([
+            'user',
+            'lineAccountType',
+            'lineAccountStatus',
+            'lineUser',
+            'lineUser.personality',
+            'lineUser.prefecture',
+            'lineUser.lineUserCorporate',
+            'lineUser.lineUserIndividual',
+            'lineUser.lineUserIndividual.gender'
+        ])->find($id);
+    }
+
+    /**
+     * LINE情報を取得
      * 
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
      * @param int    userId              担当者ID
-     * @return Collection LINE通知情報
+     * @return Collection LINE情報
      */
     public function findByconditions(
         $lineAccountTypeId = null,

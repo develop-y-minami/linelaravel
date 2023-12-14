@@ -185,9 +185,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'LiffPageType' =>  App\Consts\LiffPageType::class,
         'LineAccountType' =>  App\Consts\LineAccountType::class,
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
         'LineMessageType' =>  App\Consts\LineMessageType::class,
+        'Personality' =>  App\Consts\Personality::class,
         'AppFacade' => App\Facades\AppFacadeClass::class,
     ])->toArray(),
 

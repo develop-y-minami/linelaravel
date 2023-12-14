@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class LineMessage extends Model
 {
     use HasFactory;
+    use \App\Traits\Relations\HasOneLineMessageText;
 
     /**
      * 登録/更新を許可するカラム

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\LineMessagingApiServiceInterface;
+use App\Services\Apis\LineMessagingApiServiceInterface;
 use App\Jsons\LineMessagingApiApis\Responses\BotInfoResponse;
 
 /**
