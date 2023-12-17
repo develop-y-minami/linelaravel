@@ -32,3 +32,14 @@ Route::post('/notices', [LineController::class, 'notices'])->name('line.notices'
  * @return Json
  */
 Route::post('/lines', [LineController::class, 'lines'])->name('line.lines');
+
+/**
+ * LINE担当者情報を設定する
+ * HTTP Method Post
+ * https://{host}/api/line/{id}/user/setting
+ * 
+ * @param LineUserSettingRequest request リクエスト
+ * @param string  id      ID
+ * @return Json
+ */
+Route::post('/{id}/user/setting', [LineController::class, 'userSetting'])->whereNumber('id')->name('line.user.setting');

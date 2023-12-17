@@ -13,12 +13,14 @@ class LineInfoPage
     /**
      * __construct
      * 
-     * @param Line   line            LINE情報
-     * @param array  userSelectItems 担当者セレクトボックス選択項目
+     * @param Line  line                         LINE情報
+     * @param array userSelectItems              担当者セレクトボックス選択項目
+     * @param array lineNoticeTypeCheckListItems LINE通知種別チェックリスト選択項目
      */
     public function __construct(
         public readonly Line $line,
-        public readonly array $userSelectItems
+        public readonly array $userSelectItems,
+        public readonly array $lineNoticeTypeCheckListItems
     )
     {
         

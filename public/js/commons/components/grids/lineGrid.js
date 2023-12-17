@@ -131,7 +131,7 @@ class LineGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await LineApi.getLines(lineAccountTypeId, lineAccountStatus, displayName, userId);
+            let result = await LineApi.lines(lineAccountTypeId, lineAccountStatus, displayName, userId);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.lines;

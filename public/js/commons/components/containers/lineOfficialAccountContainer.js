@@ -36,7 +36,7 @@ class LineOfficialAccountContainer {
     async init() {
         try {
             // API経由でボットの情報を取得
-            let result = await LineMessagingApi.getBotInfo();
+            let result = await LineMessagingApi.botInfo();
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // 取得したデータをコンテナーに設定

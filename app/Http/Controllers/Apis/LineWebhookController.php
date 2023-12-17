@@ -50,11 +50,11 @@ class LineWebhookController extends Controller
                 // webhookイベントのタイプを取得
                 $type = $event['type'];
                 // 応答トークンを取得
-                $replyToken = \AppFacade::getArrayValue($event, 'replyToken');
+                $replyToken = \ArrayFacade::getArrayValue($event, 'replyToken');
                 // タイムスタンプを取得
-                $timestamp = \AppFacade::getArrayValue($event, 'timestamp');
+                $timestamp = \ArrayFacade::getArrayValue($event, 'timestamp');
                 // ソースを取得
-                $source = \AppFacade::getArrayValue($event, 'source');
+                $source = \ArrayFacade::getArrayValue($event, 'source');
                 
                 // webhookイベントのタイプ毎の処理を実行
                 switch ($type)

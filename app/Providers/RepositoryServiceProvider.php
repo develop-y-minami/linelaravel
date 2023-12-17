@@ -47,6 +47,12 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositorys\LineNoticeRepository::class
         );
 
+        // LineNoticeSettingRepository
+        $this->app->bind(
+            \App\Repositorys\LineNoticeSettingRepositoryInterface::class,
+            \App\Repositorys\LineNoticeSettingRepository::class
+        );
+
         // LineNoticeTypeRepository
         $this->app->bind(
             \App\Repositorys\LineNoticeTypeRepositoryInterface::class,

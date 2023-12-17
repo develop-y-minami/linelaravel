@@ -17,7 +17,8 @@ class FacadeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('AppFacade', 'App\Facades\AppFacade');
+        $this->app->bind('ArrayFacade', 'App\Facades\ArrayFacade');
+        $this->app->bind('StringFacade', 'App\Facades\StringFacade');
     }
 
     /**

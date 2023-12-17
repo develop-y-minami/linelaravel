@@ -27,6 +27,7 @@
 }
 
 .splitContainer > .leftContainer {
+    position: relative;
     border-right: solid 1px var(--colorDarkGray);
 }
 

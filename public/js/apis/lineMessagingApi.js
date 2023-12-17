@@ -21,7 +21,7 @@ class LineMessagingApi {
      * 
      * @returns {object} 
      */
-    static async getBotInfo() {
+    static async botInfo() {
         let response = await FetchApi.get(LineMessagingApi.PREFIX_BOT + '/info');
         return response;
     }

@@ -20,7 +20,7 @@ class LineMessageTextFactory extends Factory
     public function definition(): array
     {
         return [
-            'text' => 'text'
+            'text' => fake()->sentence()
         ];
     }
 

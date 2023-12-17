@@ -15,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Services\Apis\LineApiServiceInterface::class,
             function ($app) {
-                return new \App\Services\Apis\LineApiService($app->make(\App\Repositorys\LineRepositoryInterface::class));
+                return new \App\Services\Apis\LineApiService(
+                    $app->make(\App\Repositorys\LineNoticeSettingRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineRepositoryInterface::class)
+                );
             },
         );
 
@@ -63,7 +66,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Services\Webs\LineNoticeTypeServiceInterface::class,
             function ($app) {
-                return new \App\Services\Webs\LineNoticeTypeService($app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class));
+                return new \App\Services\Webs\LineNoticeTypeService(
+                    $app->make(\App\Repositorys\LineNoticeSettingRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class)
+                );
             },
         );
 

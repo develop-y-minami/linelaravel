@@ -59,6 +59,14 @@ interface LineRepositoryInterface
     );
 
     /**
+     * LINE情報を更新
+     * 
+     * @param Line line LINE情報
+     * @return Line LINE情報
+     */
+    public function save($line);
+    
+    /**
      * LINEアカウント状態を更新
      * 
      * @param Line line              LINE情報

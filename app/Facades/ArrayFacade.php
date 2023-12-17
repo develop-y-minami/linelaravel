@@ -3,9 +3,9 @@
 namespace App\Facades;
 
 /**
- * AppFacade
+ * ArrayFacade
  */
-class AppFacade
+class ArrayFacade
 {
     /**
      * 配列からキーを指定して値を取得

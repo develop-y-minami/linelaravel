@@ -4,7 +4,7 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class AppFacadeClass extends Facade
+class StringFacadeClass extends Facade
 {
 
     /**
@@ -14,6 +14,6 @@ class AppFacadeClass extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'AppFacade';
+        return 'StringFacade';
     }
 }

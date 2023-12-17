@@ -139,3 +139,113 @@ button.reload:focus svg path {
     height: 100%;
     border-radius: 50%;
 }
+
+/******************************************************
+*   オーバーレイ
+******************************************************/
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #000000b5;
+    z-index: 10000;
+}
+
+.overlay > .container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay > .loading {
+    width: 100%;
+    height: 100%;
+    background: url(https://ag-grid.com/images/ag-grid-loading-spinner.svg) center no-repeat;
+}
+
+/******************************************************
+*   モーダル
+******************************************************/
+.modal {
+    display: none;
+    width: 85%;
+}
+
+.modal > .container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    background-color: white;
+}
+
+/******************************************************
+*   モーダル：ヘッダー
+******************************************************/
+.modal > .container > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: solid 1px var(--colorGray);
+}
+
+.modal > .container > header .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal > .container > header button.close {
+    padding: 5px;
+    font-weight: bold;
+    box-shadow: none;
+}
+
+.modal > .container > header button.close:focus,
+.modal > .container > header button.close:hover { box-shadow: none; }
+
+/******************************************************
+*   モーダル：メイン
+******************************************************/
+.modal > .container > main {
+    padding: 15px;
+}
+
+/******************************************************
+*   チェックリスト
+******************************************************/
+.checkList {
+    border: solid 1px var(--colorGray);
+    border-radius: 4px;
+}
+
+.checkList li {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: solid 1px var(--colorGray);
+}
+
+.checkList li:last-child { border-bottom: none }
+
+.checkList li label { flex: 1; }
+
+/******************************************************
+*   エラーメッセージ
+******************************************************/
+.errorMessage {
+    display: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 3px;
+    background-color: #ff4343;
+}
+
+.errorMessage li::before {
+    content: "・";
+    margin-right: 5px;
+}

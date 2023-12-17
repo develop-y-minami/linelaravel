@@ -151,7 +151,7 @@ class LineNoticeGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await LineApi.getNotices(noticeDate, lineNoticeTypeId, displayName, userId);
+            let result = await LineApi.notices(noticeDate, lineNoticeTypeId, displayName, userId);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.lineNotices;

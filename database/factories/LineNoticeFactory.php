@@ -22,7 +22,7 @@ class LineNoticeFactory extends Factory
      */
     public function definition(): array
     {
-        $lineId = Line::all()->random(1)[0]->id;
+        $line = Line::all()->random(1)[0];
         $lineNoticeType = LineNoticeType::all()->random(1)[0];
         $lineNoticeTypeId = $lineNoticeType->id;
 
@@ -31,12 +31,12 @@ class LineNoticeFactory extends Factory
         return [
             'notice_date_time' => fake()->dateTimeBetween($startDate = '-2 week', $endDate = 'now'),
             'line_notice_type_id' => $lineNoticeType->id,
-            'line_id' => $lineId,
-            'line_message_id' => function() use ($lineNoticeTypeId, $address)
+            'line_id' => $line->id,
+            'line_message_id' => function() use ($lineNoticeTypeId)
             {
-                if ($lineNoticeTypeId == 1)
+                if ($lineNoticeTypeId == \LineNoticeType::MESSAGE)
                 {
-                    return LineMessage::factory()->hasLineMessageText(['text' => $address])->create();
+                    return LineMessage::factory()->hasLineMessageText()->create();
                 }
                 else
                 {

@@ -112,6 +112,17 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
+     * LINE情報を更新
+     * 
+     * @param Line line LINE情報
+     * @return Line LINE情報
+     */
+    public function save($line) {
+        $line->save();
+        return $line;
+    }
+
+    /**
      * LINEアカウント状態を更新
      * 
      * @param Line line              LINE情報
@@ -121,7 +132,6 @@ class LineRepository implements LineRepositoryInterface
     public function saveLineAccountStatus($line, $lineAccountStatus)
     {
         $line->line_account_status_id = $lineAccountStatus;
-        $line->save();
-        return $line;
+        return $this->save($line);
     }
 }

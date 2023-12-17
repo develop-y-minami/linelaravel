@@ -49,16 +49,3 @@
 
 .lineUserContainer .tableContainer .infoTable th,
 .lineUserContainer .tableContainer .infoTable td { vertical-align: middle; }
-
-/******************************************************
-*   LINEユーザー情報コンテナー：ボタン
-******************************************************/
-.lineUserContainer .buttonContainer {
-    padding: 15px;
-    text-align: right;
-}
-
-.lineUserContainer .buttonContainer button { 
-    margin-left: 10px;
-    min-width: 120px;
-}

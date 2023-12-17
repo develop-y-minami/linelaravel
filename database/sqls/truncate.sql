@@ -1,0 +1,9 @@
+truncate linelaravel.line_message_images;
+truncate linelaravel.line_message_texts;
+truncate linelaravel.line_messages;
+truncate linelaravel.line_notices;
+truncate linelaravel.line_user_corporates;
+truncate linelaravel.line_user_individuals;
+truncate linelaravel.line_users;
+truncate linelaravel.lines;
+truncate linelaravel.users;

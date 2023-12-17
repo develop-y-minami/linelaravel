@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Webs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Webs\LineAccountStatusServiceInterface;
+use App\Services\Webs\LineNoticeTypeServiceInterface;
 use App\Services\Webs\LineServiceInterface;
 use App\Services\Webs\UserServiceInterface;
 use App\Objects\Pages\LineInfoPage;
@@ -22,6 +23,11 @@ class LineController extends Controller
      */
     private $lineAccountStatusService;
     /**
+     * LineNoticeTypeServiceInterface
+     * 
+     */
+    private $lineNoticeTypeService;
+    /**
      * LineServiceInterface
      * 
      */
@@ -36,16 +42,19 @@ class LineController extends Controller
      * __construct
      * 
      * @param LineAccountStatusServiceInterface lineAccountStatusService
+     * @param LineNoticeTypeServiceInterface    lineNoticeTypeService
      * @param LineServiceInterface              lineService
      * @param UserServiceInterface              userService
      */
     public function __construct(
         LineAccountStatusServiceInterface $lineAccountStatusService,
+        LineNoticeTypeServiceInterface $lineNoticeTypeService,
         LineServiceInterface $lineService,
         UserServiceInterface $userService
     )
     {
         $this->lineAccountStatusService = $lineAccountStatusService;
+        $this->lineNoticeTypeService = $lineNoticeTypeService;
         $this->lineService = $lineService;
         $this->userService = $userService;
     }
@@ -93,9 +102,11 @@ class LineController extends Controller
             $line = $this->lineService->getLine((int)$id);
             // 担当者セレクトボックス設定データを取得
             $userSelectItems = $this->userService->getSelectItems();
+            // LINE通知種別チェックリスト設定データを取得
+            $lineNoticeTypeCheckListItems = $this->lineNoticeTypeService->getCheckListItems((int)$id);
 
             // 返却データに設定
-            $result = new LineInfoPage($line, $userSelectItems);
+            $result = new LineInfoPage($line, $userSelectItems, $lineNoticeTypeCheckListItems);
 
             return view('pages.lineInfo')->with('data', $result);
         }

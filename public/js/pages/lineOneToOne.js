@@ -3,32 +3,32 @@ $(function() {
      * LINEアカウント種別ID
      * 
      */
-    $txtLineAccountTypeId = $('#txtLineAccountTypeId');
+    let $txtLineAccountTypeId = $('#txtLineAccountTypeId');
     /**
      * 担当者セレクトボックス
      * 
      */
-    $selSearchUser = $('#selSearchUser');
+    let $selSearchUser = $('#selSearchUser');
     /**
      * LINE通知種別
      * 
      */
-    $selSearchLineAccountStatus = $('#selSearchLineAccountStatus');
+    let $selSearchLineAccountStatus = $('#selSearchLineAccountStatus');
     /**
      * LINE表示名テキストボックス
      * 
      */
-    $txtSearchLineDisplayName = $('#txtSearchLineDisplayName');
+    let $txtSearchLineDisplayName = $('#txtSearchLineDisplayName');
     /**
      * 検索ボタン
      * 
      */
-    $btnSearch = $('#btnSearch');
+    let $btnSearch = $('#btnSearch');
     /**
      * リロードボタン
      * 
      */
-    $btnReload = $('#btnReload');
+    let $btnReload = $('#btnReload');
     /**
      * LineGrid
      * 

@@ -23,4 +23,14 @@ interface LineApiServiceInterface
         $displayName = null,
         $userId = null
     );
+
+    /**
+     * LINE担当者情報を設定
+     * 
+     * @param int   id                LINE情報ID
+     * @param bool  noticeSetting     LINE通知設定
+     * @param array lineNoticeSttings LINE通知種別設定
+     * @param int   userId            担当者ID
+     */
+    public function userSetting($id, $noticeSetting, $lineNoticeSttings, $userId);
 }

@@ -13,12 +13,16 @@ class FetchApi {
      * 
      */
     static STATUS_SUCCESS = 'success';
-
     /**
      * STATUS 失敗
      * 
      */
     static STATUS_FAILURE = 'failure';
+    /**
+     * STATUS CODE バリデーションエラー
+     * 
+     */
+    static STATUS_CODE_VALIDATION_EXCEPTION = 422;
 
     /**
      * HTTP Method GET
@@ -31,12 +35,12 @@ class FetchApi {
             let response = await fetch(FetchApi.URL_ROOT_API + '/' + url);
             if (response.ok) {
                 let data = await response.json();
-                return {'status' : 'success', 'data' : data};
+                return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
             } else {
-                return {'status' : 'failure', 'error' : response.statusText};
+                return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : response.statusText};
             }
         } catch(error) {
-            return {'status' : 'failure', 'error' : error};
+            return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
         }
     }
 
@@ -62,12 +66,18 @@ class FetchApi {
             );
             if (response.ok) {
                 let data = await response.json();
-                return {'status' : 'success', 'data' : data};
+                return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
             } else {
-                return {'status' : 'failure', 'error' : response.statusText};
+                if (response.status === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
+                } else {
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                }
             }
         } catch(error) {
-            return {'status' : 'failure', 'error' : error};
+            return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
         }
     }
 

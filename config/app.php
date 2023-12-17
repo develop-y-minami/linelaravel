@@ -190,7 +190,9 @@ return [
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
         'LineMessageType' =>  App\Consts\LineMessageType::class,
         'Personality' =>  App\Consts\Personality::class,
-        'AppFacade' => App\Facades\AppFacadeClass::class,
+        'LineNoticeType' =>  App\Consts\LineNoticeType::class,
+        'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
+        'StringFacade' => App\Facades\StringFacadeClass::class,
     ])->toArray(),
 
 ];

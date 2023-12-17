@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\LineUserSettingRequest;
 use App\Services\Apis\LineNoticeApiServiceInterface;
 use App\Services\Apis\LineApiServiceInterface;
 use App\Jsons\LineApis\Responses\NoticesResponse;
@@ -104,6 +105,36 @@ class LineController extends Controller
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($response);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINE担当者情報を設定する
+     * HTTP Method Post
+     * https://{host}/api/line/{id}/user/setting
+     * 
+     * @param LineUserSettingRequest request リクエスト
+     * @param string  id      ID
+     * @return Json
+     */
+    public function userSetting(LineUserSettingRequest $request, $id)
+    {
+        try
+        {
+            // パラメータを取得
+            $noticeSetting = $request->input('noticeSetting');
+            $lineNoticeSttings = $request->input('lineNoticeSttings');
+            $userId = $request->input('userId');
+
+            // LINE担当者情報を設定
+            $this->lineApiServiceInterface->userSetting((int)$id, $noticeSetting, $lineNoticeSttings, $userId);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse([]);
         }
         catch (\Exception $e)
         {

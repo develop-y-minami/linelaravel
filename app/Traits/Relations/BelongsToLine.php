@@ -22,8 +22,10 @@ trait BelongsToLine
             $model->account_id = null;
             $model->display_name = null;
             $model->picture_url = null;
-            $model->user_id = null;
             $model->line_account_type_id = 0;
+            $model->line_account_status_id = 0;
+            $model->user_id = null;
+            $model->line_of_user_notice = false;
         });
     }
 }

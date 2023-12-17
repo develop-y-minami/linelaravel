@@ -2,7 +2,9 @@
 
 namespace App\Services\Webs;
 
+use App\Objects\CheckListItem;
 use App\Objects\SelectItem;
+use App\Repositorys\LineNoticeSettingRepositoryInterface;
 use App\Repositorys\LineNoticeTypeRepositoryInterface;
 
 /**
@@ -12,6 +14,11 @@ use App\Repositorys\LineNoticeTypeRepositoryInterface;
 class LineNoticeTypeService implements LineNoticeTypeServiceInterface
 {
     /**
+     * LineNoticeSettingRepositoryInterface
+     * 
+     */
+    private $lineNoticeSettingRepository;
+    /**
      * LineNoticeTypeRepositoryInterface
      * 
      */
@@ -20,10 +27,15 @@ class LineNoticeTypeService implements LineNoticeTypeServiceInterface
     /**
      * __construct
      * 
+     * @param LineNoticeSettingRepositoryInterface lineNoticeSettingRepository
      * @param LineNoticeTypeRepositoryInterface lineNoticeTypeRepository
      */
-    public function __construct(LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository)
+    public function __construct(
+        LineNoticeSettingRepositoryInterface $lineNoticeSettingRepository,
+        LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository
+    )
     {
+        $this->lineNoticeSettingRepository = $lineNoticeSettingRepository;
         $this->lineNoticeTypeRepository = $lineNoticeTypeRepository;
     }
 
@@ -42,6 +54,41 @@ class LineNoticeTypeService implements LineNoticeTypeServiceInterface
         foreach ($datas as $data)
         {
             $result[] = new SelectItem($data->id, $data->display_name);
+        }
+
+        return $result;
+    }
+
+    /**
+     * LINE通知種別チェックリストに設定するデータを返却
+     * 
+     * @param int lineId LINE情報ID
+     * @return array 選択項目
+     */
+    public function getCheckListItems($lineId)
+    {
+        // 返却データ
+        $result = array();
+
+        // LINE通知設定情報を取得
+        $lineNoticeSettings = $this->lineNoticeSettingRepository->findByLineId($lineId);
+
+        // LINE通知種別を取得
+        $datas = $this->lineNoticeTypeRepository->getAll();
+        foreach ($datas as $data)
+        {
+            // チェック状態を設定
+            $checked = false;
+            foreach ($lineNoticeSettings as $lineNoticeSetting)
+            {
+                if ($data->id == $lineNoticeSetting->line_notice_type_id)
+                {
+                    $checked = true;
+                    break;
+                }
+            }
+
+            $result[] = new CheckListItem($data->id, $data->display_name, $checked);
         }
 
         return $result;

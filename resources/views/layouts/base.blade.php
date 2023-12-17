@@ -26,8 +26,10 @@
         {{--共通JavaScript--}}
         <script src="{{ asset('js/commons/utils/dateTimeUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/stringUtil.js') }}"></script>
+        <script src="{{ asset('js/commons/utils/arrayUtil.js') }}"></script>
         <script src="{{ asset('js/commons/base.js') }}"></script>
         <script src="{{ asset('js/commons/components/containers/lineOfficialAccountContainer.js') }}"></script>
+        <script src="{{ asset('js/commons/components/messages/errorMessage.js') }}"></script>
         <script src="{{ asset('js/apis/fetchApi.js') }}"></script>
         <script src="{{ asset('js/apis/lineMessagingApi.js') }}"></script>
 

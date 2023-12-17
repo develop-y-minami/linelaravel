@@ -209,9 +209,9 @@ class LineWebhookService implements LineWebhookServiceInterface
                     // LINE画像メッセージを登録
                     $contentProvider = $message['contentProvider'];
                     $contentProviderType = $contentProvider['type'];
-                    $contentProviderOriginalContentUrl = \AppFacade::getArrayValue($contentProvider, 'originalContentUrl');
-                    $contentProviderPreviewImageUrl = \AppFacade::getArrayValue($contentProvider, 'previewImageUrl');
-                    $imageSet = \AppFacade::getArrayValue($message, 'imageSet');
+                    $contentProviderOriginalContentUrl = \ArrayFacade::getArrayValue($contentProvider, 'originalContentUrl');
+                    $contentProviderPreviewImageUrl = \ArrayFacade::getArrayValue($contentProvider, 'previewImageUrl');
+                    $imageSet = \ArrayFacade::getArrayValue($message, 'imageSet');
                     $imageSetId = null;
                     $imageSetIndex = null;
                     $imageSetTotal = null;

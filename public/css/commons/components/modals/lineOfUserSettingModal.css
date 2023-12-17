@@ -1,0 +1,43 @@
+
+@charset "utf-8";
+
+/******************************************************
+*   LINE担当者設定モーダル
+******************************************************/
+.modalLineOfUserSetting { position: relative; }
+
+.lineOfUserSettingContainer .container { margin-bottom: 15px; }
+
+.lineOfUserSettingContainer .container:last-child { margin-bottom: 0px; }
+
+/******************************************************
+*   LINE担当者設定モーダル：セレクトボックス
+******************************************************/
+.lineOfUserSettingContainer .selectBox { width: 100%; }
+
+/******************************************************
+*   LINE担当者設定モーダル：ボタン
+******************************************************/
+.lineOfUserSettingContainer button { width: 100%; }
+
+/******************************************************
+*   LINE担当者設定モーダル：LINE通知設定：注意メッセージ
+******************************************************/
+.lineOfUserSettingContainer .lineNoticeContainer .attentionMessage {
+    margin-top: 5px;
+    margin-left: 25px;
+    font-size: 12px;
+    color: var(--colorRed);
+}
+
+/********************************************************************
+*   LINE担当者設定モーダル：LINE通知設定：LINE通知種別チェックリスト
+********************************************************************/
+.lineOfUserSettingContainer .lineNoticeContainer .lineNoticeTypeCheckListContainer { margin-top: 5px; }
+
+/********************************************************************
+*   LINE担当者設定モーダル：エラーメッセージ
+********************************************************************/
+.lineOfUserSettingContainer .errorMessage {
+    margin-bottom: 15px;
+}
