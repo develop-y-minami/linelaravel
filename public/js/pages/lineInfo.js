@@ -25,6 +25,11 @@ $(function() {
      */
     let lineOfUserSettingModal;
     /**
+     * LINE情報コンテナー
+     * 
+     */
+    let lineContainer;
+    /**
      * LINE情報ID
      * 
      */
@@ -46,6 +51,7 @@ $(function() {
         try {
             // インスタンスを生成
             lineOfUserSettingModal = new LineOfUserSettingModal(lineId, $leftOverlay, lineOfUserSettingCallback);
+            lineContainer = new LineContainer(lineId, $leftOverlay);
         } catch(error) {
             throw error;
         }

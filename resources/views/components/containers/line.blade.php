@@ -20,30 +20,16 @@
     </header>
     <main>
         <div class="buttonContainer">
-            <button id="{{ $btnLatestLineInforId }}" class="green">LINEから最新情報を取得する</button>
+            <button id="{{ $btnLineLatestUpdateId }}" class="green">LINEから最新情報を取得する</button>
         </div>
-        <div class="profileContainer">
-            {{--LINEプロフィール画像--}}
-            <div class="circleImgContainer">
-                <div class="imgBox">
-                    <img id="{{ $imgPictureUrlId }}" src="{{ $line->picture_url }}" alt="">
-                </div>
-            </div>
-            {{--LINEプロフィール情報--}}
-            <div class="tableContainer">
-                <table class="infoTable">
-                    <tbody>
-                        <tr>
-                            <th>区分</th>
-                            <td id="{{ $tdLineAccountTypeNameId }}">{{ $line->lineAccountType->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ $line->lineAccountType->id == \LineAccountType::GROUP ? 'グループ名' : '名前' }}</th>
-                            <td id="{{ $tdDisplayNameId }}">{{ $line->display_name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {{--LINEプロフィール情報コンテナー--}}
+        <x-containers.lineProfile
+            :id='$lineProfileContainerId'
+            :class='$lineProfileContainerClass'
+            :imgPictureUrlId='$imgPictureUrlId'
+            :tdDisplayNameId='$tdDisplayNameId'
+            :tdLineAccountTypeNameId='$tdLineAccountTypeNameId'
+            :line='$line'
+        ></x-containers.lineProfile>
     </main>
 </div>

@@ -8,14 +8,19 @@
 @push('css')
     {{--LINE情報ページCSS--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineContainer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineProfileContainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineUserContainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/lineOfUserSettingModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/lineLatestUpdateModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/lineInfo.css') }}">
 @endpush
 
 {{--JavaScript--}}
 @push('js')
+    <script src="{{ asset('js/commons/components/containers/lineContainer.js') }}"></script>
+    <script src="{{ asset('js/commons/components/containers/LineProfileContainer.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/lineOfUserSettingModal.js') }}"></script>
+    <script src="{{ asset('js/commons/components/modals/lineLatestUpdateModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/lists/checkList.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     <script src="{{ asset('js/pages/lineInfo.js') }}"></script>
@@ -53,6 +58,9 @@
                             :lineNoticeTypeCheckListItems='$data->lineNoticeTypeCheckListItems'
                             :lineOfUserNotice='$data->line->line_of_user_notice'
                         ></x-modals.lineOfUserSetting>
+                        {{--LINE最新情報更新モーダル--}}
+                        <x-modals.lineLatestUpdate
+                        ></x-modals.lineLatestUpdate>
                     </div>
                 </div>
             </div>
