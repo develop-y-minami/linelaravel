@@ -3,25 +3,20 @@
     <div class="container">
         <header>
             <div class="title">LINE最新情報更新</div>
-            <button id="{{ $btnCloseId }}" class="close">×</button>
+            <button id="{{ $id }}BtnClose" class="close">×</button>
         </header>
         <main>
             {{--LINEプロフィール情報コンテナー--}}
-            <x-containers.lineProfile
-                :id='$lineProfileContainerId'
-                :class='$lineProfileContainerClass'
-                :imgPictureUrlId='$imgPictureUrlId'
-                :tdDisplayNameId='$tdDisplayNameId'
-                :tdLineAccountTypeNameId='$tdLineAccountTypeNameId'
-            ></x-containers.lineProfile>
+            @php $lineProfileId = $id.'LineProfileContainer' @endphp
+            <x-containers.lineProfile :id='$lineProfileId'></x-containers.lineProfile>
             {{--エラーメッセージ--}}
-            <div id="{{ $errorMessageId }}" class="errorMessage"></div>
+            <div id="{{ $id }}ErrorMessage" class="errorMessage"></div>
             {{--最新情報で更新ボタン--}}
-            <button id="{{ $btnLineLatestUpdate }}" class="green large">最新情報で更新</button>
+            <button id="{{ $id }}BtnUpdate" class="green large">最新情報で更新</button>
         </main>
     </div>
 
-    <div id="{{ $loadingOverlayId }}" class="overlay">
+    <div id="{{ $id }}LoadingOverlay" class="overlay">
         <div class="loading"></div>
     </div>
 </div>

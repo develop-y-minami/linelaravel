@@ -12,10 +12,10 @@ class CheckList {
     /**
      * constructor
      * 
-     * @param {object} $checkList チェックリスト
+     * @param {string} id ID
      */
-    constructor($checkList) {
-        this.$checkList = $checkList;
+    constructor(id) {
+        this.$checkList = $('#' + id);
     }
 
     /**

@@ -13,10 +13,10 @@ class ErrorMessage {
     /**
      * constructor
      * 
-     * @param {object} $message メッセージ
+     * @param {string} id ID
      */
-    constructor($message) {
-        this.$message = $message;
+    constructor(id) {
+        this.$message = $('#' + id);
     }
 
     /**

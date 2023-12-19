@@ -29,16 +29,6 @@ class LineOfUserSettingModal {
      */
     $btnClose;
     /**
-     * ローディングオーバーレイ
-     * 
-     */
-    $loadingOverlay;
-    /**
-     * エラーメッセージ
-     * 
-     */
-    $errorMessage;
-    /**
      * 担当者セレクトボックス
      * 
      */
@@ -49,11 +39,6 @@ class LineOfUserSettingModal {
      */
     $checkLineOfUserNotice;
     /**
-     * LINE通知種別チェックリスト
-     * 
-     */
-    $checkListLineNoticeType;
-    /**
      * LINE通知種別チェックリストコンテナー
      * 
      */
@@ -63,6 +48,11 @@ class LineOfUserSettingModal {
      * 
      */
     $btnSetting;
+    /**
+     * ローディングオーバーレイ
+     * 
+     */
+    $loadingOverlay;
     /**
      * LINE通知種別チェックリスト
      * 
@@ -77,48 +67,26 @@ class LineOfUserSettingModal {
     /**
      * constructor
      * 
-     * @param {number}   lineId                             LINE情報ID
-     * @param {object}   $overlay                           オーバーレイ
-     * @param {Function} btnSettingCallback                 送信ボタンクリック時コールバック
-     * @param {string}   id                                 モーダルID
-     * @param {string}   btnCloseId                         閉じるボタンID 
-     * @param {string}   loadingOverlayId                   ローディングオーバーレイID
-     * @param {string}   errorMessageId                   　エラーメッセージID
-     * @param {string}   selUserId                          担当者セレクトボックスID 
-     * @param {string}   checkLineOfUserNoticeId            通知チェックボックスID
-     * @param {string}   lineNoticeTypeCheckListContainerId LINE通知種別チェックリストコンテナーID
-     * @param {string}   btnSettingId                       送信ボタンID
+     * @param {number}   lineId             LINE情報ID
+     * @param {object}   $overlay           オーバーレイ
+     * @param {Function} btnSettingCallback 送信ボタンクリック時コールバック
+     * @param {string}   id                 モーダルID
      */
-    constructor(
-        lineId,
-        $overlay,
-        btnSettingCallback,
-        id = 'modalLineOfUserSetting',
-        btnCloseId = 'btnCloseModalLineOfUserSetting',
-        loadingOverlayId = 'loadingOverlayModalLineOfUserSetting',
-        errorMessageId = 'errorMessageModalLineOfUserSetting',
-        selUserId = 'selLineOfUserSetting',
-        checkLineOfUserNoticeId = 'checkLineOfUserNotice',
-        lineNoticeTypeCheckListContainerId = 'lineNoticeTypeCheckListContainer',
-        checkListLineNoticeTypeId = 'checkListLineNoticeType',
-        btnSettingId = 'btnModalLineOfUserSetting'
-    ) {
+    constructor(lineId, $overlay, btnSettingCallback, id = 'modalLineOfUserSetting') {
         this.lineId = lineId;
         this.$overlay = $overlay;
         this.btnSettingCallback = btnSettingCallback;
         this.$modal = $('#' + id);
-        this.$btnClose = $('#' + btnCloseId);
-        this.$loadingOverlay = $('#' + loadingOverlayId);
-        this.$errorMessage = $('#' + errorMessageId);
-        this.$selUser = $('#' + selUserId);
-        this.$checkLineOfUserNotice = $('#' + checkLineOfUserNoticeId);
-        this.$lineNoticeTypeCheckListContainer = $('#' + lineNoticeTypeCheckListContainerId);
-        this.$checkListLineNoticeType = $('#' + checkListLineNoticeTypeId);
-        this.$btnSetting = $('#' + btnSettingId);
+        this.$btnClose = $('#' + id + 'BtnClose');
+        this.$selUser = $('#' + id + 'SelUser');
+        this.$checkLineOfUserNotice = $('#' + id + 'CheckLineOfUserNotice');
+        this.$lineNoticeTypeCheckListContainer = $('#' + id + 'LineNoticeTypeCheckListContainer');
+        this.$btnSetting = $('#' + id + 'BtnSetting');
+        this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
 
         // インスタンスを生成
-        this.LineNoticeTypeCheckList = new CheckList(this.$checkListLineNoticeType);
-        this.errorMessage = new ErrorMessage(this.$errorMessage);
+        this.LineNoticeTypeCheckList = new CheckList(id + 'LineNoticeTypeCheckList');
+        this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
 
         // イベントを設定
         this.$overlay.on('click', { me : this }, this.close);

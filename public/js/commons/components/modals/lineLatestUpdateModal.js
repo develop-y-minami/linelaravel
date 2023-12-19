@@ -24,20 +24,15 @@ class LineLatestUpdateModal {
      */
     $btnClose;
     /**
+     * 最新情報で更新ボタン
+     * 
+     */
+    $btnUpdate;
+    /**
      * ローディングオーバーレイ
      * 
      */
     $loadingOverlay;
-    /**
-     * エラーメッセージ
-     * 
-     */
-    $errorMessage;
-    /**
-     * 最新情報で更新ボタン
-     * 
-     */
-    $btnLineLatestUpdate;
     /**
      * LINEプロフィールコンテナー
      * 
@@ -52,49 +47,23 @@ class LineLatestUpdateModal {
     /**
      * constructor
      * 
-     * @param {number}   lineId                  LINE情報ID
-     * @param {object}   $overlay                オーバーレイ
-     * @param {string}   id                      モーダルID
-     * @param {string}   btnCloseId              閉じるボタンID 
-     * @param {string}   loadingOverlayId        ローディングオーバーレイID
-     * @param {string}   errorMessageId          エラーメッセージID
-     * @param {string}   btnLineLatestUpdateId   最新情報で更新ボタンID
-     * @param {string}   lineProfileContainerId  LINEプロフィールコンテナー：ID
-     * @param {string}   imgPictureUrlId         LINEプロフィールコンテナー：LINEプロフィール画像ID
-     * @param {string}   tdDisplayNameId         LINEプロフィールコンテナー：LINE表示名ID
-     * @param {string}   tdLineAccountTypeNameId LINEプロフィールコンテナー：LINEアカウント種別ID
+     * @param {number}   lineId   LINE情報ID
+     * @param {object}   $overlay オーバーレイ
+     * @param {string}   id       モーダルID
      */
-    constructor(
-        lineId,
-        $overlay,
-        id = 'modalLineLatestUpdate',
-        btnCloseId = 'btnCloseModalLineLatestUpdate',
-        loadingOverlayId = 'loadingOverlayModalLineLatestUpdate',
-        errorMessageId = 'errorMessageModalLineLatestUpdate',
-        btnLineLatestUpdateId = 'btnModalLineLatestUpdate',
-        lineProfileContainerId = 'lineProfileContainerModalLineLatestUpdate',
-        imgPictureUrlId = 'imgPictureUrlModalLineLatestUpdate',
-        tdDisplayNameId = 'tdDisplayNameModalLineLatestUpdate',
-        tdLineAccountTypeNameId = 'tdLineAccountTypeNameModalLineLatestUpdate'
-    ) {
+    constructor(lineId, $overlay, id = 'modalLineLatestUpdate') {
         this.$lineId = lineId;
         this.$overlay = $overlay;
         this.$modal = $('#' + id);
-        this.$btnClose = $('#' + btnCloseId);
-        this.$loadingOverlay = $('#' + loadingOverlayId);
-        this.$errorMessage = $('#' + errorMessageId);
-        this.$btnLineLatestUpdate = $('#' + btnLineLatestUpdateId);
+        this.$btnClose = $('#' + id + 'BtnClose');
+        this.$btnUpdate = $('#' + id + 'btnUpdate');
+        this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
 
         // LINEプロフィールコンテナーインスタンスを生成
-        this.lineProfileContainer = new LineProfileContainer(
-            lineProfileContainerId,
-            imgPictureUrlId,
-            tdDisplayNameId,
-            tdLineAccountTypeNameId
-        );
+        this.lineProfileContainer = new LineProfileContainer(lineId, id);
 
         // インスタンスを生成
-        this.errorMessage = new ErrorMessage(this.$errorMessage);
+        this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
 
         // イベントを設定
         this.$overlay.on('click', { me : this }, this.close);
