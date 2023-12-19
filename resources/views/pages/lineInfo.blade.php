@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineContainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineProfileContainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineUserContainer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineTalkHistoryContainer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/containers/lineTalkContainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/lineOfUserSettingModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/lineLatestUpdateModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/lineInfo.css') }}">
@@ -53,26 +55,20 @@
                     <div class="container">
                         {{--LINE担当者設定モーダル--}}
                         <x-modals.lineOfUserSetting
+                            :lineId='$data->line->id'
                             :userSelectItems='$data->userSelectItems'
                             :userSelectedValue='$data->line->user->id'
                             :lineNoticeTypeCheckListItems='$data->lineNoticeTypeCheckListItems'
                             :lineOfUserNotice='$data->line->line_of_user_notice'
                         ></x-modals.lineOfUserSetting>
                         {{--LINE最新情報更新モーダル--}}
-                        <x-modals.lineLatestUpdate
-                        ></x-modals.lineLatestUpdate>
+                        <x-modals.lineLatestUpdate></x-modals.lineLatestUpdate>
                     </div>
                 </div>
             </div>
 
-            <div class="rightContainer container">
-                <header>
-
-                </header>
-                <main>
-
-                </main>
-            </div>
+            {{--LINEトーク履歴コンテナー--}}
+            <x-containers.lineTalkHistory class="rightContainer container" :lineId='$data->line->id'></x-containers.lineTalkHistory>
         </div>
     </div>
 @endsection

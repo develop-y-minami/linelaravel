@@ -4,11 +4,6 @@
  */
 class LineProfileContainer {
     /**
-     * LINE情報ID
-     * 
-     */
-    lineId;
-    /**
      * コンテナー
      * 
      */
@@ -30,12 +25,11 @@ class LineProfileContainer {
     $tdLineAccountTypeName;
 
     /**
+     * constructor
      * 
-     * @param {string} lineId LINE情報ID
-     * @param {string} id     コンテナーID
+     * @param {string} id コンテナーID
      */
-    constructor(lineId, id = 'lineProfileContainer') {
-        this.lineId = lineId;
+    constructor(id = 'lineProfileContainer') {
         this.$container = $('#' + id);
         this.$imgPictureUrl = $('#' + id + 'ImgPictureUrl');
         this.$tdDisplayName = $('#' + id + 'TdDisplayName');

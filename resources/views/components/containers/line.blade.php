@@ -24,6 +24,12 @@
         </div>
         {{--LINEプロフィール情報コンテナー--}}
         @php $lineProfileId = $id.'LineProfileContainer' @endphp
-        <x-containers.lineProfile :id='$lineProfileId' :line='$line'></x-containers.lineProfile>
+        <x-containers.lineProfile
+            :id='$lineProfileId'
+            :lineId='$line->id'
+            :pictureUrl='$line->picture_url'
+            :displayName='$line->display_name'
+            :lineAccountType='$line->LineAccountType'
+        ></x-containers.lineProfile>
     </main>
 </div>

@@ -4,11 +4,6 @@
  */
 class LineLatestUpdateModal {
     /**
-     * LINE情報ID
-     * 
-     */
-    lineId;
-    /**
      * オーバーレイ
      * 
      */
@@ -47,12 +42,10 @@ class LineLatestUpdateModal {
     /**
      * constructor
      * 
-     * @param {number}   lineId   LINE情報ID
-     * @param {object}   $overlay オーバーレイ
-     * @param {string}   id       モーダルID
+     * @param {object} $overlay オーバーレイ
+     * @param {string} id       モーダルID
      */
-    constructor(lineId, $overlay, id = 'modalLineLatestUpdate') {
-        this.$lineId = lineId;
+    constructor($overlay, id = 'modalLineLatestUpdate') {
         this.$overlay = $overlay;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
@@ -60,7 +53,7 @@ class LineLatestUpdateModal {
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
 
         // LINEプロフィールコンテナーインスタンスを生成
-        this.lineProfileContainer = new LineProfileContainer(lineId, id);
+        this.lineProfileContainer = new LineProfileContainer(id);
 
         // インスタンスを生成
         this.errorMessage = new ErrorMessage(id + 'ErrorMessage');

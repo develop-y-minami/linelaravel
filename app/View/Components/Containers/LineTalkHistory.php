@@ -1,14 +1,14 @@
 <?php
 
-namespace App\View\Components\Modals;
+namespace App\View\Components\Containers;
 
 use Illuminate\View\Component;
 
 /**
- * LINE最新情報更新モーダル Component
+ * LINEトーク履歴コンテナー Component
  * 
  */
-class LineLatestUpdate extends Component
+class LineTalkHistory extends Component
 {
     /**
      * __construct
@@ -19,9 +19,9 @@ class LineLatestUpdate extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = 'modalLineLatestUpdate',
+        public readonly string $id = 'lineTalkHistoryContainer',
         public readonly string $class = '',
-        public readonly string $lineId = ''
+        public readonly string $lineId = '',
     )
     {
 
@@ -34,6 +34,6 @@ class LineLatestUpdate extends Component
      */
     public function render()
     {
-        return view('components.modals.lineLatestUpdate');
+        return view('components.containers.lineTalkHistory');
     }
 }

@@ -4,11 +4,6 @@
  */
 class LineOfUserSettingModal {
     /**
-     * LINE情報ID
-     * 
-     */
-    lineId;
-    /**
      * オーバーレイ
      * 
      */
@@ -23,6 +18,11 @@ class LineOfUserSettingModal {
      * 
      */
     $modal;
+    /**
+     * LINE情報ID
+     * 
+     */
+    $txtLineId;
     /**
      * 閉じるボタン
      * 
@@ -67,16 +67,15 @@ class LineOfUserSettingModal {
     /**
      * constructor
      * 
-     * @param {number}   lineId             LINE情報ID
      * @param {object}   $overlay           オーバーレイ
      * @param {Function} btnSettingCallback 送信ボタンクリック時コールバック
      * @param {string}   id                 モーダルID
      */
-    constructor(lineId, $overlay, btnSettingCallback, id = 'modalLineOfUserSetting') {
-        this.lineId = lineId;
+    constructor($overlay, btnSettingCallback, id = 'modalLineOfUserSetting') {
         this.$overlay = $overlay;
         this.btnSettingCallback = btnSettingCallback;
         this.$modal = $('#' + id);
+        this.$txtLineId = $('#' + id + 'TxtLineId');
         this.$btnClose = $('#' + id + 'BtnClose');
         this.$selUser = $('#' + id + 'SelUser');
         this.$checkLineOfUserNotice = $('#' + id + 'CheckLineOfUserNotice');
@@ -168,7 +167,7 @@ class LineOfUserSettingModal {
             let lineNoticeSttings = ArrayUtil.toNumber(me.LineNoticeTypeCheckList.getCheckedValues());
 
             // LINE担当者情報を設定
-            let result = await LineApi.userSetting(me.lineId, userId, noticeSetting, lineNoticeSttings);
+            let result = await LineApi.userSetting(Number(me.$txtLineId.val()), userId, noticeSetting, lineNoticeSttings);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる

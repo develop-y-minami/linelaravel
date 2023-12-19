@@ -41,6 +41,8 @@
     padding: 15px;
 }
 
+.splitContainer > .rightContainer > header { padding: 19px 15px !important; }
+
 .splitContainer > .container > header .caption {
     font-size: 16px;
     font-weight: bold;

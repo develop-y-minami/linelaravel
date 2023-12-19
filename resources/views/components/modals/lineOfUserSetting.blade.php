@@ -1,5 +1,9 @@
 {{--LINE担当者設定モーダル--}}
 <div id="{{ $id }}" class="modal modalLineOfUserSetting {{ $class }}">
+    {{--非表示領域--}}
+    <div class="hideContainer">
+        <input type="text" id="{{ $id }}TxtLineId" value="{{ $lineId }}">
+    </div>
     <div class="container">
         <header>
             <div class="title">担当者設定</div>

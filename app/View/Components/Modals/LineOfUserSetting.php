@@ -15,6 +15,7 @@ class LineOfUserSetting extends Component
      *
      * @param string id                           id属性に付与する文字列
      * @param string class                        class属性に付与する文字列
+     * @param string lineId                       LINE情報ID
      * @param array  userSelectItems              担当者セレクトボックス
      * @param int    userSelectedValue            担当者セレクトボックス選択値
      * @param array  lineNoticeTypeCheckListItems LINE通知種別チェックリスト選択項目
@@ -24,6 +25,7 @@ class LineOfUserSetting extends Component
     public function __construct(
         public readonly string $id = 'modalLineOfUserSetting',
         public readonly string $class = '',
+        public readonly string $lineId = '',
         public readonly array $userSelectItems = array(),
         public readonly int $userSelectedValue = 0,
         public readonly array $lineNoticeTypeCheckListItems = array(),

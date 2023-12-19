@@ -29,11 +29,6 @@ $(function() {
      * 
      */
     let lineContainer;
-    /**
-     * LINE情報ID
-     * 
-     */
-    let lineId = Number($txtLineId.val());
 
     try {
         // 初期化処理を実行
@@ -50,8 +45,8 @@ $(function() {
     function init() {
         try {
             // インスタンスを生成
-            lineOfUserSettingModal = new LineOfUserSettingModal(lineId, $leftOverlay, lineOfUserSettingCallback);
-            lineContainer = new LineContainer(lineId, $leftOverlay);
+            lineOfUserSettingModal = new LineOfUserSettingModal($leftOverlay, lineOfUserSettingCallback);
+            lineContainer = new LineContainer($leftOverlay);
         } catch(error) {
             throw error;
         }

@@ -4,11 +4,6 @@
  */
 class LineContainer {
     /**
-     * LINE情報ID
-     * 
-     */
-    lineId;
-    /**
      * オーバーレイ
      * 
      */
@@ -41,22 +36,20 @@ class LineContainer {
 
     /**
      * 
-     * @param {number} lineId   LINE情報ID
      * @param {object} $overlay オーバーレイ
      * @param {string} id       コンテナーID
      */
-    constructor(lineId, $overlay, id = 'lineContainer') {
-        this.lineId = lineId;
+    constructor($overlay, id = 'lineContainer') {
         this.$overlay = $overlay;
         this.$container = $('#' + id);
         this.$btnLineLatestUpdate = $('#' + id + 'BtnLineLatestUpdate');
         this.$lineAccountStatusLabelBox = $('#' + id + 'LabelBox');
 
         // LINEプロフィールコンテナーインスタンスを生成
-        this.lineProfileContainer = new LineProfileContainer(lineId);
+        this.lineProfileContainer = new LineProfileContainer();
 
         // LINE最新情報更新モーダルインスタンスを生成
-        this.lineLatestUpdateModal = new LineLatestUpdateModal(lineId, $overlay);
+        this.lineLatestUpdateModal = new LineLatestUpdateModal($overlay);
 
         // イベントを設定
         this.$btnLineLatestUpdate.on('click', { me : this }, this.clickBtnLineLatestUpdate)
