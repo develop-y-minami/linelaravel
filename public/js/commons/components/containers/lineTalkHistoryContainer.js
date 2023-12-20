@@ -1,0 +1,7 @@
+/**
+ * LineTalkHistoryContainer
+ * 
+ */
+class LineTalkHistoryContainer {
+
+}

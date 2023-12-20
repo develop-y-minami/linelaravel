@@ -20,4 +20,8 @@
             
         </div>
     </main>
+
+    <div id="{{ $id }}LoadingOverlay" class="overlay">
+        <div class="loading"></div>
+    </div>
 </div>

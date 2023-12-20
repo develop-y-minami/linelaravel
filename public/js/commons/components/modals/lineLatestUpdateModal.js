@@ -42,11 +42,9 @@ class LineLatestUpdateModal {
     /**
      * constructor
      * 
-     * @param {object} $overlay オーバーレイ
-     * @param {string} id       モーダルID
+     * @param {string} id モーダルID
      */
-    constructor($overlay, id = 'modalLineLatestUpdate') {
-        this.$overlay = $overlay;
+    constructor(id = 'modalLineLatestUpdate') {
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
         this.$btnUpdate = $('#' + id + 'btnUpdate');
@@ -57,6 +55,9 @@ class LineLatestUpdateModal {
 
         // インスタンスを生成
         this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
+
+        // オーバーレイを設定
+        this.$overlay = this.$modal.closest('.overlay');
 
         // イベントを設定
         this.$overlay.on('click', { me : this }, this.close);

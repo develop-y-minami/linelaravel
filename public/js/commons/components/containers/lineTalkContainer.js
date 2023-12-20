@@ -1,0 +1,7 @@
+/**
+ * LineTalkContainer
+ * 
+ */
+class LineTalkContainer {
+
+}

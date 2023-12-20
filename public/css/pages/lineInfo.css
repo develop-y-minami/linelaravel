@@ -17,49 +17,6 @@
     height: 100%;
 }
 
-/******************************************************
-*   内部コンテナー
-******************************************************/
-.splitContainer > .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
+.splitContainer > .container { flex: 1; }
 
-.splitContainer > .leftContainer {
-    position: relative;
-    border-right: solid 1px var(--colorDarkGray);
-}
-
-/******************************************************
-*   内部コンテナー：ヘッダー
-******************************************************/
-.splitContainer > .container > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-}
-
-.splitContainer > .rightContainer > header { padding: 19px 15px !important; }
-
-.splitContainer > .container > header .caption {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.splitContainer > .container > header button { min-width: 120px; }
-
-/******************************************************
-*   内部コンテナー：メイン
-******************************************************/
-.splitContainer > .container > main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/******************************************************
-*   LINEユーザー情報コンテナー
-******************************************************/
-.lineUserContainer { flex: 1; }
+.splitContainer > .leftContainer { border-right: solid 1px var(--colorGray); }

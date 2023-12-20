@@ -9,10 +9,10 @@ class LineOfUserSettingModal {
      */
     $overlay;
     /**
-     * 送信ボタンクリック時コールバック
+     * 送信ボタンクリック時のコールバック先クラス
      * 
      */
-    btnSettingCallback;
+    callbackClass;
     /**
      * モーダル
      * 
@@ -67,13 +67,11 @@ class LineOfUserSettingModal {
     /**
      * constructor
      * 
-     * @param {object}   $overlay           オーバーレイ
-     * @param {Function} btnSettingCallback 送信ボタンクリック時コールバック
-     * @param {string}   id                 モーダルID
+     * @param {class}  callbackClass 送信ボタンクリック時のコールバック先クラス
+     * @param {string} id            モーダルID
      */
-    constructor($overlay, btnSettingCallback, id = 'modalLineOfUserSetting') {
-        this.$overlay = $overlay;
-        this.btnSettingCallback = btnSettingCallback;
+    constructor(callbackClass = null, id = 'modalLineOfUserSetting') {
+        this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$txtLineId = $('#' + id + 'TxtLineId');
         this.$btnClose = $('#' + id + 'BtnClose');
@@ -86,6 +84,9 @@ class LineOfUserSettingModal {
         // インスタンスを生成
         this.LineNoticeTypeCheckList = new CheckList(id + 'LineNoticeTypeCheckList');
         this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
+
+        // オーバーレイを設定
+        this.$overlay = this.$modal.closest('.overlay');
 
         // イベントを設定
         this.$overlay.on('click', { me : this }, this.close);
@@ -172,8 +173,10 @@ class LineOfUserSettingModal {
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる
                 me.close(e);
-                // コールバックを実行
-                me.btnSettingCallback(Number(me.$selUser.val()), me.$selUser.find('option:selected').text());
+                if (me.callbackClass !== null) {
+                    // コールバックを実行
+                    me.callbackClass.lineOfUserSettingCallback(me.callbackClass, Number(me.$selUser.val()), me.$selUser.find('option:selected').text());
+                }
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
                     // バリデーションエラー時のメッセージを表示
