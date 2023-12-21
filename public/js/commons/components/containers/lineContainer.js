@@ -39,10 +39,8 @@ class LineContainer {
         this.$btnLineLatestUpdate = $('#' + id + 'BtnLineLatestUpdate');
         this.$lineAccountStatusLabelBox = $('#' + id + 'LabelBox');
 
-        // LINEプロフィールコンテナーインスタンスを生成
+        // インスタンスを生成
         this.lineProfileContainer = new LineProfileContainer();
-
-        // LINE最新情報更新モーダルインスタンスを生成
         this.lineLatestUpdateModal = new LineLatestUpdateModal();
 
         // イベントを設定

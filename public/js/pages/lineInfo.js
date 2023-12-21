@@ -4,6 +4,11 @@ $(function() {
      * 
      */
     let lineInfoContainer;
+    /**
+     * LINEトーク履歴コンテナー
+     * 
+     */
+    let lineTalkHistoryContainer;
 
     try {
         // 初期化処理を実行
@@ -21,6 +26,7 @@ $(function() {
         try {
             // インスタンスを生成
             lineInfoContainer = new LineInfoContainer();
+            lineTalkHistoryContainer = new LineTalkHistoryContainer();
         } catch(error) {
             throw error;
         }

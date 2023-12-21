@@ -21,7 +21,10 @@
 /******************************************************
 *   LINEトーク履歴コンテナー：メイン
 ******************************************************/
-.lineTalkHistoryContainer > main { flex: 1; }
+.lineTalkHistoryContainer > main {
+    flex: 1;
+    overflow: hidden;
+}
 
 .lineTalkHistoryContainer .lineTalkContainer {
     width: 100%;

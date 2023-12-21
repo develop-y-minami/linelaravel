@@ -32,7 +32,10 @@
 /******************************************************
 *   LINEトークコンテナー：メイン
 ******************************************************/
-.lineTalkContainer > main { flex: 1; }
+.lineTalkContainer > main {
+    flex: 1;
+    overflow: hidden;
+}
 
 /******************************************************
 *   トークコンテナー
@@ -40,6 +43,94 @@
 .lineTalkContainer .talkContainer {
     width: 100%;
     height: 100%;
-    padding: 30px;
+    padding: 15px;
     background-color: #93aad4;
+    overflow: auto;
+}
+
+.talkContainer .container { margin-bottom: 5px; }
+
+/******************************************************
+*   トークコンテナー：セパレーター
+******************************************************/
+.talkContainer .separator {
+    display: flex;
+    align-items: center;
+}
+
+.talkContainer .separator > div:first-child,
+.talkContainer .separator > div:last-child {
+    flex: 1;
+    border-bottom: dashed 1px var(--colorDarkGray);
+}
+
+.talkContainer .separator > div:nth-child(2) {
+    margin: 0px 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/******************************************************
+*   トークコンテナー：メッセージコンテナー
+******************************************************/
+.talkContainer .messageContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.talkContainer .messageContainer .caption {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.talkContainer .messageContainer .messageBox {
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/******************************************************
+*   トークコンテナー：メッセージコンテナー：TO
+******************************************************/
+.talkContainer .messageContainer.to { align-items: flex-start; }
+
+.talkContainer .messageContainer.to .caption { align-items: flex-start; }
+
+.talkContainer .messageContainer.to .messageBox {
+    position: relative;
+    width: 50%;
+    box-shadow: 1px 1px 3px 0px #717171;
+    background-color: white;
+}
+
+.talkContainer .messageContainer.to .messageBox::before {
+    position: absolute;
+    content: "◀";
+    top: 10px;
+    left: -10px;
+    color: white;
+}
+
+/******************************************************
+*   トークコンテナー：メッセージコンテナー：FROM
+******************************************************/
+.talkContainer .messageContainer.from { align-items: flex-end; }
+
+.talkContainer .messageContainer.from .caption { align-items: flex-end; }
+
+.talkContainer .messageContainer.from .messageBox {
+    position: relative;
+    width: 50%;
+    box-shadow: -1px 1px 3px 0px #717171;
+    background-color: #9be061;
+}
+
+.talkContainer .messageContainer.from .messageBox::before {
+    position: absolute;
+    content: "▶";
+    top: 10px;
+    right: -10px;
+    color: #9be061;
 }

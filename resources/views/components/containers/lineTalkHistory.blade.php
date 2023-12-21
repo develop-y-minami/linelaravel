@@ -22,4 +22,8 @@
             <button id="{{ $id }}BtnSend" class="blue">送信</button>
         </div>
     </footer>
+
+    <div id="{{ $id }}LoadingOverlay" class="overlay">
+        <div class="loading"></div>
+    </div>
 </div>
