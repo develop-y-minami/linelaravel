@@ -191,6 +191,8 @@ return [
         'LineMessageType' =>  App\Consts\LineMessageType::class,
         'Personality' =>  App\Consts\Personality::class,
         'LineNoticeType' =>  App\Consts\LineNoticeType::class,
+        'LineSendMessageOrigin' =>  App\Consts\LineSendMessageOrigin::class,
+        'LineSendMessageType' =>  App\Consts\LineSendMessageType::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
         'StringFacade' => App\Facades\StringFacadeClass::class,

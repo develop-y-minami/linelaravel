@@ -4,6 +4,7 @@
 *   LINEトーク履歴コンテナー
 ******************************************************/
 .lineTalkHistoryContainer {
+    position: relative;
     display: flex;
     flex-direction: column;
 }

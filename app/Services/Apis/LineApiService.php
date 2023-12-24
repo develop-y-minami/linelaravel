@@ -4,10 +4,14 @@ namespace App\Services\Apis;
 
 use App\Repositorys\LineNoticeSettingRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
+use App\Repositorys\LineTalkHistoryRepositoryInterface;
 use App\Jsons\LineApis\Line;
 use App\Jsons\LineApis\LineAccountStatus;
 use App\Jsons\LineApis\LineAccountType;
+use App\Jsons\LineApis\LineTalk;
+use App\Jsons\LineApis\LineTalkHistory;
 use App\Jsons\LineApis\User;
+use Carbon\Carbon;
 
 /**
  * LineApiService
@@ -31,14 +35,17 @@ class LineApiService implements LineApiServiceInterface
      * 
      * @param LineNoticeSettingRepositoryInterface lineNoticeSettingRepository
      * @param LineRepositoryInterface              lineRepository
+     * @param LineTalkHistoryRepositoryInterface   lineTalkHistoryRepository
      */
     public function __construct(
         LineNoticeSettingRepositoryInterface $lineNoticeSettingRepository,
-        LineRepositoryInterface $lineRepository
+        LineRepositoryInterface $lineRepository,
+        LineTalkHistoryRepositoryInterface $lineTalkHistoryRepository
     )
     {
         $this->lineNoticeSettingRepository = $lineNoticeSettingRepository;
         $this->lineRepository = $lineRepository;
+        $this->lineTalkHistoryRepository = $lineTalkHistoryRepository;
     }
 
     /**
@@ -95,6 +102,7 @@ class LineApiService implements LineApiServiceInterface
 
         // トランザクション開始
         \DB::beginTransaction();
+
         try
         {
             // LINE情報を更新
@@ -114,12 +122,90 @@ class LineApiService implements LineApiServiceInterface
                 $this->lineNoticeSettingRepository->inserts($id, $lineNoticeSttings);
             }
 
+            // コミット
             \DB::commit();
         }
         catch (\Exception $e)
         {
+            // ロールバック
             \DB::rollback();
             throw $e;
         }
+    }
+
+    /**
+     * LINEトーク履歴を取得
+     * 
+     * @param int id                  LINE情報ID
+     * @param int lineTalkHistoryTerm LINEトーク履歴表示期間
+     * @return array LINEトーク履歴
+     */
+    public function talkHistorys($id, $lineTalkHistoryTerm)
+    {
+        // 返却データ
+        $result = array();
+
+        // トーク日を保持する変数
+        $saveTalkDate = '';
+
+        // トーク内容を保持する変数
+        $saveLineTalks = [];
+
+        // カウンター
+        $count = 0;
+
+        // LINEトーク履歴情報を取得
+        $datas = $this->lineTalkHistoryRepository->findByconditions($id, $lineTalkHistoryTerm);
+        foreach ($datas as $data)
+        {
+            // 日時を取得
+            $dateTime = new Carbon($data->date_time);
+
+            // トーク日を取得
+            $talkDate = $dateTime->toDateString();
+            if ($count == 0)
+            {
+                // 初回実行時のみ保持
+                $saveTalkDate = $talkDate;
+            }
+
+            // LINEトーク内容を設定
+            $lineTalk = new LineTalk(
+                $data->from_to,
+                $dateTime->toTimeString(),
+                $data->sender,
+                $data->type_id,
+                $data->type_name
+            );
+
+            // トーク日が切り替わった場合に処理を実行
+            if ($saveTalkDate != $talkDate)
+            {
+                // LINEトーク履歴を生成
+                $lineTalkHistory = new LineTalkHistory($saveTalkDate, $saveLineTalks);
+
+                // 日付毎にトーク履歴を保持
+                $result[] = $lineTalkHistory;
+
+                // 変数を更新
+                $saveTalkDate = $talkDate;
+                $saveLineTalks = [];
+            }
+
+            // 配列にデータを保持
+            $saveLineTalks[] = $lineTalk;
+
+            // カウントアップ
+            $count++;
+        }
+
+        // 残りのトーク履歴を処理
+        if (count($saveLineTalks) > 0)
+        {
+            // LINEトーク履歴を生成
+            $result[] = new LineTalkHistory($saveTalkDate, $saveLineTalks);
+        }
+
+        return $result;
     }
 }

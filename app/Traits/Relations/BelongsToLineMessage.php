@@ -19,7 +19,7 @@ trait BelongsToLineMessage
     {
         return $this->belongsTo(LineMessage::class)->withDefault(function($model) {
             $model->id = 0;
-            $model->type = null;
+            $model->line_message_type_id = 0;
             $model->message_id = null;
             $model->quote_token = null;
         });

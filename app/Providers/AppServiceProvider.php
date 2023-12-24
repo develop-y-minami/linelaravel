@@ -17,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
             function ($app) {
                 return new \App\Services\Apis\LineApiService(
                     $app->make(\App\Repositorys\LineNoticeSettingRepositoryInterface::class),
-                    $app->make(\App\Repositorys\LineRepositoryInterface::class)
+                    $app->make(\App\Repositorys\LineRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineTalkHistoryRepositoryInterface::class)
                 );
             },
         );
@@ -46,10 +47,13 @@ class AppServiceProvider extends ServiceProvider
                     config('line.message_channel_access_token'),
                     $app->make(\App\Repositorys\LineMessageImageRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineMessageRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineMessageTypeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineMessageTextRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineNoticeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class),
-                    $app->make(\App\Repositorys\LineRepositoryInterface::class)
+                    $app->make(\App\Repositorys\LineRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineSendMessageRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineSendMessageTextRepositoryInterface::class)
                 );
             },
         );

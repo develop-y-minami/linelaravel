@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LineUserSettingRequest;
 use App\Services\Apis\LineNoticeApiServiceInterface;
 use App\Services\Apis\LineApiServiceInterface;
-use App\Jsons\LineApis\Responses\NoticesResponse;
 use App\Jsons\LineApis\Responses\LinesResponse;
+use App\Jsons\LineApis\Responses\NoticesResponse;
+use App\Jsons\LineApis\Responses\TalkHistorysResponse;
 
 /**
  * LineController
@@ -118,7 +119,7 @@ class LineController extends Controller
      * https://{host}/api/line/{id}/user/setting
      * 
      * @param LineUserSettingRequest request リクエスト
-     * @param string  id      ID
+     * @param string                 id      ID
      * @return Json
      */
     public function userSetting(LineUserSettingRequest $request, $id)
@@ -134,7 +135,41 @@ class LineController extends Controller
             $this->lineApiServiceInterface->userSetting((int)$id, $noticeSetting, $lineNoticeSttings, $userId);
 
             // HTTPステータスコード:200 
-            return $this->jsonResponse([]);
+            return $this->jsonResponse();
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINEトーク履歴を取得する
+     * HTTP Method Post
+     * https://{host}/api/line/{id}/talk/historys
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return Json
+     */
+    public function talkHistorys(Request $request, $id)
+    {
+        try
+        {
+            // パラメータを取得
+            $lineTalkHistoryTerm = $request->input('lineTalkHistoryTerm');
+
+            // キャスト
+            $lineTalkHistoryTerm = $lineTalkHistoryTerm == null ? null : (int)$lineTalkHistoryTerm;
+
+            // LINEトーク履歴を取得
+            $talkHistorys = $this->lineApiServiceInterface->talkHistorys((int)$id, $lineTalkHistoryTerm);
+
+            // レスポンスデータを生成
+            $response = new TalkHistorysResponse($talkHistorys);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse($response);
         }
         catch (\Exception $e)
         {

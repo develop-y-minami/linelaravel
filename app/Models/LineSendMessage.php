@@ -6,21 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * LineMessage
+ * LineSendMessage
  * 
  */
-class LineMessage extends Model
+class LineSendMessage extends Model
 {
     use HasFactory;
-    use \App\Traits\Relations\HasOneLineMessageText;
 
     /**
      * 登録/更新を許可するカラム
      *
      */
     protected $fillable = [
-        'line_message_type_id',
-        'message_id',
-        'quote_token',
+        'send_date_time',
+        'line_send_message_origin_id',
+        'line_send_message_type_id',
+        'line_id',
+        'user_id',
     ];
 }

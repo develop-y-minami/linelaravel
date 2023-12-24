@@ -12,35 +12,35 @@ class LineMessageType
      * TEXT
      * 
      */
-    public const TEXT = 'text';
+    public const TEXT = 1;
     /**
      * IMAGE
      * 
      */
-    public const IMAGE = 'image';
+    public const IMAGE = 2;
     /**
      * VIDEO
      * 
      */
-    public const VIDEO = 'video';
+    public const VIDEO = 3;
     /**
      * AUDIO
      * 
      */
-    public const AUDIO = 'audio';
+    public const AUDIO = 4;
     /**
      * FILE
      * 
      */
-    public const FILE = 'file';
+    public const FILE = 5;
     /**
      * LOCATION
      * 
      */
-    public const LOCATION = 'location';
+    public const LOCATION = 6;
     /**
      * STICKER
      * 
      */
-    public const STICKER = 'sticker';
+    public const STICKER = 7;
 }

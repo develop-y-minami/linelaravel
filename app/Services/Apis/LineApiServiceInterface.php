@@ -33,4 +33,13 @@ interface LineApiServiceInterface
      * @param int   userId            担当者ID
      */
     public function userSetting($id, $noticeSetting, $lineNoticeSttings, $userId);
+
+    /**
+     * LINEトーク履歴を取得
+     * 
+     * @param int id                  LINE情報ID
+     * @param int lineTalkHistoryTerm LINEトーク履歴表示期間
+     * @return array LINEトーク履歴
+     */
+    public function talkHistorys($id, $lineTalkHistoryTerm);
 }

@@ -39,7 +39,18 @@ Route::post('/lines', [LineController::class, 'lines'])->name('line.lines');
  * https://{host}/api/line/{id}/user/setting
  * 
  * @param LineUserSettingRequest request リクエスト
- * @param string  id      ID
+ * @param string                 id      ID
  * @return Json
  */
 Route::post('/{id}/user/setting', [LineController::class, 'userSetting'])->whereNumber('id')->name('line.user.setting');
+
+/**
+ * LINEトーク履歴を取得する
+ * HTTP Method Post
+ * https://{host}/api/line/{id}/talk/historys
+ * 
+ * @param Request request リクエスト
+ * @param string  id      ID
+ * @return Json
+ */
+Route::post('/{id}/talk/historys', [LineController::class, 'talkHistorys'])->whereNumber('id')->name('line.talk.historys');

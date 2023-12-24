@@ -54,6 +54,26 @@ class LineTalkHistoryContainer {
     }
 
     /**
+     * 初期化処理
+     * 
+     */
+    async init() {
+        try {
+            // ローディングオーバレイを表示
+            this.$loadingOverlay.show();
+
+            // LINEトークコンテナーを初期化
+            await this.lineTalkContainer.init();
+
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            this.$loadingOverlay.hide();
+        }
+    }
+
+    /**
      * 送信ボタンクリック時
      * 
      * @param {Event} e 

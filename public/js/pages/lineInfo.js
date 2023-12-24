@@ -27,6 +27,10 @@ $(function() {
             // インスタンスを生成
             lineInfoContainer = new LineInfoContainer();
             lineTalkHistoryContainer = new LineTalkHistoryContainer();
+
+            // LINEトーク履歴コンテナーを初期化
+            lineTalkHistoryContainer.init();
+            
         } catch(error) {
             throw error;
         }

@@ -35,6 +35,12 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositorys\LineMessageRepository::class
         );
 
+        // LineMessageTypeRepository
+        $this->app->bind(
+            \App\Repositorys\LineMessageTypeRepositoryInterface::class,
+            \App\Repositorys\LineMessageTypeRepository::class
+        );
+
         // LineMessageTextRepository
         $this->app->bind(
             \App\Repositorys\LineMessageTextRepositoryInterface::class,
@@ -63,6 +69,24 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Repositorys\LineRepositoryInterface::class,
             \App\Repositorys\LineRepository::class
+        );
+
+        // LineSendMessageRepository
+        $this->app->bind(
+            \App\Repositorys\LineSendMessageRepositoryInterface::class,
+            \App\Repositorys\LineSendMessageRepository::class
+        );
+
+        // LineSendMessageTextRepository
+        $this->app->bind(
+            \App\Repositorys\LineSendMessageTextRepositoryInterface::class,
+            \App\Repositorys\LineSendMessageTextRepository::class
+        );
+
+        // LineTalkHistoryRepository
+        $this->app->bind(
+            \App\Repositorys\LineTalkHistoryRepositoryInterface::class,
+            \App\Repositorys\LineTalkHistoryRepository::class
         );
 
         // UserRepository

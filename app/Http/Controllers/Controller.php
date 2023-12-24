@@ -15,7 +15,7 @@ class Controller extends BaseController
      * 
      * @return Json
      */
-    public function jsonResponse($data, $code = 200)
+    public function jsonResponse($data = [], $code = 200)
     {
         return response()->json(
             $data,

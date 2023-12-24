@@ -5,15 +5,19 @@ namespace App\Services\Apis;
 use GuzzleHttp\Client;
 use App\Repositorys\LineMessageImageRepositoryInterface;
 use App\Repositorys\LineMessageRepositoryInterface;
+use App\Repositorys\LineMessageTypeRepositoryInterface;
 use App\Repositorys\LineMessageTextRepositoryInterface;
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Repositorys\LineNoticeTypeRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
+use App\Repositorys\LineSendMessageRepositoryInterface;
+use App\Repositorys\LineSendMessageTextRepositoryInterface;
 use LINE\Clients\MessagingApi\Configuration;
 use LINE\Clients\MessagingApi\Api\MessagingApiApi;
 use LINE\Clients\MessagingApi\Model\ReplyMessageRequest;
 use LINE\Clients\MessagingApi\Model\TextMessage;
 use LINE\Clients\MessagingApi\Model\FlexMessage;
+use Carbon\Carbon;
 
 /**
  * LineWebhookService
@@ -42,6 +46,26 @@ class LineWebhookService implements LineWebhookServiceInterface
      */
     private $messagingApi;
     /**
+     * lineMessageImageRepository
+     * 
+     */
+    private $lineMessageImageRepository;
+    /**
+     * lineMessageRepository
+     * 
+     */
+    private $lineMessageRepository;
+    /**
+     * lineMessageTypeRepository
+     * 
+     */
+    private $lineMessageTypeRepository;
+    /**
+     * lineMessageTextRepository
+     * 
+     */
+    private $lineMessageTextRepository;
+    /**
      * LineNoticeRepositoryInterface
      * 
      */
@@ -56,26 +80,42 @@ class LineWebhookService implements LineWebhookServiceInterface
      * 
      */
     private $lineRepository;
+    /**
+     * LineSendMessageRepositoryInterface
+     * 
+     */
+    private $lineSendMessageRepository;
+    /**
+     * LineSendMessageTextRepositoryInterface
+     * 
+     */
+    private $lineSendMessageTextRepository;
 
     /**
      * __construct
      * 
-     * @param string                              channelAccessToken チャネルアクセストークン
-     * @param LineMessageImageRepositoryInterface lineMessageImageRepository
-     * @param LineMessageRepositoryInterface      lineMessageRepository
-     * @param LineMessageTextRepositoryInterface  lineMessageTextRepository
-     * @param LineNoticeRepositoryInterface       lineNoticeRepository
-     * @param LineNoticeTypeRepositoryInterface   lineNoticeTypeRepository
-     * @param LineRepositoryInterface             lineRepository
+     * @param string                                 channelAccessToken チャネルアクセストークン
+     * @param LineMessageImageRepositoryInterface    lineMessageImageRepository
+     * @param LineMessageRepositoryInterface         lineMessageRepository
+     * @param LineMessageTypeRepositoryInterface     lineMessageTypeRepository
+     * @param LineMessageTextRepositoryInterface     lineMessageTextRepository
+     * @param LineNoticeRepositoryInterface          lineNoticeRepository
+     * @param LineNoticeTypeRepositoryInterface      lineNoticeTypeRepository
+     * @param LineRepositoryInterface                lineRepository
+     * @param LineSendMessageRepositoryInterface     lineSendMessageRepository
+     * @param LineSendMessageTextRepositoryInterface lineSendMessageTextRepository
      */
     public function __construct(
         $channelAccessToken,
         LineMessageImageRepositoryInterface $lineMessageImageRepository,
         LineMessageRepositoryInterface $lineMessageRepository,
+        LineMessageTypeRepositoryInterface $lineMessageTypeRepository,
         LineMessageTextRepositoryInterface $lineMessageTextRepository,
         LineNoticeRepositoryInterface $lineNoticeRepository,
         LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository,
-        LineRepositoryInterface $lineRepository
+        LineRepositoryInterface $lineRepository,
+        LineSendMessageRepositoryInterface $lineSendMessageRepository,
+        LineSendMessageTextRepositoryInterface $lineSendMessageTextRepository
     )
     {
         $this->channelAccessToken = $channelAccessToken;
@@ -85,10 +125,13 @@ class LineWebhookService implements LineWebhookServiceInterface
         $this->messagingApi = new MessagingApiApi($this->client, $this->config);
         $this->lineMessageImageRepository = $lineMessageImageRepository;
         $this->lineMessageRepository = $lineMessageRepository;
+        $this->lineMessageTypeRepository = $lineMessageTypeRepository;
         $this->lineMessageTextRepository = $lineMessageTextRepository;
         $this->lineNoticeRepository = $lineNoticeRepository;
         $this->lineNoticeTypeRepository = $lineNoticeTypeRepository;
         $this->lineRepository = $lineRepository;
+        $this->lineSendMessageRepository = $lineSendMessageRepository;
+        $this->lineSendMessageTextRepository = $lineSendMessageTextRepository;
     }
 
     /**
@@ -162,6 +205,9 @@ class LineWebhookService implements LineWebhookServiceInterface
      */
     public function message($type, $source, $message, $timestamp)
     {
+        // トランザクション開始
+        \DB::beginTransaction();
+
         try
         {
             // sourseタイプを取得
@@ -191,14 +237,17 @@ class LineWebhookService implements LineWebhookServiceInterface
             // LINE通知情報を作成
             $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
 
-            // LINEメッセージ情報を登録
+            // LINEメッセージ種別を取得
             $messageType = $message['type'];
+            $lineMessageType = $this->lineMessageTypeRepository->findByName($messageType);
+
+            // LINEメッセージ情報を登録
             $messageId = $message['id'];
             $messageQuoteToken = $message['quoteToken'];
-            $lineMessage = $this->lineMessageRepository->create($messageType, $messageId, $messageQuoteToken);
+            $lineMessage = $this->lineMessageRepository->create($lineMessageType->id, $messageId, $messageQuoteToken);
 
             // メッセージタイプに対応する処理を実行
-            switch ($messageType)
+            switch ($lineMessageType->id)
             {
                 case \LineMessageType::TEXT:
                     // LINEテキストメッセージを登録
@@ -232,9 +281,14 @@ class LineWebhookService implements LineWebhookServiceInterface
                     );
                     break;
             }
+
+            // コミット
+            \DB::commit();
         }
         catch (\Exception $e)
         {
+            // ロールバック
+            \DB::rollback();
             throw $e;
         }
     }
@@ -242,12 +296,16 @@ class LineWebhookService implements LineWebhookServiceInterface
     /**
      * フォローイベント時の処理を実行
      * 
-     * @param string type      タイプ
-     * @param string userId    ユーザーID
-     * @param int    timestamp タイムスタンプ
+     * @param string replyToken リプライトークン
+     * @param string type       タイプ
+     * @param string userId     ユーザーID
+     * @param int    timestamp  タイムスタンプ
      */
-    public function follow($type, $userId, $timestamp)
+    public function follow($replyToken, $type, $userId, $timestamp)
     {
+        // トランザクション開始
+        \DB::beginTransaction();
+
         try
         {
             // LINE情報を取得
@@ -269,9 +327,17 @@ class LineWebhookService implements LineWebhookServiceInterface
 
             // LINE通知情報を作成
             $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
+
+            // リプライメッセージ送信
+            $this->replyFollow($replyToken, $line->id, $line->display_name);
+
+            // コミット
+            \DB::commit();
         }
         catch (\Exception $e)
         {
+            // ロールバック
+            \DB::rollback();
             throw $e;
         }
     }
@@ -285,6 +351,9 @@ class LineWebhookService implements LineWebhookServiceInterface
      */
     public function unfollow($type, $userId, $timestamp)
     {
+        // トランザクション開始
+        \DB::beginTransaction();
+
         try
         {
             // LINE情報を取得
@@ -306,9 +375,14 @@ class LineWebhookService implements LineWebhookServiceInterface
 
             // LINE通知情報を作成
             $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
+
+            // コミット
+            \DB::commit();
         }
         catch (\Exception $e)
         {
+            // ロールバック
+            \DB::rollback();
             throw $e;
         }
     }
@@ -342,14 +416,30 @@ class LineWebhookService implements LineWebhookServiceInterface
      * リプライメッセージを送信
      * 
      * @param string replyToken リプライトークン
-     * @param string text メッセージ
+     * @param string text       メッセージ
+     * @param string lineId     LINE情報ID
      * 
      * @return ReplyMessageResponse
      */
-    public function replyTextMessage($replyToken, $text)
+    private function replyTextMessage($replyToken, $text, $lineId)
     {
         try
         {
+            // 送信日時を取得
+            $sendDateTime = Carbon::now()->__toString();
+
+            // LINE送信メッセージ情報を登録
+            $lineSendMessage = $this->lineSendMessageRepository->create(
+                $sendDateTime,
+                \LineSendMessageOrigin::REPLY,
+                \LineSendMessageType::TEXT,
+                $lineId,
+                0
+            );
+
+            // LINE送信テキストメッセージ情報を登録
+            $lineSendMessageText = $this->lineSendMessageTextRepository->create($lineSendMessage->id, $text);
+
             // テキストメッセージを生成
             $message = $this->getTextMessage($text);
 
@@ -375,7 +465,7 @@ class LineWebhookService implements LineWebhookServiceInterface
      * 
      * @return ReplyMessageResponse
      */
-    public function replyTextMessages($replyToken, $messages) {
+    private function replyTextMessages($replyToken, $messages) {
         try
         {
             // リクエストを生成
@@ -395,21 +485,24 @@ class LineWebhookService implements LineWebhookServiceInterface
     /**
      * 友達追加時のリプライメッセージを送信
      * 
-     * @param string replyToken リプライトークン
+     * @param string lineId      LINE情報ID
+     * @param string displayName LINE表示名
+     * @param string replyToken  リプライトークン
      * 
      * @return ReplyMessageResponse
      */
-    public function replyFollow($replyToken)
+    private function replyFollow($replyToken, $lineId, $displayName)
     {
         try
         {
+            // リプレイメッセージのフォーマットを取得
+            $replyFollowMessage = config('line.reply_follow_message');
+
             // テキストメッセージを生成
-            $textMessage = $this->getTextMessage('友達追加しましたね！\nユーザー登録をしてください');
-            // フレックスメッセージを取得
-            $flexMessage = $this->getUserRegisterFlexMessage();
+            $textMessage = sprintf($replyFollowMessage, $displayName);
 
             // リプライメッセージ送信
-            $response = $this->replyTextMessages($replyToken, [$textMessage, $flexMessage]);
+            $response = $this->replyTextMessage($replyToken, $textMessage, $lineId);
 
             return $response;
         }

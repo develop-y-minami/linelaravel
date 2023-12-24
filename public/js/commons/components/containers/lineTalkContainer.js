@@ -28,6 +28,11 @@ class LineTalkContainer {
      * 
      */
     $loadingOverlay;
+    /**
+     * LINE情報ID
+     * 
+     */
+    lineId;
 
     /**
      * 
@@ -39,6 +44,7 @@ class LineTalkContainer {
         this.$btnLineTalkHistory = $('#' + id + 'BtnLineTalkHistory');
         this.$btnReload = $('#' + id + 'BtnReload');
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
+        this.lineId = Number($('#' + id + 'TxtLineId').val());
 
         // イベント設定
         this.$selLineTalkHistoryTerm.on('change', { me : this }, this.changeSelLineTalkHistoryTerm)
@@ -46,8 +52,37 @@ class LineTalkContainer {
         this.$btnReload.on('click', { me : this }, this.clickBtnReload)
     }
 
-    async setLineTalkContainer() {
+    /**
+     * 初期化処理
+     * 
+     */
+    async init() {
+        try {
+            // トークコンテナーを設定
+            await this.setLineTalkContainer(this, this.lineId, Number(this.$selLineTalkHistoryTerm.val()));
+        } catch(error) {
+            console.error(error);
+        }
+    }
 
+    /**
+     * トークコンテナーを設定
+     * 
+     * @param {class}  me                  this
+     * @param {number} lineId              LINE情報ID
+     * @param {number} lineTalkHistoryTerm LINEトーク履歴表示期間
+     */
+    async setLineTalkContainer(me, lineId, lineTalkHistoryTerm) {
+        try {
+            // API経由でLINEトーク履歴を取得
+            let result = await LineApi.lineTalkHistorys(lineId, lineTalkHistoryTerm);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+
+            }
+        } catch(error) {
+            throw error;
+        }
     }
 
     /**

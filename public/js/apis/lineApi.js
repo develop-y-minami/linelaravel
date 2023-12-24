@@ -24,6 +24,11 @@ class LineApi {
      * 
      */
     static PREFIX_LINE_USER_SETTING = '/user/setting';
+    /**
+     * line/{id}/talk/historys
+     * 
+     */
+    static PREFIX_LINE_TALK_HISTORYS = '/talk/historys';
 
     /**
      * LINE通知情報を取得する
@@ -74,7 +79,7 @@ class LineApi {
      * @param {number}  userId            担当者ID
      * @param {boolean} noticeSetting     LINE通知設定
      * @param {array}   lineNoticeSttings LINE通知種別
-     * @returns 
+     * @returns {object} 
      */
     static async userSetting(id, userId, noticeSetting, lineNoticeSttings) {
         // URLを設定
@@ -85,6 +90,26 @@ class LineApi {
         data.userId = userId;
         data.noticeSetting = noticeSetting;
         data.lineNoticeSttings = lineNoticeSttings;
+
+        let response = await FetchApi.post(url, data);
+        return response;
+    }
+
+    /**
+     * LINEトーク履歴を取得する
+     * 
+     * @param {number}  id                  LINE情報ID
+     * @param {number}  lineTalkHistoryTerm LINEトーク履歴表示期間
+     * @returns {object} 
+     */
+    static async lineTalkHistorys(id, lineTalkHistoryTerm = null) {
+        // URLを設定
+        let url = LineApi.PREFIX + '/' + id + LineApi.PREFIX_LINE_TALK_HISTORYS;
+
+        // パラメータを設定
+        let data = {};
+        data.id = id;
+        if (lineTalkHistoryTerm !== null) data.lineTalkHistoryTerm = lineTalkHistoryTerm;
 
         let response = await FetchApi.post(url, data);
         return response;

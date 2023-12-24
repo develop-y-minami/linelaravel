@@ -66,7 +66,7 @@ class LineWebhookController extends Controller
                     
                     // フォローイベント
                     case 'follow':
-                        $this->lineWebhookService->follow($type, $source['userId'], $timestamp);
+                        $this->lineWebhookService->follow($replyToken, $type, $source['userId'], $timestamp);
                         break;
                     // フォロー解除イベント
                     case 'unfollow':
