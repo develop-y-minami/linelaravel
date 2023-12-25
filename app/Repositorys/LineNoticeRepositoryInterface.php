@@ -31,7 +31,8 @@ interface LineNoticeRepositoryInterface
      * @param int    lineNoticeTypeId LINE通知種別
      * @param int    lineId           LINE情報ID
      * @param string content          内容
+     * @param int    lineMessageId    LINEメッセージ情報ID
      * @return LineNotice LINE通知情報
      */
-    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
+    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId = 0);
 }

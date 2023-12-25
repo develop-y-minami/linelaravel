@@ -25,5 +25,6 @@ class LineNotice extends Model
         'line_notice_type_id',
         'line_id',
         'content',
+        'line_message_id',
     ];
 }

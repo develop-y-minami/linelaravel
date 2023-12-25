@@ -13,15 +13,17 @@ class LineTalkHistoryTerm extends Component
     /**
      * __construct
      *
-     * @param string id    id属性に付与する文字列
-     * @param string name  name属性に付与する文字列
-     * @param string class class属性に付与する文字列
+     * @param string id       id属性に付与する文字列
+     * @param string name     name属性に付与する文字列
+     * @param string class 　 class属性に付与する文字列
+     * @param string classBox selectBoxクラスのclass属性に付与する文字列
      * @return void
      */
     public function __construct(
         public readonly string $id = 'selLineTalkHistoryTerm',
         public readonly string $name = '',
-        public readonly string $class = ''
+        public readonly string $class = '',
+        public readonly string $classBox = ''
     )
     {
 

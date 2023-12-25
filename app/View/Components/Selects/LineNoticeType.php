@@ -16,6 +16,7 @@ class LineNoticeType extends Component
      * @param string id               id属性に付与する文字列
      * @param string name             name属性に付与する文字列
      * @param string class            class属性に付与する文字列
+     * @param string classBox         selectBoxクラスのclass属性に付与する文字列
      * @param array  selectItems      選択項目
      * @param string selectedValue    選択値
      * @param string blankItemValue   空項目の選択値
@@ -27,6 +28,7 @@ class LineNoticeType extends Component
         public readonly string $id = '',
         public readonly string $name = '',
         public readonly string $class = '',
+        public readonly string $classBox = '',
         public readonly array $selectItems = array(),
         public readonly string $selectedValue = '0',
         public readonly string $blankItemValue = '0',

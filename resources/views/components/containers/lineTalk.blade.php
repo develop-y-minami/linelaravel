@@ -16,12 +16,18 @@
         </div>
     </header>
     <main>
-        <div class="talkContainer">
+        <div id="{{ $id }}TalkContainer" class="talkContainer">
             <div class="container">
                 <div class="separator">
                     <div></div>
                     <div>2023年12月21日</div>
                     <div></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="labelContainer">
+                    <div class="caption">10時35分50秒</div>
+                    <div class="label">ブロック</div>
                 </div>
             </div>
             <div class="container">

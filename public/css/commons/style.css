@@ -24,6 +24,17 @@ body {
 }
 
 /******************************************************
+*   color
+******************************************************/
+.fc-green { color: var(--colorGreen); }
+.fc-red { color: var(--colorRed); }
+
+/******************************************************
+*   color
+******************************************************/
+.fw-bold { font-weight: bold; }
+
+/******************************************************
 *   input[type=text]
 ******************************************************/
 input[type=text] {
@@ -106,7 +117,6 @@ select:focus {
 }
 
 .selectBox select {
-    width: 100%;
     padding-right: 40px;
 }
 
@@ -122,6 +132,8 @@ select:focus {
     color: var(--colorBlue);
     pointer-events: none;
 }
+
+.selectBox.full, .selectBox.full select { width: 100%; }
 
 /******************************************************
 *   button

@@ -33,7 +33,7 @@ $(function() {
      * LineNoticeGrid
      * 
      */
-    let lineNoticeGrid;
+    let grid;
     /**
      * LINE通知日の入力値
      * 
@@ -70,23 +70,23 @@ $(function() {
     function init() {
         try {
             // インスタンスを生成
-            lineNoticeGrid = new LineNoticeGrid('lineNoticeGrid');
+            grid = new LineNoticeGrid('grid');
 
-            // LINE通知情報の検索条件を設定
-            setLineNoticeConditions();
+            // 検索条件を設定
+            setSearchConditions();
 
             // 通知リストグリッドを初期化
-            lineNoticeGrid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+            grid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
         } catch(error) {
             throw error;
         }
     }
 
     /**
-     * LINE通知情報の検索条件を設定
+     * 検索条件を設定
      * 
      */
-    function setLineNoticeConditions() {
+    function setSearchConditions() {
         // 通知日
         searchLineNoticeDate = null;
         if ($txtSearchLineNoticeDate.val() !== '') {
@@ -117,10 +117,10 @@ $(function() {
      * 
      */
     $btnSearch.on('click', function() {
-        // LINE通知情報の検索条件を設定
-        setLineNoticeConditions();
-        // 通知リストグリッドを設定
-        lineNoticeGrid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+        // 検索条件を設定
+        setSearchConditions();
+        // グリッドを設定
+        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
     });
 
     /**
@@ -128,7 +128,7 @@ $(function() {
      * 
      */
     $btnReload.on('click', function() {
-        // 通知リストグリッドを設定
-        lineNoticeGrid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+        // グリッドを設定
+        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
     });
 });

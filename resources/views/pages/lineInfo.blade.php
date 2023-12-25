@@ -28,6 +28,8 @@
     <script src="{{ asset('js/commons/components/modals/lineOfUserSettingModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/lineLatestUpdateModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/lists/checkList.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/lineNoticeType.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/lineSendMessageType.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     <script src="{{ asset('js/pages/lineInfo.js') }}"></script>
 @endpush

@@ -42,4 +42,14 @@ class StringUtil {
 
         return false;
     }
+
+    /**
+     * 文字列に含まれる改行コードを<br>で置換
+     * 
+     * @param {string} value 文字
+     * @returns {string} 改行コード置き換え後文字列
+     */
+    static replaceNewLine(value) {
+        return value.replace(/\r?\n/g, '<br>');
+    }
 }

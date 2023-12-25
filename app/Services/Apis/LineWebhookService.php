@@ -169,12 +169,13 @@ class LineWebhookService implements LineWebhookServiceInterface
     /**
      * LINE通知情報を登録
      * 
-     * @param string type      タイプ
-     * @param int    lineId    LINE情報ID
-     * @param int    timestamp タイムスタンプ
+     * @param string type          タイプ
+     * @param int    lineId        LINE情報ID
+     * @param int    timestamp     タイムスタンプ
+     * @param int    lineMessageId LINEメッセージ情報ID
      * @return LineNotice LINE通知情報
      */
-    public function createLineNotice($type, $lineId, $timestamp)
+    public function createLineNotice($type, $lineId, $timestamp, $lineMessageId = 0)
     {
         try
         {
@@ -187,7 +188,7 @@ class LineWebhookService implements LineWebhookServiceInterface
             $content = $lineNoticeTypes->content;
 
             // LINE通知情報を取得
-            return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
+            return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId);
         }
         catch (\Exception $e)
         {
@@ -234,9 +235,6 @@ class LineWebhookService implements LineWebhookServiceInterface
                 $line = $this->createLine($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
             }
 
-            // LINE通知情報を作成
-            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
-
             // LINEメッセージ種別を取得
             $messageType = $message['type'];
             $lineMessageType = $this->lineMessageTypeRepository->findByName($messageType);
@@ -245,6 +243,9 @@ class LineWebhookService implements LineWebhookServiceInterface
             $messageId = $message['id'];
             $messageQuoteToken = $message['quoteToken'];
             $lineMessage = $this->lineMessageRepository->create($lineMessageType->id, $messageId, $messageQuoteToken);
+
+            // LINE通知情報を作成
+            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp, $lineMessage->id);
 
             // メッセージタイプに対応する処理を実行
             switch ($lineMessageType->id)

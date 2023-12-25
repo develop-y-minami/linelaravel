@@ -12,4 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class LineTalkHistory extends Model
 {
     use HasFactory;
+    use \App\Traits\Relations\BelongsToLineMessage;
+    use \App\Traits\Relations\BelongsToLineSendMessage;
 }

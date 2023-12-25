@@ -1,4 +1,4 @@
-<div class="selectBox">
+<div class="selectBox {{ $classBox }}">
     <select id="{{ $id }}" class="{{ $class }}" name="{{ $name }}">
         @if ($visibleBlankItem)
             <option value="{{ $blankItemValue }}">{{ $blankItemName }}</option>

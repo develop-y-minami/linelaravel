@@ -22,6 +22,13 @@ class LineTalkHistoryRepository implements LineTalkHistoryRepositoryInterface
     {
         $query = LineTalkHistory::query();
 
+        $query->with([
+            'lineMessage',
+            'lineMessage.lineMessageText',
+            'lineSendMessage',
+            'lineSendMessage.lineSendMessageText',
+        ]);
+
         // LINE情報ID
         $query->whereLineId($id);
 

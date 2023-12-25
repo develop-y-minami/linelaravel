@@ -66,17 +66,6 @@ class LineGrid {
     setColumnDefs() {
         this.gridOptions.columnDefs = [
             {
-                field: 'user.name',
-                headerName: '担当者',
-                cellRenderer : LinkCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.url = params.data.user.id;
-                    result.name = params.data.user.name;
-                    return result;
-                }
-            },
-            {
                 field: 'displayName',
                 headerName: 'LINE',
                 flex: 1,
@@ -110,7 +99,18 @@ class LineGrid {
                     result.labelName = params.data.lineAccountStatus.name;
                     return result;
                 }
-            }
+            },
+            {
+                field: 'user.name',
+                headerName: '担当者',
+                cellRenderer : LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = params.data.user.id;
+                    result.name = params.data.user.name;
+                    return result;
+                }
+            },
         ];
     }
 

@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 /******************************************************
-*   トップページ
+*   共通レイアウト：Gridページ
 ******************************************************/
-.topPageContainer {
+.gridPageContainer {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -15,58 +15,50 @@
 .pageCaption { padding-bottom: 10px; }
 
 /******************************************************
-*   見出しの「LINE」の文言を緑色に設定
+*   メイン
 ******************************************************/
-.pageCaption .comment .line {
-    color: var(--colorGreen);
-    font-weight: bold;
-}
-
-/******************************************************
-*   通知リストコンテナー
-******************************************************/
-.lineNoticeListContainer {
+.gridPageContainer main {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 /******************************************************
-*   通知リスト上部
+*   メイン：上部
 ******************************************************/
-.lineNoticeListContainer .topContainer {
+.gridPageContainer main .topContainer {
     display: flex;
     justify-content: space-between;
 }
 
-.lineNoticeListContainer .topContainer .content {
+.gridPageContainer main .topContainer .content {
     margin: 10px;
 }
 
 /******************************************************
-*   通知リスト検索条件コンテナー
+*   メイン：検索条件コンテナー
 ******************************************************/
-.lineNoticeListContainer .searchContainer {
+.gridPageContainer main .searchContainer {
     flex: 1;
     display: flex;
 }
 
 /******************************************************
-*   通知リスト表示順,リロードボタンコンテナー
+*   メイン：リロードボタンコンテナー
 ******************************************************/
-.lineNoticeListContainer .rightContainer {
+.gridPageContainer main .rightContainer {
     flex: 1;
     display: flex;
     justify-content: flex-end;
 }
 
 /******************************************************
-*   通知リストグリッド
+*   メイン：グリッド
 ******************************************************/
-.lineNoticeListContainer .gridContainer {
+.gridPageContainer main .gridContainer {
     flex: 1;
 }
 
-.lineNoticeListContainer .gridContainer .grid {
+.gridPageContainer main .gridContainer .grid {
     height: 100%;
 }

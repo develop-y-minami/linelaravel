@@ -71,12 +71,12 @@ $(function() {
     function init() {
         try {
             // インスタンスを生成
-            lineGrid = new LineGrid('lineGrid');
+            lineGrid = new LineGrid('grid');
 
-            // LINE情報の検索条件を設定
-            setLineConditions();
+            // 検索条件を設定
+            setSearchConditions();
 
-            // LINEリストグリッドを初期化
+            // グリッドを初期化
             lineGrid.init(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
         } catch(error) {
             throw error;
@@ -87,7 +87,7 @@ $(function() {
      * LINE情報の検索条件を設定
      * 
      */
-    function setLineConditions() {
+    function setSearchConditions() {
         // 担当者セレクトボックス
         searchUser = null;
         if ($selSearchUser.val() !== '0') {
@@ -112,9 +112,9 @@ $(function() {
      * 
      */
     $btnSearch.on('click', function() {
-        // LINE情報の検索条件を設定
-        setLineConditions();
-        // LINEリストグリッドを設定
+        // 検索条件を設定
+        setSearchConditions();
+        // グリッドを設定
         lineGrid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
     });
 
@@ -123,7 +123,7 @@ $(function() {
      * 
      */
     $btnReload.on('click', function() {
-        // LINEリストグリッドを設定
+        // グリッドを設定
         lineGrid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
     });
 });

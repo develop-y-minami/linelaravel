@@ -67,15 +67,17 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
      * @param int    lineNoticeTypeId LINE通知種別
      * @param int    lineId           LINE情報ID
      * @param string content          内容
+     * @param int    lineMessageId    LINEメッセージ情報ID
      * @return LineNotice LINE通知情報
      */
-    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content)
+    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId = 0)
     {
         return LineNotice::create([
             'notice_date_time' => $noticeDateTime,
             'line_notice_type_id' => $lineNoticeTypeId,
             'line_id' => $lineId,
-            'content' => $content
+            'content' => $content,
+            'line_message_id' => $lineMessageId
         ]);
     }
 }

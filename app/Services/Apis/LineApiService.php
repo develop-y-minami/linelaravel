@@ -9,6 +9,7 @@ use App\Jsons\LineApis\Line;
 use App\Jsons\LineApis\LineAccountStatus;
 use App\Jsons\LineApis\LineAccountType;
 use App\Jsons\LineApis\LineTalk;
+use App\Jsons\LineApis\LineTalkContentMessage;
 use App\Jsons\LineApis\LineTalkHistory;
 use App\Jsons\LineApis\User;
 use Carbon\Carbon;
@@ -169,13 +170,37 @@ class LineApiService implements LineApiServiceInterface
                 $saveTalkDate = $talkDate;
             }
 
+            // トークコンテンツを設定
+            $lineTalkContent = null;
+            if ($data->from_to == 'to')
+            {
+                // 受信内容
+                switch ($data->type_id)
+                {
+                    case \LineNoticeType::MESSAGE:
+                        $lineTalkContent = new LineTalkContentMessage($data->lineMessage->lineMessageText->text);
+                        break;
+                }
+            }
+            else if ($data->from_to == 'from')
+            {
+                // 送信内容
+                switch ($data->type_id)
+                {
+                    case \LineSendMessageType::TEXT:
+                        $lineTalkContent = new LineTalkContentMessage($data->lineSendMessage->lineSendMessageText->text);
+                        break;
+                }
+            }
+
             // LINEトーク内容を設定
             $lineTalk = new LineTalk(
                 $data->from_to,
                 $dateTime->toTimeString(),
                 $data->sender,
                 $data->type_id,
-                $data->type_name
+                $data->type_name,
+                $lineTalkContent
             );
 
             // トーク日が切り替わった場合に処理を実行

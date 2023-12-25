@@ -66,17 +66,6 @@ class LineNoticeGrid {
     setColumnDefs() {
         this.gridOptions.columnDefs = [
             {
-                field: 'line.user.name',
-                headerName: '担当者',
-                cellRenderer : LinkCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.url = params.data.line.user.id;
-                    result.name = params.data.line.user.name;
-                    return result;
-                }
-            },
-            {
                 field: 'noticeDateTime',
                 headerName: '通知日時',
                 width: 240,
@@ -130,6 +119,17 @@ class LineNoticeGrid {
                 field: 'content',
                 headerName: '内容',
                 flex: 1
+            },
+            {
+                field: 'line.user.name',
+                headerName: '担当者',
+                cellRenderer : LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = params.data.line.user.id;
+                    result.name = params.data.line.user.name;
+                    return result;
+                }
             },
         ];
     }

@@ -17,6 +17,7 @@
                     <x-selects.user
                         :id='$selUserId'
                         class="large"
+                        classBox="full"
                         blankItemName="未設定"
                         :selectItems='$userSelectItems'
                         :selectedValue='$userSelectedValue'

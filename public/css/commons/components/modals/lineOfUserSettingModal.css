@@ -11,11 +11,6 @@
 .lineOfUserSettingContainer .container:last-child { margin-bottom: 0px; }
 
 /******************************************************
-*   LINE担当者設定モーダル：セレクトボックス
-******************************************************/
-.lineOfUserSettingContainer .selectBox { width: 100%; }
-
-/******************************************************
 *   LINE担当者設定モーダル：ボタン
 ******************************************************/
 .lineOfUserSettingContainer button { width: 100%; }
