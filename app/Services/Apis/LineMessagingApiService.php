@@ -5,6 +5,7 @@ namespace App\Services\Apis;
 use GuzzleHttp\Client;
 use LINE\Clients\MessagingApi\Configuration;
 use LINE\Clients\MessagingApi\Api\MessagingApiApi;
+use LINE\Clients\MessagingApi\Api\MessagingApiBlobApi;
 use LINE\Clients\MessagingApi\Model\ReplyMessageRequest;
 use LINE\Clients\MessagingApi\Model\TextMessage;
 use LINE\Clients\MessagingApi\Model\FlexMessage;
@@ -17,25 +18,15 @@ use App\Jsons\LineMessagingApiApis\BotInfo;
 class LineMessagingApiService implements LineMessagingApiServiceInterface
 {
     /**
-     * チャネルアクセストークン
+     * MessagingApiApi
      * 
      */
-    private $channelAccessToken;
+    protected $messagingApi;
     /**
-     * client
+     * MessagingApiBlobApi
      * 
      */
-    private $client;
-    /**
-     * client
-     * 
-     */
-    private $config;
-    /**
-     * MessagingApi
-     * 
-     */
-    private $messagingApi;
+    protected $messagingApiBlobApi;
 
     /**
      * __construct
@@ -44,11 +35,12 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
      */
     public function __construct($channelAccessToken)
     {
-        $this->channelAccessToken = $channelAccessToken;
-        $this->client = new Client();
-        $this->config = new Configuration();
-        $this->config->setAccessToken($this->channelAccessToken);
-        $this->messagingApi = new MessagingApiApi($this->client, $this->config);
+        $channelAccessToken = $channelAccessToken;
+        $client = new Client();
+        $config = new Configuration();
+        $config->setAccessToken($channelAccessToken);
+        $this->messagingApi = new MessagingApiApi($client, $config);
+        $this->messagingApiBlobApi = new MessagingApiBlobApi($client, $config);
     }
 
     /**
@@ -60,7 +52,7 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
     {
         try
         {
-            // リプライメッセージ送信
+            // ボット情報取得
             $response = $this->messagingApi->getBotInfo();
 
             // ボットの情報を取得
@@ -69,6 +61,27 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
             $pictureUrl = $response->getPictureUrl();
 
             return new BotInfo($basicId, $displayName, $pictureUrl);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    public function getMessageContent($messageId)
+    {
+        try
+        {
+            // メッセージコンテンツを取得
+            $response = $this->messagingApiBlobApi->getMessageContent($messageId);
+
+            // 画像ファイルを取得
+            $imageData = $response->fread($response->getSize());
+
+            // base64形式に変換
+            $image = base64_encode($imageData);
+
+            return $image;
         }
         catch (\Exception $e)
         {

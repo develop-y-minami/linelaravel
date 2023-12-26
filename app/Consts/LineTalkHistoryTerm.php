@@ -14,10 +14,10 @@ class LineTalkHistoryTerm
      */
     public const DAY = ['value' => 1, 'name' => '１日'];
     /**
-     * WEEk
+     * WEEK
      * 
      */
-    public const WEEk = ['value' => 2, 'name' => '１週間'];
+    public const WEEK = ['value' => 2, 'name' => '１週間'];
     /**
      * MONTH
      * 

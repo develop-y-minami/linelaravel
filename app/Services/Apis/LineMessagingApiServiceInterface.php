@@ -14,4 +14,6 @@ interface LineMessagingApiServiceInterface
      * @return LineBotInfo
      */
     public function getBotInfo();
+
+    public function getMessageContent($messageId);
 }

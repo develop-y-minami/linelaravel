@@ -107,7 +107,20 @@ class LineTalkContainer {
                             // LINE通知種別に対応するコンテナーを追加
                             switch (lineTalk.typeId) {
                                 case LineNoticeType.MESSAGE:
-                                    me.addMessageContainer(me, lineTalk.fromTo, [], lineTalk.lineTalkContent.message);
+                                    if (lineTalk.lineTalkContent !== null) {
+                                        switch (lineTalk.lineTalkContent.messageType) {
+                                            case LineMessageType.TEXT :
+                                                // テキスト形式
+                                                me.addMessageContainer(me, lineTalk.fromTo, [], lineTalk.lineTalkContent.message);       
+                                                break;
+                                            case LineMessageType.IMAGE :
+                                                // 画像形式
+                                                let a = 0;
+                                                break;
+                                        }
+                                    } else {
+                                        me.addMessageContainer(me, lineTalk.fromTo, [], null);
+                                    }
                                     break;
                                 case LineNoticeType.UNSEND:
                                 case LineNoticeType.FOLLOW:

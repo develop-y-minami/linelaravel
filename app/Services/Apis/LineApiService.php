@@ -9,7 +9,9 @@ use App\Jsons\LineApis\Line;
 use App\Jsons\LineApis\LineAccountStatus;
 use App\Jsons\LineApis\LineAccountType;
 use App\Jsons\LineApis\LineTalk;
-use App\Jsons\LineApis\LineTalkContentMessage;
+use App\Jsons\LineApis\LineTalkContentImages;
+use App\Jsons\LineApis\LineTalkContentImage;
+use App\Jsons\LineApis\LineTalkContentText;
 use App\Jsons\LineApis\LineTalkHistory;
 use App\Jsons\LineApis\User;
 use Carbon\Carbon;
@@ -18,7 +20,7 @@ use Carbon\Carbon;
  * LineApiService
  * 
  */
-class LineApiService implements LineApiServiceInterface
+class LineApiService extends LineMessagingApiService implements LineApiServiceInterface
 {
     /**
      * LineNoticeSettingRepositoryInterface
@@ -146,6 +148,27 @@ class LineApiService implements LineApiServiceInterface
         // 返却データ
         $result = array();
 
+        $dateTimeFrom = null;
+        $dateTimeTo = null;
+        switch ($lineTalkHistoryTerm)
+        {
+            case \LineTalkHistoryTerm::DAY['value']:
+                // LINEトーク履歴表示期間：１日
+                $dateTimeFrom = Carbon::now()->__toString();
+                $dateTimeTo = Carbon::now()->__toString();
+                break;
+            case \LineTalkHistoryTerm::WEEK['value']:
+                // LINEトーク履歴表示期間：１週間
+                $dateTimeFrom = Carbon::now()->__toString();
+                $dateTimeTo = Carbon::now()->__toString();
+                break;
+            case \LineTalkHistoryTerm::MONTH['value']:
+                // LINEトーク履歴表示期間：１ヵ月
+                $dateTimeFrom = Carbon::now()->__toString();
+                $dateTimeTo = Carbon::now()->__toString();
+                break;
+        }
+
         // トーク日を保持する変数
         $saveTalkDate = '';
 
@@ -156,7 +179,7 @@ class LineApiService implements LineApiServiceInterface
         $count = 0;
 
         // LINEトーク履歴情報を取得
-        $datas = $this->lineTalkHistoryRepository->findByconditions($id, $lineTalkHistoryTerm);
+        $datas = $this->lineTalkHistoryRepository->findByconditions($id, $dateTimeFrom, $dateTimeTo);
         foreach ($datas as $data)
         {
             // 日時を取得
@@ -178,7 +201,24 @@ class LineApiService implements LineApiServiceInterface
                 switch ($data->type_id)
                 {
                     case \LineNoticeType::MESSAGE:
-                        $lineTalkContent = new LineTalkContentMessage($data->lineMessage->lineMessageText->text);
+                        // メッセージの形式を取得
+                        $messageType = $data->lineMessage->line_message_type_id;
+                        switch ($messageType)
+                        {
+                            case \LineMessageType::TEXT :
+                                // テキスト形式
+                                $lineTalkContent = new LineTalkContentText($messageType, $data->lineMessage->lineMessageText->text);
+                                break;
+                            case \LineMessageType::IMAGE :
+                                // 画像形式
+                                $lineTalkContentImage = new LineTalkContentImage($data->lineMessage->lineMessageImage->image);
+
+                                $lineTalkContentImages = array();
+                                $lineTalkContentImages[] = $lineTalkContentImage;
+
+                                $lineTalkContent = new LineTalkContentImages($messageType, $lineTalkContentImages);
+                                break;
+                        }
                         break;
                 }
             }
@@ -188,7 +228,7 @@ class LineApiService implements LineApiServiceInterface
                 switch ($data->type_id)
                 {
                     case \LineSendMessageType::TEXT:
-                        $lineTalkContent = new LineTalkContentMessage($data->lineSendMessage->lineSendMessageText->text);
+                        $lineTalkContent = new LineTalkContentText(1, $data->lineSendMessage->lineSendMessageText->text);
                         break;
                 }
             }

@@ -21,6 +21,7 @@ class LineMessageImageRepository implements LineMessageImageRepositoryInterface
      * @param string imageSetId                        画像セットID
      * @param int    imageSetIndex                     同時に送信した画像セットの中で、何番目の画像かを示す
      * @param int    imageSetTotal                     同時に送信した画像の総数
+     * @param string image                             画像ファイルbase64形式
      * @return LineMessageImage LINEメッセージ画像情報
      */
     public function create(
@@ -30,7 +31,8 @@ class LineMessageImageRepository implements LineMessageImageRepositoryInterface
         $contentProviderPreviewImageUrl,
         $imageSetId,
         $imageSetIndex,
-        $imageSetTotal
+        $imageSetTotal,
+        $image
     )
     {
         return LineMessageImage::create([
@@ -40,7 +42,8 @@ class LineMessageImageRepository implements LineMessageImageRepositoryInterface
             'content_provider_preview_image_url' => $contentProviderPreviewImageUrl,
             'image_set_id' => $imageSetId,
             'image_set_index' => $imageSetIndex,
-            'image_set_total' => $imageSetTotal
+            'image_set_total' => $imageSetTotal,
+            'image' => $image
         ]);
     }
 }

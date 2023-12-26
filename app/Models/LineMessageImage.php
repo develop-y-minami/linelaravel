@@ -24,6 +24,7 @@ class LineMessageImage extends Model
         'content_provider_preview_image_url',
         'image_set_id',
         'image_set_index',
-        'image_set_total'
+        'image_set_total',
+        'image'
     ];
 }

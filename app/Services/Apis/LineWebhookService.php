@@ -23,28 +23,8 @@ use Carbon\Carbon;
  * LineWebhookService
  * 
  */
-class LineWebhookService implements LineWebhookServiceInterface
+class LineWebhookService extends LineMessagingApiService  implements LineWebhookServiceInterface
 {
-    /**
-     * チャネルアクセストークン
-     * 
-     */
-    private $channelAccessToken;
-    /**
-     * client
-     * 
-     */
-    private $client;
-    /**
-     * client
-     * 
-     */
-    private $config;
-    /**
-     * MessagingApi
-     * 
-     */
-    private $messagingApi;
     /**
      * lineMessageImageRepository
      * 
@@ -118,11 +98,7 @@ class LineWebhookService implements LineWebhookServiceInterface
         LineSendMessageTextRepositoryInterface $lineSendMessageTextRepository
     )
     {
-        $this->channelAccessToken = $channelAccessToken;
-        $this->client = new Client();
-        $this->config = new Configuration();
-        $this->config->setAccessToken($this->channelAccessToken);
-        $this->messagingApi = new MessagingApiApi($this->client, $this->config);
+        parent::__construct($channelAccessToken);
         $this->lineMessageImageRepository = $lineMessageImageRepository;
         $this->lineMessageRepository = $lineMessageRepository;
         $this->lineMessageTypeRepository = $lineMessageTypeRepository;
@@ -271,6 +247,10 @@ class LineWebhookService implements LineWebhookServiceInterface
                         $imageSetIndex = $imageSet['index'];
                         $imageSetTotal = $imageSet['total'];
                     }
+
+                    // 画像ファイルをbase64形式で取得
+                    $image = $this->getMessageContent($messageId);
+
                     $this->lineMessageImageRepository->create(
                         $lineMessage->id,
                         $contentProviderType,
@@ -278,7 +258,8 @@ class LineWebhookService implements LineWebhookServiceInterface
                         $contentProviderPreviewImageUrl,
                         $imageSetId,
                         $imageSetIndex,
-                        $imageSetTotal
+                        $imageSetTotal,
+                        $image
                     );
                     break;
             }
@@ -427,7 +408,7 @@ class LineWebhookService implements LineWebhookServiceInterface
         try
         {
             // 送信日時を取得
-            $sendDateTime = Carbon::now()->__toString();
+            $sendDateTime = Carbon::now()->format('Y-m-d H:i:s.v');
 
             // LINE送信メッセージ情報を登録
             $lineSendMessage = $this->lineSendMessageRepository->create(

@@ -3,17 +3,17 @@
 namespace App\Jsons\LineApis;
 
 /**
- * LineTalkContent
+ * LineTalkContentImage
  * 
  */
-class LineTalkContent implements \JsonSerializable
+class LineTalkContentImage
 {
     /**
      * __construct
      * 
-     * @param int messageType メッセージ形式
+     * @param string image 画像ファイルbase64形式
      */
-    public function __construct(public readonly int $messageType)
+    public function __construct(public readonly ?string $image)
     {
 
     }

@@ -3,19 +3,20 @@
 namespace App\Jsons\LineApis;
 
 /**
- * LineTalkContentMessage
+ * LineTalkContentText
  * 
  */
-class LineTalkContentMessage extends LineTalkContent
+class LineTalkContentText extends LineTalkContent
 {
     /**
      * __construct
      * 
+     * @param int 　 messageType メッセージ形式
      * @param string message メッセージ
      */
-    public function __construct(public readonly ?string $message)
+    public function __construct($messageType, public readonly ?string $message)
     {
-
+        parent::__construct($messageType);
     }
 
     /**

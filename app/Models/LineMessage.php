@@ -13,6 +13,7 @@ class LineMessage extends Model
 {
     use HasFactory;
     use \App\Traits\Relations\HasOneLineMessageText;
+    use \App\Traits\Relations\HasOneLineMessageImage;
 
     /**
      * 登録/更新を許可するカラム

@@ -18,6 +18,7 @@ interface LineMessageImageRepositoryInterface
      * @param string imageSetId                        画像セットID
      * @param int    imageSetIndex                     同時に送信した画像セットの中で、何番目の画像かを示す
      * @param int    imageSetTotal                     同時に送信した画像の総数
+     * @param string image                             画像ファイルbase64形式
      * @return LineMessageImage LINEメッセージ画像情報
      */
     public function create(
@@ -27,6 +28,7 @@ interface LineMessageImageRepositoryInterface
         $contentProviderPreviewImageUrl,
         $imageSetId,
         $imageSetIndex,
-        $imageSetTotal
+        $imageSetTotal,
+        $image
     );
 }
