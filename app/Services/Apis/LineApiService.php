@@ -2,7 +2,7 @@
 
 namespace App\Services\Apis;
 
-use App\Repositorys\LineNoticeSettingRepositoryInterface;
+use App\Repositorys\LineOfUserNoticeSettingRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
 use App\Repositorys\LineTalkHistoryRepositoryInterface;
 use App\Jsons\LineApis\Line;
@@ -23,10 +23,10 @@ use Carbon\Carbon;
 class LineApiService extends LineMessagingApiService implements LineApiServiceInterface
 {
     /**
-     * LineNoticeSettingRepositoryInterface
+     * LineOfUserNoticeSettingRepositoryInterface
      * 
      */
-    private $lineNoticeSettingRepository;
+    private $lineOfUserNoticeSettingRepository;
     /**
      * LineRepositoryInterface
      * 
@@ -36,17 +36,17 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     /**
      * __construct
      * 
-     * @param LineNoticeSettingRepositoryInterface lineNoticeSettingRepository
-     * @param LineRepositoryInterface              lineRepository
-     * @param LineTalkHistoryRepositoryInterface   lineTalkHistoryRepository
+     * @param LineOfUserNoticeSettingRepositoryInterface lineOfUserNoticeSettingRepository
+     * @param LineRepositoryInterface                    lineRepository
+     * @param LineTalkHistoryRepositoryInterface         lineTalkHistoryRepository
      */
     public function __construct(
-        LineNoticeSettingRepositoryInterface $lineNoticeSettingRepository,
+        LineOfUserNoticeSettingRepositoryInterface $lineOfUserNoticeSettingRepository,
         LineRepositoryInterface $lineRepository,
         LineTalkHistoryRepositoryInterface $lineTalkHistoryRepository
     )
     {
-        $this->lineNoticeSettingRepository = $lineNoticeSettingRepository;
+        $this->lineOfUserNoticeSettingRepository = $lineOfUserNoticeSettingRepository;
         $this->lineRepository = $lineRepository;
         $this->lineTalkHistoryRepository = $lineTalkHistoryRepository;
     }
@@ -116,13 +116,13 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
                 $this->lineRepository->save($line);
             }
 
-            // LINE通知設定情報を削除
-            $this->lineNoticeSettingRepository->deleteByLineId($id);
+            // LINE担当者通知設定情報を削除
+            $this->lineOfUserNoticeSettingRepository->deleteByLineId($id);
 
             if ($noticeSetting == true)
             {
-                // LINE通知設定情報を作成
-                $this->lineNoticeSettingRepository->inserts($id, $lineNoticeSttings);
+                // LINE担当者通知設定情報を作成
+                $this->lineOfUserNoticeSettingRepository->inserts($id, $lineNoticeSttings);
             }
 
             // コミット

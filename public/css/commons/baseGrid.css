@@ -29,10 +29,10 @@
 .gridPageContainer main .topContainer {
     display: flex;
     justify-content: space-between;
-}
-
-.gridPageContainer main .topContainer .content {
-    margin: 10px;
+    flex-wrap: wrap;
+    padding: 10px 15px;
+    column-gap: 10px;
+    row-gap: 10px;
 }
 
 /******************************************************
@@ -41,15 +41,19 @@
 .gridPageContainer main .searchContainer {
     flex: 1;
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
 }
 
 /******************************************************
 *   メイン：リロードボタンコンテナー
 ******************************************************/
 .gridPageContainer main .rightContainer {
-    flex: 1;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 /******************************************************

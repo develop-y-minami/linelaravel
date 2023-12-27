@@ -4,7 +4,7 @@ namespace App\Services\Webs;
 
 use App\Objects\CheckListItem;
 use App\Objects\SelectItem;
-use App\Repositorys\LineNoticeSettingRepositoryInterface;
+use App\Repositorys\LineOfUserNoticeSettingRepositoryInterface;
 use App\Repositorys\LineNoticeTypeRepositoryInterface;
 
 /**
@@ -14,10 +14,10 @@ use App\Repositorys\LineNoticeTypeRepositoryInterface;
 class LineNoticeTypeService implements LineNoticeTypeServiceInterface
 {
     /**
-     * LineNoticeSettingRepositoryInterface
+     * LineOfUserNoticeSettingRepositoryInterface
      * 
      */
-    private $lineNoticeSettingRepository;
+    private $lineOfUserNoticeSettingRepository;
     /**
      * LineNoticeTypeRepositoryInterface
      * 
@@ -27,15 +27,15 @@ class LineNoticeTypeService implements LineNoticeTypeServiceInterface
     /**
      * __construct
      * 
-     * @param LineNoticeSettingRepositoryInterface lineNoticeSettingRepository
-     * @param LineNoticeTypeRepositoryInterface lineNoticeTypeRepository
+     * @param LineOfUserNoticeSettingRepositoryInterface lineOfUserNoticeSettingRepository
+     * @param LineNoticeTypeRepositoryInterface          lineNoticeTypeRepository
      */
     public function __construct(
-        LineNoticeSettingRepositoryInterface $lineNoticeSettingRepository,
+        LineOfUserNoticeSettingRepositoryInterface $lineOfUserNoticeSettingRepository,
         LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository
     )
     {
-        $this->lineNoticeSettingRepository = $lineNoticeSettingRepository;
+        $this->lineOfUserNoticeSettingRepository = $lineOfUserNoticeSettingRepository;
         $this->lineNoticeTypeRepository = $lineNoticeTypeRepository;
     }
 
@@ -70,8 +70,8 @@ class LineNoticeTypeService implements LineNoticeTypeServiceInterface
         // 返却データ
         $result = array();
 
-        // LINE通知設定情報を取得
-        $lineNoticeSettings = $this->lineNoticeSettingRepository->findByLineId($lineId);
+        // LINE担当者通知設定情報を取得
+        $lineOfUserNoticeSettings = $this->lineOfUserNoticeSettingRepository->findByLineId($lineId);
 
         // LINE通知種別を取得
         $datas = $this->lineNoticeTypeRepository->getAll();
@@ -79,9 +79,9 @@ class LineNoticeTypeService implements LineNoticeTypeServiceInterface
         {
             // チェック状態を設定
             $checked = false;
-            foreach ($lineNoticeSettings as $lineNoticeSetting)
+            foreach ($lineOfUserNoticeSettings as $lineOfUserNoticeSetting)
             {
-                if ($data->id == $lineNoticeSetting->line_notice_type_id)
+                if ($data->id == $lineOfUserNoticeSetting->line_notice_type_id)
                 {
                     $checked = true;
                     break;

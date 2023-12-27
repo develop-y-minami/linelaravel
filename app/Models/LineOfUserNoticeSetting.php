@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * LineNoticeSetting
+ * LineOfUserNoticeSetting
  * 
  */
-class LineNoticeSetting extends Model
+class LineOfUserNoticeSetting extends Model
 {
     use HasFactory;
 }
