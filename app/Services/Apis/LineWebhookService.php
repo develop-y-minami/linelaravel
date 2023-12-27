@@ -2,7 +2,11 @@
 
 namespace App\Services\Apis;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use LINE\Clients\MessagingApi\Model\ReplyMessageRequest;
+use LINE\Clients\MessagingApi\Model\TextMessage;
+use LINE\Clients\MessagingApi\Model\FlexMessage;
 use App\Repositorys\LineMessageImageRepositoryInterface;
 use App\Repositorys\LineMessageRepositoryInterface;
 use App\Repositorys\LineMessageTypeRepositoryInterface;
@@ -12,12 +16,6 @@ use App\Repositorys\LineNoticeTypeRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
 use App\Repositorys\LineSendMessageRepositoryInterface;
 use App\Repositorys\LineSendMessageTextRepositoryInterface;
-use LINE\Clients\MessagingApi\Configuration;
-use LINE\Clients\MessagingApi\Api\MessagingApiApi;
-use LINE\Clients\MessagingApi\Model\ReplyMessageRequest;
-use LINE\Clients\MessagingApi\Model\TextMessage;
-use LINE\Clients\MessagingApi\Model\FlexMessage;
-use Carbon\Carbon;
 
 /**
  * LineWebhookService
@@ -151,7 +149,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      * @param int    lineMessageId LINEメッセージ情報ID
      * @return LineNotice LINE通知情報
      */
-    public function createLineNotice($type, $lineId, $timestamp, $lineMessageId = 0)
+    private function createLineNotice($type, $lineId, $timestamp, $lineMessageId = 0)
     {
         try
         {
@@ -163,8 +161,117 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             $lineNoticeTypeId = $lineNoticeTypes->id;
             $content = $lineNoticeTypes->content;
 
-            // LINE通知情報を取得
+            // LINE通知情報に登録
             return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINEメッセージ情報を登録
+     * 
+     * @param int    lineMessageTypeId LINEメッセージ種別ID
+     * @param array  message           メッセージ情報
+     * @return LineMessage LINEメッセージ情報
+     */
+    private function createLineMessage($lineMessageTypeId, $message) {
+        try
+        {
+            // 登録情報を取得
+            $messageId = \ArrayFacade::getArrayValue($message, 'id');
+            $messageQuoteToken = \ArrayFacade::getArrayValue($message, 'quoteToken');
+            // LINEメッセージ情報に登録
+            return $this->lineMessageRepository->create($lineMessageTypeId, $messageId, $messageQuoteToken);;
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINEメッセージテキスト情報を登録
+     * 
+     * @param int    lineMessageId LINEメッセージ情報ID
+     * @param array  message       メッセージ情報
+     * @return LineMessageText LINEメッセージテキスト情報
+     */
+    private function createLineMessageText($lineMessageId, $message) {
+        try
+        {
+            // 登録情報を取得
+            $text = \ArrayFacade::getArrayValue($message, 'text');
+            // LINEメッセージテキスト情報に登録
+            return $this->lineMessageTextRepository->create($lineMessageId, $text);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINEメッセージ画像情報を登録
+     * 
+     * @param int    lineId        LINE情報ID
+     * @param int    lineMessageId LINEメッセージ情報ID
+     * @param array  message       メッセージ情報
+     * @return LineMessageImage LINEメッセージ画像情報
+     */
+    private function createLineMessageImage($lineId, $lineMessageId, $message) {
+        try
+        {
+            // 登録情報を取得
+            $messageId = \ArrayFacade::getArrayValue($message, 'id');
+            $contentProvider = $message['contentProvider'];
+            $contentProviderType = $contentProvider['type'];
+            $contentProviderOriginalContentUrl = \ArrayFacade::getArrayValue($contentProvider, 'originalContentUrl');
+            $contentProviderPreviewImageUrl = \ArrayFacade::getArrayValue($contentProvider, 'previewImageUrl');
+            $imageSet = \ArrayFacade::getArrayValue($message, 'imageSet');
+            $imageSetId = null;
+            $imageSetIndex = null;
+            $imageSetTotal = null;
+            if ($imageSet != null)
+            {
+                $imageSetId = $imageSet['id'];
+                $imageSetIndex = $imageSet['index'];
+                $imageSetTotal = $imageSet['total'];
+            }
+
+            // 画像ファイル保存先のディレクトリを作成
+            $baseDirectory = config('line.save_file_directory');
+            $lineImageDirectory = $baseDirectory.'/'.$lineId.'/image';
+            if (Storage::exists($lineImageDirectory) == false)
+            {
+                Storage::makeDirectory($lineImageDirectory);
+            }
+
+            // 画像ファイルを取得
+            $image = $this->getMessageContent($messageId);
+
+            // ファイル名を生成
+            $lineImageFileName = $lineImageDirectory.'/'.$lineMessageId.'.png';
+
+            // ファイルを保存
+            Storage::disk('public')->put($lineImageFileName , $image);
+
+            // ファイルパスを設定
+            $lineImageFilePath = 'storage/'.$lineImageFileName;
+
+            // LINEメッセージ画像情報に登録
+            return $this->lineMessageImageRepository->create(
+                $lineMessageId,
+                $contentProviderType,
+                $contentProviderOriginalContentUrl,
+                $contentProviderPreviewImageUrl,
+                $imageSetId,
+                $imageSetIndex,
+                $imageSetTotal,
+                $lineImageFilePath
+            );
         }
         catch (\Exception $e)
         {
@@ -188,19 +295,19 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // sourseタイプを取得
-            $sourceType = $source['type'];
+            $sourceType = \ArrayFacade::getArrayValue($source, 'type');
 
             // idを設定
             $sourceId;
             if ($sourceType == 'user')
             {
                 // ユーザーIDを設定
-                $sourceId = $source['userId'];
+                $sourceId = \ArrayFacade::getArrayValue($source, 'userId');
             }
             else
             {
                 // グループIDを設定
-                $sourceId = $source['groupId'];
+                $sourceId = \ArrayFacade::getArrayValue($source, 'groupId');
             }
 
             // LINE情報を取得
@@ -212,13 +319,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             }
 
             // LINEメッセージ種別を取得
-            $messageType = $message['type'];
+            $messageType = \ArrayFacade::getArrayValue($message, 'type');
             $lineMessageType = $this->lineMessageTypeRepository->findByName($messageType);
 
             // LINEメッセージ情報を登録
-            $messageId = $message['id'];
-            $messageQuoteToken = $message['quoteToken'];
-            $lineMessage = $this->lineMessageRepository->create($lineMessageType->id, $messageId, $messageQuoteToken);
+            $lineMessage = $this->createLineMessage($lineMessageType->id, $message);
 
             // LINE通知情報を作成
             $lineNotice = $this->createLineNotice($type, $line->id, $timestamp, $lineMessage->id);
@@ -228,39 +333,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             {
                 case \LineMessageType::TEXT:
                     // LINEテキストメッセージを登録
-                    $text = $message['text'];
-                    $this->lineMessageTextRepository->create($lineMessage->id, $text);
+                    $this->createLineMessageText($lineMessage->id, $message);
                     break;
                 case \LineMessageType::IMAGE:
                     // LINE画像メッセージを登録
-                    $contentProvider = $message['contentProvider'];
-                    $contentProviderType = $contentProvider['type'];
-                    $contentProviderOriginalContentUrl = \ArrayFacade::getArrayValue($contentProvider, 'originalContentUrl');
-                    $contentProviderPreviewImageUrl = \ArrayFacade::getArrayValue($contentProvider, 'previewImageUrl');
-                    $imageSet = \ArrayFacade::getArrayValue($message, 'imageSet');
-                    $imageSetId = null;
-                    $imageSetIndex = null;
-                    $imageSetTotal = null;
-                    if ($imageSet != null)
-                    {
-                        $imageSetId = $imageSet['id'];
-                        $imageSetIndex = $imageSet['index'];
-                        $imageSetTotal = $imageSet['total'];
-                    }
-
-                    // 画像ファイルをbase64形式で取得
-                    $image = $this->getMessageContent($messageId);
-
-                    $this->lineMessageImageRepository->create(
-                        $lineMessage->id,
-                        $contentProviderType,
-                        $contentProviderOriginalContentUrl,
-                        $contentProviderPreviewImageUrl,
-                        $imageSetId,
-                        $imageSetIndex,
-                        $imageSetTotal,
-                        $image
-                    );
+                    $this->createLineMessageImage($line->id, $lineMessage->id, $message);
                     break;
             }
 
@@ -278,12 +355,13 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     /**
      * フォローイベント時の処理を実行
      * 
+     * @param string mode       チャネル状態
      * @param string replyToken リプライトークン
      * @param string type       タイプ
      * @param string userId     ユーザーID
      * @param int    timestamp  タイムスタンプ
      */
-    public function follow($replyToken, $type, $userId, $timestamp)
+    public function follow($mode, $replyToken, $type, $userId, $timestamp)
     {
         // トランザクション開始
         \DB::beginTransaction();
@@ -310,8 +388,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             // LINE通知情報を作成
             $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
 
-            // リプライメッセージ送信
-            $this->replyFollow($replyToken, $line->id, $line->display_name);
+            if ($mode == \LineChannelMode::ACTIVE)
+            {
+                // リプライメッセージ送信
+                $this->replyFollow($replyToken, $line->id, $line->display_name);
+            }
 
             // コミット
             \DB::commit();

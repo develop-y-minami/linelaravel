@@ -75,13 +75,8 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
             // メッセージコンテンツを取得
             $response = $this->messagingApiBlobApi->getMessageContent($messageId);
 
-            // 画像ファイルを取得
-            $imageData = $response->fread($response->getSize());
-
-            // base64形式に変換
-            $image = base64_encode($imageData);
-
-            return $image;
+            // データを取得
+            return $response->fread($response->getSize());
         }
         catch (\Exception $e)
         {

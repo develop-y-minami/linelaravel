@@ -162,11 +162,13 @@ class LineController extends Controller
             // キャスト
             $lineTalkHistoryTerm = $lineTalkHistoryTerm == null ? null : (int)$lineTalkHistoryTerm;
 
+            // LINE情報を取得
+            $line = $this->lineApiServiceInterface->getLine((int)$id);
             // LINEトーク履歴を取得
             $talkHistorys = $this->lineApiServiceInterface->talkHistorys((int)$id, $lineTalkHistoryTerm);
 
             // レスポンスデータを生成
-            $response = new TalkHistorysResponse($talkHistorys);
+            $response = new TalkHistorysResponse($line, $talkHistorys);
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($response);

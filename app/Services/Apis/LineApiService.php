@@ -52,6 +52,28 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     }
 
     /**
+     * LINE情報を取得
+     * 
+     * @param int id ID
+     * @return Line LINE情報
+     */
+    public function getLine($id)
+    {
+        // LINE情報を取得
+        $data = $this->lineRepository->findById($id);
+        // ユーザー情報を設定
+        $user = new User($data->user->id, $data->user->name);
+        // LINEアカウント状態を設定
+        $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
+        // LINEアカウント種別を設定
+        $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
+        // LINE情報を設定
+        $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $user);
+
+        return $line;
+    }
+
+    /**
      * LINE情報を返却
      * 
      * @param int    lineAccountTypeId   LINEアカウント種別
@@ -211,7 +233,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
                                 break;
                             case \LineMessageType::IMAGE :
                                 // 画像形式
-                                $lineTalkContentImage = new LineTalkContentImage($data->lineMessage->lineMessageImage->image);
+                                $lineTalkContentImage = new LineTalkContentImage($data->lineMessage->lineMessageImage->file_path);
 
                                 $lineTalkContentImages = array();
                                 $lineTalkContentImages[] = $lineTalkContentImage;

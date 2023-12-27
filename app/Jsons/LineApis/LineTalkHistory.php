@@ -11,8 +11,8 @@ class LineTalkHistory implements \JsonSerializable
     /**
      * __construct
      * 
-     * @param string talkDate  日付
-     * @param array  lineTalks トーク内容一覧
+     * @param string talkDate        日付
+     * @param array  lineTalks       トーク内容一覧
      */
     public function __construct(public readonly string $talkDate, public readonly array $lineTalks)
     {

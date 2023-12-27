@@ -11,9 +11,9 @@ class LineTalkContentImage
     /**
      * __construct
      * 
-     * @param string image 画像ファイルbase64形式
+     * @param string image 画像ファイルパス
      */
-    public function __construct(public readonly ?string $image)
+    public function __construct(public readonly ?string $filePath)
     {
 
     }

@@ -25,6 +25,6 @@ class LineMessageImage extends Model
         'image_set_id',
         'image_set_index',
         'image_set_total',
-        'image'
+        'file_path'
     ];
 }

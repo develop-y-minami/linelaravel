@@ -188,6 +188,7 @@ return [
         'LiffPageType' =>  App\Consts\LiffPageType::class,
         'LineAccountType' =>  App\Consts\LineAccountType::class,
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
+        'LineChannelMode' =>  App\Consts\LineChannelMode::class,
         'LineMessageType' =>  App\Consts\LineMessageType::class,
         'Personality' =>  App\Consts\Personality::class,
         'LineNoticeType' =>  App\Consts\LineNoticeType::class,

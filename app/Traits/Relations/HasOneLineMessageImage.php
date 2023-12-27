@@ -26,7 +26,7 @@ trait HasOneLineMessageImage
             $model->image_set_id = null;
             $model->image_set_index = 0;
             $model->image_set_total = 0;
-            $model->image = null;
+            $model->file_path = null;
         });
     }
 }

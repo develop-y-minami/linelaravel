@@ -28,6 +28,7 @@
     <script src="{{ asset('js/commons/components/modals/lineOfUserSettingModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/lineLatestUpdateModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/lists/checkList.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/lineAccountType.js') }}"></script>
     <script src="{{ asset('js/commons/consts/lineMessageType.js') }}"></script>
     <script src="{{ asset('js/commons/consts/lineNoticeType.js') }}"></script>
     <script src="{{ asset('js/commons/consts/lineSendMessageType.js') }}"></script>

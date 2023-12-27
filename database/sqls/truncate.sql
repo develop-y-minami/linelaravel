@@ -1,6 +1,8 @@
 truncate linelaravel.line_message_images;
 truncate linelaravel.line_message_texts;
 truncate linelaravel.line_messages;
+truncate linelaravel.line_send_messages;
+truncate linelaravel.line_send_message_texts;
 truncate linelaravel.line_notices;
 truncate linelaravel.line_user_corporates;
 truncate linelaravel.line_user_individuals;

@@ -21,12 +21,13 @@ interface LineWebhookServiceInterface
     /**
      * フォローイベント時の処理を実行
      * 
+     * @param string mode       チャネル状態
      * @param string replyToken リプライトークン
      * @param string type       タイプ
      * @param string userId     ユーザーID
      * @param int    timestamp  タイムスタンプ
      */
-    public function follow($replyToken, $type, $userId, $timestamp);
+    public function follow($mode, $replyToken, $type, $userId, $timestamp);
 
     /**
      * フォロー解除イベント時の処理を実行

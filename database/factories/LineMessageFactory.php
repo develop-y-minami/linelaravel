@@ -20,7 +20,7 @@ class LineMessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => 'text',
+            'line_message_type_id' => 1,
             'message_id' => fake()->uuid(),
             'quote_token' => fake()->uuid()
         ];

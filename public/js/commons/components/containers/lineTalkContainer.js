@@ -88,6 +88,7 @@ class LineTalkContainer {
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // データを取得
                 let lineTalkHistorys = result.data.lineTalkHistorys;
+                let line = result.data.line;
 
                 for (let i = 0; i < lineTalkHistorys.length; i++) {
                     // データを取得
@@ -111,7 +112,7 @@ class LineTalkContainer {
                                         switch (lineTalk.lineTalkContent.messageType) {
                                             case LineMessageType.TEXT :
                                                 // テキスト形式
-                                                me.addMessageContainer(me, lineTalk.fromTo, [], lineTalk.lineTalkContent.message);       
+                                                me.addMessageContainer(me, line, lineTalk);       
                                                 break;
                                             case LineMessageType.IMAGE :
                                                 // 画像形式
@@ -119,7 +120,7 @@ class LineTalkContainer {
                                                 break;
                                         }
                                     } else {
-                                        me.addMessageContainer(me, lineTalk.fromTo, [], null);
+                                        me.addMessageContainer(me, line, lineTalk);
                                     }
                                     break;
                                 case LineNoticeType.UNSEND:
@@ -154,15 +155,10 @@ class LineTalkContainer {
                         } else if (lineTalk.fromTo === 'from') {
                             switch (lineTalk.typeId) {
                                 case LineSendMessageType.TEXT:
-                                    me.addMessageContainer(me, lineTalk.fromTo, [], lineTalk.lineTalkContent.message);
+                                    me.addMessageContainer(me, line, lineTalk);
                                     break;
                             }
                         }
-                        //let captions = [];
-                        //captions.push(lineTalk.sender);
-                        //captions.push(lineTalk.sendTime);
-
-                        //me.addMessageContainer(me, lineTalk.fromTo, captions, 'aaaaa');
                     }
                 }
 
@@ -203,17 +199,32 @@ class LineTalkContainer {
         me.$talkContainer.append(html);
     }
 
-    addMessageContainer(me, fromTo, captions, message) {
+    addMessageContainer(me, line, lineTalk) {
+        let fromTo = lineTalk.fromTo;
+        let sender = lineTalk.sender;
+        let message = lineTalk.lineTalkContent.message;
+
         let html = '';
         html += '<div class="container">';
         html += '<div class="messageContainer ' + fromTo + '">';
         html += '<div class="caption">';
-        for (let i = 0; i < captions.length; i++) {
-            html += '<div>' + captions[i] + '</div>';
+        if (fromTo === 'to') {
+            if (line.lineAccountType.id === LineAccountType.GROUP) {
+                // グループトークの場合は送信者を表示
+                html += '<div>' + sender + '</div>';
+            }
+            // 送信日時を表示
+            html += '<div>' + DateTimeUtil.convertJpTime(lineTalk.sendTime) + '</div>';
+        } else if (fromTo === 'from') {
+            // 送信者を表示
+            html += '<div>' + sender + '</div>';
+            // 送信日時を表示
+            html += '<div>' + DateTimeUtil.convertJpTime(lineTalk.sendTime) + '</div>';
         }
         html += '</div>';
         html += '<div class="messageBox">';
         if (message == null) {
+            // メッセージが存在しない場合はエラー
             html += '<div class="message fc-red fw-bold">メッセージ履歴の保存に失敗</div>';
         } else {
             html += '<div class="message">' + StringUtil.replaceNewLine(message) + '</div>';

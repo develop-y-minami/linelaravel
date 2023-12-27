@@ -49,6 +49,8 @@ class LineWebhookController extends Controller
             {
                 // webhookイベントのタイプを取得
                 $type = $event['type'];
+                // チャネル状態を取得
+                $mode = \ArrayFacade::getArrayValue($event, 'mode');
                 // 応答トークンを取得
                 $replyToken = \ArrayFacade::getArrayValue($event, 'replyToken');
                 // タイムスタンプを取得
@@ -66,7 +68,7 @@ class LineWebhookController extends Controller
                     
                     // フォローイベント
                     case 'follow':
-                        $this->lineWebhookService->follow($replyToken, $type, $source['userId'], $timestamp);
+                        $this->lineWebhookService->follow($mode, $replyToken, $type, $source['userId'], $timestamp);
                         break;
                     // フォロー解除イベント
                     case 'unfollow':
