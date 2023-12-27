@@ -116,7 +116,12 @@ class LineTalkContainer {
                                                 break;
                                             case LineMessageType.IMAGE :
                                                 // 画像形式
-                                                let a = 0;
+                                                if (lineTalk.lineTalkContent.images.length > 1) {
+
+                                                } else {
+                                                    // 画像を追加
+                                                    me.addImageContainer(me, line, lineTalk);
+                                                }
                                                 break;
                                         }
                                     } else {
@@ -177,6 +182,7 @@ class LineTalkContainer {
      * @param {string} display 表示文字列
      */
     addSeparator(me, caption) {
+        // HTML生成
         let html = '';
         html += '<div class="container">';
         html += '<div class="separator">';
@@ -185,10 +191,21 @@ class LineTalkContainer {
         html += '<div></div>';
         html += '</div>';
         html += '</div>';
+
+        // コンテナーに追加
         me.$talkContainer.append(html);
     }
 
+    /**
+     * トークコンテナーにラベルを追加
+     * 
+     * @param {class}  me      this
+     * @param {string} caption 見出し
+     * @param {string} label   表示名
+     * @param {string} color   ラベルカラー 
+     */
     addLabelContainer(me, caption, label, color = '') {
+        // HTML生成
         let html = '';
         html += '<div class="container">';
         html += '<div class="labelContainer">';
@@ -196,32 +213,33 @@ class LineTalkContainer {
         html += '<div class="label ' + color + '">' + label + '</div>';
         html += '</div>';
         html += '</div>';
+
+        // コンテナーに追加
         me.$talkContainer.append(html);
     }
 
+    /**
+     * トークコンテナーにメッセージを追加
+     * 
+     * @param {class}  me       this
+     * @param {object} line     LINE情報
+     * @param {object} lineTalk LINEトーク情報
+     */
     addMessageContainer(me, line, lineTalk) {
         let fromTo = lineTalk.fromTo;
         let sender = lineTalk.sender;
+        let sendTime = lineTalk.sendTime;
         let message = lineTalk.lineTalkContent.message;
 
+        // HTML生成
         let html = '';
         html += '<div class="container">';
         html += '<div class="messageContainer ' + fromTo + '">';
-        html += '<div class="caption">';
-        if (fromTo === 'to') {
-            if (line.lineAccountType.id === LineAccountType.GROUP) {
-                // グループトークの場合は送信者を表示
-                html += '<div>' + sender + '</div>';
-            }
-            // 送信日時を表示
-            html += '<div>' + DateTimeUtil.convertJpTime(lineTalk.sendTime) + '</div>';
-        } else if (fromTo === 'from') {
-            // 送信者を表示
-            html += '<div>' + sender + '</div>';
-            // 送信日時を表示
-            html += '<div>' + DateTimeUtil.convertJpTime(lineTalk.sendTime) + '</div>';
-        }
-        html += '</div>';
+
+        // 見出し部のHTMLを取得
+        html += me.getCaptionHtml(fromTo, line.lineAccountType.id, sender, sendTime);
+
+        // メッセージ部のHTMLを生成
         html += '<div class="messageBox">';
         if (message == null) {
             // メッセージが存在しない場合はエラー
@@ -232,7 +250,72 @@ class LineTalkContainer {
         html += '</div>';
         html += '</div>';
         html += '</div>';
+
+        // コンテナーに追加
         me.$talkContainer.append(html);
+    }
+
+    /**
+     * トークコンテナーに画像を追加
+     * 
+     * @param {class}  me       this
+     * @param {object} line     LINE情報
+     * @param {object} lineTalk LINEトーク情報
+     */
+    addImageContainer(me, line, lineTalk) {
+        let fromTo = lineTalk.fromTo;
+        let sender = lineTalk.sender;
+        let sendTime = lineTalk.sendTime;
+        let image = lineTalk.lineTalkContent.images[0];
+
+        // HTML生成
+        let html = '';
+        html += '<div class="container">';
+        html += '<div class="imageContainer ' + fromTo + '">';
+        
+        // 見出し部のHTMLを取得
+        html += me.getCaptionHtml(fromTo, line.lineAccountType.id, sender, sendTime);
+
+        // 画像部のHTMLを生成
+        html += '<div class="imageBox">';
+        html += '<img src="/' + image.filePath +'">';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        // コンテナーに追加
+        me.$talkContainer.append(html);
+    }
+
+    /**
+     * 見出し部のHTMLを生成
+     * 
+     * @param {string} fromTo          FROM/TO
+     * @param {int}    lineAccountType LINEアカウント種別
+     * @param {string} sender          送信者
+     * @param {string} sendTime        送信日時
+     * @returns {string} HTML
+     */
+    getCaptionHtml(fromTo, lineAccountType, sender, sendTime) {
+        // HTML生成
+        let html = '';
+        html += '<div class="caption">';
+        if (fromTo === 'to') {
+            if (lineAccountType === LineAccountType.GROUP) {
+                // グループトークの場合は送信者を表示
+                html += '<div>' + sender + '</div>';
+            }
+            // 送信日時を表示
+            html += '<div>' + DateTimeUtil.convertJpTime(sendTime) + '</div>';
+        } else if (fromTo === 'from') {
+            // 送信者を表示
+            html += '<div>' + sender + '</div>';
+            // 送信日時を表示
+            html += '<div>' + DateTimeUtil.convertJpTime(sendTime) + '</div>';
+        }
+        html += '</div>';
+        
+        return html;
     }
 
     /**

@@ -46,16 +46,16 @@ interface LineRepositoryInterface
      * @param string accountId           LINEアカウントID
      * @param string displayName         LINE表示名
      * @param string pictureUrl          LINEプロフィール画像URL
-     * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
+     * @param int    lineAccountTypeId   LINEアカウント種別
      * @return Line LINE情報
      */
     public function create(
         $accountId,
         $displayName,
         $pictureUrl,
-        $lineAccountTypeId,
-        $lineAccountStatusId
+        $lineAccountStatusId,
+        $lineAccountTypeId
     );
 
     /**

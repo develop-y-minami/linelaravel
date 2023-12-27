@@ -90,24 +90,24 @@ class LineRepository implements LineRepositoryInterface
      * @param string accountId           LINEアカウントID
      * @param string displayName         LINE表示名
      * @param string pictureUrl          LINEプロフィール画像URL
-     * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
+     * @param int    lineAccountTypeId   LINEアカウント種別
      * @return Line LINE情報
      */
     public function create(
         $accountId,
         $displayName,
         $pictureUrl,
-        $lineAccountTypeId,
-        $lineAccountStatusId
+        $lineAccountStatusId,
+        $lineAccountTypeId
     )
     {
         return Line::create([
             'account_id' => $accountId,
             'display_name' => $displayName,
             'picture_url' => $pictureUrl,
+            'line_account_status_id' => $lineAccountStatusId,
             'line_account_type_id' => $lineAccountTypeId,
-            'line_account_status_id' => $lineAccountStatusId
         ]);
     }
 

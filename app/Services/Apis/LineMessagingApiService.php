@@ -68,6 +68,12 @@ class LineMessagingApiService implements LineMessagingApiServiceInterface
         }
     }
 
+    /**
+     * メッセージコンテンツを取得
+     * 
+     * @param string messageId メッセージID
+     * @return string メッセージコンテンツ
+     */
     public function getMessageContent($messageId)
     {
         try
