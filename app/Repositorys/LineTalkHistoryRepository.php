@@ -34,6 +34,12 @@ class LineTalkHistoryRepository implements LineTalkHistoryRepositoryInterface
         // LINE情報ID
         $query->whereLineId($id);
 
+        // LINEトーク履歴表示期間：FROM
+        if ($dateTimeFrom != null) $query->where('date_time', '>=', $dateTimeFrom);
+
+        // LINEトーク履歴表示期間：TO
+        if ($dateTimeTo != null) $query->where('date_time', '<=', $dateTimeTo);
+
         return $query->get();
     }
 }

@@ -185,18 +185,18 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         {
             case \LineTalkHistoryTerm::DAY['value']:
                 // LINEトーク履歴表示期間：１日
-                $dateTimeFrom = Carbon::now()->__toString();
-                $dateTimeTo = Carbon::now()->__toString();
+                $dateTimeFrom = Carbon::today()->__toString();
+                $dateTimeTo = Carbon::today()->__toString();
                 break;
             case \LineTalkHistoryTerm::WEEK['value']:
                 // LINEトーク履歴表示期間：１週間
-                $dateTimeFrom = Carbon::now()->__toString();
-                $dateTimeTo = Carbon::now()->__toString();
+                $dateTimeFrom = Carbon::today()->subWeek(1)->__toString();
+                $dateTimeTo = Carbon::today()->endOfDay()->__toString();
                 break;
             case \LineTalkHistoryTerm::MONTH['value']:
                 // LINEトーク履歴表示期間：１ヵ月
-                $dateTimeFrom = Carbon::now()->__toString();
-                $dateTimeTo = Carbon::now()->__toString();
+                $dateTimeFrom = Carbon::today()->subMonth(1)->__toString();
+                $dateTimeTo = Carbon::today()->endOfDay()->__toString();
                 break;
         }
 
