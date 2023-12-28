@@ -117,7 +117,8 @@ class LineTalkContainer {
                                             case LineMessageType.IMAGE :
                                                 // 画像形式
                                                 if (lineTalk.lineTalkContent.images.length > 1) {
-
+                                                    // 画像（複数）を追加
+                                                    me.addImagesContainer(me, line, lineTalk);
                                                 } else {
                                                     // 画像を追加
                                                     me.addImageContainer(me, line, lineTalk);
@@ -278,7 +279,41 @@ class LineTalkContainer {
 
         // 画像部のHTMLを生成
         html += '<div class="imageBox">';
-        html += '<img src="/' + image.filePath +'">';
+        html += '<a class="imgLink" href="/' + image.filePath +'"><img src="/' + image.filePath +'"></a>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        // コンテナーに追加
+        me.$talkContainer.append(html);
+    }
+
+    /**
+     * トークコンテナーに画像（複数）を追加
+     * 
+     * @param {class}  me       this
+     * @param {object} line     LINE情報
+     * @param {object} lineTalk LINEトーク情報
+     */
+    addImagesContainer(me, line, lineTalk) {
+        let fromTo = lineTalk.fromTo;
+        let sender = lineTalk.sender;
+        let sendTime = lineTalk.sendTime;
+        let images = lineTalk.lineTalkContent.images;
+
+        // HTML生成
+        let html = '';
+        html += '<div class="container">';
+        html += '<div class="imageContainer ' + fromTo + '">';
+        
+        // 見出し部のHTMLを取得
+        html += me.getCaptionHtml(fromTo, line.lineAccountType.id, sender, sendTime);
+
+        // 画像部のHTMLを生成
+        html += '<div class="imageBoxs">';
+        for (let i = 0; i < images.length; i++) {
+            html += '<a class="imgLink" href="/' + images[i].filePath +'"><img src="/' + images[i].filePath +'"></a>';
+        }
         html += '</div>';
         html += '</div>';
         html += '</div>';

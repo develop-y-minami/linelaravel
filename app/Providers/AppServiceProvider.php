@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Apis\LineApiServiceInterface::class,
             function ($app) {
                 return new \App\Services\Apis\LineApiService(
+                    $app->make(\App\Repositorys\LineMessageImageRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineOfUserNoticeSettingRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineTalkHistoryRepositoryInterface::class)

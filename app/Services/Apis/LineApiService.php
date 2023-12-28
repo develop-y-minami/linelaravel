@@ -2,6 +2,7 @@
 
 namespace App\Services\Apis;
 
+use App\Repositorys\LineMessageImageRepositoryInterface;
 use App\Repositorys\LineOfUserNoticeSettingRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
 use App\Repositorys\LineTalkHistoryRepositoryInterface;
@@ -23,6 +24,11 @@ use Carbon\Carbon;
 class LineApiService extends LineMessagingApiService implements LineApiServiceInterface
 {
     /**
+     * LineMessageImageRepositoryInterface
+     * 
+     */
+    private $lineMessageImageRepository;
+    /**
      * LineOfUserNoticeSettingRepositoryInterface
      * 
      */
@@ -36,16 +42,19 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     /**
      * __construct
      * 
+     * @param LineMessageImageRepositoryInterface        lineMessageImageRepository
      * @param LineOfUserNoticeSettingRepositoryInterface lineOfUserNoticeSettingRepository
      * @param LineRepositoryInterface                    lineRepository
      * @param LineTalkHistoryRepositoryInterface         lineTalkHistoryRepository
      */
     public function __construct(
+        LineMessageImageRepositoryInterface $lineMessageImageRepository,
         LineOfUserNoticeSettingRepositoryInterface $lineOfUserNoticeSettingRepository,
         LineRepositoryInterface $lineRepository,
         LineTalkHistoryRepositoryInterface $lineTalkHistoryRepository
     )
     {
+        $this->lineMessageImageRepository = $lineMessageImageRepository;
         $this->lineOfUserNoticeSettingRepository = $lineOfUserNoticeSettingRepository;
         $this->lineRepository = $lineRepository;
         $this->lineTalkHistoryRepository = $lineTalkHistoryRepository;
@@ -197,6 +206,9 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         // トーク内容を保持する変数
         $saveLineTalks = [];
 
+        // LINEメッセージ画像情報のimage_set_idを保持
+        $existsImageSetIds = [];
+
         // カウンター
         $count = 0;
 
@@ -233,10 +245,39 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
                                 break;
                             case \LineMessageType::IMAGE :
                                 // 画像形式
-                                $lineTalkContentImage = new LineTalkContentImage($data->lineMessage->lineMessageImage->file_path);
-
                                 $lineTalkContentImages = array();
-                                $lineTalkContentImages[] = $lineTalkContentImage;
+
+                                // image_set_idを保持
+                                $imageSetId = $data->lineMessage->lineMessageImage->image_set_id;
+
+                                if ($imageSetId == null)
+                                {
+                                    // LINEメッセージ画像情報を設定
+                                    $lineTalkContentImage = new LineTalkContentImage($data->lineMessage->lineMessageImage->file_path);
+                                    $lineTalkContentImages[] = $lineTalkContentImage;
+                                }
+                                else
+                                {
+                                    // 画像同時送信の場合
+                                    if (in_array($imageSetId, $existsImageSetIds))
+                                    {
+                                        // 既に処理済みの画像の為、スキップ
+                                        continue 3;
+                                    }
+                                    else
+                                    {
+                                        // image_set_idを配列に追加
+                                        $existsImageSetIds[] = $imageSetId;
+
+                                        // 同一image_set_idのデータを取得
+                                        $lineMessageImages = $this->lineMessageImageRepository->findByImageSetId($imageSetId);
+                                        foreach ($lineMessageImages as $lineMessageImage)
+                                        {
+                                            $lineTalkContentImage = new LineTalkContentImage($lineMessageImage->file_path);
+                                            $lineTalkContentImages[] = $lineTalkContentImage;
+                                        }
+                                    }
+                                }
 
                                 $lineTalkContent = new LineTalkContentImages($messageType, $lineTalkContentImages);
                                 break;

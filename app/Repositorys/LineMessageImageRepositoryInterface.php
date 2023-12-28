@@ -9,7 +9,15 @@ namespace App\Repositorys;
 interface LineMessageImageRepositoryInterface
 {
     /**
-     * LINEメッセージ情報を登録
+     * LINEメッセージ画像情報を取得
+     * 
+     * @param string imageSetId image_set_id
+     * @return Collection LINEメッセージ画像情報
+     */
+    public function findByImageSetId($imageSetId);
+    
+    /**
+     * LINEメッセージ画像情報を登録
      * 
      * @param int    lineMessageId                     LINEメッセージ情報ID
      * @param string contentProviderType               画像ファイルの提供元
