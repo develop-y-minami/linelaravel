@@ -30,10 +30,10 @@ $(function() {
      */
     let $btnReload = $('#btnReload');
     /**
-     * LineGrid
+     * Grid
      * 
      */
-    let lineGrid;
+    let grid;
     /**
      * LINEアカウント種別ID
      * 
@@ -71,13 +71,13 @@ $(function() {
     function init() {
         try {
             // インスタンスを生成
-            lineGrid = new LineGrid('grid');
+            grid = new LineGrid('grid');
 
             // 検索条件を設定
             setSearchConditions();
 
             // グリッドを初期化
-            lineGrid.init(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
+            grid.init(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
         } catch(error) {
             throw error;
         }
@@ -115,7 +115,7 @@ $(function() {
         // 検索条件を設定
         setSearchConditions();
         // グリッドを設定
-        lineGrid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
+        grid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
     });
 
     /**
@@ -124,6 +124,6 @@ $(function() {
      */
     $btnReload.on('click', function() {
         // グリッドを設定
-        lineGrid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
+        grid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchUser);
     });
 });

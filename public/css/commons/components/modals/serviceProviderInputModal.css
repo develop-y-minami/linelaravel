@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+/******************************************************
+*   LINE最新情報更新モーダル
+******************************************************/
+.modalServiceProviderInput {
+    position: relative;
+    width: 500px;
+}
+
+.modalServiceProviderInput .row {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.modalServiceProviderInput .errorMessage { margin-bottom: 20px; }
+
+.modalServiceProviderInput .row:last-child { margin-bottom: 0px; }
+
+.modalServiceProviderInput .row button { width: 100%; }

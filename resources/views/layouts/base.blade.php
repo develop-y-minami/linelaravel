@@ -24,6 +24,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
         {{--共通JavaScript--}}
+        <script src="{{ asset('js/commons/consts/editMode.js') }}"></script>
         <script src="{{ asset('js/commons/utils/dateTimeUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/stringUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/arrayUtil.js') }}"></script>
@@ -94,6 +95,7 @@
                         <li class="menu parent"><a href="">設定</a></li>
                         <li class="menu child"><a href="">マスタ設定</a></li>
                         <li class="menu child"><a href="">担当者設定</a></li>
+                        <li class="menu child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
                         <li class="menu child"><a href="">システム設定</a></li>
                     </ul>
                 </div>

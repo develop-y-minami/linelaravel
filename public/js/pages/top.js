@@ -30,7 +30,7 @@ $(function() {
      */
     let $btnReload = $('#btnReload');
     /**
-     * LineNoticeGrid
+     * Grid
      * 
      */
     let grid;

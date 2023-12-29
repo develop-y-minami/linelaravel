@@ -31,12 +31,9 @@
                 {{--検索条件--}}
                 <div class="searchContainer">
                     @yield('searchConditions')
-                    {{--検索ボタン--}}
-                    <div class="content">
-                        <button id="btnSearch" class="blue">検索</button>
-                    </div>
                 </div>
                 <div class="rightContainer">
+                    @yield('rightContents')
                     {{--リロードボタン--}}
                     <div class="content">
                         <x-buttons.reload id="btnReload"></x-buttons.reload>
@@ -49,5 +46,11 @@
                 <div id="grid" class="grid ag-theme-material"></div>
             </div>
         </main>
+
+        <div id="overlay" class="overlay">
+            <div class="container">
+                @yield('overlayContents')
+            </div>
+        </div>
     </div>
 @endsection

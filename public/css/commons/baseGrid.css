@@ -4,6 +4,7 @@
 *   共通レイアウト：Gridページ
 ******************************************************/
 .gridPageContainer {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -54,6 +55,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
 }
 
 /******************************************************

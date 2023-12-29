@@ -39,6 +39,10 @@
 {{--表示コンテンツ：LINE情報ページ--}}
 @section('page')
     <div class="lineInfoPageContainer">
+        <div class="serviceProviderContainer">
+            <div>サービス提供者：</div>
+        </div>
+
         <div class="splitContainer">
             {{--LINE情報コンテナー--}}
             <x-containers.lineInfo

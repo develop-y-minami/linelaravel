@@ -185,6 +185,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'EditMode' =>  App\Consts\EditMode::class,
+        'Length' =>  App\Consts\Length::class,
         'LiffPageType' =>  App\Consts\LiffPageType::class,
         'LineAccountType' =>  App\Consts\LineAccountType::class,
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,
@@ -195,6 +197,7 @@ return [
         'LineSendMessageOrigin' =>  App\Consts\LineSendMessageOrigin::class,
         'LineSendMessageType' =>  App\Consts\LineSendMessageType::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
+        'ServiceProviderUseStop' =>  App\Consts\ServiceProviderUseStop::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
         'StringFacade' => App\Facades\StringFacadeClass::class,
     ])->toArray(),

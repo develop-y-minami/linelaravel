@@ -33,4 +33,8 @@
     <div class="content">
         <input type="text" id="txtSearchLineDisplayName" placeholder="LINEを入力">
     </div>
+    {{--検索ボタン--}}
+    <div class="content">
+        <button id="btnSearch" class="blue">検索</button>
+    </div>
 @endsection

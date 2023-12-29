@@ -5,6 +5,27 @@
 class DateTimeUtil {
 
     /**
+     * 現在日付（yyyy-mm-dd）を取得
+     * 
+     * @returns {string} 現在日付
+     */
+    static getToday() {
+        let result = '';
+
+        // Date型に変換
+        let dateTime = new Date();
+        let year = dateTime.getFullYear();
+        let month = dateTime.getMonth() + 1;
+        let date = dateTime.getDate();
+
+        result += year + '-';
+        result += StringUtil.zeroPadding(month, 2) + '-';
+        result += StringUtil.zeroPadding(date, 2);
+
+        return result;
+    }
+
+    /**
      * yyyy年mm月dd日に変換
      * 
      * @param {string} strDate 日時文字列
