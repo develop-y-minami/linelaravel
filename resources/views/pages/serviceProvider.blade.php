@@ -7,12 +7,16 @@
 {{--CSS--}}
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderUserRegisterModal.css') }}">
 @endpush
 
 @push('js')
+    <script src="{{ asset('js/commons/consts/userType.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    <script src="{{ asset('js/commons/components/modals/serviceProviderUserRegisterModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
+    <script src="{{ asset('js/apis/userApi.js') }}"></script>
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
 
@@ -59,4 +63,8 @@
 @section('overlayContents')
     {{--サービス提供者入力モーダル--}}
     <x-modals.serviceProviderInput></x-modals.serviceProviderInput>
+    {{--確認モーダル--}}
+    <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
+    {{--サービス提供者ユーザー登録モーダル--}}
+    <x-modals.serviceProviderUserRegister></x-modals.serviceProviderUserRegister>
 @endsection

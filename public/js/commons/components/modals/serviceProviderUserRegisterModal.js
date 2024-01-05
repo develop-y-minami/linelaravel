@@ -1,8 +1,8 @@
 /**
- * ServiceProviderInputModal
+ * ServiceProviderUserRegisterModal
  * 
  */
-class ServiceProviderInputModal {
+class ServiceProviderUserRegisterModal {
     /**
      * オーバーレイ
      * 
@@ -24,45 +24,60 @@ class ServiceProviderInputModal {
      */
     $btnClose;
     /**
-     * 提供者ID
+     * サービス提供者ID
      * 
      */
     $txtProviderId;
     /**
-     * 提供者名
+     * アカウント種別コンテナー
+     * 
+     */
+    $radioUserAccountTypeContainer;
+    /**
+     * アカウント種別
+     * 
+     */
+    $radioUserAccountType;
+    /**
+     * アカウント種別（一般）
+     * 
+     */
+    $radioUserAccountTypeUser;
+    /**
+     * アカウント種別（管理者）
+     * 
+     */
+    $radioUserAccountTypeAdmin;
+    /**
+     * アカウントID
+     * 
+     */
+    $txtAccountId;
+    /**
+     * 名前
      * 
      */
     $txtName;
     /**
-     * 利用開始日
+     * メールアドレス
      * 
      */
-    $txtUseStartDateTime;
+    $txtEmail;
     /**
-     * 利用終了日
+     * パスワード
      * 
      */
-    $txtUseEndDateTime;
+    $txtPassword;
     /**
-     * 使用状態コンテナー
+     * パスワード（確認入力）
      * 
      */
-    $checkUseStopContainer;
-    /**
-     * 使用状態
-     * 
-     */
-    $checkUseStop;
+    $txtPasswordConfirm;
     /**
      * 登録ボタン
      * 
      */
     $btnRegister;
-    /**
-     * 更新ボタン
-     * 
-     */
-    $btnUpdate;
     /**
      * ローディングオーバーレイ
      * 
@@ -80,18 +95,21 @@ class ServiceProviderInputModal {
      * @param {class}  callbackClass ボタンクリック時のコールバック先クラス
      * @param {string} id            モーダルID
      */
-    constructor(callbackClass = null, id = 'modalServiceProviderInput') {
+    constructor(callbackClass = null, id = 'modalServiceProviderUserRegister') {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
         this.$txtProviderId = $('#' + id + 'TxtProviderId');
+        this.$radioUserAccountTypeContainer = $('#' + id + 'RadioUserAccountTypeContainer');
+        this.$radioUserAccountType = $('input:radio[name="' + id + 'RadioUserAccountType"]:checked');
+        this.$radioUserAccountTypeUser = $('#' + id + 'RadioUserAccountTypeUser');
+        this.$radioUserAccountTypeAdmin = $('#' + id + 'RadioUserAccountTypeAdmin');
+        this.$txtAccountId = $('#' + id + 'TxtAccountId');
         this.$txtName = $('#' + id + 'TxtName');
-        this.$txtUseStartDateTime = $('#' + id + 'TxtUseStartDateTime');
-        this.$txtUseEndDateTime = $('#' + id + 'TxtUseEndDateTime');
-        this.$checkUseStopContainer = $('#' + id + 'CheckUseStopContainer');
-        this.$checkUseStop = $('#' + id + 'CheckUseStop');
+        this.$txtEmail = $('#' + id + 'TxtEmail');
+        this.$txtPassword = $('#' + id + 'TxtPassword');
+        this.$txtPasswordConfirm = $('#' + id + 'TxtPasswordConfirm');
         this.$btnRegister = $('#' + id + 'BtnRegister');
-        this.$btnUpdate = $('#' + id + 'BtnUpdate');
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
 
         // インスタンスを生成
@@ -112,51 +130,24 @@ class ServiceProviderInputModal {
      * 
      */
     init() {
-        this.$txtProviderId.val('');
+        this.$txtAccountId.val('');
         this.$txtName.val('');
-        this.$txtUseStartDateTime.val(DateTimeUtil.getToday());
-        this.$txtUseEndDateTime.val('');
-        this.$checkUseStop.prop('checked', false);
+        this.$txtEmail.val('');
+        this.$txtPassword.val('');
+        this.$txtPasswordConfirm.val('');
+        this.$radioUserAccountTypeUser.prop('checked', true);
     }
 
     /**
      * モーダルを表示
      * 
-     * @param int mode 表示モード
      */
-    show(mode) {
+    show() {
         // モーダルを初期化
         this.init();
 
-        // 表示モードを変更
-        if (mode === EditMode.REGISTER) {
-            this.showRegister();
-        } else if (mode === EditMode.UPDATE) {
-            this.showUpdate();
-        }
-
         this.$overlay.show();
         this.$modal.fadeIn();
-    }
-
-    /**
-     * 登録モードを表示
-     * 
-     */
-    showRegister() {
-        this.$checkUseStopContainer.hide();
-        this.$btnUpdate.hide();
-        this.$btnRegister.show();
-    }
-
-    /**
-     * 更新モードを表示
-     * 
-     */
-    showUpdate() {
-        this.$checkUseStopContainer.show();
-        this.$btnUpdate.show();
-        this.$btnRegister.hide();
     }
 
     /**
@@ -194,20 +185,24 @@ class ServiceProviderInputModal {
             me.$loadingOverlay.show();
 
             // パラメータを取得
-            let providerId = me.$txtProviderId.val().trim();
+            let providerId = me.$txtProviderId.val();
+            let accountId = me.$txtAccountId.val().trim();
             let name = me.$txtName.val().trim();
-            let useStartDateTime = me.$txtUseStartDateTime.val();
-            let useEndDateTime = me.$txtUseEndDateTime.val();
-
-            // サービス提供者情報を登録
-            let result = await ServiceProviderApi.register(providerId, name, useStartDateTime, useEndDateTime);
+            let email = me.$txtEmail.val().trim();
+            let password = me.$txtPassword.val().trim();
+            let passwordConfirm = me.$txtPasswordConfirm.val().trim();
+            let userType = UserType.SERVICE_PROVIDER;
+            let userAccountType = Number(me.$radioUserAccountType.val());
+            
+            // ユーザー情報を登録
+            let result = await UserApi.register(providerId, accountId, name, email, password, passwordConfirm, userType, userAccountType);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる
                 me.close(e);
                 if (me.callbackClass !== null) {
                     // コールバックを実行
-                    me.callbackClass.registerCallback(result.data.serviceProvider);
+                    me.callbackClass.registerCallback();
                 }
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {

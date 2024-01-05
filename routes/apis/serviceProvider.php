@@ -14,11 +14,21 @@ use App\Http\Controllers\Apis\ServiceProviderController;
 |
 */
 /**
+ * サービス提供者情報を取得する
+ * HTTP Method Post
+ * https://{host}/api/serviceProvider
+ * 
+ * @param Request request リクエスト
+ * @return Json
+ */
+Route::post('/', [ServiceProviderController::class, 'serviceProviders'])->name('serviceProviders');
+
+/**
  * サービス提供者情報を登録する
  * HTTP Method Post
  * https://{host}/api/serviceProvider/register
  * 
- * @param Request request リクエスト
+ * @param ServiceProviderRegisterRequest request リクエスト
  * @return Json
  */
 Route::post('/register', [ServiceProviderController::class, 'register'])->name('serviceProvider.register');

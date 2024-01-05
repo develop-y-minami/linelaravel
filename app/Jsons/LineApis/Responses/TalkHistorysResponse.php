@@ -15,7 +15,6 @@ class TalkHistorysResponse implements \JsonSerializable
      * 
      * @param Line  line             LINE情報
      * @param array lineTalkHistorys LINEトーク履歴
-     * 
      */
     public function __construct(public readonly Line $line, public readonly array $lineTalkHistorys)
     {

@@ -13,8 +13,8 @@ class ServiceProviderInput extends Component
     /**
      * __construct
      *
+     * @param string id     id属性に付与する文字列
      * @param string class  class属性に付与する文字列
-     * @param string lineId LINE情報ID
      * @return void
      */
     public function __construct(

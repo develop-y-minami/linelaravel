@@ -38,6 +38,4 @@ class LinkCellRenderer {
     refresh(params) {
         return true;
     }
-
-
 }

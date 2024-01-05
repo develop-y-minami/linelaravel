@@ -34,15 +34,17 @@ class DateTimeUtil {
     static convertJpDate(strDate) {
         let result = '';
 
-        // Date型に変換
-        let dateTime = new Date(strDate);
-        let year = dateTime.getFullYear();
-        let month = dateTime.getMonth() + 1;
-        let date = dateTime.getDate();
+        if (strDate !== null && strDate !== '') {
+            // Date型に変換
+            let dateTime = new Date(strDate);
+            let year = dateTime.getFullYear();
+            let month = dateTime.getMonth() + 1;
+            let date = dateTime.getDate();
 
-        result += year + '年';
-        result += StringUtil.zeroPadding(month, 2) + '月';
-        result += StringUtil.zeroPadding(date, 2) + '日';
+            result += year + '年';
+            result += StringUtil.zeroPadding(month, 2) + '月';
+            result += StringUtil.zeroPadding(date, 2) + '日';
+        }
 
         return result;
     }
@@ -56,22 +58,24 @@ class DateTimeUtil {
     static convertJpDateTime(strDateTime) {
         let result = '';
 
-        // Date型に変換
-        let dateTime = new Date(strDateTime);
-        let year = dateTime.getFullYear();
-        let month = dateTime.getMonth() + 1;
-        let date = dateTime.getDate();
-        let hours = dateTime.getHours();
-        let minutes = dateTime.getMinutes();
-        let seconds = dateTime.getSeconds();
+        if (strDateTime !== null && strDateTime !== '') {
+            // Date型に変換
+            let dateTime = new Date(strDateTime);
+            let year = dateTime.getFullYear();
+            let month = dateTime.getMonth() + 1;
+            let date = dateTime.getDate();
+            let hours = dateTime.getHours();
+            let minutes = dateTime.getMinutes();
+            let seconds = dateTime.getSeconds();
 
-        result += year + '年';
-        result += StringUtil.zeroPadding(month, 2) + '月';
-        result += StringUtil.zeroPadding(date, 2) + '日';
-        result += ' ';
-        result += StringUtil.zeroPadding(hours, 2) + '時';
-        result += StringUtil.zeroPadding(minutes, 2) + '分';
-        result += StringUtil.zeroPadding(seconds, 2) + '秒';
+            result += year + '年';
+            result += StringUtil.zeroPadding(month, 2) + '月';
+            result += StringUtil.zeroPadding(date, 2) + '日';
+            result += ' ';
+            result += StringUtil.zeroPadding(hours, 2) + '時';
+            result += StringUtil.zeroPadding(minutes, 2) + '分';
+            result += StringUtil.zeroPadding(seconds, 2) + '秒';
+        }
 
         return result;
     }
@@ -85,15 +89,17 @@ class DateTimeUtil {
     static convertJpTime(strTime) {
         let result = '';
 
-        // Date型に変換
-        let dateTime = new Date('2000-01-01 ' + strTime);
-        let hours = dateTime.getHours();
-        let minutes = dateTime.getMinutes();
-        let seconds = dateTime.getSeconds();
+        if (strTime !== null && strTime !== '') {
+            // Date型に変換
+            let dateTime = new Date('2000-01-01 ' + strTime);
+            let hours = dateTime.getHours();
+            let minutes = dateTime.getMinutes();
+            let seconds = dateTime.getSeconds();
 
-        result += StringUtil.zeroPadding(hours, 2) + '時';
-        result += StringUtil.zeroPadding(minutes, 2) + '分';
-        result += StringUtil.zeroPadding(seconds, 2) + '秒';
+            result += StringUtil.zeroPadding(hours, 2) + '時';
+            result += StringUtil.zeroPadding(minutes, 2) + '分';
+            result += StringUtil.zeroPadding(seconds, 2) + '秒';
+        }
 
         return result;
     }

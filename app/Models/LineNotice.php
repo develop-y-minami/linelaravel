@@ -17,8 +17,9 @@ class LineNotice extends Model
     use \App\Traits\Relations\BelongsToLineNoticeType;
 
     /**
-     * 登録/更新を許可するカラム
+     * The attributes that are mass assignable.
      *
+     * @var array<int, string>
      */
     protected $fillable = [
         'notice_date_time',

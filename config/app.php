@@ -198,6 +198,8 @@ return [
         'LineSendMessageType' =>  App\Consts\LineSendMessageType::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
         'ServiceProviderUseStop' =>  App\Consts\ServiceProviderUseStop::class,
+        'UserAccountType' =>  App\Consts\UserAccountType::class,
+        'UserType' =>  App\Consts\UserType::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
         'StringFacade' => App\Facades\StringFacadeClass::class,
     ])->toArray(),

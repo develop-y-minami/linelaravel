@@ -38,6 +38,4 @@ class LabelBoxCellRenderer {
     refresh(params) {
         return true;
     }
-
-
 }

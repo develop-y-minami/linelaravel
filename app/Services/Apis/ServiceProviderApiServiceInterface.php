@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Services\Apis;
+
+/**
+ * ServiceProviderApiServiceInterface
+ * 
+ */
+interface ServiceProviderApiServiceInterface
+{
+    /**
+     * サービス提供者情報を取得
+     * 
+     * @param string providerId       サービス提供者ID
+     * @param string name             サービス提供者名
+     * @param string useStartDateTime サービス利用開始日
+     * @param string useEndDateTime   サービス利用終了日
+     * @param bool   useStop          サービス利用状態
+     * @return array サービス提供者情報
+     */
+    public function getServiceProviders(
+        $providerId = null,
+        $name = null,
+        $useStartDateTime = null,
+        $useEndDateTime = null,
+        $useStop = null
+    );
+
+    /**
+     * サービス提供者情報を登録
+     * 
+     * @param string providerId       サービス提供者ID
+     * @param string name             サービス提供者名
+     * @param string useStartDateTime サービス利用開始日
+     * @param string useEndDateTime   サービス利用終了日
+     * @return ServiceProvider サービス提供者情報
+     */
+    public function register($providerId, $name, $useStartDateTime, $useEndDateTime);
+}

@@ -12,7 +12,6 @@ class LinesResponse implements \JsonSerializable
      * __construct
      * 
      * @param array lines LINE情報
-     * 
      */
     public function __construct(public readonly array $lines)
     {

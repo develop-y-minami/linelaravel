@@ -14,8 +14,9 @@ class LineMessageImage extends Model
     use HasFactory;
 
     /**
-     * 登録/更新を許可するカラム
+     * The attributes that are mass assignable.
      *
+     * @var array<int, string>
      */
     protected $fillable = [
         'line_message_id',

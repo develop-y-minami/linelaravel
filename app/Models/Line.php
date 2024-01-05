@@ -18,8 +18,9 @@ class Line extends Model
     use \App\Traits\Relations\HasOneLineUser;
 
     /**
-     * 登録/更新を許可するカラム
+     * The attributes that are mass assignable.
      *
+     * @var array<int, string>
      */
     protected $fillable = [
         'account_id',

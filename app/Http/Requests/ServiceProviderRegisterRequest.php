@@ -31,10 +31,26 @@ class ServiceProviderRegisterRequest extends FormRequest
         $input = $this->all();
 
         return [
-            'providerId' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_PROVIDER_ID],
+            'providerId' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_PROVIDER_ID, 'unique:service_providers,provider_id'],
             'name' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_NAME],
             'useStartDateTime' => ['required', 'date'],
             'useEndDateTime' => ['nullable', 'date', 'after:useStartDateTime'],
+        ];
+    }
+
+    /**
+     * エラーメッセージを取得
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'providerId.required' => '提供者IDを入力してください',
+            'providerId.unique' => '既に存在する提供者IDです',
+            'name.required' => '提供者名を入力してください',
+            'useStartDateTime.required' => '利用開始日を入力してください',
+            'useEndDateTime.after' => '利用終了日には利用開始日より後の日付を入力してください',
         ];
     }
 }

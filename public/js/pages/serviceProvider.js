@@ -45,15 +45,20 @@ $(function() {
      */
     let grid;
     /**
-     * callbackClass
-     * 
-     */
-    let callbackClass;
-    /**
      * サービス提供者入力モーダル
      * 
      */
     let serviceProviderInputModal;
+    /**
+     * ユーザー登録確認モーダル
+     * 
+     */
+    let userRegisterConfirmModal;
+    /**
+     * サービス提供者ユーザー登録モーダル
+     * 
+     */
+    let serviceProviderUserRegisterModal;
     /**
      * 提供者IDの入力値
      * 
@@ -81,19 +86,61 @@ $(function() {
     let searchServiceProviderUseStop = null;
 
     /**
-     * CallbackClass
+     * ServiceProviderInputModalCallbackClass
      * 
      */
-    class CallbackClass {
-
+    class ServiceProviderInputModalCallbackClass {
         /**
          * constructor
          * 
          */
         constructor() {};
 
-        serviceProviderRegisterCallback() {
-            
+        /**
+         * サービス提供者登録時コールバック
+         * 
+         * @param {object} serviceProvider サービス提供者情報
+         */
+        registerCallback(serviceProvider) {
+            // グリッドを設定
+            grid.addRow(serviceProvider);
+            // ユーザー登録確認モーダルを起動
+            userRegisterConfirmModal.show();
+        }
+    }
+
+    /**
+     * UserRegisterConfirmModalCallbackClass
+     * 
+     */
+    class UserRegisterConfirmModalCallbackClass {
+        /**
+         * constructor
+         * 
+         */
+        constructor() {};
+
+        /**
+         * Yesボタンクリック時
+         * 
+         * @param {Event} e
+         */
+        yesCallback(e) {
+            e.data.me.close(e);
+            // サービス提供者ユーザー登録モーダルを起動
+            serviceProviderUserRegisterModal.show();
+            // 管理者をチェック状態に設定し非表示
+            serviceProviderUserRegisterModal.$radioUserAccountTypeAdmin.prop('checked', true);
+            serviceProviderUserRegisterModal.$radioUserAccountTypeContainer.hide();
+        }
+
+        /**
+         * Noボタンクリック時
+         * 
+         * @param {Event} e
+         */
+        noCallback(e) {
+            e.data.me.close(e);
         }
     }
 
@@ -113,8 +160,17 @@ $(function() {
         try {
             // インスタンスを生成
             grid = new ServiceProviderGrid('grid');
-            callbackClass = new CallbackClass();
-            serviceProviderInputModal = new ServiceProviderInputModal(callbackClass);
+
+            // サービス提供者入力モーダル
+            serviceProviderInputModalCallbackClass = new ServiceProviderInputModalCallbackClass();
+            serviceProviderInputModal = new ServiceProviderInputModal(serviceProviderInputModalCallbackClass);
+
+            // サービス提供者ユーザー登録確認モーダル
+            userRegisterConfirmModalCallbackClass = new UserRegisterConfirmModalCallbackClass();
+            userRegisterConfirmModal = new ConfirmModal(userRegisterConfirmModalCallbackClass, 'userRegisterModalConfirm');
+
+            // サービス提供者ユーザー登録モーダル
+            serviceProviderUserRegisterModal = new ServiceProviderUserRegisterModal();
 
             // 検索条件を設定
             setSearchConditions();

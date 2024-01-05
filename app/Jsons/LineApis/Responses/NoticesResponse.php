@@ -12,7 +12,6 @@ class NoticesResponse implements \JsonSerializable
      * __construct
      * 
      * @param array lineNotice 通知情報
-     * 
      */
     public function __construct(public readonly array $lineNotices)
     {

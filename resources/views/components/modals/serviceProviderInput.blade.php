@@ -1,9 +1,5 @@
 {{--サービス提供者入力モーダル--}}
 <div id="{{ $id }}" class="modal modalServiceProviderInput {{ $class }}">
-    {{--非表示領域--}}
-    <div class="hideContainer">
-
-    </div>
     <div class="container">
         <header>
             <div class="title">サービス提供者情報</div>

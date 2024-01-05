@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+/******************************************************
+*   確認モーダル
+******************************************************/
+.modalConfirm {
+    position: relative;
+    width: 400px;
+}
+
+.modalConfirm main { padding: 30px; }
+
+.modalConfirm .message { margin-bottom: 20px; }
+
+.modalConfirm .errorMessage { margin-bottom: 20px; }
+
+.modalConfirm .buttoncontainer {
+    display: flex;
+    column-gap: 10px;
+}
+
+.modalConfirm .buttoncontainer button { width: 100%; }

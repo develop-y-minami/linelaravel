@@ -26,7 +26,13 @@ body {
 /******************************************************
 *   margin
 ******************************************************/
+.m-1 { margin: 1px; }
 .m-r-10 { margin-right: 10px; }
+
+/******************************************************
+*   margin
+******************************************************/
+.p-1 { padding: 1px; }
 
 /******************************************************
 *   color
@@ -35,9 +41,25 @@ body {
 .fc-red { color: var(--colorRed); }
 
 /******************************************************
-*   color
+*   font-weight
 ******************************************************/
 .fw-bold { font-weight: bold; }
+
+/******************************************************
+*   width
+******************************************************/
+.w-100p { width: 100%; }
+
+/******************************************************
+*   height
+******************************************************/
+.h-100p { height: 100%; }
+
+/******************************************************
+*   flex
+******************************************************/
+.flex { display: flex; }
+.flex.center { justify-content: center; align-items: center; }
 
 /******************************************************
 *   input[type=text]
@@ -54,6 +76,22 @@ input[type=text]:focus {
 }
 
 input[type=text].large { padding: 13px 15px; }
+
+/******************************************************
+*   input[type=password]
+******************************************************/
+input[type=password] {
+    padding: 5px 15px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 1px 1px var(--colorGray);
+}
+
+input[type=password]:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+input[type=password].large { padding: 13px 15px; }
 
 /******************************************************
 *   input[type=date]
@@ -85,6 +123,21 @@ input[type=checkbox] {
     height: 20px;
     border: solid 1px var(--colorGray);
     border-radius: 3px;
+    appearance: auto;
+}
+
+/******************************************************
+*   input[type=radio]
+******************************************************/
+.radioBox {
+    display: flex;
+    align-items: center;
+}
+
+input[type=radio] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
     appearance: auto;
 }
 
@@ -148,9 +201,11 @@ select:focus {
 *   button
 ******************************************************/
 button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 5px 15px;
     width: max-content;
-    text-align: center;
     box-shadow: 0px 0px 1px 1px var(--colorGray);
     border-radius: 3px;
 }

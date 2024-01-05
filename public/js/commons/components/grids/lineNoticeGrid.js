@@ -4,6 +4,11 @@
  */
 class LineNoticeGrid {
     /**
+     * id
+     * 
+     */
+    id;
+    /**
      * grid
      * 
      */
@@ -30,6 +35,7 @@ class LineNoticeGrid {
      * @param {string} id ID値
      */
     constructor(id) {
+        this.id = id;
         this.grid = document.querySelector('#' + id);
         this.gridOptions = {};
     }

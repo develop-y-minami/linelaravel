@@ -4,6 +4,11 @@
  */
 class ServiceProviderGrid {
     /**
+     * id
+     * 
+     */
+    id;
+    /**
      * grid
      * 
      */
@@ -23,6 +28,11 @@ class ServiceProviderGrid {
      * 
      */
     gridApi;
+    /**
+     * rowData
+     * 
+     */
+    rowData;
 
     /**
      * constructor
@@ -30,6 +40,7 @@ class ServiceProviderGrid {
      * @param {string} id ID値
      */
     constructor(id) {
+        this.id = id;
         this.grid = document.querySelector('#' + id);
         this.gridOptions = {};
     }
@@ -37,7 +48,7 @@ class ServiceProviderGrid {
     /**
      * 初期化
      * 
-     * @param {string}  providerId       提供者ID
+     * @param {string}  providerId       サービス提供者ID
      * @param {string}  name             サービス提供者名
      * @param {string}  useStartDateTime サービス利用開始日
      * @param {string}  useEndDateTime   サービス利用終了日
@@ -51,7 +62,8 @@ class ServiceProviderGrid {
         this.setColumnDefs();
 
         // 行データを初期化
-        this.gridOptions.rowData = [];
+        this.rowData = [];
+        this.gridOptions.rowData = this.rowData;
 
         // グリッド生成
         this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
@@ -67,29 +79,118 @@ class ServiceProviderGrid {
     setColumnDefs() {
         this.gridOptions.columnDefs = [
             {
-                field: 'noticeDateTime',
+                field: 'providerId',
                 headerName: '提供者ID',
-                width: 240
+                width: 150,
+                cellRenderer: LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = '';
+                    result.name = params.data.providerId;
+                    return result;
+                }
             },
             {
-                field: 'noticeDateTime',
+                field: 'name',
                 headerName: '提供者名',
-                flex: 1
+                flex: 1,
+                minWidth: 200,
             },
             {
-                field: 'noticeDateTime',
+                field: 'useStartDateTime',
                 headerName: '利用開始日',
-                width: 240
+                width: 150,
+                headerClass: 'ag-header-center',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer: function(params) {
+                    return DateTimeUtil.convertJpDate(params.data.useStartDateTime);
+                }
             },
             {
-                field: 'noticeDateTime',
+                field: 'useEndDateTime',
                 headerName: '利用終了日',
-                width: 240
+                width: 150,
+                headerClass: 'ag-header-center',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer: function(params) {
+                    return DateTimeUtil.convertJpDate(params.data.useEndDateTime);
+                }
             },
             {
-                field: 'noticeDateTime',
+                field: 'useStop',
                 headerName: '利用状態',
-                width: 150
+                width: 150,
+                headerClass : 'ag-header-center',
+                cellClass : 'ag-cell-non-padding',
+                cellRenderer : LabelBoxCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    if (params.data.useStop === true) {
+                        result.labelColor = 'red';
+                    } else {
+                        result.labelColor = 'green';
+                    }
+                    result.labelName = params.data.useStopName;
+                    return result;
+                }
+            },
+            {
+                field: 'btnEdit',
+                headerName: '',
+                width: 70,
+                cellClass : 'ag-cell-non-padding',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer : ButtonCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.id = 'btnEdit' + params.data.id;
+                    result.color = 'blue';
+                    result.name = '編集';
+                    /**
+                     * ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.clicked = function(e, params) {
+                        let aa = params;
+                        alert('aaaaaaaaa');
+                    }
+                    return result;
+                }
+            },
+            {
+                field: 'btnDelete',
+                headerName: '',
+                width: 70,
+                cellClass : 'ag-cell-non-padding',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer : ButtonCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.id = 'btnDelete' + params.data.id;
+                    result.color = 'red';
+                    result.name = '削除';
+                    /**
+                     * ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.clicked = function(e, params) {
+                        let aa = params;
+                        alert('aaaaaaaaa');
+                    }
+                    return result;
+                }
             },
         ];
     }
@@ -97,11 +198,11 @@ class ServiceProviderGrid {
     /**
      * 行データを設定
      * 
-     * @param {string}  providerId       提供者ID
+     * @param {string}  providerId       サービス提供者ID
      * @param {string}  name             サービス提供者名
      * @param {string}  useStartDateTime サービス利用開始日
      * @param {string}  useEndDateTime   サービス利用終了日
-     * @param {boolean} useStop          サービス利用状況
+     * @param {boolean} useStop          サービス利用状態
      */
     async setRowData(providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null) {
         try {
@@ -109,22 +210,33 @@ class ServiceProviderGrid {
             this.gridApi.showLoadingOverlay();
 
             // 行データ
-            let rowData = [];
+            this.rowData = [];
 
             // API経由で通知情報を取得
-            // let result = await LineApi.notices(noticeDate, lineNoticeTypeId, displayName, userId);
+            let result = await ServiceProviderApi.serviceProviders(providerId, name, useStartDateTime, useEndDateTime, useStop);
 
-            // if (result.status == FetchApi.STATUS_SUCCESS) {
-            //     rowData = result.data.lineNotices;
-            // }
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                this.rowData = result.data.serviceProviders;
+            }
 
             // 行データを設定
-            this.gridApi.setRowData(rowData);
+            this.gridApi.setRowData(this.rowData);
 
             // オーバーレイを非表示
             this.gridApi.hideOverlay();
         } catch(error) {
             throw error;
         }
+    }
+
+    /**
+     * 行データを追加
+     * 
+     * @param {object} data 行データ
+     */
+    addRow(data) {
+        // 行データを設定
+        this.rowData.push(data);
+        this.gridApi.setGridOption('rowData', this.rowData);
     }
 }

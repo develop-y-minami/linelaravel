@@ -16,8 +16,9 @@ class LineMessage extends Model
     use \App\Traits\Relations\HasOneLineMessageImage;
 
     /**
-     * 登録/更新を許可するカラム
+     * The attributes that are mass assignable.
      *
+     * @var array<int, string>
      */
     protected $fillable = [
         'line_message_type_id',

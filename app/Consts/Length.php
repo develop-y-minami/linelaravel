@@ -18,4 +18,24 @@ class Length
      * 
      */
     public const SERVICE_PROVIDER_NAME = 255;
+    /**
+     * USER_ACCOUNT_ID
+     * 
+     */
+    public const USER_ACCOUNT_ID = 45;
+    /**
+     * USER_NAME
+     * 
+     */
+    public const USER_NAME = 255;
+    /**
+     * USER_EMAIL
+     * 
+     */
+    public const USER_EMAIL = 255;
+    /**
+     * USER_PASSWORD
+     * 
+     */
+    public const USER_PASSWORD = 255;
 }
