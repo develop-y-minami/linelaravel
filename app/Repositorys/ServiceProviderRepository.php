@@ -71,4 +71,15 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface
             'use_stop' => $useStop
         ]);
     }
+
+    /**
+     * サービス提供者情報を削除
+     * 
+     * @param int id サービス提供者情報ID
+     * @return int 削除件数
+     */
+    public function destroy($id)
+    {
+        return ServiceProvider::destroy($id);
+    }
 }

@@ -36,4 +36,12 @@ interface ServiceProviderApiServiceInterface
      * @return ServiceProvider サービス提供者情報
      */
     public function register($providerId, $name, $useStartDateTime, $useEndDateTime);
+
+    /**
+     * サービス提供者情報を削除
+     * 
+     * @param int id サービス提供者情報ID
+     * @return int 削除件数
+     */
+    public function destroy($id);
 }

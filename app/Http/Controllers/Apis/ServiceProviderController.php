@@ -96,4 +96,29 @@ class ServiceProviderController extends Controller
             throw $e;
         }
     }
+
+    /**
+     * サービス提供者情報を削除する
+     * HTTP Method Delete
+     * https://{host}/api/serviceProvider/{id}
+     * 
+     * @param Request request リクエスト
+     * @param int     id      サービス提供者情報ID
+     * @return Json
+     */
+    public function destroy(Request $request, $id)
+    {
+        try
+        {
+            // サービス提供者情報を削除
+            $this->serviceProviderApiService->destroy($id);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse();
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
 }

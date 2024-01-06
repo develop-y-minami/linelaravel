@@ -63,8 +63,10 @@
 @section('overlayContents')
     {{--サービス提供者入力モーダル--}}
     <x-modals.serviceProviderInput></x-modals.serviceProviderInput>
-    {{--確認モーダル--}}
+    {{--ユーザー登録確認モーダル--}}
     <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
     {{--サービス提供者ユーザー登録モーダル--}}
     <x-modals.serviceProviderUserRegister></x-modals.serviceProviderUserRegister>
+    {{--サービス提供者削除確認モーダル--}}
+    <x-modals.confirm id="serviceProviderDeleteModalConfirm" message="サービス提供者を削除しますか？"></x-modals.confirm>
 @endsection

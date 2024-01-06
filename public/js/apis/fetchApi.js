@@ -81,4 +81,24 @@ class FetchApi {
         }
     }
 
+    /**
+     * HTTP Method DELETE
+     * 
+     * @param {string} url - URL
+     * @returns {object}
+     */
+    static async delete(url) {
+        try {
+            let response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'delete' });
+            if (response.ok) {
+                let data = await response.json();
+                return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
+            } else {
+                return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : response.statusText};
+            }
+        } catch(error) {
+            return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
+        }
+    }
+
 }

@@ -1,4 +1,66 @@
 /**
+ * ServiceProviderDeleteConfirmModalCallbackClass
+ * 
+ */
+class ServiceProviderDeleteConfirmModalCallbackClass {
+    /**
+     * constructor
+     * 
+     * @param {ServiceProviderGrid} serviceProviderGrid ServiceProviderGridインスタンス
+     * @param {number}              id                  サービス提供者情報ID
+     */
+    constructor(serviceProviderGrid, id) {
+        this.serviceProviderGrid = serviceProviderGrid;
+        this.id = id;
+    };
+
+    /**
+     * Yesボタンクリック時
+     * 
+     * @param {Event} e
+     */
+    async yesCallback(e) {
+        let me = e.data.me;
+
+        try {
+            // エラーメッセージを非表示
+            me.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            me.$loadingOverlay.show();
+
+            // サービス提供者情報を削除
+            let result = await ServiceProviderApi.destroy(this.id);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // モーダルを閉じる
+                me.close(e);
+                // 行データを取得
+                let row = this.serviceProviderGrid.gridApi.getRowNode(this.id);
+                // 行データを削除
+                this.serviceProviderGrid.gridApi.applyTransaction({ remove: [row] });
+            } else {
+                me.errorMessage.showServerError();
+            }
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            me.$loadingOverlay.hide();
+        }
+    }
+
+    /**
+     * Noボタンクリック時
+     * 
+     * @param {Event} e
+     */
+    noCallback(e) {
+        e.data.me.close(e);
+    }
+}
+
+/**
  * ServiceProviderGrid
  * 
  */
@@ -28,11 +90,6 @@ class ServiceProviderGrid {
      * 
      */
     gridApi;
-    /**
-     * rowData
-     * 
-     */
-    rowData;
 
     /**
      * constructor
@@ -58,12 +115,17 @@ class ServiceProviderGrid {
         // default値を設定
         AgGrid.setDefaultGridOptions(this.gridOptions);
 
+        // contextにthisを設定
+        this.gridOptions.context = this;
+
         // columnDefsを設定
         this.setColumnDefs();
 
         // 行データを初期化
-        this.rowData = [];
-        this.gridOptions.rowData = this.rowData;
+        this.gridOptions.rowData = [];
+
+        // 行IDを設定
+        this.gridOptions.getRowId = function(params) { return params.data.id; }
 
         // グリッド生成
         this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
@@ -150,7 +212,7 @@ class ServiceProviderGrid {
                 cellRendererParams: function(params) {
                     let result = {};
                     result.id = 'btnEdit' + params.data.id;
-                    result.color = 'blue';
+                    result.color = 'green';
                     result.name = '編集';
                     /**
                      * ボタンクリック時
@@ -163,7 +225,7 @@ class ServiceProviderGrid {
                         alert('aaaaaaaaa');
                     }
                     return result;
-                }
+                },
             },
             {
                 field: 'btnDelete',
@@ -186,8 +248,14 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        let aa = params;
-                        alert('aaaaaaaaa');
+                        // 削除確認モーダルのインスタンスを生成
+                        let serviceProviderDeleteConfirmModal = new ConfirmModal(
+                            new ServiceProviderDeleteConfirmModalCallbackClass(params.context, params.data.id),
+                            'serviceProviderDeleteModalConfirm'
+                        );
+
+                        // 削除確認モーダルを表示
+                        serviceProviderDeleteConfirmModal.show();
                     }
                     return result;
                 }
@@ -210,17 +278,17 @@ class ServiceProviderGrid {
             this.gridApi.showLoadingOverlay();
 
             // 行データ
-            this.rowData = [];
+            let rowData = [];
 
             // API経由で通知情報を取得
             let result = await ServiceProviderApi.serviceProviders(providerId, name, useStartDateTime, useEndDateTime, useStop);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
-                this.rowData = result.data.serviceProviders;
+                rowData = result.data.serviceProviders;
             }
 
             // 行データを設定
-            this.gridApi.setRowData(this.rowData);
+            this.gridApi.setRowData(rowData);
 
             // オーバーレイを非表示
             this.gridApi.hideOverlay();
@@ -234,9 +302,11 @@ class ServiceProviderGrid {
      * 
      * @param {object} data 行データ
      */
-    addRow(data) {
-        // 行データを設定
-        this.rowData.push(data);
-        this.gridApi.setGridOption('rowData', this.rowData);
+    addRow(data, addIndex = undefined) {
+        // 行データを追加
+        this.gridApi.applyTransaction({
+            add: [data],
+            addIndex: addIndex
+          });
     }
 }

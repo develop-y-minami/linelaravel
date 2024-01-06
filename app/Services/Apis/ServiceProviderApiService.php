@@ -96,4 +96,16 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
 
         return $serviceProvider;
     }
+
+    /**
+     * サービス提供者情報を削除
+     * 
+     * @param int id サービス提供者情報ID
+     * @return int 削除件数
+     */
+    public function destroy($id)
+    {
+        // サービス提供者情報を削除
+        return $this->serviceProviderRepository->destroy($id);
+    }
 }

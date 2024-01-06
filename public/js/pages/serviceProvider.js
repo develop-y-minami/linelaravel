@@ -162,12 +162,10 @@ $(function() {
             grid = new ServiceProviderGrid('grid');
 
             // サービス提供者入力モーダル
-            serviceProviderInputModalCallbackClass = new ServiceProviderInputModalCallbackClass();
-            serviceProviderInputModal = new ServiceProviderInputModal(serviceProviderInputModalCallbackClass);
+            serviceProviderInputModal = new ServiceProviderInputModal(new ServiceProviderInputModalCallbackClass());
 
             // サービス提供者ユーザー登録確認モーダル
-            userRegisterConfirmModalCallbackClass = new UserRegisterConfirmModalCallbackClass();
-            userRegisterConfirmModal = new ConfirmModal(userRegisterConfirmModalCallbackClass, 'userRegisterModalConfirm');
+            userRegisterConfirmModal = new ConfirmModal(new UserRegisterConfirmModalCallbackClass(), 'userRegisterModalConfirm');
 
             // サービス提供者ユーザー登録モーダル
             serviceProviderUserRegisterModal = new ServiceProviderUserRegisterModal();

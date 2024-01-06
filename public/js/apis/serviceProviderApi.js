@@ -63,4 +63,16 @@ class ServiceProviderApi {
         let response = await FetchApi.post(ServiceProviderApi.PREFIX_REGISTER, data);
         return response;
     }
+
+    /**
+     * サービス提供者情報を削除
+     * 
+     * @param {number} id サービス提供者情報ID
+     * @returns {object}  
+     */
+    static async destroy(id) {
+        let url = ServiceProviderApi.PREFIX + '/' + id;
+        let response = await FetchApi.delete(url);
+        return response;
+    }
 }

@@ -32,3 +32,14 @@ Route::post('/', [ServiceProviderController::class, 'serviceProviders'])->name('
  * @return Json
  */
 Route::post('/register', [ServiceProviderController::class, 'register'])->name('serviceProvider.register');
+
+/**
+ * サービス提供者情報を削除する
+ * HTTP Method Delete
+ * https://{host}/api/serviceProvider/{id}
+ * 
+ * @param Request request リクエスト
+ * @param int     id      サービス提供者情報ID
+ * @return Json
+ */
+Route::delete('/{id}', [ServiceProviderController::class, 'destroy'])->whereNumber('id')->name('serviceProvider.destroy');
