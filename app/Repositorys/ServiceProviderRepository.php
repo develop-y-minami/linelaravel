@@ -14,6 +14,17 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface
     /**
      * サービス提供者情報を取得
      * 
+     * @param int id サービス提供者情報ID
+     * @return ServiceProvider サービス提供者情報
+     */
+    public function findById($id)
+    {
+        return ServiceProvider::find($id);
+    }
+
+    /**
+     * サービス提供者情報を取得
+     * 
      * @param string providerId       サービス提供者ID
      * @param string name             サービス提供者名
      * @param string useStartDateTime サービス利用開始日
@@ -64,6 +75,28 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface
     public function register($providerId, $name, $useStartDateTime, $useEndDateTime, $useStop = false)
     {
         return ServiceProvider::create([
+            'provider_id' => $providerId,
+            'name' => $name,
+            'use_start_date_time' => $useStartDateTime,
+            'use_end_date_time' => $useEndDateTime,
+            'use_stop' => $useStop
+        ]);
+    }
+
+    /**
+     * サービス提供者情報を更新
+     * 
+     * @param int    id               サービス提供者情報ID
+     * @param string providerId       サービス提供者ID
+     * @param string name             サービス提供者名
+     * @param string useStartDateTime サービス利用開始日
+     * @param string useEndDateTime   サービス利用終了日
+     * @param bool   useStop          サービス利用状態
+     * @return int 更新数
+     */
+    public function update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop)
+    {
+        return ServiceProvider::where('id', $id)->update([
             'provider_id' => $providerId,
             'name' => $name,
             'use_start_date_time' => $useStartDateTime,

@@ -17,7 +17,7 @@ class UserApi {
     /**
      * ユーザー情報を登録
      * 
-     * @param {string} serviceProviderId サービス提供者ID
+     * @param {string} serviceProviderId サービス提供者情報ID
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      * @param {string} email             メールアドレス

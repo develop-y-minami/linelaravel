@@ -15,11 +15,13 @@ class ServiceProviderInput extends Component
      *
      * @param string id     id属性に付与する文字列
      * @param string class  class属性に付与する文字列
+     * @param string mode   入力モード
      * @return void
      */
     public function __construct(
         public readonly string $id = 'modalServiceProviderInput',
-        public readonly string $class = ''
+        public readonly string $class = '',
+        public readonly int $mode = \EditMode::REGISTER
     )
     {
 

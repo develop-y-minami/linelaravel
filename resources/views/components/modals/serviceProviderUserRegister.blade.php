@@ -2,7 +2,7 @@
 <div id="{{ $id }}" class="modal modalServiceProviderUserRegister {{ $class }}">
     {{--非表示領域--}}
     <div class="hideContainer">
-        <input type="text" id="{{ $id }}TxtProviderId" value="{{ $providerId }}">
+        <input type="text" id="{{ $id }}TxtServiceProviderId" value="{{ $serviceProviderId }}">
     </div>
     <div class="container">
         <header>

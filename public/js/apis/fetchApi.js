@@ -56,7 +56,44 @@ class FetchApi {
             let response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
                 {
-                    method: 'post',
+                    method: 'POST',
+                    headers: 
+                    {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
+            if (response.ok) {
+                let data = await response.json();
+                return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
+            } else {
+                if (response.status === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
+                } else {
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                }
+            }
+        } catch(error) {
+            return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
+        }
+    }
+
+    /**
+     * HTTP Method PATCH
+     * 
+     * @param {string} url  URL
+     * @param {object} data データ
+     * @returns {object}
+     */
+    static async patch(url, data = {}) {
+        try {
+            let response = await fetch(
+                FetchApi.URL_ROOT_API + '/' + url,
+                {
+                    method: 'PATCH',
                     headers: 
                     {
                         'Content-Type': 'application/json'
@@ -89,7 +126,7 @@ class FetchApi {
      */
     static async delete(url) {
         try {
-            let response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'delete' });
+            let response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'DELETE' });
             if (response.ok) {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};

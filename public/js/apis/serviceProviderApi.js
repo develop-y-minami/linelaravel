@@ -65,6 +65,33 @@ class ServiceProviderApi {
     }
 
     /**
+     * サービス提供者情報を更新
+     * 
+     * @param {number}  id               サービス提供者情報ID 
+     * @param {string}  providerId       サービス提供者ID
+     * @param {string}  name             サービス提供者名
+     * @param {string}  useStartDateTime サービス利用開始日
+     * @param {string}  useEndDateTime   サービス利用終了日
+     * @param {boolean} useStop          サービス利用状態
+     * @returns {object}  
+     */
+    static async update(id, providerId, name, useStartDateTime, useEndDateTime, useStop) {
+        let url = ServiceProviderApi.PREFIX + '/' + id;
+
+        // パラメータを設定
+        let data = {};
+        data.id = id;
+        data.providerId = providerId;
+        data.name = name;
+        data.useStartDateTime = useStartDateTime;
+        data.useEndDateTime = useEndDateTime;
+        data.useStop = useStop;
+
+        let response = await FetchApi.patch(url, data);
+        return response;
+    }
+
+    /**
      * サービス提供者情報を削除
      * 
      * @param {number} id サービス提供者情報ID

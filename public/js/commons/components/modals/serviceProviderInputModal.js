@@ -24,6 +24,11 @@ class ServiceProviderInputModal {
      */
     $btnClose;
     /**
+     * サービス提供者情報ID
+     * 
+     */
+    $txtServiceProviderId;
+    /**
      * 提供者ID
      * 
      */
@@ -43,11 +48,6 @@ class ServiceProviderInputModal {
      * 
      */
     $txtUseEndDateTime;
-    /**
-     * 使用状態コンテナー
-     * 
-     */
-    $checkUseStopContainer;
     /**
      * 使用状態
      * 
@@ -84,11 +84,11 @@ class ServiceProviderInputModal {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
+        this.$txtServiceProviderId = $('#' + id + 'TxtServiceProviderId');
         this.$txtProviderId = $('#' + id + 'TxtProviderId');
         this.$txtName = $('#' + id + 'TxtName');
         this.$txtUseStartDateTime = $('#' + id + 'TxtUseStartDateTime');
         this.$txtUseEndDateTime = $('#' + id + 'TxtUseEndDateTime');
-        this.$checkUseStopContainer = $('#' + id + 'CheckUseStopContainer');
         this.$checkUseStop = $('#' + id + 'CheckUseStop');
         this.$btnRegister = $('#' + id + 'BtnRegister');
         this.$btnUpdate = $('#' + id + 'BtnUpdate');
@@ -105,6 +105,7 @@ class ServiceProviderInputModal {
         this.$modal.on('click', this.clickModal);
         this.$btnClose.on('click', { me : this }, this.close);
         this.$btnRegister.on('click', { me : this }, this.clickBtnRegister);
+        this.$btnUpdate.on('click', { me : this }, this.clickBtnUpdate);
     }
 
     /**
@@ -112,6 +113,7 @@ class ServiceProviderInputModal {
      * 
      */
     init() {
+        this.$txtServiceProviderId.val('');
         this.$txtProviderId.val('');
         this.$txtName.val('');
         this.$txtUseStartDateTime.val(DateTimeUtil.getToday());
@@ -120,43 +122,38 @@ class ServiceProviderInputModal {
     }
 
     /**
+     * サービス提供者情報を設定
+     * 
+     * @param {number}  serviceProviderId サービス提供者情報ID
+     * @param {string}  providerId        提供者ID
+     * @param {string}  name              提供者名
+     * @param {string}  useStartDateTime  サービス利用開始日
+     * @param {string}  useEndDateTime    サービス利用終了日
+     * @param {boolean} useStop           利用停止
+     */
+    set(
+        serviceProviderId,
+        providerId,
+        name,
+        useStartDateTime,
+        useEndDateTime,
+        useStop
+        ) {
+        this.$txtServiceProviderId.val(serviceProviderId);
+        this.$txtProviderId.val(providerId);
+        this.$txtName.val(name);
+        this.$txtUseStartDateTime.val(useStartDateTime);
+        this.$txtUseEndDateTime.val(useEndDateTime);
+        this.$checkUseStop.prop('checked', useStop);
+    }
+
+    /**
      * モーダルを表示
      * 
-     * @param int mode 表示モード
      */
-    show(mode) {
-        // モーダルを初期化
-        this.init();
-
-        // 表示モードを変更
-        if (mode === EditMode.REGISTER) {
-            this.showRegister();
-        } else if (mode === EditMode.UPDATE) {
-            this.showUpdate();
-        }
-
+    show() {
         this.$overlay.show();
         this.$modal.fadeIn();
-    }
-
-    /**
-     * 登録モードを表示
-     * 
-     */
-    showRegister() {
-        this.$checkUseStopContainer.hide();
-        this.$btnUpdate.hide();
-        this.$btnRegister.show();
-    }
-
-    /**
-     * 更新モードを表示
-     * 
-     */
-    showUpdate() {
-        this.$checkUseStopContainer.show();
-        this.$btnUpdate.show();
-        this.$btnRegister.hide();
     }
 
     /**
@@ -208,6 +205,59 @@ class ServiceProviderInputModal {
                 if (me.callbackClass !== null) {
                     // コールバックを実行
                     me.callbackClass.registerCallback(result.data.serviceProvider);
+                }
+            } else {
+                if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー時のメッセージを表示
+                    let erros = [];
+                    for (let i = 0; i < result.errors.length; i++) {
+                        erros.push(result.errors[i].message);
+                    }
+                    me.errorMessage.showMessages(erros);
+                } else {
+                    me.errorMessage.showServerError();
+                }
+            }
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            me.$loadingOverlay.hide();
+        }
+    }
+
+    /**
+     * 更新ボタンクリック時
+     * 
+     * @param {Event} e 
+     */
+    async clickBtnUpdate(e) {
+        let me = e.data.me;
+
+        try {
+            // エラーメッセージを非表示
+            me.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            me.$loadingOverlay.show();
+
+            // パラメータを取得
+            let serviceProviderId = Number(me.$txtServiceProviderId.val());
+            let providerId = me.$txtProviderId.val().trim();
+            let name = me.$txtName.val().trim();
+            let useStartDateTime = me.$txtUseStartDateTime.val();
+            let useEndDateTime = me.$txtUseEndDateTime.val();
+            let useStop = me.$checkUseStop.prop('checked');
+
+            // サービス提供者情報を更新
+            let result = await ServiceProviderApi.update(serviceProviderId, providerId, name, useStartDateTime, useEndDateTime, useStop);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // モーダルを閉じる
+                me.close(e);
+                if (me.callbackClass !== null) {
+                    // コールバックを実行
+                    me.callbackClass.updateCallback(result.data.serviceProvider);
                 }
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {

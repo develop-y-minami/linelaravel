@@ -33,6 +33,16 @@
                 <div class="searchContainer">
                     @yield('searchConditions')
                 </div>
+                <div class="centerContainer">
+                    <div class="content">
+                        <div class="switchContainer">
+                            <div class="caption">表示モード切替</div>
+                            <label class="switch">
+                                <input id="checkSwitch" type="checkbox"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="rightContainer">
                     @yield('rightContents')
                     {{--リロードボタン--}}

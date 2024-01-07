@@ -13,15 +13,15 @@ class ServiceProviderUserRegister extends Component
     /**
      * __construct
      *
-     * @param string id         id属性に付与する文字列
-     * @param string class      class属性に付与する文字列
-     * @param string providerId 提供者ID
+     * @param string id                id属性に付与する文字列
+     * @param string class             class属性に付与する文字列
+     * @param string serviceProviderId サービス提供者情報ID
      * @return void
      */
     public function __construct(
         public readonly string $id = 'modalServiceProviderUserRegister',
         public readonly string $class = '',
-        public readonly string $providerId = ''
+        public readonly string $serviceProviderId = ''
     )
     {
 

@@ -1,4 +1,33 @@
 /**
+ * ServiceProviderInputUpdateModalCallbackClass
+ * 
+ */
+class ServiceProviderInputUpdateModalCallbackClass {
+    /**
+     * constructor
+     * 
+     * @param {ServiceProviderGrid} serviceProviderGrid ServiceProviderGridインスタンス
+     * @param {number}              id                  サービス提供者情報ID
+     */
+    constructor(serviceProviderGrid, id) {
+        this.serviceProviderGrid = serviceProviderGrid;
+        this.id = id;
+    };
+
+    /**
+     * サービス提供者登録時コールバック
+     * 
+     * @param {object} serviceProvider サービス提供者情報
+     */
+    updateCallback(serviceProvider) {
+        // 行データを取得
+        let row = this.serviceProviderGrid.gridApi.getRowNode(this.id);
+        // 行データを更新
+        row.setData(serviceProvider);
+    }
+}
+
+/**
  * ServiceProviderDeleteConfirmModalCallbackClass
  * 
  */
@@ -221,8 +250,21 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        let aa = params;
-                        alert('aaaaaaaaa');
+                        // サービス提供者入力モーダルのインスタンスを生成
+                        let serviceProviderInputModal = new ServiceProviderInputModal(
+                            new ServiceProviderInputUpdateModalCallbackClass(params.context, params.data.id),
+                            'modalServiceProviderInputUpdate'
+                        );
+                        serviceProviderInputModal.init();
+                        serviceProviderInputModal.set(
+                            params.data.id,
+                            params.data.providerId,
+                            params.data.name,
+                            DateTimeUtil.convertDate(params.data.useStartDateTime),
+                            params.data.useEndDateTime,
+                            params.data.useStop
+                        );
+                        serviceProviderInputModal.show();
                     }
                     return result;
                 },
@@ -260,6 +302,60 @@ class ServiceProviderGrid {
                     return result;
                 }
             },
+            {
+                field: 'detailInfo',
+                headerName: '提供者情報',
+                flex: 1,
+                cellClass : 'ag-cell-non-padding',
+                cellRenderer : ServiceProviderCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.btnEditId = 'detailInfoBtnDelete' + params.data.id;
+                    result.btnDeleteId = 'detailInfoBtnDelete' + params.data.id;
+                    /**
+                     * 編集ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.btnEditClicked = function(e, params) {
+                        // サービス提供者入力モーダルのインスタンスを生成
+                        let serviceProviderInputModal = new ServiceProviderInputModal(
+                            new ServiceProviderInputUpdateModalCallbackClass(params.context, params.data.id),
+                            'modalServiceProviderInputUpdate'
+                        );
+                        serviceProviderInputModal.init();
+                        serviceProviderInputModal.set(
+                            params.data.id,
+                            params.data.providerId,
+                            params.data.name,
+                            DateTimeUtil.convertDate(params.data.useStartDateTime),
+                            params.data.useEndDateTime,
+                            params.data.useStop
+                        );
+                        serviceProviderInputModal.show();
+                    }
+                    /**
+                     * 削除ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.btnDeleteClicked = function(e, params) {
+                        // 削除確認モーダルのインスタンスを生成
+                        let serviceProviderDeleteConfirmModal = new ConfirmModal(
+                            new ServiceProviderDeleteConfirmModalCallbackClass(params.context, params.data.id),
+                            'serviceProviderDeleteModalConfirm'
+                        );
+
+                        // 削除確認モーダルを表示
+                        serviceProviderDeleteConfirmModal.show();
+                    }
+                    return result;
+                },
+                autoHeight: true,
+                hide: true
+            }
         ];
     }
 
@@ -308,5 +404,39 @@ class ServiceProviderGrid {
             add: [data],
             addIndex: addIndex
           });
+    }
+
+    /**
+     * 一覧表示モードで表示
+     * 
+     */
+    showGridMode() {
+        this.gridApi.setColumnsVisible([
+            'providerId',
+            'name',
+            'useStartDateTime',
+            'useEndDateTime',
+            'useStop',
+            'btnEdit',
+            'btnDelete'
+        ], true);
+        this.gridApi.setColumnsVisible(['detailInfo'], false);
+    }
+
+    /**
+     * 詳細表示モードで表示
+     * 
+     */
+    showDetailInfoMode() {
+        this.gridApi.setColumnsVisible([
+            'providerId',
+            'name',
+            'useStartDateTime',
+            'useEndDateTime',
+            'useStop',
+            'btnEdit',
+            'btnDelete'
+        ], false);
+        this.gridApi.setColumnsVisible(['detailInfo'], true);
     }
 }

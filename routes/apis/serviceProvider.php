@@ -34,6 +34,17 @@ Route::post('/', [ServiceProviderController::class, 'serviceProviders'])->name('
 Route::post('/register', [ServiceProviderController::class, 'register'])->name('serviceProvider.register');
 
 /**
+ * サービス提供者情報を更新する
+ * HTTP Method Patch
+ * https://{host}/api/serviceProvider/{id}
+ * 
+ * @param ServiceProviderUpdateRequest request リクエスト
+ * @param int                            id      サービス提供者情報ID
+ * @return Json
+ */
+Route::patch('/{id}', [ServiceProviderController::class, 'update'])->name('serviceProvider.update');
+
+/**
  * サービス提供者情報を削除する
  * HTTP Method Delete
  * https://{host}/api/serviceProvider/{id}

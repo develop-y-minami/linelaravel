@@ -9,3 +9,4 @@ truncate linelaravel.line_user_individuals;
 truncate linelaravel.line_users;
 truncate linelaravel.lines;
 truncate linelaravel.users;
+truncate linelaravel.service_providers;

@@ -27,7 +27,7 @@ class ServiceProviderUserRegisterModal {
      * サービス提供者ID
      * 
      */
-    $txtProviderId;
+    $txtServiceProviderId;
     /**
      * アカウント種別コンテナー
      * 
@@ -99,7 +99,7 @@ class ServiceProviderUserRegisterModal {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
-        this.$txtProviderId = $('#' + id + 'TxtProviderId');
+        this.$txtServiceProviderId = $('#' + id + 'TxtServiceProviderId');
         this.$radioUserAccountTypeContainer = $('#' + id + 'RadioUserAccountTypeContainer');
         this.$radioUserAccountType = $('input:radio[name="' + id + 'RadioUserAccountType"]:checked');
         this.$radioUserAccountTypeUser = $('#' + id + 'RadioUserAccountTypeUser');
@@ -143,9 +143,6 @@ class ServiceProviderUserRegisterModal {
      * 
      */
     show() {
-        // モーダルを初期化
-        this.init();
-
         this.$overlay.show();
         this.$modal.fadeIn();
     }
@@ -185,7 +182,7 @@ class ServiceProviderUserRegisterModal {
             me.$loadingOverlay.show();
 
             // パラメータを取得
-            let providerId = me.$txtProviderId.val();
+            let serviceProviderId = me.$txtServiceProviderId.val();
             let accountId = me.$txtAccountId.val().trim();
             let name = me.$txtName.val().trim();
             let email = me.$txtEmail.val().trim();
@@ -195,7 +192,7 @@ class ServiceProviderUserRegisterModal {
             let userAccountType = Number(me.$radioUserAccountType.val());
             
             // ユーザー情報を登録
-            let result = await UserApi.register(providerId, accountId, name, email, password, passwordConfirm, userType, userAccountType);
+            let result = await UserApi.register(serviceProviderId, accountId, name, email, password, passwordConfirm, userType, userAccountType);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる

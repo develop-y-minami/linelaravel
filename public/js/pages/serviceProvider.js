@@ -25,6 +25,11 @@ $(function() {
      */
     let $selServiceProviderUseStop = $('#selServiceProviderUseStop');
     /**
+     * 表示モード切替
+     * 
+     */
+    let $checkSwitch = $('#checkSwitch');
+    /**
      * 検索ボタン
      * 
      */
@@ -86,10 +91,10 @@ $(function() {
     let searchServiceProviderUseStop = null;
 
     /**
-     * ServiceProviderInputModalCallbackClass
+     * ServiceProviderInputRegisterModalCallbackClass
      * 
      */
-    class ServiceProviderInputModalCallbackClass {
+    class ServiceProviderInputRegisterModalCallbackClass {
         /**
          * constructor
          * 
@@ -128,6 +133,7 @@ $(function() {
         yesCallback(e) {
             e.data.me.close(e);
             // サービス提供者ユーザー登録モーダルを起動
+            serviceProviderUserRegisterModal.init();
             serviceProviderUserRegisterModal.show();
             // 管理者をチェック状態に設定し非表示
             serviceProviderUserRegisterModal.$radioUserAccountTypeAdmin.prop('checked', true);
@@ -162,7 +168,7 @@ $(function() {
             grid = new ServiceProviderGrid('grid');
 
             // サービス提供者入力モーダル
-            serviceProviderInputModal = new ServiceProviderInputModal(new ServiceProviderInputModalCallbackClass());
+            serviceProviderInputModal = new ServiceProviderInputModal(new ServiceProviderInputRegisterModalCallbackClass(), 'modalServiceProviderInputRegister');
 
             // サービス提供者ユーザー登録確認モーダル
             userRegisterConfirmModal = new ConfirmModal(new UserRegisterConfirmModalCallbackClass(), 'userRegisterModalConfirm');
@@ -217,6 +223,18 @@ $(function() {
     }
 
     /**
+     * 表示モード切替
+     * 
+     */
+    $checkSwitch.on('change', function() {
+        if ($(this).prop('checked') === true) {
+            grid.showDetailInfoMode();
+        } else {
+            grid.showGridMode();
+        }
+    })
+
+    /**
      * 検索ボタンクリック時
      * 
      */
@@ -233,7 +251,8 @@ $(function() {
      */
     $btnInsert.on('click', function() {
         // サービス提供者入力モーダルを起動
-        serviceProviderInputModal.show(EditMode.REGISTER);
+        serviceProviderInputModal.init();
+        serviceProviderInputModal.show();
     });
 
     /**

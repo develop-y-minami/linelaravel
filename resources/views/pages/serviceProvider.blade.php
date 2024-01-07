@@ -15,6 +15,7 @@
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/serviceProviderUserRegisterModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/serviceProviderCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
@@ -62,7 +63,8 @@
 
 @section('overlayContents')
     {{--サービス提供者入力モーダル--}}
-    <x-modals.serviceProviderInput></x-modals.serviceProviderInput>
+    <x-modals.serviceProviderInput id="modalServiceProviderInputRegister"></x-modals.serviceProviderInput>
+    <x-modals.serviceProviderInput id="modalServiceProviderInputUpdate" :mode="\EditMode::UPDATE"></x-modals.serviceProviderInput>
     {{--ユーザー登録確認モーダル--}}
     <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
     {{--サービス提供者ユーザー登録モーダル--}}

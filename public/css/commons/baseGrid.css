@@ -40,7 +40,6 @@
 *   メイン：検索条件コンテナー
 ******************************************************/
 .gridPageContainer main .searchContainer {
-    flex: 1;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -49,7 +48,16 @@
 }
 
 /******************************************************
-*   メイン：リロードボタンコンテナー
+*   メイン：中央コンテナー
+******************************************************/
+.gridPageContainer main .centerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/******************************************************
+*   メイン：右コンテナー
 ******************************************************/
 .gridPageContainer main .rightContainer {
     display: flex;

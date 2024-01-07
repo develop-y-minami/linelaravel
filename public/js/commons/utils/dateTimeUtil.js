@@ -26,6 +26,30 @@ class DateTimeUtil {
     }
 
     /**
+     * yyyy-mm-ddに変換
+     * 
+     * @param {string} strDate 日時文字列
+     * @returns {string} 変換後日時
+     */
+    static convertDate(strDate) {
+        let result = '';
+
+        if (strDate !== null && strDate !== '') {
+            // Date型に変換
+            let dateTime = new Date(strDate);
+            let year = dateTime.getFullYear();
+            let month = dateTime.getMonth() + 1;
+            let date = dateTime.getDate();
+
+            result += year + '-';
+            result += StringUtil.zeroPadding(month, 2) + '-';
+            result += StringUtil.zeroPadding(date, 2);
+        }
+
+        return result;
+    }
+
+    /**
      * yyyy年mm月dd日に変換
      * 
      * @param {string} strDate 日時文字列

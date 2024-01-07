@@ -1,5 +1,9 @@
 {{--サービス提供者入力モーダル--}}
 <div id="{{ $id }}" class="modal modalServiceProviderInput {{ $class }}">
+    {{--非表示領域--}}
+    <div class="hideContainer">
+        <input type="text" id="{{ $id }}TxtServiceProviderId">
+    </div>
     <div class="container">
         <header>
             <div class="title">サービス提供者情報</div>
@@ -28,20 +32,25 @@
                 </div>
             </div>
 
-            {{--利用停止状態--}}
-            <div id="{{ $id }}CheckUseStopContainer" class="row">
-                <div class="checkBox">
-                    <input type="checkbox" id="{{ $id }}CheckUseStop">
-                    <label for="{{ $id }}CheckUseStop">利用停止に設定</label>
+            @if ($mode == \EditMode::UPDATE)
+                {{--利用停止状態--}}
+                <div class="row">
+                    <div class="checkBox">
+                        <input type="checkbox" id="{{ $id }}CheckUseStop">
+                        <label for="{{ $id }}CheckUseStop">利用停止に設定</label>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             {{--エラーメッセージ--}}
             <div id="{{ $id }}ErrorMessage" class="errorMessage"></div>
 
             <div class="row">
-                <button id="{{ $id }}BtnRegister" class="blue large">登録</button>
-                <button id="{{ $id }}BtnUpdate" class="blue large">更新</button>
+                @if ($mode == \EditMode::REGISTER)
+                    <button id="{{ $id }}BtnRegister" class="blue large">登録</button>
+                @elseif ($mode == \EditMode::UPDATE)
+                    <button id="{{ $id }}BtnUpdate" class="green large">更新</button>
+                @endif
             </div>
         </main>
     </div>
