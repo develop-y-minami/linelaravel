@@ -15,10 +15,11 @@ class ServiceProviderController extends Controller
      * @param Request request リクエスト
      * @return View
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         try
         {
-            return view('pages.serviceProvider')->with('data', []);
+            return view('pages.serviceProvider');
         }
         catch (\Exception $e)
         {

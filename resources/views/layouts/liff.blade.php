@@ -15,6 +15,7 @@
         {{--共通CSS--}}
         <link rel="stylesheet" href="{{ asset('css/commons/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/component.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/liffs/commons/base.css') }}">
 
         {{--各ページのCSSを読み込み--}}
         @stack('css')
@@ -25,13 +26,11 @@
         {{--JQuery--}}
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-        <script src="{{ asset('js/liffs/liff.js') }}"></script>
-
         {{--各ページのJavaScript：固有を読み込み--}}
         @stack('js')
     </head>
 
-    <body>
+    <body class="base">
         @yield('page')
     </body>
 </html>

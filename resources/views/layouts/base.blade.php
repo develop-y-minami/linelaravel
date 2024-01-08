@@ -97,7 +97,7 @@
                     <ul class="menuGroup">
                         <li class="menu parent"><a href="">設定</a></li>
                         <li class="menu child"><a href="">マスタ設定</a></li>
-                        <li class="menu child"><a href="">担当者設定</a></li>
+                        <li class="menu child"><a href="{{ route('user.index') }}">担当者設定</a></li>
                         <li class="menu child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
                         <li class="menu child"><a href="">システム設定</a></li>
                     </ul>

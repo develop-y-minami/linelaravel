@@ -12,46 +12,19 @@ use Illuminate\Http\Request;
 class LiffController extends Controller
 {
     /**
-     * LIFF
+     * サービス提供者設定ページ
      * HTTP Method Get
-     * https://{host}/liff/{id}
+     * https://{host}/liff/setting/serviceProvider
      * 
      * @param string id ID
      * @param Request request リクエスト
      * @return View
      */
-    public function liff(Request $request, $id) {
-        try
-        {
-            switch ((int)$id)
-            {
-                case \LiffPageType::USER_REGISTER :
-                    return $this->userRegisterPage();
-                    break;
-            }
-
-            return view('pages.top')->with('data', $result);
-        }
-        catch (\Exception $e)
-        {
-            throw $e;
-        }
-    }
-
-    public function page(Request $request) {
-        return view('liffs.userRegister')->with('data', []);
-    }
-
-    /**
-     * ユーザー登録ページ
-     * 
-     * @return View
-     */
-    private function userRegisterPage()
+    public function settingServiceProvider(Request $request)
     {
         try
         {
-            return view('liffs.userRegister')->with('data', []);
+            return view('liffs.settingServiceProvider');
         }
         catch (\Exception $e)
         {

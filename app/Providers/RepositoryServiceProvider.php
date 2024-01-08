@@ -95,10 +95,22 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositorys\ServiceProviderRepository::class
         );
 
+        // UserAccountTypeRepository
+        $this->app->bind(
+            \App\Repositorys\UserAccountTypeRepositoryInterface::class,
+            \App\Repositorys\UserAccountTypeRepository::class
+        );
+
         // UserRepository
         $this->app->bind(
             \App\Repositorys\UserRepositoryInterface::class,
             \App\Repositorys\UserRepository::class
+        );
+
+        // UserTypeRepository
+        $this->app->bind(
+            \App\Repositorys\UserTypeRepositoryInterface::class,
+            \App\Repositorys\UserTypeRepository::class
         );
     }
 

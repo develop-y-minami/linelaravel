@@ -5,10 +5,10 @@ namespace App\View\Components\Selects;
 use Illuminate\View\Component;
 
 /**
- * 担当者セレクトボックス Component
+ * 担当者アカウント種別セレクトボックス Component
  * 
  */
-class User extends Component
+class UserAccountType extends Component
 {
     /**
      * __construct
@@ -25,14 +25,14 @@ class User extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = 'selUser',
+        public readonly string $id = 'selUserAccountType',
         public readonly string $name = '',
         public readonly string $class = '',
         public readonly string $classBox = '',
         public readonly array $selectItems = array(),
         public readonly string $selectedValue = '0',
         public readonly string $blankItemValue = '0',
-        public readonly string $blankItemName = '担当者を選択',
+        public readonly string $blankItemName = '担当者アカウント種別を選択',
         public readonly bool $visibleBlankItem = true
     )
     {

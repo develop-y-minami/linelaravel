@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+/******************************************************
+*   サービス提供者設定ページ
+******************************************************/
+.settingServiceProviderPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+    height: 100vh;
+}
+
+.settingServiceProviderPage .row {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.settingServiceProviderPage .row .inputLabel {
+    margin-bottom: 10px;
+}
+
+.settingServiceProviderPage .row input,
+.settingServiceProviderPage .row button {
+    width: 100%;
+}

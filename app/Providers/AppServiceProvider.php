@@ -111,11 +111,27 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // UserAccountTypeService
+        $this->app->bind(
+            \App\Services\Webs\UserAccountTypeServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\UserAccountTypeService($app->make(\App\Repositorys\UserAccountTypeRepositoryInterface::class));
+            },
+        );
+        
         // UserService
         $this->app->bind(
             \App\Services\Webs\UserServiceInterface::class,
             function ($app) {
                 return new \App\Services\Webs\UserService($app->make(\App\Repositorys\UserRepositoryInterface::class));
+            },
+        );
+
+        // UserTypeService
+        $this->app->bind(
+            \App\Services\Webs\UserTypeServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\UserTypeService($app->make(\App\Repositorys\UserTypeRepositoryInterface::class));
             },
         );
     }

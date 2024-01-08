@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Liffs\LiffController;
+use App\Http\Controllers\Webs\UserController;
 
 /*
 |--------------------------------------------------------------------------
-| Liff Routes
+| User Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -14,12 +14,11 @@ use App\Http\Controllers\Liffs\LiffController;
 |
 */
 /**
- * サービス提供者設定ページ
+ * 担当者ページ
  * HTTP Method Get
- * https://{host}/liff/setting/serviceProvider
+ * https://{host}/user
  * 
- * @param string id ID
  * @param Request request リクエスト
  * @return View
  */
-Route::get('/setting/serviceProvider', [LiffController::class, 'settingServiceProvider'])->name('liff.settingServiceProvider');
+Route::get('/', [UserController::class, 'index'])->name('user.index');

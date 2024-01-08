@@ -560,9 +560,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         {
             // リプレイメッセージのフォーマットを取得
             $replyFollowMessage = config('line.reply_follow_message');
+            // サービス提供者設定ページのURLを取得
+            $settingServiceProviderUrl = config('line.setting_service_provider_url');
 
             // テキストメッセージを生成
-            $textMessage = sprintf($replyFollowMessage, $displayName);
+            $textMessage = sprintf($replyFollowMessage, $displayName, $settingServiceProviderUrl);
 
             // リプライメッセージ送信
             $response = $this->replyTextMessage($replyToken, $textMessage, $lineId);
