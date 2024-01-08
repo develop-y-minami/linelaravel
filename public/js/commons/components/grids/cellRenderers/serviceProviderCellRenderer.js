@@ -25,7 +25,7 @@ class ServiceProviderCellRenderer {
             labelColor = 'green';
         }
 
-        // ボタンを内包するコンテナー
+        // コンテナー
         this.eGui = document.createElement('div');
         this.eGui.classList.add('detailInfoContainer');
 

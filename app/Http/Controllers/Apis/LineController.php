@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Apis;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LineUserSettingRequest;
-use App\Services\Apis\LineNoticeApiServiceInterface;
 use App\Services\Apis\LineApiServiceInterface;
 use App\Jsons\LineApis\Responses\LinesResponse;
 use App\Jsons\LineApis\Responses\NoticesResponse;
@@ -18,23 +17,18 @@ use App\Jsons\LineApis\Responses\TalkHistorysResponse;
 class LineController extends Controller
 {
     /**
-     * LineNoticeApiService
+     * LineApiServiceInterface
      * 
      */
-    private $lineNoticeApiService;
+    private $lineApiServiceInterface;
 
     /**
      * __construct
      * 
-     * @param LineNoticeApiServiceInterface lineNoticeApiService
-     * @param LineApiServiceInterface       lineApiServiceInterface
+     * @param LineApiServiceInterface lineApiServiceInterface
      */
-    public function __construct(
-        LineNoticeApiServiceInterface $lineNoticeApiService,
-        LineApiServiceInterface $lineApiServiceInterface
-    )
+    public function __construct(LineApiServiceInterface $lineApiServiceInterface)
     {
-        $this->lineNoticeApiService = $lineNoticeApiService;
         $this->lineApiServiceInterface = $lineApiServiceInterface;
     }
 
@@ -54,14 +48,16 @@ class LineController extends Controller
             $noticeDate = $request->input('noticeDate');
             $lineNoticeTypeId = $request->input('lineNoticeTypeId');
             $displayName = $request->input('displayName');
+            $serviceProviderId = $request->input('serviceProviderId');
             $userId = $request->input('userId');
 
             // キャスト
             $lineNoticeTypeId = $lineNoticeTypeId == null ? null : (int)$lineNoticeTypeId;
+            $serviceProviderId = $serviceProviderId == null ? null : (int)$serviceProviderId;
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE通知情報を取得する
-            $notices = $this->lineNoticeApiService->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $userId);
+            $notices = $this->lineApiServiceInterface->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $serviceProviderId, $userId);
             
             // レスポンスデータを生成
             $response = new NoticesResponse($notices);
@@ -91,15 +87,17 @@ class LineController extends Controller
             $lineAccountTypeId = $request->input('lineAccountTypeId');
             $lineAccountStatusId = $request->input('lineAccountStatusId');
             $displayName = $request->input('displayName');
+            $serviceProviderId = $request->input('serviceProviderId');
             $userId = $request->input('userId');
 
             // キャスト
             $lineAccountTypeId = $lineAccountTypeId == null ? null : (int)$lineAccountTypeId;
             $lineAccountStatusId = $lineAccountStatusId == null ? null : (int)$lineAccountStatusId;
+            $serviceProviderId = $serviceProviderId == null ? null : (int)$serviceProviderId;
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE情報を取得する
-            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $userId);
+            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
             
             // レスポンスデータを生成
             $response = new LinesResponse($lines);

@@ -3,17 +3,21 @@
 namespace App\Services\Apis;
 
 use App\Repositorys\LineMessageImageRepositoryInterface;
+use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Repositorys\LineOfUserNoticeSettingRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
 use App\Repositorys\LineTalkHistoryRepositoryInterface;
 use App\Jsons\LineApis\Line;
 use App\Jsons\LineApis\LineAccountStatus;
 use App\Jsons\LineApis\LineAccountType;
+use App\Jsons\LineApis\LineNotice;
+use App\Jsons\LineApis\LineNoticeType;
 use App\Jsons\LineApis\LineTalk;
 use App\Jsons\LineApis\LineTalkContentImages;
 use App\Jsons\LineApis\LineTalkContentImage;
 use App\Jsons\LineApis\LineTalkContentText;
 use App\Jsons\LineApis\LineTalkHistory;
+use App\Jsons\LineApis\ServiceProvider;
 use App\Jsons\LineApis\User;
 use Carbon\Carbon;
 
@@ -29,6 +33,11 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
      */
     private $lineMessageImageRepository;
     /**
+     * LineNoticeRepositoryInterface
+     * 
+     */
+    private $lineNoticeRepository;
+    /**
      * LineOfUserNoticeSettingRepositoryInterface
      * 
      */
@@ -43,18 +52,21 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
      * __construct
      * 
      * @param LineMessageImageRepositoryInterface        lineMessageImageRepository
+     * @param LineNoticeRepositoryInterface              lineNoticeRepository
      * @param LineOfUserNoticeSettingRepositoryInterface lineOfUserNoticeSettingRepository
      * @param LineRepositoryInterface                    lineRepository
      * @param LineTalkHistoryRepositoryInterface         lineTalkHistoryRepository
      */
     public function __construct(
         LineMessageImageRepositoryInterface $lineMessageImageRepository,
+        LineNoticeRepositoryInterface $lineNoticeRepository,
         LineOfUserNoticeSettingRepositoryInterface $lineOfUserNoticeSettingRepository,
         LineRepositoryInterface $lineRepository,
         LineTalkHistoryRepositoryInterface $lineTalkHistoryRepository
     )
     {
         $this->lineMessageImageRepository = $lineMessageImageRepository;
+        $this->lineNoticeRepository = $lineNoticeRepository;
         $this->lineOfUserNoticeSettingRepository = $lineOfUserNoticeSettingRepository;
         $this->lineRepository = $lineRepository;
         $this->lineTalkHistoryRepository = $lineTalkHistoryRepository;
@@ -70,6 +82,8 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     {
         // LINE情報を取得
         $data = $this->lineRepository->findById($id);
+        // サービス提供者情報を設定
+        $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
         // ユーザー情報を設定
         $user = new User($data->user->id, $data->user->name);
         // LINEアカウント状態を設定
@@ -77,7 +91,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         // LINEアカウント種別を設定
         $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
         // LINE情報を設定
-        $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $user);
+        $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
 
         return $line;
     }
@@ -88,6 +102,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
+     * @param int    serviceProviderId   サービス提供者ID
      * @param int    userId              担当者ID
      * @return array LINE情報
      */
@@ -95,6 +110,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         $lineAccountTypeId = null,
         $lineAccountStatusId = null,
         $displayName = null,
+        $serviceProviderId = null,
         $userId = null
     )
     {
@@ -102,9 +118,11 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         $result = array();
 
         // LINE情報を取得
-        $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $displayName, $userId);
+        $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
         foreach ($datas as $data)
         {
+            // サービス提供者情報を設定
+            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
             // ユーザー情報を設定
             $user = new User($data->user->id, $data->user->name);
             // LINEアカウント状態を設定
@@ -112,10 +130,57 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
             // LINEアカウント種別を設定
             $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
             // LINE情報を設定
-            $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $user);
+            $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
 
             // 配列に追加
             $result[] = $line;
+        }
+
+        return $result;
+    }
+
+    /**
+     * LINE通知情報を返却
+     * 
+     * @param string noticeDate        通知日
+     * @param int    lineNoticeTypeId  LINE通知種別
+     * @param string displayName       LINE 表示名
+     * @param int    serviceProviderId サービス提供者ID
+     * @param int    userId            担当者ID
+     * @return array LINE通知情報
+     */
+    public function getNotices(
+        $noticeDate = null,
+        $lineNoticeTypeId = null,
+        $displayName = null,
+        $serviceProviderId = null,
+        $userId = null
+    )
+    {
+        // 返却データ
+        $result = array();
+
+        // LINE通知情報を取得
+        $datas = $this->lineNoticeRepository->findByconditions($noticeDate, $lineNoticeTypeId, $displayName, $serviceProviderId, $userId);
+        foreach ($datas as $data)
+        {
+            // サービス提供者情報を設定
+            $serviceProvider = new ServiceProvider($data->line->serviceProvider->id, $data->line->serviceProvider->name);
+            // ユーザー情報を設定
+            $user = new User($data->line->user->id, $data->line->user->name);
+            // LINEアカウント状態を設定
+            $lineAccountStatus = new LineAccountStatus($data->line->lineAccountStatus->id, $data->line->lineAccountStatus->name);
+            // LINEアカウント種別を設定
+            $lineAccountType = new LineAccountType($data->line->lineAccountType->id, $data->line->lineAccountType->name);
+            // LINE情報を設定
+            $line = new Line($data->line->id, $data->line->display_name, $data->line->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
+            // LINE通知種別を設定
+            $lineNoticeType = new LineNoticeType($data->lineNoticeType->id, $data->lineNoticeType->display_name);
+            // LINE通知情報を設定
+            $lineNotice = new LineNotice($data->id, $data->notice_date_time, $data->content, $lineNoticeType, $line);
+
+            // 配列に追加
+            $result[] = $lineNotice;
         }
 
         return $result;

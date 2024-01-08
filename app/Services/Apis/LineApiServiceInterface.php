@@ -22,6 +22,7 @@ interface LineApiServiceInterface
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
+     * @param int    serviceProviderId   サービス提供者ID
      * @param int    userId              担当者ID
      * @return array LINE情報
      */
@@ -29,6 +30,25 @@ interface LineApiServiceInterface
         $lineAccountTypeId = null,
         $lineAccountStatusId = null,
         $displayName = null,
+        $serviceProviderId = null,
+        $userId = null
+    );
+
+    /**
+     * LINE通知情報を返却
+     * 
+     * @param string noticeDate        通知日
+     * @param int    lineNoticeTypeId  LINE通知種別
+     * @param string displayName       LINE 表示名
+     * @param int    serviceProviderId サービス提供者ID
+     * @param int    userId            担当者ID
+     * @return array LINE通知情報
+     */
+    public function getNotices(
+        $noticeDate = null,
+        $lineNoticeTypeId = null,
+        $displayName = null,
+        $serviceProviderId = null,
         $userId = null
     );
 

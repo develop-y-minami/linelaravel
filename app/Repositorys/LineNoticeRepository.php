@@ -14,16 +14,18 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
     /**
      * LINE通知情報を取得
      * 
-     * @param string noticeDate       通知日
-     * @param int    lineNoticeTypeId LINE通知種別
-     * @param string displayName      LINE 表示名
-     * @param int    userId           担当者ID
+     * @param string noticeDate        通知日
+     * @param int    lineNoticeTypeId  LINE通知種別
+     * @param string displayName       LINE 表示名
+     * @param int    serviceProviderId サービス提供者ID
+     * @param int    userId            担当者ID
      * @return Collection LINE通知情報
      */
     public function findByconditions(
         $noticeDate = null,
         $lineNoticeTypeId = null,
         $displayName = null,
+        $serviceProviderId = null,
         $userId = null
     )
     {
@@ -31,6 +33,7 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
 
         $query->with([
             'line',
+            'line.serviceProvider',
             'line.user',
             'line.lineAccountType',
             'line.lineAccountStatus',
@@ -47,6 +50,12 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
         if ($displayName != null)
         {
             $query->withWhereHas('line', function($query) use ($displayName) { $query->where('display_name', 'LIKE', "$displayName%"); });
+        }
+        
+        // サービス提供者ID
+        if ($serviceProviderId != null) 
+        {
+            $query->withWhereHas('line.serviceProvider', function($query) use ($serviceProviderId) { $query->whereId($serviceProviderId); });
         }
 
         // 担当者ID

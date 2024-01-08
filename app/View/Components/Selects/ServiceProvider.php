@@ -25,7 +25,7 @@ class ServiceProvider extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = '',
+        public readonly string $id = 'selServiceProvider',
         public readonly string $name = '',
         public readonly string $class = '',
         public readonly string $classBox = '',

@@ -5,6 +5,11 @@ $(function() {
      */
     let $txtSearchLineNoticeDate = $('#txtSearchLineNoticeDate');
     /**
+     * サービス提供者セレクトボックス
+     * 
+     */
+    let $selSearchServiceProvider = $('#selSearchServiceProvider');
+    /**
      * 担当者セレクトボックス
      * 
      */
@@ -39,6 +44,11 @@ $(function() {
      * 
      */
     let searchLineNoticeDate = null;
+    /**
+     * サービス提供者の選択値
+     * 
+     */
+    let searchServiceProvider = null;
     /**
      * 担当者の選択値
      * 
@@ -76,7 +86,7 @@ $(function() {
             setSearchConditions();
 
             // 通知リストグリッドを初期化
-            grid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+            grid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
         } catch(error) {
             throw error;
         }
@@ -91,6 +101,12 @@ $(function() {
         searchLineNoticeDate = null;
         if ($txtSearchLineNoticeDate.val() !== '') {
             searchLineNoticeDate = $txtSearchLineNoticeDate.val();
+        }
+
+        // サービス提供者セレクトボックス
+        searchServiceProvider = null;
+        if ($selSearchServiceProvider.val() !== '0') {
+            searchServiceProvider = Number($selSearchServiceProvider.val());
         }
 
         // 担当者セレクトボックス
@@ -120,7 +136,7 @@ $(function() {
         // 検索条件を設定
         setSearchConditions();
         // グリッドを設定
-        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
     });
 
     /**
@@ -129,6 +145,6 @@ $(function() {
      */
     $btnReload.on('click', function() {
         // グリッドを設定
-        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchUser);
+        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
     });
 });

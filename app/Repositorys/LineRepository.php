@@ -20,6 +20,7 @@ class LineRepository implements LineRepositoryInterface
     public function findById($id)
     {
         return Line::with([
+            'serviceProvider',
             'user',
             'lineAccountType',
             'lineAccountStatus',
@@ -38,6 +39,7 @@ class LineRepository implements LineRepositoryInterface
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
+     * @param int    serviceProviderId   サービス提供者ID
      * @param int    userId              担当者ID
      * @return Collection LINE情報
      */
@@ -45,12 +47,14 @@ class LineRepository implements LineRepositoryInterface
         $lineAccountTypeId = null,
         $lineAccountStatusId = null,
         $displayName = null,
+        $serviceProviderId = null,
         $userId = null
     )
     {
         $query = Line::query();
 
         $query->with([
+            'serviceProvider',
             'user',
             'lineAccountType',
             'lineAccountStatus'
@@ -64,6 +68,9 @@ class LineRepository implements LineRepositoryInterface
 
         // LINE 表示名
         if ($displayName != null) $query->where('display_name', 'LIKE', "$displayName%");
+
+        // サービス提供者ID
+        if ($serviceProviderId != null) $query->whereServiceProviderId($serviceProviderId);
 
         // 担当者ID
         if ($userId != null) $query->whereUserId($userId);

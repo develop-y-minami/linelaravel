@@ -43,12 +43,13 @@ class LineNoticeGrid {
     /**
      * 初期化
      * 
-     * @param {string} noticeDate       通知日
-     * @param {number} lineNoticeTypeId LINE通知種別
-     * @param {string} displayName      LINE表示名
-     * @param {number} userId           担当者ID
+     * @param {string} noticeDate        通知日
+     * @param {number} lineNoticeTypeId  LINE通知種別
+     * @param {string} displayName       LINE表示名
+     * @param {number} serviceProviderId サービス提供者ID
+     * @param {number} userId            担当者ID
      */
-    init(noticeDate = null, lineNoticeTypeId = null, displayName = null, userId = null) {
+    init(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
         // default値を設定
         AgGrid.setDefaultGridOptions(this.gridOptions);
 
@@ -62,7 +63,7 @@ class LineNoticeGrid {
         this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
 
         // 行データを設定
-        this.setRowData(noticeDate, lineNoticeTypeId, displayName, userId);
+        this.setRowData(noticeDate, lineNoticeTypeId, displayName, serviceProviderId, userId);
     }
 
     /**
@@ -127,8 +128,21 @@ class LineNoticeGrid {
                 flex: 1
             },
             {
+                field: 'serviceProvider',
+                headerName: 'サービス提供者',
+                width: 150,
+                cellRenderer : LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = params.data.line.serviceProvider.id;
+                    result.name = params.data.line.serviceProvider.name;
+                    return result;
+                }
+            },
+            {
                 field: 'line.user.name',
                 headerName: '担当者',
+                width: 150,
                 cellRenderer : LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
@@ -143,12 +157,13 @@ class LineNoticeGrid {
     /**
      * 行データを設定
      * 
-     * @param {string} noticeDate       通知日
-     * @param {number} lineNoticeTypeId LINE通知種別
-     * @param {string} displayName      LINE表示名
-     * @param {number} userId           担当者ID
+     * @param {string} noticeDate        通知日
+     * @param {number} lineNoticeTypeId  LINE通知種別
+     * @param {string} displayName       LINE表示名
+     * @param {number} serviceProviderId サービス提供者ID
+     * @param {number} userId            担当者ID
      */
-    async setRowData(noticeDate = null, lineNoticeTypeId = null, displayName = null, userId = null) {
+    async setRowData(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -157,7 +172,7 @@ class LineNoticeGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await LineApi.notices(noticeDate, lineNoticeTypeId, displayName, userId);
+            let result = await LineApi.notices(noticeDate, lineNoticeTypeId, displayName, serviceProviderId, userId);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.lineNotices;

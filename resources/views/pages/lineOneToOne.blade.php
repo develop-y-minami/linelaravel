@@ -9,6 +9,7 @@
     {{--AG Grid--}}
     <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     <script src="{{ asset('js/pages/lineOneToOne.js') }}"></script>
 @endpush
@@ -23,7 +24,7 @@
 @section('searchConditions')
     {{--サービス提供者セレクトボックス--}}
     <div class="content">
-        <x-selects.serviceProvider id="selSearchUser" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+        <x-selects.serviceProvider id="selSearchServiceProvider" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
     </div>
     {{--担当者セレクトボックス--}}
     <div class="content">

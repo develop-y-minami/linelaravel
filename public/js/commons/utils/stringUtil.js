@@ -52,4 +52,18 @@ class StringUtil {
     static replaceNewLine(value) {
         return value.replace(/\r?\n/g, '<br>');
     }
+
+    /**
+     * 値がNULLの場合空文字を返却
+     * 
+     * @param {string} value 
+     * @returns {string} 文字列
+     */
+    static nullToBlank(value) {
+        if (value === null) {
+            return '';
+        } else {
+            return value;
+        }
+    }
 }

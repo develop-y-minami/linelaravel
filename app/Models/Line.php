@@ -14,6 +14,7 @@ class Line extends Model
     use HasFactory;
     use \App\Traits\Relations\BelongsToLineAccountStatus;
     use \App\Traits\Relations\BelongsToLineAccountType;
+    use \App\Traits\Relations\BelongsToServiceProvider;
     use \App\Traits\Relations\BelongsToUser;
     use \App\Traits\Relations\HasOneLineUser;
 

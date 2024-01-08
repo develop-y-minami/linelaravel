@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Services\Webs\LineNoticeTypeServiceInterface;
+use App\Services\Webs\ServiceProviderServiceInterface;
 use App\Services\Webs\UserServiceInterface;
 use App\Objects\Pages\TopPage;
 
@@ -21,6 +22,11 @@ class TopController extends Controller
      */
     private $lineNoticeTypeService;
     /**
+     * ServiceProviderService
+     * 
+     */
+    private $serviceProviderService;
+    /**
      * UserServiceInterface
      * 
      */
@@ -29,15 +35,18 @@ class TopController extends Controller
     /**
      * __construct
      * 
-     * @param LineNoticeTypeServiceInterface lineNoticeTypeService
-     * @param UserServiceInterface userService
+     * @param LineNoticeTypeServiceInterface  lineNoticeTypeService
+     * @param ServiceProviderServiceInterface serviceProviderService
+     * @param UserServiceInterface            userService
      */
     public function __construct(
         LineNoticeTypeServiceInterface $lineNoticeTypeService,
+        ServiceProviderServiceInterface $serviceProviderService,
         UserServiceInterface $userService
     )
     {
         $this->lineNoticeTypeService = $lineNoticeTypeService;
+        $this->serviceProviderService = $serviceProviderService;
         $this->userService = $userService;
     }
 
@@ -56,11 +65,13 @@ class TopController extends Controller
             $lineNoticeDate = Carbon::now()->toDateString();
             // 通知種別セレクトボックス設定データを取得
             $lineNoticeTypeSelectItems = $this->lineNoticeTypeService->getSelectItems();
+            // サービス提供者セレクトボックス設定データを取得
+            $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
             // 担当者セレクトボックス設定データを取得
             $userSelectItems = $this->userService->getSelectItems();
 
             // 返却データに設定
-            $result = new TopPage($lineNoticeDate, $lineNoticeTypeSelectItems, $userSelectItems);
+            $result = new TopPage($lineNoticeDate, $lineNoticeTypeSelectItems, $serviceProviderSelectItems, $userSelectItems);
 
             return view('pages.top')->with('data', $result);
         }

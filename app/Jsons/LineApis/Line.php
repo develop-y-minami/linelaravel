@@ -16,6 +16,7 @@ class Line implements \JsonSerializable
      * @param string            pictureUrl        LINEプロフィール画像URL
      * @param LineAccountStatus lineAccountStatus LINEアカウント状態
      * @param LineAccountType   lineAccountType   LINEアカウント種別
+     * @param ServiceProvider   serviceProvider   サービス提供者情報
      * @param User              user              担当者情報
      */
     public function __construct(
@@ -24,6 +25,7 @@ class Line implements \JsonSerializable
         public readonly ?string $pictureUrl,
         public readonly LineAccountStatus $lineAccountStatus,
         public readonly LineAccountType $lineAccountType,
+        public readonly ServiceProvider $serviceProvider,
         public readonly User $user
     )
     {

@@ -34,15 +34,15 @@ class LineController extends Controller
      */
     private $lineService;
     /**
-     * UserServiceInterface
-     * 
-     */
-    private $userService;
-    /**
      * ServiceProviderService
      * 
      */
     private $serviceProviderService;
+    /**
+     * UserServiceInterface
+     * 
+     */
+    private $userService;
 
     /**
      * __construct
@@ -50,22 +50,22 @@ class LineController extends Controller
      * @param LineAccountStatusServiceInterface lineAccountStatusService
      * @param LineNoticeTypeServiceInterface    lineNoticeTypeService
      * @param LineServiceInterface              lineService
-     * @param UserServiceInterface              userService
      * @param ServiceProviderServiceInterface   serviceProviderService
+     * @param UserServiceInterface              userService
      */
     public function __construct(
         LineAccountStatusServiceInterface $lineAccountStatusService,
         LineNoticeTypeServiceInterface $lineNoticeTypeService,
         LineServiceInterface $lineService,
-        UserServiceInterface $userService,
-        ServiceProviderServiceInterface $serviceProviderService
+        ServiceProviderServiceInterface $serviceProviderService,
+        UserServiceInterface $userService
     )
     {
         $this->lineAccountStatusService = $lineAccountStatusService;
         $this->lineNoticeTypeService = $lineNoticeTypeService;
         $this->lineService = $lineService;
-        $this->userService = $userService;
         $this->serviceProviderService = $serviceProviderService;
+        $this->userService = $userService;
     }
 
     /**
@@ -81,13 +81,13 @@ class LineController extends Controller
         {
             // LINEアカウント状態セレクトボックス設定データを取得
             $lineAccountStatusSelectItems = $this->lineAccountStatusService->getSelectItems(\LineAccountType::ONE_TO_ONE);
-            // 担当者セレクトボックス設定データを取得
-            $userSelectItems = $this->userService->getSelectItems();
             // サービス提供者セレクトボックス設定データを取得
             $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
+            // 担当者セレクトボックス設定データを取得
+            $userSelectItems = $this->userService->getSelectItems();
 
             // 返却データに設定
-            $result = new LineOneToOnePage(\LineAccountType::ONE_TO_ONE, $lineAccountStatusSelectItems, $userSelectItems, $serviceProviderSelectItems);
+            $result = new LineOneToOnePage(\LineAccountType::ONE_TO_ONE, $lineAccountStatusSelectItems, $serviceProviderSelectItems, $userSelectItems);
 
             return view('pages.lineOneToOne')->with('data', $result);
         }

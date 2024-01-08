@@ -25,6 +25,10 @@
     <div class="content">
         <input type="date" id="txtSearchLineNoticeDate" value="{{ $data->lineNoticeDate }}">
     </div>
+    {{--サービス提供者セレクトボックス--}}
+    <div class="content">
+        <x-selects.serviceProvider id="selSearchServiceProvider" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+    </div>
     {{--担当者セレクトボックス--}}
     <div class="content">
         <x-selects.user id="selSearchUser" :selectItems='$data->userSelectItems'></x-selects.user>

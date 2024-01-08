@@ -66,3 +66,19 @@
 .ag-cell .detailInfoContainer .tableContainer table { width: 100%; }
 
 .ag-cell .detailInfoContainer .tableContainer table td { background-color: white; }
+
+/******************************************************
+*   LINE詳細表示セル
+******************************************************/
+.ag-cell .lineInfoContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ag-cell .lineInfoContainer .circleImgContainer {
+    flex-grow: 1;
+}
+
+.ag-cell .lineInfoContainer .lineInfoRightContainer {
+    flex-grow: 100;
+}
