@@ -81,20 +81,35 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
      */
     public function register($providerId, $name, $useStartDateTime, $useEndDateTime)
     {
-        // サービス提供者情報を登録
-        $data = $this->serviceProviderRepository->register($providerId, $name, $useStartDateTime, $useEndDateTime);
-        // サービス提供者情報を設定
-        $serviceProvider = new ServiceProvider(
-            $data->id,
-            $data->provider_id,
-            $data->name,
-            $data->use_start_date_time,
-            $data->use_end_date_time,
-            $data->use_stop,
-            \ServiceProviderUseStop::getName($data->use_stop)
-        );
+        // トランザクション開始
+        \DB::beginTransaction();
 
-        return $serviceProvider;
+        try
+        {
+            // サービス提供者情報を登録
+            $data = $this->serviceProviderRepository->register($providerId, $name, $useStartDateTime, $useEndDateTime);
+            // サービス提供者情報を設定
+            $serviceProvider = new ServiceProvider(
+                $data->id,
+                $data->provider_id,
+                $data->name,
+                $data->use_start_date_time,
+                $data->use_end_date_time,
+                $data->use_stop,
+                \ServiceProviderUseStop::getName($data->use_stop)
+            );
+
+            // コミット
+            \DB::commit();
+
+            return $serviceProvider;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -110,21 +125,36 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
      */
     public function update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop)
     {
-        // サービス提供者情報を更新
-        $this->serviceProviderRepository->update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+        // トランザクション開始
+        \DB::beginTransaction();
 
-        // サービス提供者情報を設定
-        $serviceProvider = new ServiceProvider(
-            $id,
-            $providerId,
-            $name,
-            $useStartDateTime,
-            $useEndDateTime,
-            $useStop,
-            \ServiceProviderUseStop::getName($useStop)
-        );
-        
-        return $serviceProvider;
+        try
+        {
+            // サービス提供者情報を更新
+            $this->serviceProviderRepository->update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+
+            // サービス提供者情報を設定
+            $serviceProvider = new ServiceProvider(
+                $id,
+                $providerId,
+                $name,
+                $useStartDateTime,
+                $useEndDateTime,
+                $useStop,
+                \ServiceProviderUseStop::getName($useStop)
+            );
+
+            // コミット
+            \DB::commit();
+            
+            return $serviceProvider;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
     }
 
     /**

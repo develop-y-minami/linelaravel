@@ -1,20 +1,13 @@
 <?php
 
-namespace App\Repositorys;
+namespace App\Services\Apis;
 
 /**
- * UserRepositoryInterface
+ * UserApiServiceInterface
  * 
  */
-interface UserRepositoryInterface
+interface UserApiServiceInterface
 {
-    /**
-     * 全担当者情報を取得
-     * 
-     * @return Collection 担当者情報
-     */
-    public function getAll();
-
     /**
      * ユーザー情報を登録
      * 

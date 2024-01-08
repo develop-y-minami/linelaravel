@@ -109,6 +109,8 @@ $(function() {
         registerCallback(serviceProvider) {
             // グリッドを設定
             grid.addRow(serviceProvider);
+            // contextにサービス提供者情報を設定
+            userRegisterConfirmModal.setContext(serviceProvider);
             // ユーザー登録確認モーダルを起動
             userRegisterConfirmModal.show();
         }
@@ -132,12 +134,21 @@ $(function() {
          */
         yesCallback(e) {
             e.data.me.close(e);
-            // サービス提供者ユーザー登録モーダルを起動
+            // サービス提供者情報を取得
+            let serviceProvider = e.data.me.context;
+
+            // サービス提供者ユーザー登録モーダルを初期化
             serviceProviderUserRegisterModal.init();
-            serviceProviderUserRegisterModal.show();
+
             // 管理者をチェック状態に設定し非表示
             serviceProviderUserRegisterModal.$radioUserAccountTypeAdmin.prop('checked', true);
             serviceProviderUserRegisterModal.$radioUserAccountTypeContainer.hide();
+
+            // サービス提供者IDを設定
+            serviceProviderUserRegisterModal.$txtServiceProviderId.val(serviceProvider.id);
+
+            // サービス提供者ユーザー登録モーダルを起動
+            serviceProviderUserRegisterModal.show();
         }
 
         /**

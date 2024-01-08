@@ -8,6 +8,7 @@ use App\Services\Webs\LineAccountStatusServiceInterface;
 use App\Services\Webs\LineNoticeTypeServiceInterface;
 use App\Services\Webs\LineServiceInterface;
 use App\Services\Webs\UserServiceInterface;
+use App\Services\Webs\ServiceProviderServiceInterface;
 use App\Objects\Pages\LineInfoPage;
 use App\Objects\Pages\LineOneToOnePage;
 
@@ -37,6 +38,11 @@ class LineController extends Controller
      * 
      */
     private $userService;
+    /**
+     * ServiceProviderService
+     * 
+     */
+    private $serviceProviderService;
 
     /**
      * __construct
@@ -45,18 +51,21 @@ class LineController extends Controller
      * @param LineNoticeTypeServiceInterface    lineNoticeTypeService
      * @param LineServiceInterface              lineService
      * @param UserServiceInterface              userService
+     * @param ServiceProviderServiceInterface   serviceProviderService
      */
     public function __construct(
         LineAccountStatusServiceInterface $lineAccountStatusService,
         LineNoticeTypeServiceInterface $lineNoticeTypeService,
         LineServiceInterface $lineService,
-        UserServiceInterface $userService
+        UserServiceInterface $userService,
+        ServiceProviderServiceInterface $serviceProviderService
     )
     {
         $this->lineAccountStatusService = $lineAccountStatusService;
         $this->lineNoticeTypeService = $lineNoticeTypeService;
         $this->lineService = $lineService;
         $this->userService = $userService;
+        $this->serviceProviderService = $serviceProviderService;
     }
 
     /**
@@ -74,9 +83,11 @@ class LineController extends Controller
             $lineAccountStatusSelectItems = $this->lineAccountStatusService->getSelectItems(\LineAccountType::ONE_TO_ONE);
             // 担当者セレクトボックス設定データを取得
             $userSelectItems = $this->userService->getSelectItems();
+            // サービス提供者セレクトボックス設定データを取得
+            $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
 
             // 返却データに設定
-            $result = new LineOneToOnePage(\LineAccountType::ONE_TO_ONE, $lineAccountStatusSelectItems, $userSelectItems);
+            $result = new LineOneToOnePage(\LineAccountType::ONE_TO_ONE, $lineAccountStatusSelectItems, $userSelectItems, $serviceProviderSelectItems);
 
             return view('pages.lineOneToOne')->with('data', $result);
         }

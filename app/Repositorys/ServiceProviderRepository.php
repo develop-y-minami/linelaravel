@@ -12,6 +12,16 @@ use App\Models\ServiceProvider;
 class ServiceProviderRepository implements ServiceProviderRepositoryInterface
 {
     /**
+     * 全サービス提供者情報を取得
+     * 
+     * @return Collection サービス提供者情報
+     */
+    public function getAll()
+    {
+        return ServiceProvider::get();
+    }
+
+    /**
      * サービス提供者情報を取得
      * 
      * @param int id サービス提供者情報ID

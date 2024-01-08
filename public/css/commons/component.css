@@ -250,6 +250,7 @@ button.reload:focus svg path {
 .errorMessage {
     display: none;
     padding: 10px 15px;
+    line-height: 22px;
     color: white;
     border-radius: 3px;
     background-color: #ff4343;

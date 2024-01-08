@@ -43,6 +43,11 @@ class ConfirmModal {
      * 
      */
     errorMessage;
+    /**
+     * context
+     * 
+     */
+    context;
 
     /**
      * constructor
@@ -118,5 +123,14 @@ class ConfirmModal {
     clickBtnNo(e) {
         let me = e.data.me;
         me.callbackClass.noCallback(e);
+    }
+
+    /**
+     * contextに値を設定
+     * 
+     * @param {object} context 
+     */
+    setContext(context) {
+        this.context = context;
     }
 }

@@ -21,6 +21,10 @@
 
 {{--検索条件--}}
 @section('searchConditions')
+    {{--サービス提供者セレクトボックス--}}
+    <div class="content">
+        <x-selects.serviceProvider id="selSearchUser" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+    </div>
     {{--担当者セレクトボックス--}}
     <div class="content">
         <x-selects.user id="selSearchUser" :selectItems='$data->userSelectItems'></x-selects.user>

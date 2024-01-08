@@ -67,6 +67,14 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // UserApiService
+        $this->app->bind(
+            \App\Services\Apis\UserApiServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Apis\UserApiService($app->make(\App\Repositorys\UserRepositoryInterface::class));
+            },
+        );
+
         // LineAccountStatusService
         $this->app->bind(
             \App\Services\Webs\LineAccountStatusServiceInterface::class,
@@ -91,6 +99,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Webs\LineServiceInterface::class,
             function ($app) {
                 return new \App\Services\Webs\LineService($app->make(\App\Repositorys\LineRepositoryInterface::class));
+            },
+        );
+
+        // ServiceProviderService
+        $this->app->bind(
+            \App\Services\Webs\ServiceProviderServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Webs\ServiceProviderService($app->make(\App\Repositorys\ServiceProviderRepositoryInterface::class));
             },
         );
 

@@ -9,6 +9,13 @@ namespace App\Repositorys;
 interface ServiceProviderRepositoryInterface
 {
     /**
+     * 全サービス提供者情報を取得
+     * 
+     * @return Collection サービス提供者情報
+     */
+    public function getAll();
+
+    /**
      * サービス提供者情報を取得
      * 
      * @param int id サービス提供者情報ID
