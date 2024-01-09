@@ -3,27 +3,27 @@ $(function() {
      * LINE通知日テキストボックス
      * 
      */
-    let $txtSearchLineNoticeDate = $('#txtSearchLineNoticeDate');
+    let $txtLineNoticeDate = $('#txtLineNoticeDate');
     /**
      * サービス提供者セレクトボックス
      * 
      */
-    let $selSearchServiceProvider = $('#selSearchServiceProvider');
+    let $selServiceProvider = $('#selServiceProvider');
     /**
      * 担当者セレクトボックス
      * 
      */
-    let $selSearchUser = $('#selSearchUser');
+    let $selUser = $('#selUser');
     /**
      * LINE通知種別
      * 
      */
-    let $selSearchLineNoticeType = $('#selSearchLineNoticeType');
+    let $selLineNoticeType = $('#selLineNoticeType');
     /**
      * LINE表示名テキストボックス
      * 
      */
-    let $txtSearchLineDisplayName = $('#txtSearchLineDisplayName');
+    let $txtLineDisplayName = $('#txtLineDisplayName');
     /**
      * 検索ボタン
      * 
@@ -43,12 +43,12 @@ $(function() {
      * LINE通知日の入力値
      * 
      */
-    let searchLineNoticeDate = null;
+    let txtLineNoticeDate = null;
     /**
      * サービス提供者の選択値
      * 
      */
-    let searchServiceProvider = null;
+    let selServiceProvider = null;
     /**
      * 担当者の選択値
      * 
@@ -58,12 +58,12 @@ $(function() {
      * LINE通知種別の選択値
      * 
      */
-    let searchLineNoticeType = null;
+    let selLineNoticeType = null;
     /**
      * LINE表示名の入力値
      * 
      */
-    let searchLineDisplayName = null;
+    let txtLineDisplayName = null;
 
     try {
         // 初期化処理を実行
@@ -86,7 +86,7 @@ $(function() {
             setSearchConditions();
 
             // 通知リストグリッドを初期化
-            grid.init(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
+            grid.init(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
         } catch(error) {
             throw error;
         }
@@ -98,33 +98,33 @@ $(function() {
      */
     function setSearchConditions() {
         // 通知日
-        searchLineNoticeDate = null;
-        if ($txtSearchLineNoticeDate.val() !== '') {
-            searchLineNoticeDate = $txtSearchLineNoticeDate.val();
+        txtLineNoticeDate = null;
+        if ($txtLineNoticeDate.val() !== '') {
+            txtLineNoticeDate = $txtLineNoticeDate.val();
         }
 
         // サービス提供者セレクトボックス
-        searchServiceProvider = null;
-        if ($selSearchServiceProvider.val() !== '0') {
-            searchServiceProvider = Number($selSearchServiceProvider.val());
+        selServiceProvider = null;
+        if ($selServiceProvider.val() !== '0') {
+            selServiceProvider = Number($selServiceProvider.val());
         }
 
         // 担当者セレクトボックス
         searchUser = null;
-        if ($selSearchUser.val() !== '0') {
-            searchUser = Number($selSearchUser.val());
+        if ($selUser.val() !== '0') {
+            searchUser = Number($selUser.val());
         }
 
         // LINE通知種別セレクトボックス
-        searchLineNoticeType = null;
-        if ($selSearchLineNoticeType.val() !== '0') {
-            searchLineNoticeType = Number($selSearchLineNoticeType.val());
+        selLineNoticeType = null;
+        if ($selLineNoticeType.val() !== '0') {
+            selLineNoticeType = Number($selLineNoticeType.val());
         }
 
         // LINE表示名
-        searchLineDisplayName = null;
-        if (StringUtil.isInputBlank($txtSearchLineDisplayName.val()) !== '') {
-            searchLineDisplayName = $txtSearchLineDisplayName.val().trim();
+        txtLineDisplayName = null;
+        if (StringUtil.isInputBlank($txtLineDisplayName.val()) !== '') {
+            txtLineDisplayName = $txtLineDisplayName.val().trim();
         }
     }
 
@@ -136,7 +136,7 @@ $(function() {
         // 検索条件を設定
         setSearchConditions();
         // グリッドを設定
-        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
+        grid.setRowData(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
     });
 
     /**
@@ -145,6 +145,6 @@ $(function() {
      */
     $btnReload.on('click', function() {
         // グリッドを設定
-        grid.setRowData(searchLineNoticeDate, searchLineNoticeType, searchLineDisplayName, searchServiceProvider, searchUser);
+        grid.setRowData(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
     });
 });

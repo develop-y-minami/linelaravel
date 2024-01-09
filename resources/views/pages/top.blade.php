@@ -23,23 +23,23 @@
 @section('searchConditions')
     {{--LINE通知日テキストボックス--}}
     <div class="content">
-        <input type="date" id="txtSearchLineNoticeDate" value="{{ $data->lineNoticeDate }}">
+        <input type="date" id="txtLineNoticeDate" value="{{ $data->lineNoticeDate }}">
     </div>
     {{--サービス提供者セレクトボックス--}}
     <div class="content">
-        <x-selects.serviceProvider id="selSearchServiceProvider" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
     </div>
     {{--担当者セレクトボックス--}}
     <div class="content">
-        <x-selects.user id="selSearchUser" :selectItems='$data->userSelectItems'></x-selects.user>
+        <x-selects.user id="selUser" :selectItems='$data->userSelectItems'></x-selects.user>
     </div>
     {{--通知種別セレクトボックス--}}
     <div class="content">
-        <x-selects.lineNoticeType id="selSearchLineNoticeType" :selectItems='$data->lineNoticeTypeSelectItems'></x-selects.lineNoticeType>
+        <x-selects.lineNoticeType :selectItems='$data->lineNoticeTypeSelectItems'></x-selects.lineNoticeType>
     </div>
     {{--トーク相手/グループテキストボックス--}}
     <div class="content">
-        <input type="text" id="txtSearchLineDisplayName" placeholder="LINEを入力">
+        <input type="text" id="txtLineDisplayName" placeholder="LINEを入力">
     </div>
     {{--検索ボタン--}}
     <div class="content">

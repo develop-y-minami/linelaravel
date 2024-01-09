@@ -24,19 +24,19 @@
 @section('searchConditions')
     {{--サービス提供者セレクトボックス--}}
     <div class="content">
-        <x-selects.serviceProvider id="selSearchServiceProvider" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
     </div>
     {{--担当者セレクトボックス--}}
     <div class="content">
-        <x-selects.user id="selSearchUser" :selectItems='$data->userSelectItems'></x-selects.user>
+        <x-selects.user :selectItems='$data->userSelectItems'></x-selects.user>
     </div>
     {{--LINEアカウント状態セレクトボックス--}}
     <div class="content">
-        <x-selects.lineAccountStatus id="selSearchLineAccountStatus" :selectItems='$data->lineAccountStatusSelectItems'></x-selects.lineAccountStatus>
+        <x-selects.lineAccountStatus :selectItems='$data->lineAccountStatusSelectItems'></x-selects.lineAccountStatus>
     </div>
     {{--トーク相手/グループテキストボックス--}}
     <div class="content">
-        <input type="text" id="txtSearchLineDisplayName" placeholder="LINEを入力">
+        <input type="text" id="txtLineDisplayName" placeholder="LINEを入力">
     </div>
     {{--検索ボタン--}}
     <div class="content">

@@ -8,22 +8,22 @@ $(function() {
      * サービス提供者セレクトボックス
      * 
      */
-    let $selSearchServiceProvider = $('#selSearchServiceProvider');
+    let $selServiceProvider = $('#selServiceProvider');
     /**
      * 担当者セレクトボックス
      * 
      */
-    let $selSearchUser = $('#selSearchUser');
+    let $selUser = $('#selUser');
     /**
      * LINE通知種別
      * 
      */
-    let $selSearchLineAccountStatus = $('#selSearchLineAccountStatus');
+    let $selLineAccountStatus = $('#selLineAccountStatus');
     /**
      * LINE表示名テキストボックス
      * 
      */
-    let $txtSearchLineDisplayName = $('#txtSearchLineDisplayName');
+    let $txtLineDisplayName = $('#txtLineDisplayName');
     /**
      * 表示モード切替
      * 
@@ -53,22 +53,22 @@ $(function() {
      * サービス提供者の選択値
      * 
      */
-    let searchServiceProvider = null;
+    let selServiceProvider = null;
     /**
      * 担当者の選択値
      * 
      */
-    let searchUser = null;
+    let selUser = null;
     /**
      * LINEアカウント状態の選択値
      * 
      */
-    let searchLineAccountStatus = null;
+    let selLineAccountStatus = null;
     /**
      * LINE表示名の入力値
      * 
      */
-    let searchLineDisplayName = null;
+    let txtLineDisplayName = null;
 
 
     try {
@@ -92,7 +92,7 @@ $(function() {
             setSearchConditions();
 
             // グリッドを初期化
-            grid.init(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchServiceProvider, searchUser);
+            grid.init(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
         } catch(error) {
             throw error;
         }
@@ -104,27 +104,27 @@ $(function() {
      */
     function setSearchConditions() {
         // サービス提供者セレクトボックス
-        searchServiceProvider = null;
-        if ($selSearchServiceProvider.val() !== '0') {
-            searchServiceProvider = Number($selSearchServiceProvider.val());
+        selServiceProvider = null;
+        if ($selServiceProvider.val() !== '0') {
+            selServiceProvider = Number($selServiceProvider.val());
         }
 
         // 担当者セレクトボックス
-        searchUser = null;
-        if ($selSearchUser.val() !== '0') {
-            searchUser = Number($selSearchUser.val());
+        selUser = null;
+        if ($selUser.val() !== '0') {
+            selUser = Number($selUser.val());
         }
 
         // LINEアカウント状態セレクトボックス
-        searchLineAccountStatus = null;
-        if ($selSearchLineAccountStatus.val() !== '0') {
-            searchLineAccountStatus = Number($selSearchLineAccountStatus.val());
+        selLineAccountStatus = null;
+        if ($selLineAccountStatus.val() !== '0') {
+            selLineAccountStatus = Number($selLineAccountStatus.val());
         }
 
         // LINE表示名
-        searchLineDisplayName = null;
-        if (StringUtil.isInputBlank($txtSearchLineDisplayName.val()) !== '') {
-            searchLineDisplayName = $txtSearchLineDisplayName.val().trim();
+        txtLineDisplayName = null;
+        if (StringUtil.isInputBlank($txtLineDisplayName.val()) !== '') {
+            txtLineDisplayName = $txtLineDisplayName.val().trim();
         }
     }
 
@@ -148,7 +148,7 @@ $(function() {
         // 検索条件を設定
         setSearchConditions();
         // グリッドを設定
-        grid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchServiceProvider, searchUser);
+        grid.setRowData(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
     });
 
     /**
@@ -157,6 +157,6 @@ $(function() {
      */
     $btnReload.on('click', function() {
         // グリッドを設定
-        grid.setRowData(lineAccountTypeId, searchLineAccountStatus, searchLineDisplayName, searchServiceProvider, searchUser);
+        grid.setRowData(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
     });
 });

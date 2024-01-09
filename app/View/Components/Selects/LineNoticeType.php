@@ -25,7 +25,7 @@ class LineNoticeType extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = '',
+        public readonly string $id = 'selLineNoticeType',
         public readonly string $name = '',
         public readonly string $class = '',
         public readonly string $classBox = '',

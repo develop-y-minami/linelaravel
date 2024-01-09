@@ -4,6 +4,11 @@
 {{--タイトルを設定--}}
 @section('title', '担当者')
 
+@push('js')
+<script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
+    <script src="{{ asset('js/pages/user.js') }}"></script>
+@endpush
+
 {{--見出し--}}
 @section('pageCaption')
     <div class="caption">担当者</div>
@@ -14,15 +19,15 @@
 @section('searchConditions')
     {{--担当者種別セレクトボックス--}}
     <div class="content">
-        <x-selects.userType id="selSearchUserType" :selectItems='$data->userTypeSelectItems'></x-selects.userType>
+        <x-selects.userType :selectItems='$data->userTypeSelectItems'></x-selects.userType>
     </div>
     {{--サービス提供者セレクトボックス--}}
     <div class="content">
-        <x-selects.serviceProvider id="selSearchServiceProvider" :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
     </div>
     {{--担当者アカウント種別セレクトボックス--}}
     <div class="content">
-        <x-selects.userAccountType id="selSearchUserAccountType" :selectItems='$data->userAccountTypeSelectItems'></x-selects.userAccountType>
+        <x-selects.userAccountType :selectItems='$data->userAccountTypeSelectItems' blankItemName="アカウント種別を選択"></x-selects.userAccountType>
     </div>
     {{--アカウントIDテキストボックス--}}
     <div class="content">

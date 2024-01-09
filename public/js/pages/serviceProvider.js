@@ -68,27 +68,27 @@ $(function() {
      * 提供者IDの入力値
      * 
      */
-    let searchProviderId = null;
+    let txtProviderId = null;
     /**
      * 提供者名の入力値
      * 
      */
-    let searchName = null;
+    let txtName = null;
     /**
      * サービス利用開始日の入力値
      * 
      */
-    let searchUseStartDateTime = null;
+    let txtUseStartDateTime = null;
     /**
      * サービス利用終了日の入力値
      * 
      */
-    let searchUseEndDateTime = null;
+    let txtUseEndDateTime = null;
     /**
      * サービス利用状態の選択値
      * 
      */
-    let searchServiceProviderUseStop = null;
+    let selServiceProviderUseStop = null;
 
     /**
      * ServiceProviderInputRegisterModalCallbackClass
@@ -191,7 +191,7 @@ $(function() {
             setSearchConditions();
 
             // 通知リストグリッドを初期化
-            grid.init(searchProviderId, searchName, searchUseStartDateTime, searchUseEndDateTime, searchServiceProviderUseStop);
+            grid.init(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
         } catch(error) {
             throw error;
         }
@@ -203,33 +203,33 @@ $(function() {
      */
     function setSearchConditions() {
         // 提供者ID
-        searchProviderId = null;
+        txtProviderId = null;
         if (StringUtil.isInputBlank($txtProviderId.val()) !== '') {
-            searchProviderId = $txtProviderId.val().trim();
+            txtProviderId = $txtProviderId.val().trim();
         }
 
         // 提供者名
-        searchName = null;
+        txtName = null;
         if (StringUtil.isInputBlank($txtName.val()) !== '') {
-            searchName = $txtName.val().trim();
+            txtName = $txtName.val().trim();
         }
 
         // サービス利用開始日
-        searchUseStartDateTime = null;
+        txtUseStartDateTime = null;
         if ($txtUseStartDateTime.val() !== '') {
-            searchUseStartDateTime = $txtUseStartDateTime.val();
+            txtUseStartDateTime = $txtUseStartDateTime.val();
         }
 
         // サービス利用終了
-        searchUseEndDateTime = null;
+        txtUseEndDateTime = null;
         if ($txtUseEndDateTime.val() !== '') {
-            searchUseEndDateTime = $txtUseEndDateTime.val();
+            txtUseEndDateTime = $txtUseEndDateTime.val();
         }
 
         // サービス利用状態
-        searchServiceProviderUseStop = null;
+        selServiceProviderUseStop = null;
         if ($selServiceProviderUseStop.val() !== '') {
-            searchServiceProviderUseStop = $selServiceProviderUseStop.val();
+            selServiceProviderUseStop = $selServiceProviderUseStop.val();
         }
     }
 
@@ -253,7 +253,7 @@ $(function() {
         // 検索条件を設定
         setSearchConditions();
         // グリッドを設定
-        grid.setRowData(searchProviderId, searchName, searchUseStartDateTime, searchUseEndDateTime, searchServiceProviderUseStop);
+        grid.setRowData(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
     });
 
     /**
@@ -272,6 +272,6 @@ $(function() {
      */
     $btnReload.on('click', function() {
         // グリッドを設定
-        grid.setRowData(searchProviderId, searchName, searchUseStartDateTime, searchUseEndDateTime, searchServiceProviderUseStop);
+        grid.setRowData(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
     });
 });
