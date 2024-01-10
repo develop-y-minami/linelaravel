@@ -99,7 +99,20 @@ button.reload:focus svg path { fill: var(--colorBlue) !important; }
 }
 
 /******************************************************
-*   丸マーク画像表示コンテナー
+*   円形画像
+******************************************************/
+.circleImg.small {
+    border: solid 1px var(--colorLightGray);
+    border-radius: 50%;
+}
+
+.circleImg.small {
+    width: 40px;
+    height: 40px;
+}
+
+/******************************************************
+*   円形画像表示コンテナー
 ******************************************************/
 .circleImgContainer {
     display: flex;

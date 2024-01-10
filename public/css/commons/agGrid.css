@@ -27,6 +27,15 @@
 }
 
 /******************************************************
+*   フッター
+******************************************************/
+.ag-paging-panel {
+    display: flex;
+    justify-content: space-between !important;
+    flex-wrap: wrap;
+}
+
+/******************************************************
 *   セルのPaddingを無効化する
 ******************************************************/
 .ag-cell-non-padding { padding: 0 !important; }
@@ -75,4 +84,7 @@
 
 .ag-cell .lineInfoContainer .circleImgContainer { flex-grow: 1; }
 
-.ag-cell .lineInfoContainer .lineInfoRightContainer { flex-grow: 100; }
+.ag-cell .lineInfoContainer .lineInfoRightContainer {
+    flex-grow: 100;
+    min-width: 300px;
+}

@@ -48,8 +48,9 @@
             {{--システム名--}}
             <div class="systemName">System Name</div>
             <div class="container">
-                <div class="user-container">
-
+                <div class="loginUserContainer">
+                    <img src="" alt="" class="circleImg small">
+                    <div class="userName">Login UserName</div>
                 </div>
             </div>
         </header>
