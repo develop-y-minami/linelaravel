@@ -12,12 +12,9 @@
 /******************************************************
 *   LINEトーク履歴コンテナー：ヘッダー
 ******************************************************/
-.lineTalkHistoryContainer > header { padding: 19px 15px; }
+.lineTalkHistoryContainer > header { padding: 20px 15px; }
 
-.lineTalkHistoryContainer > header .caption {
-    font-size: 16px;
-    font-weight: bold;
-}
+.lineTalkHistoryContainer > header .caption { font-weight: bold; }
 
 /******************************************************
 *   LINEトーク履歴コンテナー：メイン

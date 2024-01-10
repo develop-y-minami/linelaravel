@@ -1,39 +1,12 @@
 @charset "utf-8";
 
 /******************************************************
-*   パンくずリスト
-******************************************************/
-.breadcrumbTrail {
-    display: flex;
-}
-
-.breadcrumbTrail .link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    width: 120px;
-    font-weight: bold;
-    color: var(--themeColor);
-    cursor: pointer;
-}
-
-.breadcrumbTrail .link::after {
-    content: "▶";
-    font-size: 8px;
-}
-
-.breadcrumbTrail .link:last-child::after { content: ""; }
-
-.breadcrumbTrail .link:hover { background-color: white; }
-
-/******************************************************
 *   ページ見出し
 ******************************************************/
 .pageCaption { padding: 15px; }
 
 .pageCaption .caption {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -108,9 +81,7 @@ button.reload svg {
 button.reload svg path { fill: white !important; }
 
 button.reload:hover svg path,
-button.reload:focus svg path {
-    fill: var(--colorBlue) !important;
-}
+button.reload:focus svg path { fill: var(--colorBlue) !important; }
 
 /******************************************************
 *   情報テーブル
@@ -123,6 +94,7 @@ button.reload:focus svg path {
 
 .infoTable th {
     width: 100px;
+    font-size: 12px;
     background-color: var(--colorLightGray);
 }
 

@@ -84,38 +84,28 @@
                 </div>
 
                 {{--サイドメニュー--}}
-                <div class="sideMenuContainer">
-                    <ul class="menuGroup">
-                        <li class="menu parent"><a href="{{ route('top.index') }}">Top</a></li>
-                    </ul>
-                    <ul class="menuGroup">
-                        <li class="menu parent"><a href="{{ url('/') }}">LINE</a></li>
-                        <li class="menu child"><a href="{{ route('line.oneToOne') }}">１対１トーク</a></li>
-                        <li class="menu child"><a href="">グループトーク</a></li>
-                        <li class="menu child"><a href="">ユーザー</a></li>
-                    </ul>    
-                    <ul class="menuGroup">
-                        <li class="menu parent"><a href="">設定</a></li>
-                        <li class="menu child"><a href="">マスタ設定</a></li>
-                        <li class="menu child"><a href="{{ route('user.index') }}">担当者設定</a></li>
-                        <li class="menu child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
-                        <li class="menu child"><a href="">システム設定</a></li>
-                    </ul>
-                </div>
+                <ul class="sideMenu">
+                    <li class="parent"><a href="{{ route('top.index') }}">Top</a></li>
+                    <li class="parent"><a href="{{ url('/') }}">LINE</a></li>
+                    <li class="child"><a href="{{ route('line.oneToOne') }}">１対１トーク</a></li>
+                    <li class="child"><a href="{{ url('/') }}">グループトーク</a></li>
+                    <li class="child"><a href="{{ url('/') }}">ユーザー</a></li>
+                    <li class="parent"><a href="{{ url('/') }}">マスタメンテナンス</a></li>
+                    <li class="parent"><a href="{{ url('/') }}">設定</a></li>
+                    <li class="child"><a href="{{ route('user.index') }}">担当者設定</a></li>
+                    <li class="child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
+                </ul>
             </aside>
 
             {{--ページ--}}
             <main class="basePageContainer">
-                {{--ページヘッダー--}}
-                <header class="basePageHeader">
-                    {{--パンくずリスト--}}
-                    <div class="breadcrumbTrail">
-                        <div class="link">Top</div>
-                        <div class="link">Menu1</div>
-                        <div class="link">Menu2</div>
-                        <div class="link">Menu3</div>
-                    </div>
-                </header>
+                {{--パンくずリスト--}}
+                <ul class="breadcrumbTrail">
+                    <li><a href="">Top</a></li>
+                    <li><a href="">Menu1</a></li>
+                    <li><a href="">Menu2</a></li>
+                    <li><a href="">Menu3</a></li>
+                </ul>
                 
                 {{--ページコンテンツ--}}
                 <div class="basePageContent">

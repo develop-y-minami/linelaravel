@@ -71,10 +71,6 @@
 /******************************************************
 *   メイン：グリッド
 ******************************************************/
-.gridPageContainer main .gridContainer {
-    flex: 1;
-}
+.gridPageContainer main .gridContainer { flex: 1; }
 
-.gridPageContainer main .gridContainer .grid {
-    height: 100%;
-}
+.gridPageContainer main .gridContainer .grid { height: 100%; }

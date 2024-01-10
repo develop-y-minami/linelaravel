@@ -17,8 +17,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: solid 1px var(--colorGreen);
-    border-bottom: solid 1px var(--colorGreen);
+    border-top: solid 1px var(--colorGray);
+    border-bottom: solid 1px var(--colorGray);
 }
 
 .lineTalkContainer > header .rightContainer {
