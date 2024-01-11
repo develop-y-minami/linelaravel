@@ -11,7 +11,6 @@
 @endpush
 
 @push('js')
-    <script src="{{ asset('js/commons/consts/userType.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/modals/serviceProviderUserRegisterModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>

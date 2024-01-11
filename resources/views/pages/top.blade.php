@@ -26,8 +26,8 @@
         <input type="date" id="txtLineNoticeDate" value="{{ $data->lineNoticeDate }}">
     </div>
     {{--サービス提供者セレクトボックス--}}
-    <div class="content">
-        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+    <div class="content" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems' :selectedValue="Auth::user()->service_provider_id"></x-selects.serviceProvider>
     </div>
     {{--担当者セレクトボックス--}}
     <div class="content">

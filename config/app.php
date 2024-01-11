@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\FacadeServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
@@ -202,6 +203,8 @@ return [
         'UserType' =>  App\Consts\UserType::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
         'StringFacade' => App\Facades\StringFacadeClass::class,
+        'AppFacade' => App\Facades\AppFacadeClass::class,
+        'ViewFacade' => App\Facades\ViewFacadeClass::class,
     ])->toArray(),
 
 ];

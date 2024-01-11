@@ -4,6 +4,7 @@ namespace App\Services\Webs;
 
 use App\Objects\SelectItem;
 use App\Repositorys\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * UserService
@@ -37,8 +38,20 @@ class UserService implements UserServiceInterface
         // 返却データ
         $result = array();
 
+        // ログイン担当者の種別を取得
+        $userType = Auth::user()->user_type_id;
+
         // 担当者情報を取得し設定
-        $datas = $this->userRepository->getAll();
+        $datas;
+        if ($userType == \UserType::SERVICE_PROVIDER)
+        {
+            $datas = $this->userRepository->findByServiceProviderId(Auth::user()->service_provider_id);
+        }
+        else
+        {
+            // 運用者の場合は全担当者を取得
+            $datas = $this->userRepository->getAll();
+        }
         foreach ($datas as $data)
         {
             $result[] = new SelectItem($data->id, $data->name);

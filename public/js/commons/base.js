@@ -1,5 +1,25 @@
+/**
+ * 担当者種別
+ * 
+ */
+let globalUserType;
+/**
+ * 担当者アカウント種別
+ * 
+ */
+let globalUserAccountType;
 
 $(function() {
+    /**
+     * 担当者種別
+     * 
+     */
+    let txtUserType = $('#txtUserType');
+    /**
+     * 担当者アカウント種別
+     * 
+     */
+    let txtUserAccountType = $('#txtUserAccountType');
     /**
      * 公式LINEアカウント表示コンテナー
      * 
@@ -19,6 +39,10 @@ $(function() {
      */
     function init() {
         try {
+            // グローバル変数に値を設定
+            globalUserType = Number(txtUserType.val());
+            globalUserAccountType = Number(txtUserAccountType.val());
+
             // インスタンスを生成
             lineOfficialAccountContainer = new LineOfficialAccountContainer()
     

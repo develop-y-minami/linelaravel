@@ -71,6 +71,18 @@ class LineGrid {
      * 
      */
     setColumnDefs() {
+        // サービス提供者表示/非表示
+        let serviceProviderHide = false;
+        if (globalUserType == UserType.SERVICE_PROVIDER) {
+            serviceProviderHide = true;
+        }
+
+        // 担当者表示/非表示
+        let userHide = false;
+        if (globalUserType == UserType.SERVICE_PROVIDER && globalUserAccountType == UserAccountType.USER) {
+            userHide = true;
+        }
+        
         this.gridOptions.columnDefs = [
             {
                 field: 'displayName',
@@ -117,7 +129,8 @@ class LineGrid {
                     result.url = params.data.serviceProvider.id;
                     result.name = params.data.serviceProvider.name;
                     return result;
-                }
+                },
+                hide: serviceProviderHide,
             },
             {
                 field: 'user',
@@ -129,7 +142,8 @@ class LineGrid {
                     result.url = params.data.user.id;
                     result.name = params.data.user.name;
                     return result;
-                }
+                },
+                hide: userHide,
             },
             {
                 field: 'detailInfo',
@@ -182,12 +196,21 @@ class LineGrid {
      * 
      */
     showGridMode() {
-        this.gridApi.setColumnsVisible([
-            'displayName',
-            'lineAccountStatus',
-            'serviceProvider',
-            'user'
-        ], true);
+        let columns = [];
+        columns.push('displayName');
+        columns.push('lineAccountStatus');
+
+        // サービス提供者情報の表示設定
+        if (globalUserType !== UserType.SERVICE_PROVIDER) {
+            columns.push('serviceProvider');
+        }
+
+        // 担当者情報の表示設定
+        if (!(globalUserType == UserType.SERVICE_PROVIDER && globalUserAccountType == UserAccountType.USER)) {
+            columns.push('user');
+        }
+
+        this.gridApi.setColumnsVisible(columns, true);
         this.gridApi.setColumnsVisible(['detailInfo'], false);
     }
 

@@ -12,13 +12,13 @@
         <main>
             {{--提供者ID--}}
             <div class="row">
-                <div>提供者ID</div>
+                <div class="required">提供者ID</div>
                 <input type="text" id="{{ $id }}TxtProviderId" class="large" maxlength="{{ \Length::SERVICE_PROVIDER_PROVIDER_ID }}" placeholder="提供者IDを入力">
             </div>
 
             {{--提供者名--}}
             <div class="row">
-                <div>提供者名</div>
+                <div class="required">提供者名</div>
                 <input type="text" id="{{ $id }}TxtName" class="large" maxlength="{{ \Length::SERVICE_PROVIDER_NAME }}" placeholder="提供者名を入力">
             </div>
 

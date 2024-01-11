@@ -41,18 +41,14 @@ class ServiceProviderUpdateRequest extends FormRequest
     }
 
     /**
-     * エラーメッセージを取得
-     *
-     * @return array
+     * attributes
+     * 
+     * @return array 
      */
-    public function messages()
+    public function attributes()
     {
         return [
-            'providerId.required' => '提供者IDを入力してください',
-            'providerId.unique' => '既に存在する提供者IDです',
-            'name.required' => '提供者名を入力してください',
-            'useStartDateTime.required' => '利用開始日を入力してください',
-            'useEndDateTime.after' => '利用終了日には利用開始日より後の日付を入力してください',
+            'name' => '提供者名',
         ];
     }
 }

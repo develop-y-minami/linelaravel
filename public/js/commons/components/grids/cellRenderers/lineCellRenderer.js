@@ -39,13 +39,22 @@ class LineCellRenderer {
         tableHtml += '<td><a href="info\\' + params.data.id + '">' + params.data.displayName + '</a></td>';
         tableHtml += '</tr>';
         tableHtml += '<tr>';
-        tableHtml += '<th>サービス提供者</th>';
-        tableHtml += '<td><a>' + StringUtil.nullToBlank(params.data.serviceProvider.name) + '</a></td>';
-        tableHtml += '</tr>';
-        tableHtml += '<tr>';
-        tableHtml += '<th>担当者</th>';
-        tableHtml += '<td><a>' + StringUtil.nullToBlank(params.data.user.name) + '</a></td>';
-        tableHtml += '</tr>';
+
+        if (globalUserType == UserType.OPERATOR) {
+            // 運用者の場合に表示
+            tableHtml += '<th>サービス提供者</th>';
+            tableHtml += '<td><a>' + StringUtil.nullToBlank(params.data.serviceProvider.name) + '</a></td>';
+            tableHtml += '</tr>';
+        }
+
+        if (globalUserType == UserType.OPERATOR || (globalUserType == UserType.SERVICE_PROVIDER && globalUserAccountType == UserAccountType.ADMIN)) {
+            // 運用者またはサービス提供者かつ管理者の場合に表示
+            tableHtml += '<tr>';
+            tableHtml += '<th>担当者</th>';
+            tableHtml += '<td><a>' + StringUtil.nullToBlank(params.data.user.name) + '</a></td>';
+            tableHtml += '</tr>';
+        }
+
         tableHtml += '</tbody>';
         tableHtml += '</table>';
         tableHtml += '</div>';

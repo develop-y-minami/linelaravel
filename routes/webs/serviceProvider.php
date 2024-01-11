@@ -13,12 +13,15 @@ use App\Http\Controllers\Webs\ServiceProviderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/**
- * サービス提供者ページ
- * HTTP Method Get
- * https://{host}/serviceProvider
- * 
- * @param Request request リクエスト
- * @return View
- */
-Route::get('/', [ServiceProviderController::class, 'index'])->name('serviceProvider.index');
+Route::middleware('auth')->group(function()
+{
+    /**
+     * サービス提供者ページ
+     * HTTP Method Get
+     * https://{host}/serviceProvider
+     * 
+     * @param Request request リクエスト
+     * @return View
+     */
+    Route::get('/', [ServiceProviderController::class, 'index'])->name('serviceProvider.index');
+});

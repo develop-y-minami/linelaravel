@@ -30,7 +30,7 @@ class ServiceProvider extends Component
         public readonly string $class = '',
         public readonly string $classBox = '',
         public readonly array $selectItems = array(),
-        public readonly string $selectedValue = '0',
+        public readonly ?string $selectedValue = '0',
         public readonly string $blankItemValue = '0',
         public readonly string $blankItemName = 'サービス提供者を選択',
         public readonly bool $visibleBlankItem = true

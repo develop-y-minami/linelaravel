@@ -105,19 +105,19 @@ $(function() {
     function setSearchConditions() {
         // 担当者種別
         selUserType = null;
-        if ($selUserType.val() !== '') {
+        if ($selUserType.val() !== '0') {
             selUserType = $selUserType.val();
         }
 
         // サービス提供者
         selServiceProvider = null;
-        if ($selServiceProvider.val() !== '') {
+        if ($selServiceProvider.val() !== '0') {
             selServiceProvider = $selServiceProvider.val();
         }
 
         // 担当者アカウント種別
         selUserAccountType = null;
-        if ($selUserAccountType.val() !== '') {
+        if ($selUserAccountType.val() !== '0') {
             selUserAccountType = $selUserAccountType.val();
         }
 

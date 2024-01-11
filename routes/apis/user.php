@@ -14,7 +14,17 @@ use App\Http\Controllers\Apis\UserController;
 |
 */
 /**
- * ユーザー情報を登録する
+ * 担当者情報を取得する
+ * HTTP Method Post
+ * https://{host}/api/user
+ * 
+ * @param Request request リクエスト
+ * @return Json
+ */
+Route::post('/', [UserController::class, 'users'])->name('users');
+
+/**
+ * 担当者情報を登録する
  * HTTP Method Post
  * https://{host}/api/user/register
  * 

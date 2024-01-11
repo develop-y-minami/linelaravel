@@ -71,6 +71,18 @@ class LineNoticeGrid {
      * 
      */
     setColumnDefs() {
+        // サービス提供者表示/非表示
+        let serviceProviderHide = false;
+        if (globalUserType == UserType.SERVICE_PROVIDER) {
+            serviceProviderHide = true;
+        }
+
+        // 担当者表示/非表示
+        let userHide = false;
+        if (globalUserType == UserType.SERVICE_PROVIDER && globalUserAccountType == UserAccountType.USER) {
+            userHide = true;
+        }
+
         this.gridOptions.columnDefs = [
             {
                 field: 'noticeDateTime',
@@ -137,7 +149,8 @@ class LineNoticeGrid {
                     result.url = params.data.line.serviceProvider.id;
                     result.name = params.data.line.serviceProvider.name;
                     return result;
-                }
+                },
+                hide: serviceProviderHide,
             },
             {
                 field: 'line.user.name',
@@ -149,7 +162,8 @@ class LineNoticeGrid {
                     result.url = params.data.line.user.id;
                     result.name = params.data.line.user.name;
                     return result;
-                }
+                },
+                hide: userHide,
             },
         ];
     }

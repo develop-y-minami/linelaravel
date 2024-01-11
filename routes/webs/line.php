@@ -13,23 +13,26 @@ use App\Http\Controllers\Webs\LineController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/**
- * １対１トークページ
- * HTTP Method Get
- * https://{host}/line/one-to-one
- * 
- * @param Request request リクエスト
- * @return View
- */
-Route::get('/one-to-one', [LineController::class, 'oneToOne'])->name('line.oneToOne');
+Route::middleware('auth')->group(function()
+{
+    /**
+     * １対１トークページ
+     * HTTP Method Get
+     * https://{host}/line/one-to-one
+     * 
+     * @param Request request リクエスト
+     * @return View
+     */
+    Route::get('/one-to-one', [LineController::class, 'oneToOne'])->name('line.oneToOne');
 
-/**
- * LINE情報ページ
- * HTTP Method Get
- * https://{host}/line/info/{id}
- * 
- * @param Request request リクエスト
- * @param string  id      ID
- * @return View
- */
-Route::get('/info/{id}', [LineController::class, 'info'])->whereNumber('id')->name('line.info');
+    /**
+     * LINE情報ページ
+     * HTTP Method Get
+     * https://{host}/line/info/{id}
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return View
+     */
+    Route::get('/info/{id}', [LineController::class, 'info'])->whereNumber('id')->name('line.info');
+});

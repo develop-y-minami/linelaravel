@@ -136,6 +136,19 @@ button.reload:focus svg path { fill: var(--colorBlue) !important; }
 }
 
 /******************************************************
+*   必須
+******************************************************/
+.required {
+    display: flex;
+    gap: 10px;
+}
+
+.required::before {
+    content: '【必須】';
+    color: var(--colorRed);
+}
+
+/******************************************************
 *   オーバーレイ
 ******************************************************/
 .overlay {
@@ -237,8 +250,9 @@ button.reload:focus svg path { fill: var(--colorBlue) !important; }
     padding: 10px 15px;
     line-height: 22px;
     color: white;
+    border: solid 1px;
     border-radius: 3px;
-    background-color: #ff4343;
+    color: #ff4343;
 }
 
 .errorMessage li::before {

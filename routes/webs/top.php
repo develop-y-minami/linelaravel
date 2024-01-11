@@ -13,12 +13,15 @@ use App\Http\Controllers\Webs\TopController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/**
- * トップページ
- * HTTP Method Get
- * https://{host}
- * 
- * @param Request request リクエスト
- * @return View
- */
-Route::get('/', [TopController::class, 'index'])->name('top.index');
+Route::middleware('auth')->group(function()
+{
+    /**
+     * トップページ
+     * HTTP Method Get
+     * https://{host}
+     * 
+     * @param Request request リクエスト
+     * @return View
+     */
+    Route::get('/', [TopController::class, 'index'])->name('top.index');
+});

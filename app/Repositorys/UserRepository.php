@@ -18,7 +18,60 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAll()
     {
-        return User::get();
+        return User::with([
+            'userType',
+            'serviceProvider',
+            'userAccountType',
+        ])->get();
+    }
+
+    /**
+     * 担当者情報を取得
+     * 
+     * @param int serviceProviderId サービス提供者ID
+     * @return Collection 担当者情報
+     */
+    public function findByServiceProviderId($serviceProviderId)
+    {
+        return User::whereServiceProviderId($serviceProviderId)->get();
+    }
+
+    /**
+     * 担当者情報を取得
+     * 
+     * @param int    userType          担当者種別
+     * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountType   担当者アカウント種別
+     * @param string accountId         アカウントID
+     * @param string name              名前
+     * @return Collection 担当者情報
+     */
+    public function findByconditions($userType = null, $serviceProviderId = null, $userAccountType = null, $accountId = null, $name = null)
+    {
+        $query = User::query();
+
+        $query->with([
+            'userType',
+            'serviceProvider',
+            'userAccountType',
+        ]);
+
+        // 担当者種別
+        if ($userType !== null) $query->whereUserTypeId($userType);
+
+        // サービス提供者情報ID
+        if ($serviceProviderId !== null) $query->whereServiceProviderId($serviceProviderId);
+
+        // 担当者アカウント種別
+        if ($userAccountType !== null) $query->whereUserAccountTypeId($userAccountType);
+
+        // アカウントID
+        if ($accountId !== null) $query->whereAccountId($accountId);
+
+        // 名前
+        if ($name != null) $query->where('name', 'LIKE', "$name%");
+
+        return $query->get();
     }
 
     /**

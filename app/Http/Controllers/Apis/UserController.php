@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\Apis\UserApiServiceInterface;
 use App\Jsons\UserApis\Responses\UserRegisterResponse;
+use App\Jsons\UserApis\Responses\UserResponse;
 
 /**
  * UserController
@@ -31,7 +32,46 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー情報を登録する
+     * 担当者情報を取得する
+     * HTTP Method Post
+     * https://{host}/api/user
+     * 
+     * @param Request request リクエスト
+     * @return Json
+     */
+    public function users(Request $request)
+    {
+        try
+        {
+            // パラメータを取得
+            $userType = $request->input('userType');
+            $serviceProviderId = $request->input('serviceProviderId');
+            $userAccountType = $request->input('userAccountType');
+            $accountId = $request->input('accountId');
+            $name = $request->input('name');
+
+            // キャスト
+            $userType = $userType === null ? null : (int)$userType;
+            $serviceProviderId = $serviceProviderId === null ? null : (int)$serviceProviderId;
+            $userAccountType = $userAccountType === null ? null : (int)$userAccountType;
+
+            // 担当者情報を取得する
+            $users = $this->userApiService->getUsers($userType, $serviceProviderId, $userAccountType, $accountId, $name);
+            
+            // レスポンスデータを生成
+            $response = new UserResponse($users);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse($response);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * 担当者情報を登録する
      * HTTP Method Post
      * https://{host}/api/user/register
      * 

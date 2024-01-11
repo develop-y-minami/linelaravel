@@ -13,12 +13,15 @@ use App\Http\Controllers\Webs\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/**
- * 担当者ページ
- * HTTP Method Get
- * https://{host}/user
- * 
- * @param Request request リクエスト
- * @return View
- */
-Route::get('/', [UserController::class, 'index'])->name('user.index');
+Route::middleware('auth')->group(function()
+{
+    /**
+     * 担当者ページ
+     * HTTP Method Get
+     * https://{host}/user
+     * 
+     * @param Request request リクエスト
+     * @return View
+     */
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+});

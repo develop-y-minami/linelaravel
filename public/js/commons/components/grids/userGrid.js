@@ -77,6 +77,14 @@ class UserGrid {
      * 
      */
     setColumnDefs() {
+        // サービス提供者表示/非表示
+        let serviceProviderHide = false;
+        let userTypeHide = false;
+        if (globalUserType == UserType.SERVICE_PROVIDER) {
+            serviceProviderHide = true;
+            userTypeHide = true;
+        }
+
         this.gridOptions.columnDefs = [
             {
                 field: 'accountId',
@@ -104,5 +112,39 @@ class UserGrid {
                 width: 150,
             },
         ]
+    }
+
+    /**
+     * 行データを設定
+     * 
+     * @param {number} userType          担当者種別
+     * @param {number} serviceProviderId サービス提供者情報ID
+     * @param {number} userAccountType   担当者アカウント種別
+     * @param {string} accountId         アカウントID
+     * @param {string} name              名前
+     */
+    async setRowData(userType = null, serviceProviderId = null, userAccountType = null, accountId = null, name = null) {
+        try {
+            // オーバーレイを表示
+            this.gridApi.showLoadingOverlay();
+
+            // 行データ
+            let rowData = [];
+
+            // API経由で通知情報を取得
+            let result = await UserApi.users(userType, serviceProviderId, userAccountType, accountId, name);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                rowData = result.data.users;
+            }
+
+            // 行データを設定
+            this.gridApi.setRowData(rowData);
+
+            // オーバーレイを非表示
+            this.gridApi.hideOverlay();
+        } catch(error) {
+            throw error;
+        }
     }
 }

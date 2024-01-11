@@ -5,7 +5,8 @@
 @section('title', '担当者')
 
 @push('js')
-<script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
+    <script src="{{ asset('js/apis/userApi.js') }}"></script>
     <script src="{{ asset('js/pages/user.js') }}"></script>
 @endpush
 
@@ -18,12 +19,17 @@
 {{--検索条件--}}
 @section('searchConditions')
     {{--担当者種別セレクトボックス--}}
-    <div class="content">
-        <x-selects.userType :selectItems='$data->userTypeSelectItems'></x-selects.userType>
+    <div class="content" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+        @if (Auth::user()->user_type_id == \UserType::OPERATOR)
+            @php $userTypeSelectedValue = '0' @endphp
+        @else
+            @php $userTypeSelectedValue = \UserType::SERVICE_PROVIDER @endphp
+        @endif
+        <x-selects.userType :selectItems='$data->userTypeSelectItems' :selectedValue="$userTypeSelectedValue"></x-selects.userType>
     </div>
     {{--サービス提供者セレクトボックス--}}
-    <div class="content">
-        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems'></x-selects.serviceProvider>
+    <div class="content" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+        <x-selects.serviceProvider :selectItems='$data->serviceProviderSelectItems' :selectedValue="Auth::user()->service_provider_id"></x-selects.serviceProvider>
     </div>
     {{--担当者アカウント種別セレクトボックス--}}
     <div class="content">

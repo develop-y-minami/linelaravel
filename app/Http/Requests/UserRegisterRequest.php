@@ -46,23 +46,14 @@ class UserRegisterRequest extends FormRequest
     }
     
     /**
-     * エラーメッセージを取得
-     *
-     * @return array
+     * attributes
+     * 
+     * @return array 
      */
-    public function messages()
+    public function attributes()
     {
         return [
-            'serviceProviderId.required' => 'サービス提供者IDを入力してください',
-            'accountId.required' => 'アカウントIDを入力してください',
-            'accountId.unique' => '既に存在するアカウントIDです',
-            'name.required' => '名前を入力してください',
-            'email.required' => 'メールアドレスを入力してください',
-            'email.email' => 'メールアドレスの形式が正しくありません',
-            'password.required' => 'パスワードを入力してください',
-            'password.min' => 'パスワードは8文字以上で入力してください',
-            'password.confirmed' => 'パスワードが確認入力と一致しません',
-            'password_confirmation.required' => 'パスワード（確認入力）を入力してください',
+            'name' => '担当者名',
         ];
     }
 }

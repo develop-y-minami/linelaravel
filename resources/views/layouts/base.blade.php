@@ -27,6 +27,8 @@
 
         {{--共通JavaScript--}}
         <script src="{{ asset('js/commons/consts/editMode.js') }}"></script>
+        <script src="{{ asset('js/commons/consts/userType.js') }}"></script>
+        <script src="{{ asset('js/commons/consts/userAccountType.js') }}"></script>
         <script src="{{ asset('js/commons/utils/dateTimeUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/stringUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/arrayUtil.js') }}"></script>
@@ -43,6 +45,12 @@
     </head>
 
     <body class="base">
+        {{--非表示領域--}}
+        <div class="hideContainer">
+            <input type="text" id="txtUserType" value="{{ Auth::user()->user_type_id }}">
+            <input type="text" id="txtUserAccountType" value="{{ Auth::user()->user_account_type_id }}">
+        </div>
+
         {{--ヘッダー--}}
         <header class="baseHeader">
             {{--システム名--}}
@@ -50,7 +58,7 @@
             <div class="container">
                 <div class="loginUserContainer">
                     <img src="" alt="" class="circleImg small">
-                    <div class="userName">Login UserName</div>
+                    <div class="userName">{{ Auth::user()->name }}</div>
                 </div>
             </div>
         </header>
@@ -94,7 +102,9 @@
                     <li class="parent"><a href="{{ url('/') }}">マスタメンテナンス</a></li>
                     <li class="parent"><a href="{{ url('/') }}">設定</a></li>
                     <li class="child"><a href="{{ route('user.index') }}">担当者設定</a></li>
-                    <li class="child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
+                    @if (\AppFacade::loginUserIsOperator())
+                        <li class="child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
+                    @endif
                 </ul>
             </aside>
 
