@@ -4,7 +4,13 @@
 {{--タイトルを設定--}}
 @section('title', '担当者')
 
+{{--CSS--}}
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
+@endpush
+
 @push('js')
+    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     <script src="{{ asset('js/pages/user.js') }}"></script>
@@ -54,4 +60,9 @@
     <div class="content">
         <button id="btnInsert" class="blue">新規追加</button>
     </div>
+@endsection
+
+@section('overlayContents')
+    {{--担当者入力モーダル--}}
+    <x-modals.userInput id="modalUserInputRegister"></x-modals.userInput>
 @endsection

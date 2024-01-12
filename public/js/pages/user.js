@@ -74,6 +74,11 @@ $(function() {
      * 
      */
     let grid;
+    /**
+     * 担当者入力モーダル
+     * 
+     */
+    let userInputModal;
 
     try {
         // 初期化処理を実行
@@ -90,6 +95,9 @@ $(function() {
     function init() {
         // インスタンスを生成
         grid = new UserGrid('grid');
+
+        // 担当者入力モーダル
+        userInputModal = new UserInputModal(null, 'modalUserInputRegister');
 
         // 検索条件を設定
         setSearchConditions();
@@ -133,4 +141,34 @@ $(function() {
             txtName = $txtName.val().trim();
         }
     }
+
+    /**
+     * 検索ボタンクリック時
+     * 
+     */
+    $btnSearch.on('click', function() {
+        // 検索条件を設定
+        setSearchConditions();
+        // グリッドを設定
+        grid.setRowData(selUserType, selServiceProvider, selUserAccountType, txtAccountId, txtName);
+    });
+
+    /**
+     * 新規登録ボタンクリック時
+     * 
+     */
+    $btnInsert.on('click', function() {
+        // 担当者入力モーダルを起動
+        userInputModal.init();
+        userInputModal.show();
+    });
+
+    /**
+     * リロードボタンクリック時
+     * 
+     */
+    $btnReload.on('click', function() {
+        // グリッドを設定
+        grid.setRowData(selUserType, selServiceProvider, selUserAccountType, txtAccountId, txtName);
+    });
 });

@@ -3,10 +3,10 @@
 namespace App\Jsons\UserApis\Responses;
 
 /**
- * UserResponse
+ * UsersResponse
  * 
  */
-class UserResponse implements \JsonSerializable
+class UsersResponse implements \JsonSerializable
 {
     /**
      * __construct

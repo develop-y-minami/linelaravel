@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\Apis\UserApiServiceInterface;
 use App\Jsons\UserApis\Responses\UserRegisterResponse;
-use App\Jsons\UserApis\Responses\UserResponse;
+use App\Jsons\UserApis\Responses\UsersResponse;
 
 /**
  * UserController
@@ -59,7 +59,7 @@ class UserController extends Controller
             $users = $this->userApiService->getUsers($userType, $serviceProviderId, $userAccountType, $accountId, $name);
             
             // レスポンスデータを生成
-            $response = new UserResponse($users);
+            $response = new UsersResponse($users);
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($response);

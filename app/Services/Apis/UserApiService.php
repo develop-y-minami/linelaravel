@@ -61,7 +61,7 @@ class UserApiService implements UserApiServiceInterface
                 $userType,
                 $serviceProvider,
                 $userAccountType,
-                $data->accountId,
+                $data->account_id,
                 $data->name,
                 $data->email
             );
@@ -110,7 +110,7 @@ class UserApiService implements UserApiServiceInterface
                 $userType,
                 $serviceProvider,
                 $userAccountType,
-                $data->accountId,
+                $data->account_id,
                 $data->name,
                 $data->email
             );

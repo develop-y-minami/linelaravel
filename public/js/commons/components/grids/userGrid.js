@@ -77,12 +77,13 @@ class UserGrid {
      * 
      */
     setColumnDefs() {
+        // 担当者種別表示/非表示
+        let userTypeHide = false;
         // サービス提供者表示/非表示
         let serviceProviderHide = false;
-        let userTypeHide = false;
         if (globalUserType == UserType.SERVICE_PROVIDER) {
-            serviceProviderHide = true;
             userTypeHide = true;
+            serviceProviderHide = true;
         }
 
         this.gridOptions.columnDefs = [
@@ -90,26 +91,102 @@ class UserGrid {
                 field: 'accountId',
                 headerName: 'アカウントID',
                 width: 150,
+                cellRenderer: LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = '';
+                    result.name = params.data.accountId;
+                    return result;
+                }
             },
             {
                 field: 'name',
                 headerName: '担当者名',
-                width: 150,
+                flex: 1,
+                minWidth: 150,
+                cellRenderer: LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = '';
+                    result.name = params.data.name;
+                    return result;
+                }
             },
             {
-                field: 'userAccountType',
+                field: 'userAccountType.name',
                 headerName: 'アカウント種別',
                 width: 150,
             },
             {
-                field: 'userType',
+                field: 'userType.name',
                 headerName: '担当者種別',
                 width: 150,
+                hide: userTypeHide,
             },
             {
                 field: 'serviceProvider',
                 headerName: 'サービス提供者',
                 width: 150,
+                hide: serviceProviderHide,
+                cellRenderer: LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = '';
+                    result.name = params.data.serviceProvider.name;
+                    return result;
+                }
+            },
+            {
+                field: 'btnEdit',
+                headerName: '',
+                width: 70,
+                cellClass : 'ag-cell-non-padding',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer : ButtonCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.id = 'btnEdit' + params.data.id;
+                    result.color = 'green';
+                    result.name = '編集';
+                    /**
+                     * ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.clicked = function(e, params) {
+
+                    }
+                    return result;
+                },
+            },
+            {
+                field: 'btnDelete',
+                headerName: '',
+                width: 70,
+                cellClass : 'ag-cell-non-padding',
+                cellStyle: {
+                    textAlign: 'center',
+                },
+                cellRenderer : ButtonCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.id = 'btnDelete' + params.data.id;
+                    result.color = 'red';
+                    result.name = '削除';
+                    /**
+                     * ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.clicked = function(e, params) {
+
+                    }
+                    return result;
+                }
             },
         ]
     }
