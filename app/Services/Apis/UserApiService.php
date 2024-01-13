@@ -211,8 +211,14 @@ class UserApiService implements UserApiServiceInterface
 
         try
         {
+            // 担当者情報を取得
+            $user = $this->userRepository->findById($id);
+
             // 担当者情報を削除
             $result = $this->userRepository->destroy($id);
+
+            // ファイル保存先ディレクトリを削除
+            $this->deleteDirectory($user->user_type_id, $id, $user->service_provider_id);
 
             // コミット
             \DB::commit();
@@ -279,5 +285,36 @@ class UserApiService implements UserApiServiceInterface
         {
             throw $e;
         }
+    }
+
+    /**
+     * 担当者ファイル保存用ディレクトリを削除
+     * 
+     * @param int    userTypeId        担当者種別
+     * @param int    userId            担当者情報ID
+     * @param int    serviceProviderId サービス提供者情報ID
+     */
+    private function deleteDirectory($userTypeId, $userId, $serviceProviderId)
+    {
+        // 画像保存先の基底となるパスを取得
+        $baseDirectory;
+        if (\AppFacade::isOperator($userTypeId))
+        {
+            // operator/user
+            $baseDirectory = config('user.operator_save_file_directory');
+            $baseDirectory = $baseDirectory.'/user';
+        }
+        else
+        {
+            // service_provider/{service_provider_id}/user
+            $baseDirectory = config('user.service_provider_save_file_directory');
+            $baseDirectory = $baseDirectory.'/'.$serviceProviderId.'/user';
+        }
+
+        // パスに担当者IDを追加
+        $saveFilePath = $baseDirectory.'/'.$userId;
+
+        // ファイル保存先ディレクトリを削除
+        Storage::disk('public')->deleteDirectory($saveFilePath);
     }
 }

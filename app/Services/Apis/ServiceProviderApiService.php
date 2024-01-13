@@ -3,7 +3,9 @@
 namespace App\Services\Apis;
 
 use App\Repositorys\ServiceProviderRepositoryInterface;
+use App\Repositorys\UserRepositoryInterface;
 use App\Jsons\ServiceProviderApis\ServiceProvider;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * ServiceProviderApiService
@@ -16,15 +18,25 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
      * 
      */
     private $serviceProviderRepository;
+    /**
+     * UserRepositoryInterface
+     * 
+     */
+    private $userRepository;
 
     /**
      * __construct
      * 
      * @param ServiceProviderRepositoryInterface serviceProviderRepository
+     * @param UserRepositoryInterface            userRepository
      */
-    public function __construct(ServiceProviderRepositoryInterface $serviceProviderRepository)
+    public function __construct(
+        ServiceProviderRepositoryInterface $serviceProviderRepository,
+        UserRepositoryInterface $userRepository
+    )
     {
         $this->serviceProviderRepository = $serviceProviderRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -173,6 +185,17 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
             // サービス提供者情報を削除
             $result = $this->serviceProviderRepository->destroy($id);
 
+            // 担当者情報を取得
+            $users = $this->userRepository->findByServiceProviderId($id);
+            foreach ($users as $user)
+            {
+                // 担当者情報を削除
+                $this->userRepository->destroy($user->id);
+            }
+
+            // ファイル保存先ディレクトリを削除
+            $this->deleteDirectory($id);
+
             // コミット
             \DB::commit();
 
@@ -184,5 +207,22 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
             \DB::rollback();
             throw $e;
         }
+    }
+
+    /**
+     * サービス提供者ファイル保存用ディレクトリを削除
+     * 
+     * @param int id サービス提供者情報ID
+     */
+    private function deleteDirectory($id)
+    {
+        // ファイル保存先でディレクトリの基底を取得
+        $baseDirectory = config('user.service_provider_save_file_directory');
+
+        // サービス提供者IDを結合
+        $saveFilePath = $baseDirectory.'/'.$id;
+
+        // ファイル保存先ディレクトリを削除
+        Storage::disk('public')->deleteDirectory($saveFilePath);
     }
 }

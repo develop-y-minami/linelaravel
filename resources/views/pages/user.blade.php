@@ -19,7 +19,7 @@
 
 {{--見出し--}}
 @section('pageCaption')
-    <div class="caption">担当者</div>
+    <div class="caption">担当者設定</div>
     <div class="comment">担当者の一覧を表示します</div>
 @endsection
 

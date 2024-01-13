@@ -42,7 +42,7 @@ class UserCellRenderer {
         if (globalUserType == UserType.OPERATOR) {
             tableHtml += '<tr>';
             tableHtml += '<th>担当者種別</th>';
-            tableHtml += '<td><a>' + params.data.userType.name + '</a></td>';
+            tableHtml += '<td>' + params.data.userType.name + '</td>';
             tableHtml += '</tr>';
             tableHtml += '<tr>';
             tableHtml += '<th>サービス提供者</th>';
