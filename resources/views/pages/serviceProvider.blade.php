@@ -56,7 +56,7 @@
 @section('rightContents')
     {{--新規追加ボタン--}}
     <div class="content">
-        <button id="btnInsert" class="blue">新規追加</button>
+        <button id="btnInsert" class="blue" {!! \ViewFacade::hide(\AppFacade::loginUserIsUser()) !!}>新規追加</button>
     </div>
 @endsection
 

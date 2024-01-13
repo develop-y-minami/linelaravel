@@ -421,15 +421,20 @@ class ServiceProviderGrid {
      * 
      */
     showGridMode() {
-        this.gridApi.setColumnsVisible([
-            'providerId',
-            'name',
-            'useStartDateTime',
-            'useEndDateTime',
-            'useStop',
-            'btnEdit',
-            'btnDelete'
-        ], true);
+        let columns = [];
+        columns.push('providerId');
+        columns.push('name');
+        columns.push('useStartDateTime');
+        columns.push('useEndDateTime');
+        columns.push('useStop');
+
+        // 管理者の場合に表示
+        if (globalUserAccountType == UserAccountType.ADMIN) {
+            columns.push('btnEdit');
+            columns.push('btnDelete');
+        }
+
+        this.gridApi.setColumnsVisible(columns, true);
         this.gridApi.setColumnsVisible(['detailInfo'], false);
     }
 

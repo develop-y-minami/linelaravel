@@ -165,6 +165,18 @@ $(function() {
     }
 
     /**
+     * 表示モード切替
+     * 
+     */
+    $checkSwitch.on('change', function() {
+        if ($(this).prop('checked') === true) {
+            grid.showDetailInfoMode();
+        } else {
+            grid.showGridMode();
+        }
+    })
+
+    /**
      * 検索ボタンクリック時
      * 
      */

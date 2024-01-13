@@ -12,6 +12,7 @@
 @push('js')
     <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/userCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     <script src="{{ asset('js/pages/user.js') }}"></script>
 @endpush
@@ -58,7 +59,7 @@
 @section('rightContents')
     {{--新規追加ボタン--}}
     <div class="content">
-        <button id="btnInsert" class="blue">新規追加</button>
+        <button id="btnInsert" class="blue" {!! \ViewFacade::hide(\AppFacade::loginUserIsUser()) !!}>新規追加</button>
     </div>
 @endsection
 

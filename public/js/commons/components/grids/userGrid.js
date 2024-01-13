@@ -304,6 +304,61 @@ class UserGrid {
                 },
                 hide: btnDeleteHide
             },
+            {
+                field: 'detailInfo',
+                headerName: '担当者情報',
+                flex: 1,
+                cellClass : 'ag-cell-non-padding',
+                cellRenderer : UserCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.btnEditId = 'detailInfoBtnDelete' + params.data.id;
+                    result.btnDeleteId = 'detailInfoBtnDelete' + params.data.id;
+                    /**
+                     * 編集ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.btnEditClicked = function(e, params) {
+                        // 担当者入力モーダルのインスタンスを生成
+                        let userInputModal = new UserInputModal(
+                            new UserInputUpdateModalCallbackClass(params.context, params.data.id),
+                            'modalUserInputUpdate'
+                        );
+                        userInputModal.init();
+                        userInputModal.set(
+                            params.data.id,
+                            params.data.userType.id,
+                            params.data.serviceProvider.id,
+                            params.data.userAccountType.id,
+                            params.data.accountId,
+                            params.data.name,
+                            params.data.email
+                        );
+                        userInputModal.show();
+                    }
+                    /**
+                     * 削除ボタンクリック時
+                     * 
+                     * @param {Event} e 
+                     * @param {object} params 
+                     */
+                    result.btnDeleteClicked = function(e, params) {
+                        // 削除確認モーダルのインスタンスを生成
+                        let userDeleteConfirmModal = new ConfirmModal(
+                            new UserDeleteConfirmModalCallbackClass(params.context, params.data.id),
+                            'userDeleteModalConfirm'
+                        );
+
+                        // 削除確認モーダルを表示
+                        userDeleteConfirmModal.show();
+                    }
+                    return result;
+                },
+                autoHeight: true,
+                hide: true
+            }
         ]
     }
 
@@ -352,5 +407,49 @@ class UserGrid {
             add: [data],
             addIndex: addIndex
           });
+    }
+
+    /**
+     * 一覧表示モードで表示
+     * 
+     */
+    showGridMode() {
+        let columns = [];
+
+        // 運用者の場合に表示
+        if (globalUserType == UserType.OPERATOR) {
+            columns.push('userType.name');
+            columns.push('serviceProvider');
+        }
+
+        columns.push('userAccountType.name');
+        columns.push('accountId');
+        columns.push('name');
+
+        // 管理者の場合に表示
+        if (globalUserAccountType == UserAccountType.ADMIN) {
+            columns.push('btnEdit');
+            columns.push('btnDelete');
+        }
+
+        this.gridApi.setColumnsVisible(columns, true);
+        this.gridApi.setColumnsVisible(['detailInfo'], false);
+    }
+
+    /**
+     * 詳細表示モードで表示
+     * 
+     */
+    showDetailInfoMode() {
+        this.gridApi.setColumnsVisible([
+            'userType.name',
+            'serviceProvider',
+            'userAccountType.name',
+            'accountId',
+            'name',
+            'btnEdit',
+            'btnDelete'
+        ], false);
+        this.gridApi.setColumnsVisible(['detailInfo'], true);
     }
 }

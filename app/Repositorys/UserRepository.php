@@ -108,8 +108,17 @@ class UserRepository implements UserRepositoryInterface
             // ログイン担当者が運用者（一般）の場合は運用者の管理者は取得しない
             $query->whereNot(function($query)
             {
-                $query->whereUserTypeId(1);
-                $query->whereUserAccountTypeId(2);
+                $query->whereUserTypeId(\UserType::OPERATOR);
+                $query->whereUserAccountTypeId(\UserAccountType::ADMIN);
+            });
+        }
+        else if (\AppFacade::loginUserIsServiceProviderUser())
+        {
+            // ログイン担当者がサービス提供者（一般）の場合はサービス提供者の管理者は取得しない
+            $query->whereNot(function($query)
+            {
+                $query->whereUserTypeId(\UserType::SERVICE_PROVIDER);
+                $query->whereUserAccountTypeId(\UserAccountType::ADMIN);
             });
         }
 

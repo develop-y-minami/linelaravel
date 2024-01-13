@@ -74,6 +74,17 @@
 
 .ag-cell .detailInfoContainer .tableContainer table td { background-color: white; }
 
+.ag-cell .detailInfoContainer .profileContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ag-cell .detailInfoContainer .profileContainer .circleImgContainer { flex-grow: 1; }
+.ag-cell .detailInfoContainer .profileContainer .profile {
+    flex-grow: 100;
+    min-width: 300px;
+}
+
 /******************************************************
 *   LINE詳細表示セル
 ******************************************************/

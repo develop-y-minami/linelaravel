@@ -64,13 +64,21 @@ class AppFacade
     }
 
     /**
-     * ログイン担当者が運用者か判定
+     * 担当者アカウント種別が管理者か判定
      * 
+     * @param int userType ユーザー種別
      * @return bool
      */
-    public static function loginUserIsOperator()
+    public static function isAdmin($userAccountType)
     {
-        return \AppFacade::isOperator(Auth::user()->user_type_id);
+        if (\UserAccountType::ADMIN == $userAccountType)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -78,9 +86,9 @@ class AppFacade
      * 
      * @return bool
      */
-    public static function loginUserIsUser()
+    public static function loginUserIsOperator()
     {
-        return \AppFacade::isUser(Auth::user()->user_account_type_id);
+        return \AppFacade::isOperator(Auth::user()->user_type_id);
     }
 
     /**
@@ -94,12 +102,48 @@ class AppFacade
     }
 
     /**
+     * ログイン担当者が一般か判定
+     * 
+     * @return bool
+     */
+    public static function loginUserIsUser()
+    {
+        return \AppFacade::isUser(Auth::user()->user_account_type_id);
+    }
+
+    /**
+     * ログイン担当者が管理者か判定
+     * 
+     * @return bool
+     */
+    public static function loginUserIsAdmin()
+    {
+        return \AppFacade::isAdmin(Auth::user()->user_account_type_id);
+    }
+
+    /**
      * ログイン担当者が運用者（一般）か判定
      * 
      */
     public static function loginUserIsOperatorUser()
     {
         if (\AppFacade::loginUserIsOperator() && \AppFacade::loginUserIsUser())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * ログイン担当者がサービス提供者（一般）か判定
+     * 
+     */
+    public static function loginUserIsServiceProviderUser()
+    {
+        if (\AppFacade::loginUserIsServiceProvider() && \AppFacade::loginUserIsUser())
         {
             return true;
         }
