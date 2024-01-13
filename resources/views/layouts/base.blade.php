@@ -17,7 +17,6 @@
         <link rel="stylesheet" href="{{ asset('css/commons/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/base.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/component.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/commons/component.css') }}">
         <link rel="stylesheet" href="{{ asset('css/commons/components/modals/confirmModal.css') }}">
 
         {{--各ページのCSSを読み込み--}}
@@ -38,6 +37,7 @@
         <script src="{{ asset('js/commons/components/containers/lineOfficialAccountContainer.js') }}"></script>
         <script src="{{ asset('js/commons/components/messages/errorMessage.js') }}"></script>
         <script src="{{ asset('js/commons/components/modals/confirmModal.js') }}"></script>
+        <script src="{{ asset('js/commons/components/selectBoxs/selectBox.js') }}"></script>
         <script src="{{ asset('js/apis/fetchApi.js') }}"></script>
         <script src="{{ asset('js/apis/lineMessagingApi.js') }}"></script>
 

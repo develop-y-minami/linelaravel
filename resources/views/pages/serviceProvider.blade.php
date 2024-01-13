@@ -7,12 +7,12 @@
 {{--CSS--}}
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderUserRegisterModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
 @endpush
 
 @push('js')
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
-    <script src="{{ asset('js/commons/components/modals/serviceProviderUserRegisterModal.js') }}"></script>
+    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/serviceProviderCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
@@ -64,10 +64,15 @@
     {{--サービス提供者入力モーダル--}}
     <x-modals.serviceProviderInput id="modalServiceProviderInputRegister"></x-modals.serviceProviderInput>
     <x-modals.serviceProviderInput id="modalServiceProviderInputUpdate" :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
-    {{--ユーザー登録確認モーダル--}}
+    {{--担当者登録確認モーダル--}}
     <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
-    {{--サービス提供者ユーザー登録モーダル--}}
-    <x-modals.serviceProviderUserRegister></x-modals.serviceProviderUserRegister>
+    {{--サービス提供者担当者登録モーダル--}}
+    <x-modals.userInput
+        id="modalUserInputRegister"
+        :userTypeRadioItems='$data->userTypeRadioItems'
+        :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+        :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
+    </x-modals.userInput>
     {{--サービス提供者削除確認モーダル--}}
     <x-modals.confirm id="serviceProviderDeleteModalConfirm" message="サービス提供者を削除しますか？"></x-modals.confirm>
 @endsection

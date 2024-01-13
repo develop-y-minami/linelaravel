@@ -63,7 +63,7 @@ $(function() {
      * サービス提供者ユーザー登録モーダル
      * 
      */
-    let serviceProviderUserRegisterModal;
+    let userInputModal;
     /**
      * 提供者IDの入力値
      * 
@@ -137,18 +137,23 @@ $(function() {
             // サービス提供者情報を取得
             let serviceProvider = e.data.me.context;
 
-            // サービス提供者ユーザー登録モーダルを初期化
-            serviceProviderUserRegisterModal.init();
+            // 担当者入力モーダルを初期化
+            userInputModal.init();
 
-            // 管理者をチェック状態に設定し非表示
-            serviceProviderUserRegisterModal.$radioUserAccountTypeAdmin.prop('checked', true);
-            serviceProviderUserRegisterModal.$radioUserAccountTypeContainer.hide();
+            // 担当者種別にサービス提供者を設定し非表示
+            userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
+            userInputModal.$userTypeContainer.hide();
 
             // サービス提供者IDを設定
-            serviceProviderUserRegisterModal.$txtServiceProviderId.val(serviceProvider.id);
+            let selServiceProvider = new SelectBox(userInputModal.$selServiceProvider.attr('id'));
+            selServiceProvider.addItem(serviceProvider.id, serviceProvider.name, true);
 
-            // サービス提供者ユーザー登録モーダルを起動
-            serviceProviderUserRegisterModal.show();
+            // 担当者アカウント種別に管理者を設定し非表示
+            userInputModal.$radioUserAccountTypeAdmin.prop('checked', true);
+            userInputModal.$userAccountTypeContainer.hide();
+
+            // 担当者入力モーダルを起動
+            userInputModal.show();
         }
 
         /**
@@ -185,7 +190,7 @@ $(function() {
             userRegisterConfirmModal = new ConfirmModal(new UserRegisterConfirmModalCallbackClass(), 'userRegisterModalConfirm');
 
             // サービス提供者ユーザー登録モーダル
-            serviceProviderUserRegisterModal = new ServiceProviderUserRegisterModal();
+            userInputModal = new UserInputModal(null, 'modalUserInputRegister');
 
             // 検索条件を設定
             setSearchConditions();

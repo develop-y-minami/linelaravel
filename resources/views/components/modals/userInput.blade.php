@@ -11,7 +11,7 @@
         </header>
         <main>
             {{--担当者種別--}}
-            <div class="row" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+            <div id="{{ $id }}UserTypeContainer" class="row" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
                 <x-radios.userType :id='$id' :radioItems='$userTypeRadioItems' :checkedValue="Auth::user()->user_type_id"></x-radios.userType>
             </div>
 
@@ -23,7 +23,7 @@
             </div>
 
             {{--担当者アカウント種別--}}
-            <div class="row">
+            <div  id="{{ $id }}UserAccountTypeContainer" class="row">
                 <x-radios.userAccountType :id='$id' :radioItems='$userAccountTypeRadioItems'></x-radios.userAccountType>
             </div>
 

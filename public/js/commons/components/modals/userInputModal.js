@@ -29,6 +29,11 @@ class UserInputModal {
      */
     $txtUserId;
     /**
+     * 担当者種別コンテナー
+     * 
+     */
+    $userTypeContainer;
+    /**
      * 担当者種別
      * 
      */
@@ -53,6 +58,11 @@ class UserInputModal {
      * 
      */
     $selServiceProvider;
+    /**
+     * 担当者アカウント種別コンテナー
+     * 
+     */
+    $userAccountTypeContainer;
     /**
      * 担当者アカウント種別
      * 
@@ -145,11 +155,13 @@ class UserInputModal {
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
         this.$txtUserId = $('#' + id + 'TxtUserId');
+        this.$userTypeContainer = $('#' + id + 'UserTypeContainer');
         this.$radioUserType = $('input:radio[name="' + id + 'RadioUserType"]');
         this.$radioUserTypeOperator = $('#' + id + 'RadioUserType' + UserType.OPERATOR);
         this.$radioUserTypeServiceProvider = $('#' + id + 'RadioUserType' + UserType.SERVICE_PROVIDER);
         this.$serviceProviderContainer = $('#' + id + 'ServiceProviderContainer');
         this.$selServiceProvider = $('#' + id + 'SelServiceProvider');
+        this.$userAccountTypeContainer = $('#' + id + 'UserAccountTypeContainer');
         this.$radioUserAccountType = $('input:radio[name="' + id + 'RadioUserAccountType"]');
         this.$radioUserAccountTypeUser = $('#' + id + 'RadioUserAccountType' + UserAccountType.USER);
         this.$radioUserAccountTypeAdmin = $('#' + id + 'RadioUserAccountType' + UserAccountType.ADMIN);
