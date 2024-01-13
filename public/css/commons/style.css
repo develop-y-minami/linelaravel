@@ -142,6 +142,48 @@ input[type=radio] {
 }
 
 /******************************************************
+*   file
+******************************************************/
+.file > .container {
+    display: flex;
+}
+
+.file > .container > input {
+    flex: 1;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.file > .container > label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 15px;
+    width: max-content;
+    color: white;
+    background-color: var(--colorBlue);
+    box-shadow: 0px 0px 1px 1px var(--colorBlue);
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.file > .container > label > input { display: none; }
+
+.file > .container > label :hover {
+    color: var(--colorBlue);
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px var(--colorBlue);
+}
+
+.file .error {
+    display: none;
+    margin-top: 5px;
+    color: var(--colorRed);
+}
+
+.file.large > .container > input, .file.large > .container > label { padding: 13px 15px; }
+
+/******************************************************
 *   textarea
 ******************************************************/
 textarea {

@@ -7,6 +7,7 @@ use App\Jsons\UserApis\ServiceProvider;
 use App\Jsons\UserApis\User;
 use App\Jsons\UserApis\UserType;
 use App\Jsons\UserApis\UserAccountType;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * UserApiService
@@ -33,20 +34,20 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を取得
      * 
-     * @param int    userType          担当者種別
+     * @param int    userTypeId        担当者種別
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountType   担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return array 担当者情報
      */
-    public function getUsers($userType = null, $serviceProviderId = null, $userAccountType = null, $accountId = null, $name = null)
+    public function getUsers($userTypeId = null, $serviceProviderId = null, $userAccountTypeId = null, $accountId = null, $name = null)
     {
         // 返却データ
         $result = array();
 
         // サービス提供者情報を取得
-        $datas = $this->userRepository->findByconditions($userType, $serviceProviderId, $userAccountType, $accountId, $name);
+        $datas = $this->userRepository->findByconditions($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name);
         foreach ($datas as $data)
         {
             // 担当者種別を設定
@@ -63,7 +64,8 @@ class UserApiService implements UserApiServiceInterface
                 $userAccountType,
                 $data->account_id,
                 $data->name,
-                $data->email
+                $data->email,
+                $data->profile_image_file_path
             );
 
             // 配列に追加
@@ -76,16 +78,17 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を登録
      * 
+     * @param int    userTypeId        担当者種別
      * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
      * @param string password          パスワード
-     * @param int    userTypeId        担当者種別
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param string profileImage      プロフィール画像
      * @return User 担当者情報
      */
-    public function register($serviceProviderId, $accountId, $name, $email, $password, $userTypeId, $userAccountTypeId)
+    public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password, $profileImage)
     {
         // トランザクション開始
         \DB::beginTransaction();
@@ -93,17 +96,28 @@ class UserApiService implements UserApiServiceInterface
         try
         {
             // 担当者情報を登録
-            $result = $this->userRepository->register($serviceProviderId, $accountId, $name, $email, $password, $userTypeId, $userAccountTypeId);
+            $result = $this->userRepository->register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password);
 
             // 担当者情報を取得
             $data = $this->userRepository->findById($result->id);
 
+            // プロフィール画像を保存
+            if ($profileImage != null)
+            {
+                // プロフィール画像を保存
+                $profileImageFilePath = $this->saveProfileImageFile($userTypeId, $data->id, $serviceProviderId, $profileImage);
+
+                // 保存先パスを設定
+                $data->profile_image_file_path = $profileImageFilePath;
+                $this->userRepository->save($data);
+            }
+
             // 担当者種別を設定
-            $userType = new ServiceProvider($data->userType->id, $data->userType->name);
+            $userType = new UserType($data->userType->id, $data->userType->name);
             // サービス提供者情報を設定
             $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
             // 担当者アカウント種別を設定
-            $userAccountType = new ServiceProvider($data->userAccountType->id, $data->userAccountType->name);
+            $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
             $user = new User(
                 $data->id,
@@ -112,7 +126,8 @@ class UserApiService implements UserApiServiceInterface
                 $userAccountType,
                 $data->account_id,
                 $data->name,
-                $data->email
+                $data->email,
+                $data->profile_image_file_path
             );
 
             // コミット
@@ -124,6 +139,60 @@ class UserApiService implements UserApiServiceInterface
         {
             // ロールバック
             \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * プロフィール画像を保存
+     * 
+     * @param int    userTypeId        担当者種別
+     * @param int    userId            担当者情報ID
+     * @param int    serviceProviderId サービス提供者情報ID
+     * @param string profileImageFile プロフィール画像
+     * @return string 保存先パス
+     */
+    private function saveProfileImageFile($userTypeId, $userId, $serviceProviderId, $profileImageFile)
+    {
+        try
+        {
+            // 画像保存先の基底となるパスを取得
+            $baseDirectory;
+            if (\AppFacade::isOperator($userTypeId))
+            {
+                // operator/user
+                $baseDirectory = config('user.operator_save_file_directory');
+                $baseDirectory = $baseDirectory.'/user';
+            }
+            else
+            {
+                // service_provider/{service_provider_id}/user
+                $baseDirectory = config('user.service_provider_save_file_directory');
+                $baseDirectory = $baseDirectory.'/'.$serviceProviderId.'/user';
+            }
+
+            // パスに担当者IDを追加
+            $baseDirectory = $baseDirectory.'/'.$userId.'/profile';
+
+            // 拡張子を取得
+            $extension = \FileFacade::getExtensionBase64ImageFile($profileImageFile);
+
+            // 保存ファイルを取得
+            $image = \FileFacade::decodeBase64ImageFile($profileImageFile);
+
+            // ファイル名を生成
+            $profileImageFileName = $baseDirectory.'/profile.'.$extension;
+
+            // ファイルを保存
+            Storage::disk('public')->put($profileImageFileName , $image);
+
+            // ファイルパスを設定
+            $profileImageFilePath = 'storage/'.$profileImageFileName;
+
+            return $profileImageFilePath;
+        }
+        catch (\Exception $e)
+        {
             throw $e;
         }
     }

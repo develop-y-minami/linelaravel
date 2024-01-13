@@ -11,13 +11,14 @@ class User implements \JsonSerializable
     /**
      * __construct
      * 
-     * @param int             id              ID
-     * @param UserType        userType        担当者種別
-     * @param ServiceProvider serviceProvider サービス提供者情報
-     * @param UserAccountType userAccountType 担当者アカウント種別
-     * @param string          accountId       アカウントID
-     * @param string          name            名前
-     * @param string          email           メールアドレス
+     * @param int             id                   ID
+     * @param UserType        userType             担当者種別
+     * @param ServiceProvider serviceProvider      サービス提供者情報
+     * @param UserAccountType userAccountType      担当者アカウント種別
+     * @param string          accountId            アカウントID
+     * @param string          name                 名前
+     * @param string          email                メールアドレス
+     * @param string          profileImageFilePath プロフィール画像保存先パス
      */
     public function __construct(
         public readonly int $id,
@@ -26,7 +27,8 @@ class User implements \JsonSerializable
         public readonly UserAccountType $userAccountType,
         public readonly ?string $accountId,
         public readonly ?string $name,
-        public readonly ?string $email
+        public readonly ?string $email,
+        public readonly ?string $profileImageFilePath
     )
     {
 

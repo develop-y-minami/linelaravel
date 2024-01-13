@@ -31,8 +31,9 @@ class FetchApi {
      * @returns {object}
      */
     static async get(url) {
+        let response;
         try {
-            let response = await fetch(FetchApi.URL_ROOT_API + '/' + url);
+            response = await fetch(FetchApi.URL_ROOT_API + '/' + url);
             if (response.ok) {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
@@ -52,8 +53,9 @@ class FetchApi {
      * @returns {object}
      */
     static async post(url, data = {}) {
+        let response;
         try {
-            let response = await fetch(
+            response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
                 {
                     method: 'POST',
@@ -89,8 +91,9 @@ class FetchApi {
      * @returns {object}
      */
     static async patch(url, data = {}) {
+        let response;
         try {
-            let response = await fetch(
+            response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
                 {
                     method: 'PATCH',
@@ -125,8 +128,9 @@ class FetchApi {
      * @returns {object}
      */
     static async delete(url) {
+        let response;
         try {
-            let response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'DELETE' });
+            response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'DELETE' });
             if (response.ok) {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};

@@ -80,6 +80,28 @@ $(function() {
      */
     let userInputModal;
 
+    /**
+     * UserInputRegisterModalCallbackClass
+     * 
+     */
+    class UserInputRegisterModalCallbackClass {
+        /**
+         * constructor
+         * 
+         */
+        constructor() {};
+
+        /**
+         * 担当者情報登録時コールバック
+         * 
+         * @param {object} user 担当者情報
+         */
+        registerCallback(user) {
+            // グリッドを設定
+            grid.addRow(user);
+        }
+    }
+
     try {
         // 初期化処理を実行
         init();
@@ -97,7 +119,7 @@ $(function() {
         grid = new UserGrid('grid');
 
         // 担当者入力モーダル
-        userInputModal = new UserInputModal(null, 'modalUserInputRegister');
+        userInputModal = new UserInputModal(new UserInputRegisterModalCallbackClass(), 'modalUserInputRegister');
 
         // 検索条件を設定
         setSearchConditions();

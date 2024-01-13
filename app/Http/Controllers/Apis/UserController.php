@@ -44,19 +44,19 @@ class UserController extends Controller
         try
         {
             // パラメータを取得
-            $userType = $request->input('userType');
+            $userTypeId = $request->input('userTypeId');
             $serviceProviderId = $request->input('serviceProviderId');
-            $userAccountType = $request->input('userAccountType');
+            $userAccountTypeId = $request->input('userAccountTypeId');
             $accountId = $request->input('accountId');
             $name = $request->input('name');
 
             // キャスト
-            $userType = $userType === null ? null : (int)$userType;
+            $userTypeId = $userTypeId === null ? null : (int)$userTypeId;
             $serviceProviderId = $serviceProviderId === null ? null : (int)$serviceProviderId;
-            $userAccountType = $userAccountType === null ? null : (int)$userAccountType;
+            $userAccountTypeId = $userAccountTypeId === null ? null : (int)$userAccountTypeId;
 
             // 担当者情報を取得する
-            $users = $this->userApiService->getUsers($userType, $serviceProviderId, $userAccountType, $accountId, $name);
+            $users = $this->userApiService->getUsers($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name);
             
             // レスポンスデータを生成
             $response = new UsersResponse($users);
@@ -83,13 +83,14 @@ class UserController extends Controller
         try
         {
             // パラメータを取得
+            $userTypeId = $request->input('userTypeId');
             $serviceProviderId = $request->input('serviceProviderId');
+            $userAccountTypeId = $request->input('userAccountTypeId');
             $accountId = $request->input('accountId');
             $name = $request->input('name');
             $email = $request->input('email');
             $password = $request->input('password');
-            $userTypeId = $request->input('userTypeId');
-            $userAccountTypeId = $request->input('userAccountTypeId');
+            $profileImage = $request->input('profileImage');
 
             // キャスト
             $serviceProviderId = $serviceProviderId === null ? null : (int)$serviceProviderId;
@@ -97,7 +98,7 @@ class UserController extends Controller
             $userAccountTypeId = $userAccountTypeId === null ? null : (int)$userAccountTypeId;
 
             // ユーザー情報を登録
-            $user = $this->userApiService->register($serviceProviderId, $accountId, $name, $email, $password, $userTypeId, $userAccountTypeId);
+            $user = $this->userApiService->register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password, $profileImage);
 
             // レスポンスデータを生成
             $response = new UserRegisterResponse($user);

@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'user_type_id',
         'user_account_type_id',
+        'profile_image_file_path',
     ];
 
     /**

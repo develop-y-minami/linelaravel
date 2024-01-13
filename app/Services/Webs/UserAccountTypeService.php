@@ -2,7 +2,6 @@
 
 namespace App\Services\Webs;
 
-use App\Objects\SelectItem;
 use App\Repositorys\UserAccountTypeRepositoryInterface;
 
 /**
@@ -28,22 +27,22 @@ class UserAccountTypeService implements UserAccountTypeServiceInterface
     }
 
     /**
+     * 担当者アカウント種別ラジオボタンに設定するデータを返却
+     * 
+     * @return array 選択項目
+     */
+    public function getRadioItems()
+    {
+        return \ViewFacade::getRadioItems($this->userAccountTypeRepository->getAll());
+    }
+
+    /**
      * 担当者アカウント種別セレクトボックスに設定するデータを返却
      * 
      * @return array 選択項目
      */
     public function getSelectItems()
     {
-        // 返却データ
-        $result = array();
-
-        // 担当者アカウント種別情報を取得し設定
-        $datas = $this->userAccountTypeRepository->getAll();
-        foreach ($datas as $data)
-        {
-            $result[] = new SelectItem($data->id, $data->name);
-        }
-
-        return $result;
+        return \ViewFacade::getSelectItems($this->userAccountTypeRepository->getAll());
     }
 }

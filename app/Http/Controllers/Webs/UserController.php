@@ -63,13 +63,17 @@ class UserController extends Controller
         {
             // 担当者種別セレクトボックス設定データを取得
             $userTypeSelectItems = $this->userTypeService->getSelectItems();
+            // 担当者種別ラジオボタン設定データを取得
+            $userTypeRadioItems = $this->userTypeService->getRadioItems();
             // サービス提供者セレクトボックス設定データを取得
             $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
             // 担当者アカウント種別セレクトボックス設定データを取得
             $userAccountTypeSelectItems = $this->userAccountTypeService->getSelectItems();
+            // 担当者アカウント種別ラジオボタン設定データを取得
+            $userAccountTypeRadioItems = $this->userAccountTypeService->getRadioItems();
 
             // 返却データに設定
-            $result = new UserPage($userTypeSelectItems, $serviceProviderSelectItems, $userAccountTypeSelectItems);
+            $result = new UserPage($userTypeSelectItems, $userTypeRadioItems, $serviceProviderSelectItems, $userAccountTypeSelectItems, $userAccountTypeRadioItems);
 
             return view('pages.user')->with('data', $result);
         }

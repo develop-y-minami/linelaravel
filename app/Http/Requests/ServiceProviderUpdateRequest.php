@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\HalfSize;
 
 /**
  * ServiceProviderUpdateRequest
@@ -32,7 +33,7 @@ class ServiceProviderUpdateRequest extends FormRequest
         $id = \ArrayFacade::getArrayValue($input, 'id');
 
         return [
-            'providerId' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_PROVIDER_ID, 'unique:service_providers,provider_id,'.$id.',id'],
+            'providerId' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_PROVIDER_ID, new HalfSize(), 'unique:service_providers,provider_id,'.$id.',id'],
             'name' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_NAME],
             'useStartDateTime' => ['required', 'date'],
             'useEndDateTime' => ['nullable', 'date', 'after:useStartDateTime'],

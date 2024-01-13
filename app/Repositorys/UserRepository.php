@@ -26,6 +26,21 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * ユーザー情報を取得
+     * 
+     * @param int id ID
+     * @return User ユーザー情報
+     */
+    public function findById($id)
+    {
+        return User::with([
+            'userType',
+            'serviceProvider',
+            'userAccountType',
+        ])->find($id);
+    }
+
+    /**
      * 担当者情報を取得
      * 
      * @param int serviceProviderId サービス提供者ID
@@ -39,14 +54,14 @@ class UserRepository implements UserRepositoryInterface
     /**
      * 担当者情報を取得
      * 
-     * @param int    userType          担当者種別
+     * @param int    userTypeId        担当者種別
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountType   担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return Collection 担当者情報
      */
-    public function findByconditions($userType = null, $serviceProviderId = null, $userAccountType = null, $accountId = null, $name = null)
+    public function findByconditions($userTypeId = null, $serviceProviderId = null, $userAccountTypeId = null, $accountId = null, $name = null)
     {
         $query = User::query();
 
@@ -57,13 +72,13 @@ class UserRepository implements UserRepositoryInterface
         ]);
 
         // 担当者種別
-        if ($userType !== null) $query->whereUserTypeId($userType);
+        if ($userTypeId !== null) $query->whereUserTypeId($userTypeId);
 
         // サービス提供者情報ID
         if ($serviceProviderId !== null) $query->whereServiceProviderId($serviceProviderId);
 
         // 担当者アカウント種別
-        if ($userAccountType !== null) $query->whereUserAccountTypeId($userAccountType);
+        if ($userAccountTypeId !== null) $query->whereUserAccountTypeId($userAccountTypeId);
 
         // アカウントID
         if ($accountId !== null) $query->whereAccountId($accountId);
@@ -75,18 +90,18 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * ユーザー情報を登録
+     * 担当者情報を登録
      * 
+     * @param int    userTypeId        担当者種別
      * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
      * @param string password          パスワード
-     * @param int    userTypeId        ユーザー種別
-     * @param int    userAccountTypeId ユーザーアカウント種別
-     * @return User ユーザー情報
+     * @return User 担当者情報
      */
-    public function register($serviceProviderId, $accountId, $name, $email, $password, $userTypeId, $userAccountTypeId)
+    public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password)
     {
         return User::create([
             'service_provider_id' => $serviceProviderId,
@@ -97,5 +112,16 @@ class UserRepository implements UserRepositoryInterface
             'user_type_id' => $userTypeId,
             'user_account_type_id' => $userAccountTypeId
         ]);
+    }
+
+    /**
+     * 担当者情報を保存
+     * 
+     * @param User user 担当者情報
+     * @return bool 結果
+     */
+    public function save($user)
+    {
+        return $user->save();
     }
 }

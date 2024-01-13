@@ -154,7 +154,10 @@ return [
         'providerId' => '提供者ID',
         'useStartDateTime' => '利用開始日',
         'useEndDateTime' => '利用終了日',
+        'userTypeId' => '担当者種別',
+        'userAccountTypeId' => 'アカウント種別',
         'serviceProviderId' => 'サービス提供者ID',
         'accountId' => 'アカウントID',
+        'profileImage' => 'プロフィール画像',
     ],
 ];

@@ -19,6 +19,7 @@ class FacadeServiceProvider extends ServiceProvider
     {
         $this->app->bind('AppFacade', 'App\Facades\AppFacade');
         $this->app->bind('ArrayFacade', 'App\Facades\ArrayFacade');
+        $this->app->bind('FileFacade', 'App\Facades\FileFacade');
         $this->app->bind('StringFacade', 'App\Facades\StringFacade');
         $this->app->bind('ViewFacade', 'App\Facades\ViewFacade');
     }

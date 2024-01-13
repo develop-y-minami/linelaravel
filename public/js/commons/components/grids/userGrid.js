@@ -104,13 +104,6 @@ class UserGrid {
                 headerName: '担当者名',
                 flex: 1,
                 minWidth: 150,
-                cellRenderer: LinkCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.url = '';
-                    result.name = params.data.name;
-                    return result;
-                }
             },
             {
                 field: 'userAccountType.name',
@@ -223,5 +216,18 @@ class UserGrid {
         } catch(error) {
             throw error;
         }
+    }
+
+    /**
+     * 行データを追加
+     * 
+     * @param {object} data 行データ
+     */
+    addRow(data, addIndex = undefined) {
+        // 行データを追加
+        this.gridApi.applyTransaction({
+            add: [data],
+            addIndex: addIndex
+          });
     }
 }

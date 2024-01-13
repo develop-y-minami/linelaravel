@@ -64,5 +64,10 @@
 
 @section('overlayContents')
     {{--担当者入力モーダル--}}
-    <x-modals.userInput id="modalUserInputRegister"></x-modals.userInput>
+    <x-modals.userInput
+        id="modalUserInputRegister"
+        :userTypeRadioItems='$data->userTypeRadioItems'
+        :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+        :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
+    </x-modals.userInput>
 @endsection

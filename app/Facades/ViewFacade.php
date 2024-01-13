@@ -2,6 +2,9 @@
 
 namespace App\Facades;
 
+use App\Objects\RadioItem;
+use App\Objects\SelectItem;
+
 /**
  * ViewFacade
  */
@@ -22,5 +25,43 @@ class ViewFacade
         {
             return '';
         }
+    }
+
+    /**
+     * ラジオボタン表示データを返却
+     * 
+     * @param Collection datas
+     * @return array 表示データ
+     */
+    public static function getRadioItems($datas)
+    {
+        // 返却データ
+        $result = array();
+
+        foreach ($datas as $data)
+        {
+            $result[] = new RadioItem($data->id, $data->name);
+        }
+
+        return $result;
+    }
+
+    /**
+     * ラジオボタン表示データを返却
+     * 
+     * @param Collection datas
+     * @return array 表示データ
+     */
+    public static function getSelectItems($datas)
+    {
+        // 返却データ
+        $result = array();
+
+        foreach ($datas as $data)
+        {
+            $result[] = new SelectItem($data->id, $data->name);
+        }
+
+        return $result;
     }
 }
