@@ -144,6 +144,61 @@ class UserApiService implements UserApiServiceInterface
     }
 
     /**
+     * 担当者情報を更新
+     * 
+     * @param int    id                担当者情報ID
+     * @param int    userTypeId        担当者種別
+     * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param string accountId         アカウントID
+     * @param string name              名前
+     * @return User 担当者情報
+     */
+    public function update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // 担当者情報を更新
+            $this->userRepository->update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
+
+            // 担当者情報を取得
+            $data = $this->userRepository->findById($id);
+
+            // 担当者種別を設定
+            $userType = new UserType($data->userType->id, $data->userType->name);
+            // サービス提供者情報を設定
+            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+            // 担当者アカウント種別を設定
+            $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
+            // 担当者情報を設定
+            $user = new User(
+                $data->id,
+                $userType,
+                $serviceProvider,
+                $userAccountType,
+                $data->account_id,
+                $data->name,
+                $data->email,
+                $data->profile_image_file_path
+            );
+
+            // コミット
+            \DB::commit();
+            
+            return $user;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
      * プロフィール画像を保存
      * 
      * @param int    userTypeId        担当者種別

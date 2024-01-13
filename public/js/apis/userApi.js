@@ -66,4 +66,45 @@ class UserApi {
         let response = await FetchApi.post(UserApi.PREFIX_REGISTER, data);
         return response;
     }
+
+    /**
+     * 担当者情報を更新
+     * 
+     * @param {number} id                担当者ID
+     * @param {number} userTypeId        担当者種別
+     * @param {number} serviceProviderId サービス提供者情報ID
+     * @param {number} userAccountTypeId 担当者アカウント種別
+     * @param {string} accountId         アカウントID
+     * @param {string} name              名前
+     * @param {string} email             メールアドレス
+     * @returns {object}  
+     */
+    static async update(id, userTypeId, serviceProviderId, userAccountTypeId, accountId, name, email) {
+        let url = UserApi.PREFIX + '/' + id;
+
+        // パラメータを設定
+        let data = {};
+        data.id = id;
+        data.userTypeId = userTypeId;
+        data.serviceProviderId = serviceProviderId;
+        data.userAccountTypeId = userAccountTypeId;
+        data.accountId = accountId;
+        data.name = name;
+        data.email = email;
+
+        let response = await FetchApi.patch(url, data);
+        return response;
+    }
+
+    /**
+     * 担当者情報を削除
+     * 
+     * @param {number} id 担当者情報ID
+     * @returns {object}  
+     */
+    static async destroy(id) {
+        let url = UserApi.PREFIX + '/' + id;
+        let response = await FetchApi.delete(url);
+        return response;
+    }
 }

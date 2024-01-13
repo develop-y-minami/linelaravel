@@ -70,4 +70,13 @@
         :serviceProviderSelectItems='$data->serviceProviderSelectItems'
         :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
     </x-modals.userInput>
+    <x-modals.userInput
+        id="modalUserInputUpdate"
+        :mode='\EditMode::UPDATE'
+        :userTypeRadioItems='$data->userTypeRadioItems'
+        :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+        :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
+    </x-modals.userInput>
+    {{--担当者削除確認モーダル--}}
+    <x-modals.confirm id="userDeleteModalConfirm" message="担当者を削除しますか？"></x-modals.confirm>
 @endsection

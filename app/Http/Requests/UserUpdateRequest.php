@@ -8,10 +8,10 @@ use Illuminate\Validation\Rules\Password;
 use App\Rules\HalfSize;
 
 /**
- * UserRegisterRequest
+ * UserUpdateRequest
  * 
  */
-class UserRegisterRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,7 @@ class UserRegisterRequest extends FormRequest
     {
         // リクエストデータ取得
         $input = $this->all();
+        $id = \ArrayFacade::getArrayValue($input, 'id');
         $userTypeId = \ArrayFacade::getArrayValue($input, 'userTypeId');
         $serviceProviderId = \ArrayFacade::getArrayValue($input, 'serviceProviderId');
 
@@ -39,11 +40,11 @@ class UserRegisterRequest extends FormRequest
         $accountIdUniqueRule;
         if (\AppFacade::isOperator($userTypeId))
         {
-            $accountIdUniqueRule = Rule::unique('users', 'account_id')->whereNull('service_provider_id');
+            $accountIdUniqueRule = Rule::unique('users', 'account_id', 'id')->ignore($id)->whereNull('service_provider_id');
         }
         else
         {
-            $accountIdUniqueRule = Rule::unique('users', 'account_id')->where('service_provider_id', $serviceProviderId);
+            $accountIdUniqueRule = Rule::unique('users', 'account_id', 'id')->ignore($id)->where('service_provider_id', $serviceProviderId);
         }
 
         return [
@@ -53,9 +54,6 @@ class UserRegisterRequest extends FormRequest
             'accountId' => ['required', 'string', 'max:'.\Length::USER_ACCOUNT_ID, new HalfSize(), $accountIdUniqueRule],
             'name' => ['required', 'string', 'max:'.\Length::USER_NAME],
             'email' => ['nullable', 'string', 'email', 'max:'.\Length::USER_EMAIL],
-            'password' => ['required', 'max:'.\Length::USER_PASSWORD, Password::min(8), 'confirmed'],
-            'password_confirmation' => ['required'],
-            'profileImage' => ['nullable', 'string'],
         ];
     }
     

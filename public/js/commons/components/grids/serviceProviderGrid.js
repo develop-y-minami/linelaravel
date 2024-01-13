@@ -15,7 +15,7 @@ class ServiceProviderInputUpdateModalCallbackClass {
     };
 
     /**
-     * サービス提供者登録時コールバック
+     * サービス提供者更新時コールバック
      * 
      * @param {object} serviceProvider サービス提供者情報
      */
@@ -168,6 +168,14 @@ class ServiceProviderGrid {
      * 
      */
     setColumnDefs() {
+        // 編集/削除ボタン表示/非表示
+        let btnEditHide = false;
+        let btnDeleteHide = false;
+        if (globalUserAccountType == UserAccountType.USER) {
+            btnEditHide = true;
+            btnDeleteHide = true;
+        }
+
         this.gridOptions.columnDefs = [
             {
                 field: 'providerId',
@@ -268,6 +276,7 @@ class ServiceProviderGrid {
                     }
                     return result;
                 },
+                hide: btnEditHide
             },
             {
                 field: 'btnDelete',
@@ -300,7 +309,8 @@ class ServiceProviderGrid {
                         serviceProviderDeleteConfirmModal.show();
                     }
                     return result;
-                }
+                },
+                hide: btnDeleteHide
             },
             {
                 field: 'detailInfo',

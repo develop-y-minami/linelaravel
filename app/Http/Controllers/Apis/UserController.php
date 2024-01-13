@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Apis;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Services\Apis\UserApiServiceInterface;
 use App\Jsons\UserApis\Responses\UserRegisterResponse;
+use App\Jsons\UserApis\Responses\UserUpdateResponse;
 use App\Jsons\UserApis\Responses\UsersResponse;
 
 /**
@@ -102,6 +104,47 @@ class UserController extends Controller
 
             // レスポンスデータを生成
             $response = new UserRegisterResponse($user);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse($response);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * 担当者情報を更新する
+     * HTTP Method Patch
+     * https://{host}/api/user/{id}
+     * 
+     * @param UserUpdateRequest request リクエスト
+     * @param int               id      担当者情報ID
+     * @return Json
+     */
+    public function update(UserUpdateRequest $request, $id)
+    {
+        try
+        {
+            // パラメータを取得
+            $userTypeId = $request->input('userTypeId');
+            $serviceProviderId = $request->input('serviceProviderId');
+            $userAccountTypeId = $request->input('userAccountTypeId');
+            $accountId = $request->input('accountId');
+            $name = $request->input('name');
+            $email = $request->input('email');
+
+            // キャスト
+            $serviceProviderId = $serviceProviderId === null ? null : (int)$serviceProviderId;
+            $userTypeId = $userTypeId === null ? null : (int)$userTypeId;
+            $userAccountTypeId = $userAccountTypeId === null ? null : (int)$userAccountTypeId;
+
+            // 担当者情報を更新
+            $user = $this->userApiService->update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
+
+            // レスポンスデータを生成
+            $response = new UserUpdateResponse($user);
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($response);

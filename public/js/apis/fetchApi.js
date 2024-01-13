@@ -7,7 +7,7 @@ class FetchApi {
      * APIルート
      * 
      */
-    static URL_ROOT_API = 'http://127.0.0.1:8000/api';
+    static URL_ROOT_API = '/api';
     /**
      * STATUS 成功
      * 

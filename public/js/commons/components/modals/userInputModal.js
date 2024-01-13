@@ -24,6 +24,11 @@ class UserInputModal {
      */
     $btnClose;
     /**
+     * 担当者情報ID
+     * 
+     */
+    $txtUserId;
+    /**
      * 担当者種別
      * 
      */
@@ -139,6 +144,7 @@ class UserInputModal {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
+        this.$txtUserId = $('#' + id + 'TxtUserId');
         this.$radioUserType = $('input:radio[name="' + id + 'RadioUserType"]');
         this.$radioUserTypeOperator = $('#' + id + 'RadioUserType' + UserType.OPERATOR);
         this.$radioUserTypeServiceProvider = $('#' + id + 'RadioUserType' + UserType.SERVICE_PROVIDER);
@@ -172,6 +178,7 @@ class UserInputModal {
         this.$radioUserType.on('change', { me : this }, this.changeRadioUserType);
         this.$fileProfileImage.on('change', { me : this }, this.changeFileProfileImage);
         this.$btnRegister.on('click', { me : this }, this.clickBtnRegister);
+        this.$btnUpdate.on('click', { me : this }, this.clickBtnUpdate);
     }
 
     /**
@@ -193,6 +200,49 @@ class UserInputModal {
         this.$txtPassword.val('');
         this.$txtPasswordConfirm.val('');
         this.clearProfileImage(this);
+    }
+
+    /**
+     * 担当者情報を設定
+     * 
+     * @param {number} userId            担当者ID
+     * @param {number} userType          担当者種別
+     * @param {number} serviceProviderId サービス提供者ID
+     * @param {number} userAccountType   担当者アカウント種別
+     * @param {string} accountId         アカウントID
+     * @param {string} name              担当者名
+     * @param {string} email             メールアドレス
+     */
+    set(
+        userId,
+        userType,
+        serviceProviderId,
+        userAccountType,
+        accountId,
+        name,
+        email
+        ) {
+        this.$txtUserId.val(userId);
+        if (userType === UserType.OPERATOR) {
+            this.$radioUserTypeOperator.prop('checked', true);
+            this.$serviceProviderContainer.hide();
+        } else {
+            this.$radioUserTypeServiceProvider.prop('checked', true);
+            this.$serviceProviderContainer.show();
+        }
+        if (serviceProviderId === null) {
+            this.$selServiceProvider.val('0');
+        } else {
+            this.$selServiceProvider.val(serviceProviderId);
+        }
+        if (userAccountType === UserAccountType.USER) {
+            this.$radioUserAccountTypeUser.prop('checked', true);
+        } else {
+            this.$radioUserAccountTypeAdmin.prop('checked', true);
+        }
+        this.$txtAccountId.val(accountId);
+        this.$txtName.val(name);
+        this.$txtEmail.val(email);
     }
 
     /**
@@ -326,6 +376,64 @@ class UserInputModal {
                 if (me.callbackClass !== null) {
                     // コールバックを実行
                     me.callbackClass.registerCallback(result.data.user);
+                }
+            } else {
+                if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー時のメッセージを表示
+                    let erros = [];
+                    for (let i = 0; i < result.errors.length; i++) {
+                        erros.push(result.errors[i].message);
+                    }
+                    me.errorMessage.showMessages(erros);
+                } else {
+                    me.errorMessage.showServerError();
+                }
+            }
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            me.$loadingOverlay.hide();
+        }
+    }
+
+    /**
+     * 更新ボタンクリック時
+     * 
+     * @param {Event} e 
+     */
+    async clickBtnUpdate(e) {
+        let me = e.data.me;
+
+        try {
+            // エラーメッセージを非表示
+            me.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            me.$loadingOverlay.show();
+
+            // パラメータを取得
+            let userId = Number(me.$txtUserId.val());
+            let userType = Number(me.$radioUserType.filter(':checked').val());
+            let serviceProviderId = null;
+            if (userType === UserType.SERVICE_PROVIDER && me.$selServiceProvider.val() !== '0') {
+                // 担当者種別がサービス提供者の場合に設定
+                serviceProviderId = Number(me.$selServiceProvider.val());
+            }
+            let userAccountType = Number(me.$radioUserAccountType.filter(':checked').val());
+            let accountId = me.$txtAccountId.val().trim();
+            let name = me.$txtName.val().trim();
+            let email = me.$txtEmail.val().trim();
+
+            // サービス提供者情報を更新
+            let result = await UserApi.update(userId, userType, serviceProviderId, userAccountType, accountId, name, email);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // モーダルを閉じる
+                me.close(e);
+                if (me.callbackClass !== null) {
+                    // コールバックを実行
+                    me.callbackClass.updateCallback(result.data.user);
                 }
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {

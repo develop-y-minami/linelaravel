@@ -34,4 +34,17 @@ interface UserApiServiceInterface
      * @return User 担当者情報
      */
     public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password, $profileImage);
+
+    /**
+     * 担当者情報を更新
+     * 
+     * @param int    id                担当者情報ID
+     * @param int    userTypeId        担当者種別
+     * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param string accountId         アカウントID
+     * @param string name              名前
+     * @return User 担当者情報
+     */
+    public function update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
 }

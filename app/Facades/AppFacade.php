@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class AppFacade
 {
     /**
-     * ユーザー種別が運用者か判定
+     * 担当者種別が運用者か判定
      * 
-     * @param int userType ユーザー種別
+     * @param int userType 担当者種別
      * @return bool
      */
     public static function isOperator($userType)
@@ -28,9 +28,9 @@ class AppFacade
     }
 
     /**
-     * ユーザー種別がサービス提供者か判定
+     * 担当者種別がサービス提供者か判定
      * 
-     * @param int userType ユーザー種別
+     * @param int userType 担当者種別
      * @return bool
      */
     public static function isServiceProvider($userType)
@@ -46,7 +46,25 @@ class AppFacade
     }
 
     /**
-     * ログインユーザーが運用者か判定
+     * 担当者アカウント種別が一般か判定
+     * 
+     * @param int userType ユーザー種別
+     * @return bool
+     */
+    public static function isUser($userAccountType)
+    {
+        if (\UserAccountType::USER == $userAccountType)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * ログイン担当者が運用者か判定
      * 
      * @return bool
      */
@@ -56,12 +74,38 @@ class AppFacade
     }
 
     /**
-     * ログインユーザーがサービス提供者か判定
+     * ログイン担当者が運用者か判定
+     * 
+     * @return bool
+     */
+    public static function loginUserIsUser()
+    {
+        return \AppFacade::isUser(Auth::user()->user_account_type_id);
+    }
+
+    /**
+     * ログイン担当者がサービス提供者か判定
      * 
      * @return bool
      */
     public static function loginUserIsServiceProvider()
     {
         return \AppFacade::isServiceProvider(Auth::user()->user_type_id);
+    }
+
+    /**
+     * ログイン担当者が運用者（一般）か判定
+     * 
+     */
+    public static function loginUserIsOperatorUser()
+    {
+        if (\AppFacade::loginUserIsOperator() && \AppFacade::loginUserIsUser())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

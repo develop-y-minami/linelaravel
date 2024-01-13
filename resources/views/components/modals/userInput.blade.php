@@ -45,32 +45,34 @@
                 <input type="text" id="{{ $id }}TxtEmail" class="large" maxlength="" placeholder="メールアドレスを入力">
             </div>
 
-            {{--パスワード--}}
-            <div class="row">
-                <div class="required">パスワード</div>
-                <input type="password" id="{{ $id }}TxtPassword" class="large" maxlength="" placeholder="※8文字以上で入力">
-            </div>
-
-            {{--パスワード--}}
-            <div class="row">
-                <div class="required">パスワード（確認入力）</div>
-                <input type="password" id="{{ $id }}TxtPasswordConfirm" class="large" maxlength="" placeholder="確認入力">
-            </div>
-            
-            {{--プロフィール画像--}}
-            <div class="row">
-                <div>プロフィール画像</div>
-                <div class="file large">
-                    <div class="container">
-                        <input id="{{ $id }}TxtProfileImageName" type="text" placeholder="プロフィール画像を選択" disabled>
-                        <label for="{{ $id }}FileProfileImage">
-                            画像を選択
-                            <input type="file" id="{{ $id }}FileProfileImage">
-                        </label>
-                    </div>
-                    <div id="{{ $id }}ProfileImageError" class="error">aaaaaaa</div>
+            @if ($mode == \EditMode::REGISTER)
+                {{--パスワード--}}
+                <div class="row">
+                    <div class="required">パスワード</div>
+                    <input type="password" id="{{ $id }}TxtPassword" class="large" maxlength="" placeholder="※8文字以上で入力">
                 </div>
-            </div>
+
+                {{--パスワード--}}
+                <div class="row">
+                    <div class="required">パスワード（確認入力）</div>
+                    <input type="password" id="{{ $id }}TxtPasswordConfirm" class="large" maxlength="" placeholder="確認入力">
+                </div>
+                
+                {{--プロフィール画像--}}
+                <div class="row">
+                    <div>プロフィール画像</div>
+                    <div class="file large">
+                        <div class="container">
+                            <input id="{{ $id }}TxtProfileImageName" type="text" placeholder="プロフィール画像を選択" disabled>
+                            <label for="{{ $id }}FileProfileImage">
+                                画像を選択
+                                <input type="file" id="{{ $id }}FileProfileImage">
+                            </label>
+                        </div>
+                        <div id="{{ $id }}ProfileImageError" class="error">aaaaaaa</div>
+                    </div>
+                </div>
+            @endif
 
             {{--エラーメッセージ--}}
             <div id="{{ $id }}ErrorMessage" class="errorMessage"></div>

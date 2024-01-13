@@ -85,6 +85,32 @@ class LineGrid {
         
         this.gridOptions.columnDefs = [
             {
+                field: 'serviceProvider',
+                headerName: 'サービス提供者',
+                width: 150,
+                cellRenderer : LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = params.data.serviceProvider.id;
+                    result.name = params.data.serviceProvider.name;
+                    return result;
+                },
+                hide: serviceProviderHide,
+            },
+            {
+                field: 'user',
+                headerName: '担当者',
+                width: 150,
+                cellRenderer : LinkCellRenderer,
+                cellRendererParams: function(params) {
+                    let result = {};
+                    result.url = params.data.user.id;
+                    result.name = params.data.user.name;
+                    return result;
+                },
+                hide: userHide,
+            },
+            {
                 field: 'displayName',
                 headerName: 'LINE',
                 flex: 1,
@@ -118,32 +144,6 @@ class LineGrid {
                     result.labelName = params.data.lineAccountStatus.name;
                     return result;
                 }
-            },
-            {
-                field: 'serviceProvider',
-                headerName: 'サービス提供者',
-                width: 150,
-                cellRenderer : LinkCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.url = params.data.serviceProvider.id;
-                    result.name = params.data.serviceProvider.name;
-                    return result;
-                },
-                hide: serviceProviderHide,
-            },
-            {
-                field: 'user',
-                headerName: '担当者',
-                width: 150,
-                cellRenderer : LinkCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.url = params.data.user.id;
-                    result.name = params.data.user.name;
-                    return result;
-                },
-                hide: userHide,
             },
             {
                 field: 'detailInfo',

@@ -63,7 +63,7 @@
 @section('overlayContents')
     {{--サービス提供者入力モーダル--}}
     <x-modals.serviceProviderInput id="modalServiceProviderInputRegister"></x-modals.serviceProviderInput>
-    <x-modals.serviceProviderInput id="modalServiceProviderInputUpdate" :mode="\EditMode::UPDATE"></x-modals.serviceProviderInput>
+    <x-modals.serviceProviderInput id="modalServiceProviderInputUpdate" :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
     {{--ユーザー登録確認モーダル--}}
     <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
     {{--サービス提供者ユーザー登録モーダル--}}

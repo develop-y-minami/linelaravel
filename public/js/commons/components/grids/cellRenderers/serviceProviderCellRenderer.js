@@ -63,29 +63,33 @@ class ServiceProviderCellRenderer {
         labelBoxGui.classList.add('row');
         labelBoxGui.innerHTML = labelBoxhtml;
 
-        // 編集ボタン
-        let btnEditGui = document.createElement('div');
-        let btnEdithtml = '<button id="' + params.btnEditId + '" class="button green">編集</button>';
-        btnEditGui.classList.add('row');
-        btnEditGui.innerHTML = btnEdithtml;
-        // 編集ボタンイベント設定
-        this.btnEditClickedHandler = this.btnEditClickedHandler.bind(this);
-        btnEditGui.addEventListener('click', this.btnEditClickedHandler);
-
-        // 削除ボタン
-        let btnDeleteGui = document.createElement('div');
-        let btnDeletehtml = '<button id="' + params.btnDeleteId + '" class="button red">削除</button>';
-        btnDeleteGui.classList.add('row');
-        btnDeleteGui.innerHTML = btnDeletehtml;
-        // 削除ボタンイベント設定
-        this.btnDeleteClickedHandler = this.btnDeleteClickedHandler.bind(this);
-        btnDeleteGui.addEventListener('click', this.btnDeleteClickedHandler);
-
         // HTMLを設定
         this.eGui.appendChild(tableGui);
         this.eGui.appendChild(labelBoxGui);
-        this.eGui.appendChild(btnEditGui);
-        this.eGui.appendChild(btnDeleteGui);
+
+        if (globalUserAccountType == UserAccountType.ADMIN) {
+            // 編集ボタン
+            let btnEditGui = document.createElement('div');
+            let btnEdithtml = '<button id="' + params.btnEditId + '" class="button green">編集</button>';
+            btnEditGui.classList.add('row');
+            btnEditGui.innerHTML = btnEdithtml;
+            // 編集ボタンイベント設定
+            this.btnEditClickedHandler = this.btnEditClickedHandler.bind(this);
+            btnEditGui.addEventListener('click', this.btnEditClickedHandler);
+
+            // 削除ボタン
+            let btnDeleteGui = document.createElement('div');
+            let btnDeletehtml = '<button id="' + params.btnDeleteId + '" class="button red">削除</button>';
+            btnDeleteGui.classList.add('row');
+            btnDeleteGui.innerHTML = btnDeletehtml;
+            // 削除ボタンイベント設定
+            this.btnDeleteClickedHandler = this.btnDeleteClickedHandler.bind(this);
+            btnDeleteGui.addEventListener('click', this.btnDeleteClickedHandler);
+
+            // HTMLを設定
+            this.eGui.appendChild(btnEditGui);
+            this.eGui.appendChild(btnDeleteGui);
+        }
     }
 
     /**

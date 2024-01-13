@@ -58,6 +58,20 @@ interface UserRepositoryInterface
     public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password);
 
     /**
+     * 担当者情報を更新
+     * 
+     * @param int    id                担当者情報ID
+     * @param int    userTypeId        担当者種別
+     * @param int    serviceProviderId サービス提供者情報ID
+     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param string accountId         アカウントID
+     * @param string name              名前
+     * @param string email             メールアドレス
+     * @return int 更新数
+     */
+    public function update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
+
+    /**
      * 担当者情報を保存
      * 
      * @param User user 担当者情報
