@@ -45,4 +45,15 @@ Route::middleware('auth')->group(function()
      * @return Json
      */
     Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
+
+    /**
+     * 担当者情報を削除する
+     * HTTP Method Delete
+     * https://{host}/api/user/{id}
+     * 
+     * @param Request request リクエスト
+     * @param int     id      担当者情報ID
+     * @return Json
+     */
+    Route::delete('/{id}', [UserController::class, 'destroy'])->whereNumber('id')->name('user.destroy');
 });

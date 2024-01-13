@@ -199,6 +199,35 @@ class UserApiService implements UserApiServiceInterface
     }
 
     /**
+     * 担当者情報を削除
+     * 
+     * @param int id 担当者情報ID
+     * @return int 削除件数
+     */
+    public function destroy($id)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // 担当者情報を削除
+            $result = $this->userRepository->destroy($id);
+
+            // コミット
+            \DB::commit();
+
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
      * プロフィール画像を保存
      * 
      * @param int    userTypeId        担当者種別

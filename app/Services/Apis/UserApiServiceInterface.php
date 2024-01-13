@@ -47,4 +47,12 @@ interface UserApiServiceInterface
      * @return User 担当者情報
      */
     public function update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
+
+    /**
+     * 担当者情報を削除
+     * 
+     * @param int id 担当者情報ID
+     * @return int 削除件数
+     */
+    public function destroy($id);
 }

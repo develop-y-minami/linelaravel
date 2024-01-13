@@ -154,4 +154,29 @@ class UserController extends Controller
             throw $e;
         }
     }
+
+    /**
+     * 担当者情報を削除する
+     * HTTP Method Delete
+     * https://{host}/api/user/{id}
+     * 
+     * @param Request request リクエスト
+     * @param int     id      担当者情報ID
+     * @return Json
+     */
+    public function destroy(Request $request, $id)
+    {
+        try
+        {
+            // 担当者情報を削除
+            $this->userApiService->destroy($id);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse();
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
 }

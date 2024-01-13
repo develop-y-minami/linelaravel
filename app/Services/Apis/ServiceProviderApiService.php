@@ -165,7 +165,24 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
      */
     public function destroy($id)
     {
-        // サービス提供者情報を削除
-        return $this->serviceProviderRepository->destroy($id);
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // サービス提供者情報を削除
+            $result = $this->serviceProviderRepository->destroy($id);
+
+            // コミット
+            \DB::commit();
+
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
     }
 }
