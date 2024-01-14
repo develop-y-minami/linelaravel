@@ -129,6 +129,30 @@ class LineController extends Controller
     }
 
     /**
+     * LINEトークページ
+     * HTTP Method Get
+     * https://{host}/line/{id}/talk
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return View
+     */
+    public function lineTalk(Request $request, $id)
+    {
+        try
+        {
+            // 返却データに設定
+            $result = [];
+
+            return view('pages.lineTalk')->with('data', $result);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
      * LINE情報ページ
      * HTTP Method Get
      * https://{host}/line/{id}

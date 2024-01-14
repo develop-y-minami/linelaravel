@@ -165,7 +165,7 @@
                 <li><div class="menu">サービス提供者設定</div></li>
                 <li><div class="menu">担当者設定</div></li>
                 <li><div class="menu">担当者通知設定</div></li>
-                <li><a href="" class="menu">LINEトークページへ</a></li>
+                <li><a href="{{ route('line.talk', [ 'id' => $data->line->id ]) }}" class="menu">LINEトークページへ</a></li>
             </ul>
         </aside>
     </div>

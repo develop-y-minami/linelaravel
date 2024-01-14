@@ -37,6 +37,17 @@ Route::middleware('auth')->group(function()
     Route::get('/info/{id}', [LineController::class, 'info'])->whereNumber('id')->name('line.info');
 
     /**
+     * LINEトークページ
+     * HTTP Method Get
+     * https://{host}/line/{id}/talk
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return View
+     */
+    Route::get('/{id}/talk', [LineController::class, 'lineTalk'])->name('line.talk');
+
+    /**
      * LINE情報ページ
      * HTTP Method Get
      * https://{host}/line/{id}
