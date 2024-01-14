@@ -2,7 +2,7 @@
 <div id="{{ $id }}" class="modal modalServiceProviderSetting {{ $class }}">
     <div class="container">
         <header>
-            <div class="title">サービス提供者情報</div>
+            <div class="title">サービス提供者設定</div>
             <button id="{{ $id }}BtnClose" class="close">×</button>
         </header>
         <main>

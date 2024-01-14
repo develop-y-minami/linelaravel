@@ -24,6 +24,16 @@ class ServiceProviderSettingModal {
      */
     $btnClose;
     /**
+     * サービス提供者ID
+     * 
+     */
+    $txtServiceProviderId;
+    /**
+     * サービス提供者
+     * 
+     */
+    $selServiceProvider;
+    /**
      * 設定ボタン
      * 
      */
@@ -38,6 +48,11 @@ class ServiceProviderSettingModal {
      * 
      */
     errorMessage;
+    /**
+     * サービス提供者ID
+     * 
+     */
+    initServiceProviderId;
 
     /**
      * constructor
@@ -49,7 +64,8 @@ class ServiceProviderSettingModal {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
-
+        this.$txtServiceProviderId = $('#' + id + 'TxtServiceProviderId');
+        this.$selServiceProvider = $('#' + id + 'SelServiceProvider');
         this.$btnSetting = $('#' + id + 'BtnSetting');
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
 
@@ -64,6 +80,9 @@ class ServiceProviderSettingModal {
         this.$modal.on('click', this.clickModal);
         this.$btnClose.on('click', { me : this }, this.close);
         this.$btnSetting.on('click', { me : this }, this.clickBtnSetting);
+
+        // 初期値を選択値に保持
+        this.initServiceProviderId = this.$selServiceProvider.val();
     }
 
     /**
@@ -71,7 +90,7 @@ class ServiceProviderSettingModal {
      * 
      */
     init() {
-        
+        this.$selServiceProvider.val(this.initServiceProviderId);
     }
 
     /**

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2024-01-08 15:47:01
+-- 生成日時: 2024-01-14 15:25:59
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.2.12
 
@@ -95,7 +95,9 @@ CREATE TABLE `lines` (
   `line_account_status_id` int(1) NOT NULL DEFAULT 0,
   `service_provider_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `line_of_user_notice` tinyint(4) NOT NULL DEFAULT 0,
+  `notice_setting` tinyint(1) NOT NULL DEFAULT 1,
+  `notice_user_setting` tinyint(1) NOT NULL DEFAULT 0,
+  `line_of_user_notice` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -104,8 +106,8 @@ CREATE TABLE `lines` (
 -- テーブルのデータのダンプ `lines`
 --
 
-INSERT INTO `lines` (`id`, `account_id`, `display_name`, `picture_url`, `line_account_type_id`, `line_account_status_id`, `service_provider_id`, `user_id`, `line_of_user_notice`, `created_at`, `updated_at`) VALUES
-(1, 'Ub04e5a8165a0f8bd9c14f1ff28b664ea', '南優毅', 'https://sprofile.line-scdn.net/0hxl9re16mJ0MUCwgJ9g1ZPGRbJCk3en5Ram87InUPe3EpM2UUb2Q6dXMMfnJ-aWhFPGo6IHELfyAYGFAlCl3bdxM7enIoO2YTOmVsog', 1, 1, NULL, NULL, 0, '2024-01-08 08:09:39', '2024-01-08 14:10:15');
+INSERT INTO `lines` (`id`, `account_id`, `display_name`, `picture_url`, `line_account_type_id`, `line_account_status_id`, `service_provider_id`, `user_id`, `notice_setting`, `notice_user_setting`, `line_of_user_notice`, `created_at`, `updated_at`) VALUES
+(1, 'Ub04e5a8165a0f8bd9c14f1ff28b664ea', '南優毅', 'https://sprofile.line-scdn.net/0hxl9re16mJ0MUCwgJ9g1ZPGRbJCk3en5Ram87InUPe3EpM2UUb2Q6dXMMfnJ-aWhFPGo6IHELfyAYGFAlCl3bdxM7enIoO2YTOmVsog', 1, 1, NULL, NULL, 1, 0, 0, '2024-01-08 08:09:39', '2024-01-08 14:10:15');
 
 -- --------------------------------------------------------
 
@@ -255,6 +257,19 @@ INSERT INTO `line_notices` (`id`, `notice_date_time`, `line_notice_type_id`, `li
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `line_notice_settings`
+--
+
+DROP TABLE IF EXISTS `line_notice_settings`;
+CREATE TABLE `line_notice_settings` (
+  `id` bigint(20) NOT NULL,
+  `line_id` bigint(20) NOT NULL,
+  `line_notice_type_id` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `line_notice_types`
 --
 
@@ -282,6 +297,19 @@ INSERT INTO `line_notice_types` (`id`, `type`, `origin`, `display_name`, `conten
 (8, 'memberLeft', 'webhook', 'メンバー退出', 'グループからメンバーが退出しました'),
 (9, 'postback', 'webhook', 'ポストバック', 'ポストバック'),
 (10, 'videoPlayComplete', 'webhook', '動画視聴完了', '動画視聴が完了しました');
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `line_notice_user_settings`
+--
+
+DROP TABLE IF EXISTS `line_notice_user_settings`;
+CREATE TABLE `line_notice_user_settings` (
+  `id` bigint(20) NOT NULL,
+  `line_id` bigint(20) NOT NULL,
+  `line_notice_type_id` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -499,7 +527,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2014_10_12_200000_add_two_factor_columns_to_users_table', 2);
 
 -- --------------------------------------------------------
 
@@ -642,11 +671,10 @@ CREATE TABLE `service_providers` (
 --
 
 INSERT INTO `service_providers` (`id`, `provider_id`, `name`, `use_start_date_time`, `use_end_date_time`, `use_stop`, `created_at`, `updated_at`) VALUES
-(1, 'Xfjir3j20g', 'A会社', '2024-01-07 00:00:00', NULL, 0, '2024-01-06 15:06:38', '2024-01-07 09:00:41'),
-(2, 'fe48jv', 'B会社', '2024-01-08 00:00:00', NULL, 0, '2024-01-07 15:04:28', '2024-01-07 16:01:51'),
-(3, 'grgef', 'C会社', '2024-01-08 00:00:00', NULL, 0, '2024-01-08 07:06:22', '2024-01-08 07:06:22'),
-(4, 'htredd', 'D会社', '2024-01-08 00:00:00', NULL, 0, '2024-01-08 07:15:49', '2024-01-08 07:15:49'),
-(5, 'Fejg93', 'E会社', '2024-01-08 00:00:00', NULL, 0, '2024-01-08 07:22:07', '2024-01-08 07:22:07');
+(1, 'test', 'A会社', '2024-01-11 00:00:00', NULL, 0, '2024-01-11 11:34:08', '2024-01-11 11:34:08'),
+(2, 'tesb', 'B会社', '2024-01-13 00:00:00', NULL, 0, '2024-01-13 12:11:02', '2024-01-13 12:11:02'),
+(3, 'testc', 'C会社', '2024-01-13 00:00:00', NULL, 0, '2024-01-13 12:12:15', '2024-01-13 12:12:15'),
+(4, 'testd', 'D会社', '2024-01-13 00:00:00', NULL, 0, '2024-01-13 12:14:22', '2024-01-13 12:14:22');
 
 -- --------------------------------------------------------
 
@@ -663,8 +691,12 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `two_factor_secret` text DEFAULT NULL,
+  `two_factor_recovery_codes` text DEFAULT NULL,
+  `two_factor_confirmed_at` timestamp NULL DEFAULT NULL,
   `user_type_id` int(1) NOT NULL,
   `user_account_type_id` int(1) NOT NULL,
+  `profile_image_file_path` varchar(1000) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -674,8 +706,14 @@ CREATE TABLE `users` (
 -- テーブルのデータのダンプ `users`
 --
 
-INSERT INTO `users` (`id`, `service_provider_id`, `account_id`, `name`, `email`, `email_verified_at`, `password`, `user_type_id`, `user_account_type_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, '5', 't-tarou', '田中　太郎', 't-tanaka@gmail.com', NULL, '$2y$12$nxQrMyZw0oZ.k82Ae8.nNOpMLXgH4Hkrpz27lEnk11VNNgMc.CU4u', 2, 1, NULL, '2024-01-08 08:06:58', '2024-01-08 08:06:58');
+INSERT INTO `users` (`id`, `service_provider_id`, `account_id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `user_type_id`, `user_account_type_id`, `profile_image_file_path`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'admin', '管理者', 'admin@gmail.com', NULL, '$2y$12$HtRLaY24VSCVUfJDTCPWjO2B6s5qbLNWHO/.zdBWiDZ6tU4YD3r7C', NULL, NULL, NULL, 1, 2, NULL, NULL, '2024-01-11 10:17:02', '2024-01-11 10:17:02'),
+(2, '1', 'admin', '管理者', 'admin@ac.com', NULL, '$2y$12$l.vhqQi6WcGcqsc9Avz7S.N9bSlh4CFoOBtI48JOpiOwo0BhSp9p2', NULL, NULL, NULL, 2, 2, NULL, NULL, '2024-01-11 11:34:49', '2024-01-11 11:34:49'),
+(12, NULL, 't-tarou', '田中　太郎', 't-tarou@gmail.com', NULL, '$2y$12$8J11k2SIjImhEkyUp609beA.cLjxNSulQz.IGZ5qKFExckVjSwHpS', NULL, NULL, NULL, 1, 1, 'storage/operator/user/12/profile/profile.png', NULL, '2024-01-13 04:49:20', '2024-01-13 04:49:23'),
+(14, '1', 'j-satou', '佐藤　次郎', NULL, NULL, '$2y$12$OFotnnH1SJLHEGxnvp04e.3wqz3.dT5hdcNCd/y7O3qeDmOca2Udm', NULL, NULL, NULL, 2, 1, 'storage/service_provider/1/user/14/profile/profile.png', NULL, '2024-01-13 04:58:08', '2024-01-13 04:58:08'),
+(15, '1', 'k-fukuoka', '福岡　健太', NULL, NULL, '$2y$12$oRl9zWd8oONtnsy54Ez08.x.tSA7rBMOzPIT61z.swfJWUOlymZei', NULL, NULL, NULL, 2, 1, NULL, NULL, '2024-01-13 05:00:30', '2024-01-13 05:00:30'),
+(16, '1', 'm-hama', '浜　桃子', NULL, NULL, '$2y$12$YtgA8uUzf7SekujhbJapdO9y/R4VZ12WFso6jIQKWdx0sYLqAEvBC', NULL, NULL, NULL, 2, 1, 'storage/service_provider/1/user/16/profile/profile.png', NULL, '2024-01-13 05:02:41', '2024-01-13 05:02:41'),
+(17, '1', 's-nishi', '西　新次郎', NULL, NULL, '$2y$12$KDswhcRuoTvXtlDmrckr2eqc/EgYxd3GfIdspMeXqmu6rfJ6G6r3q', NULL, NULL, NULL, 2, 1, 'storage/service_provider/1/user/17/profile/profile.png', NULL, '2024-01-13 05:03:37', '2024-01-13 06:08:46');
 
 -- --------------------------------------------------------
 
@@ -799,9 +837,21 @@ ALTER TABLE `line_notices`
   ADD PRIMARY KEY (`id`);
 
 --
+-- テーブルのインデックス `line_notice_settings`
+--
+ALTER TABLE `line_notice_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- テーブルのインデックス `line_notice_types`
 --
 ALTER TABLE `line_notice_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- テーブルのインデックス `line_notice_user_settings`
+--
+ALTER TABLE `line_notice_user_settings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -950,6 +1000,18 @@ ALTER TABLE `line_notices`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- テーブルの AUTO_INCREMENT `line_notice_settings`
+--
+ALTER TABLE `line_notice_settings`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- テーブルの AUTO_INCREMENT `line_notice_user_settings`
+--
+ALTER TABLE `line_notice_user_settings`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- テーブルの AUTO_INCREMENT `line_of_user_notice_settings`
 --
 ALTER TABLE `line_of_user_notice_settings`
@@ -989,7 +1051,7 @@ ALTER TABLE `line_user_individuals`
 -- テーブルの AUTO_INCREMENT `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- テーブルの AUTO_INCREMENT `personal_access_tokens`
@@ -1007,7 +1069,7 @@ ALTER TABLE `service_providers`
 -- テーブルの AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
