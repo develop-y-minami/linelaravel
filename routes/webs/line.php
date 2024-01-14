@@ -35,4 +35,15 @@ Route::middleware('auth')->group(function()
      * @return View
      */
     Route::get('/info/{id}', [LineController::class, 'info'])->whereNumber('id')->name('line.info');
+
+    /**
+     * LINE情報ページ
+     * HTTP Method Get
+     * https://{host}/line/{id}
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return View
+     */
+    Route::get('/{id}', [LineController::class, 'line'])->name('line');
 });

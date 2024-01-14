@@ -202,9 +202,10 @@ return [
         'UserAccountType' =>  App\Consts\UserAccountType::class,
         'UserType' =>  App\Consts\UserType::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,
+        'AppFacade' => App\Facades\AppFacadeClass::class,
+        'AppViewFacade' => App\Facades\AppViewFacadeClass::class,
         'FileFacade' => App\Facades\FileFacadeClass::class,
         'StringFacade' => App\Facades\StringFacadeClass::class,
-        'AppFacade' => App\Facades\AppFacadeClass::class,
         'ViewFacade' => App\Facades\ViewFacadeClass::class,
     ])->toArray(),
 

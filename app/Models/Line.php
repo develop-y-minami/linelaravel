@@ -30,5 +30,7 @@ class Line extends Model
         'line_account_type_id',
         'line_account_status_id',
         'user_id',
+        'notice_setting',
+        'notice_user_setting',
     ];
 }

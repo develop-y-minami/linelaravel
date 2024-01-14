@@ -46,9 +46,12 @@
     gap: 10px;
     padding: 10px;
     border-radius: 4px;
-    background-color: var(--colorLightGray);
     color: var(--colorBlue);
     cursor: pointer;
+}
+
+.loginUserContainer:hover {
+    background-color: var(--colorLightGray);
 }
 
 .loginUserContainer img { background-color: white; }

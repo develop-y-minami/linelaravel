@@ -1,0 +1,217 @@
+@charset "utf-8";
+
+/******************************************************
+*   LINE情報ページ
+******************************************************/
+.linePageContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+}
+
+/******************************************************
+*   LINE情報ページ：メイン
+******************************************************/
+.linePageContainer > main {
+    flex: 1;
+    padding: 0px 25px;
+    overflow: auto;
+}
+
+/******************************************************
+*   LINE情報ページ：右サイドメニュー
+******************************************************/
+.linePageContainer > .rightSubMenu {
+    min-width: 250px;
+    border-left: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   LINE情報ページ：コンテナー
+******************************************************/
+.linePageContainer .contentContainer {
+    padding: 15px 0px;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   LINE情報ページ：表示項目
+******************************************************/
+.linePageContainer .itemBox {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.linePageContainer .itemName {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+/******************************************************
+*   LINE情報ページ：通知設定
+******************************************************/
+.linePageContainer .noticeContainer .checkGrid {
+    margin: 20px;
+    padding: 15px;
+}
+
+/******************************************************
+*   LINE情報ページ：見出し
+******************************************************/
+.linePageContainer .caption {
+    font-weight: bold;
+}
+
+/******************************************************
+*   LINE情報ページ：プロフィールコンテナー
+******************************************************/
+.linePageContainer .lineContainer .profileContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px var(--colorLightGray);
+}
+
+/* プロフィール画像 */
+.linePageContainer .lineContainer .profileContainer .circleImgContainer {
+    flex-grow: 1;
+}
+
+/* 右情報表示コンテナー */
+.linePageContainer .lineContainer .profileContainer .infoContainer { flex-grow: 100; }
+
+/* LINE状態 */
+.linePageContainer .lineContainer .profileContainer .accountStatus { margin-bottom: 10px; }
+
+.linePageContainer .lineContainer .profileContainer .accountStatus .labelBox { width: 100px; }
+
+/* プロフィール表示テーブル */
+.linePageContainer .lineContainer .profileContainer .profile {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    border: solid 1px var(--colorLightGray);
+}
+
+.linePageContainer .lineContainer .profileContainer .profile .row {
+    flex: 1;
+    display: flex;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+.linePageContainer .lineContainer .profileContainer .profile .row:last-child { border-bottom: none; }
+
+.linePageContainer .lineContainer .profileContainer .profile .itemName {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #d3ffd3;
+}
+
+.linePageContainer .lineContainer .profileContainer .profile .data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/******************************************************
+*   LINE情報ページ：プロフィールコンテナー：通知設定
+******************************************************/
+.linePageContainer .lineContainer .noticeContainer {
+    margin: 15px;
+}
+
+/******************************************************
+*   LINE情報ページ：プロフィールコンテナー：ユーザー登録情報
+******************************************************/
+.linePageContainer .lineContainer .lineUserContainer {
+    margin: 15px;
+}
+
+/* 登録情報表示コンテナー */
+.linePageContainer .lineContainer .lineUserContainer .infoContainer { margin: 15px; }
+
+/* 登録状態表示ラベル */
+.linePageContainer .lineContainer .lineUserContainer .infoContainer .labelBox {
+    margin-bottom: 10px;
+    width: 100px;
+}
+
+/* 登録情報 */
+.linePageContainer .lineContainer .lineUserInfo {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    border: solid 1px var(--colorLightGray);
+}
+
+.linePageContainer .lineContainer .lineUserInfo .row {
+    flex: 1;
+    display: flex;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+.linePageContainer .lineContainer .lineUserInfo .row:last-child { border-bottom: none; }
+
+.linePageContainer .lineContainer .lineUserInfo .itemName {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #e8d1ff;
+}
+
+.linePageContainer .lineContainer .lineUserInfo .data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/* 名前表示 */
+.linePageContainer .lineContainer .lineUserInfo .data.nameBox {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.linePageContainer .lineContainer .lineUserInfo .data.nameBox .kana {
+    margin-bottom: 15px;
+    width: 100%;
+    min-height: 15px;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+/* 住所 */
+.linePageContainer .lineContainer .lineUserInfo .data.address {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.linePageContainer .lineContainer .lineUserInfo .data.address .post {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.linePageContainer .lineContainer .lineUserInfo .data.address .post::before {
+    content: "〒";
+}
+
+.linePageContainer .lineContainer .lineUserInfo .data.address .address {
+    min-height: 40px;
+}
+
+/******************************************************
+*   LINE情報ページ：担当者コンテナー
+******************************************************/
+.linePageContainer .userContainer .noticeContainer {
+    margin: 10px;
+    margin-top: 25px;
+}

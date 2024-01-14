@@ -93,8 +93,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Webs\LineNoticeTypeServiceInterface::class,
             function ($app) {
                 return new \App\Services\Webs\LineNoticeTypeService(
-                    $app->make(\App\Repositorys\LineOfUserNoticeSettingRepositoryInterface::class),
-                    $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class)
+                    $app->make(\App\Repositorys\LineNoticeSettingRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineNoticeUserSettingRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineOfUserNoticeSettingRepositoryInterface::class)
                 );
             },
         );

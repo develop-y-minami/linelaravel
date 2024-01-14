@@ -11,6 +11,7 @@ use App\Services\Webs\UserServiceInterface;
 use App\Services\Webs\ServiceProviderServiceInterface;
 use App\Objects\Pages\LineInfoPage;
 use App\Objects\Pages\LineOneToOnePage;
+use App\Objects\Pages\LinePage;
 
 /**
  * LineController
@@ -120,6 +121,37 @@ class LineController extends Controller
             $result = new LineInfoPage($line, $userSelectItems, $lineNoticeTypeCheckListItems);
 
             return view('pages.lineInfo')->with('data', $result);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * LINE情報ページ
+     * HTTP Method Get
+     * https://{host}/line/{id}
+     * 
+     * @param Request request リクエスト
+     * @param string  id      ID
+     * @return View
+     */
+    public function line(Request $request, $id)
+    {
+        try
+        {
+            // LINE情報を取得
+            $line = $this->lineService->getLine((int)$id);
+            // LINE通知設定チェック項目データを取得
+            $lineNoticeSettingCheckItems = $this->lineNoticeTypeService->getLineNoticeSettingCheckItems((int)$id);
+            // LINE通知担当者設定チェック項目データを取得
+            $lineNoticeUserSettingCheckItems = $this->lineNoticeTypeService->getLineNoticeUserSettingCheckItems((int)$id);
+
+            // 返却データに設定
+            $result = new LinePage($line, $lineNoticeSettingCheckItems, $lineNoticeUserSettingCheckItems);
+
+            return view('pages.line')->with('data', $result);
         }
         catch (\Exception $e)
         {

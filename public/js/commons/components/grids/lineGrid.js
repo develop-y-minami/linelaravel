@@ -117,7 +117,7 @@ class LineGrid {
                 cellRenderer : LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.url = 'info\\' + params.data.id;
+                    result.url = '\\line\\' + params.data.id;
                     result.name = params.data.displayName;
                     return result;
                 }
