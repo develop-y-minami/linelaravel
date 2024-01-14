@@ -6,7 +6,13 @@
 
 {{--CSS--}}
 @push('css')
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderSettingModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/line.css') }}">
+@endpush
+
+@push('js')
+    <script src="{{ asset('js/commons/components/modals/serviceProviderSettingModal.js') }}"></script>
+    <script src="{{ asset('js/pages/line.js') }}"></script>
 @endpush
 
 {{--表示コンテンツ：LINE情報ページ--}}
@@ -162,11 +168,21 @@
 
         <aside class="rightSubMenu">
             <ul class="subMenu">
-                <li><div class="menu">サービス提供者設定</div></li>
+                <li><div id="serviceProviderSetting" class="menu">サービス提供者設定</div></li>
                 <li><div class="menu">担当者設定</div></li>
                 <li><div class="menu">担当者通知設定</div></li>
                 <li><a href="{{ route('line.talk', [ 'id' => $data->line->id ]) }}" class="menu">LINEトークページへ</a></li>
             </ul>
         </aside>
+
+        <div id="overlay" class="overlay">
+            <div class="container">
+                {{--サービス提供者設定モーダル--}}
+                <x-modals.serviceProviderSetting
+                    :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+                    :serviceProviderSelectedValue='$data->line->service_provider_id'>
+                </x-modals.serviceProviderSetting>
+            </div>
+        </div>
     </div>
 @endsection

@@ -34,6 +34,7 @@
         <script src="{{ asset('js/commons/utils/fileUtil.js') }}"></script>
         <script src="{{ asset('js/commons/utils/stringUtil.js') }}"></script>
         <script src="{{ asset('js/commons/base.js') }}"></script>
+        <script src="{{ asset('js/commons/components/checkBoxs/checkBoxs.js') }}"></script>
         <script src="{{ asset('js/commons/components/containers/lineOfficialAccountContainer.js') }}"></script>
         <script src="{{ asset('js/commons/components/messages/errorMessage.js') }}"></script>
         <script src="{{ asset('js/commons/components/modals/confirmModal.js') }}"></script>

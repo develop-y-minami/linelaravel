@@ -171,9 +171,11 @@ class LineController extends Controller
             $lineNoticeSettingCheckItems = $this->lineNoticeTypeService->getLineNoticeSettingCheckItems((int)$id);
             // LINE通知担当者設定チェック項目データを取得
             $lineNoticeUserSettingCheckItems = $this->lineNoticeTypeService->getLineNoticeUserSettingCheckItems((int)$id);
+            // サービス提供者セレクトボックス設定データを取得
+            $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
 
             // 返却データに設定
-            $result = new LinePage($line, $lineNoticeSettingCheckItems, $lineNoticeUserSettingCheckItems);
+            $result = new LinePage($line, $lineNoticeSettingCheckItems, $lineNoticeUserSettingCheckItems, $serviceProviderSelectItems);
 
             return view('pages.line')->with('data', $result);
         }

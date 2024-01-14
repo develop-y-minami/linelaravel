@@ -19,7 +19,7 @@ class LineNoticeUserSettingCheck extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = 'checkGridLineNoticeSetting',
+        public readonly string $id = 'checkGridLineNoticeUserSetting',
         public readonly string $class = '',
         public readonly array $checkItems = array()
     )
