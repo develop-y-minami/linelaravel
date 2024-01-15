@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-grid.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-theme-material.css"/>
     <link rel="stylesheet" href="{{ asset('css/commons/agGrid.css') }}">
+    {{--サービス提供者入力モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
     {{--サービス提供者情報ページ--}}
     <link rel="stylesheet" href="{{ asset('css/pages/serviceProvider.css') }}">
 @endpush
@@ -30,6 +32,8 @@
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--サービス提供者入力モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
     {{--サービス提供者情報ページ--}}
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
@@ -45,8 +49,10 @@
             {{--サービス提供者情報--}}
             <div class="contentContainer serviceProviderContainer">
                 <div class="itemBox">
-                    <div class="labelBox
-                        {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->serviceProvider->use_stop) }}">
+                    <div id="useStop" class="labelBox
+                        {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->serviceProvider->use_stop) }}"
+                        data-value="{{ $data->serviceProvider->use_stop }}"
+                        >
                         {{ \ServiceProviderUseStop::getName($data->serviceProvider->use_stop) }}
                     </div>
                     <div class="caption itemName">サービス提供者情報</div>
@@ -54,27 +60,33 @@
                 <div class="profile">
                     <div class="row">
                         <div class="itemName">提供者ID</div>
-                        <div class="data">{{ $data->serviceProvider->provider_id }}</div>
+                        <div id="providerId" class="data">{{ $data->serviceProvider->provider_id }}</div>
                     </div>
                     <div class="row">
                         <div class="itemName">提供者名</div>
-                        <div class="data">{{ $data->serviceProvider->name }}</div>
+                        <div id="name" class="data">{{ $data->serviceProvider->name }}</div>
                     </div>
                     <div class="row">
                         <div class="itemName">利用開始日</div>
-                        <div class="data">{{ \ViewFacade::convertJpDate($data->serviceProvider->use_start_date_time) }}</div>
+                        <div id="useStartDateTime" class="data"
+                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_start_date_time) }}">
+                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_start_date_time) }}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="itemName">利用終了日</div>
-                        <div class="data">{{ \ViewFacade::convertJpDate($data->serviceProvider->use_end_date_time) }}</div>
+                        <div id="useEndDateTime" class="data"
+                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_end_date_time) }}">
+                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_end_date_time) }}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="itemName">更新日時</div>
-                        <div class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->updated_at) }}</div>
+                        <div id="updatedAt" class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->updated_at) }}</div>
                     </div>
                     <div class="row">
                         <div class="itemName">登録日時</div>
-                        <div class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->created_at) }}</div>
+                        <div id="createdAt" class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->created_at) }}</div>
                     </div>
                 </div>
             </div>
@@ -102,7 +114,8 @@
 
         <div id="overlay" class="overlay">
             <div class="container">
-
+                {{--サービス提供者入力モーダル--}}
+                <x-modals.serviceProviderInput :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
             </div>
         </div>
     </div>

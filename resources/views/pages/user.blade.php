@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-grid.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-theme-material.css"/>
     <link rel="stylesheet" href="{{ asset('css/commons/agGrid.css') }}">
+    {{--担当者入力モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
     {{--担当者情報ページ--}}
     <link rel="stylesheet" href="{{ asset('css/pages/user.css') }}">
 @endpush
@@ -26,6 +28,8 @@
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--担当者入力モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
     {{--担当者情報ページ--}}
     <script src="{{ asset('js/pages/user.js') }}"></script>
 @endpush
@@ -104,14 +108,14 @@
             <ul class="subMenu">
                 <li><div id="edit" class="menu">担当者編集</div></li>
                 <li><div id="delete" class="menu">担当者削除</div></li>
-                <li><div id="delete" class="menu">プロフィール画像変更</div></li>
-                <li><div id="delete" class="menu">パスワード変更</div></li>
+                <li><div id="" class="menu">プロフィール画像変更</div></li>
+                <li><div id="" class="menu">パスワード変更</div></li>
             </ul>
         </aside>
 
         <div id="overlay" class="overlay">
             <div class="container">
-
+                
             </div>
         </div>
     </div>

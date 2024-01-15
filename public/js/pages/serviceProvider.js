@@ -5,6 +5,46 @@ $(function() {
      */
     $textServiceProviderId = $('#textServiceProviderId');
     /**
+     * 提供者ID
+     * 
+     */
+    $providerId = $('#providerId');
+    /**
+     * 提供者名
+     * 
+     */
+    $name = $('#name');
+    /**
+     * 利用開始日
+     * 
+     */
+    $useStartDateTime = $('#useStartDateTime');
+    /**
+     * 利用終了日
+     * 
+     */
+    $useEndDateTime = $('#useEndDateTime');
+    /**
+     * 利用状態
+     * 
+     */
+    $useStop = $('#useStop');
+    /**
+     * 更新日時
+     * 
+     */
+    $updatedAt = $('#updatedAt');
+    /**
+     * 登録日時
+     * 
+     */
+    $createdAt = $('#createdAt');
+    /**
+     * サービス提供者編集
+     * 
+     */
+    $edit = $('#edit');
+    /**
      * サービス提供者ID
      * 
      */
@@ -49,4 +89,32 @@ $(function() {
             throw error;
         }
     }
+
+    /**
+     * サービス提供者編集
+     * 
+     * @param {Event} e
+     */
+    $edit.on('click', function(e) {
+        // サービス提供者入力モーダルのインスタンスを生成
+        let modal = new ServiceProviderInputModal(
+            new ServiceProviderInputModalCallbackClass(
+                null,
+                null,
+                null
+            )
+        );
+
+        // サービス提供者入力モーダルを起動
+        modal.init();
+        modal.set(
+            serviceProviderId,
+            $providerId.text(),
+            $name.text(),
+            $useStartDateTime.data('value'),
+            $useEndDateTime.data('value'),
+            $useStop.data('value')
+        );
+        modal.show();
+    });
 });

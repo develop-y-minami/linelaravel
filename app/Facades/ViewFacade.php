@@ -85,6 +85,30 @@ class ViewFacade
     }
 
     /**
+     * 日付をyyyy-mm-ddに変換
+     * 
+     * @param string date 日付
+     * @return string 変換後日付
+     */
+    public static function convertDate($date)
+    {
+        // 返却データ
+        $result = '';
+
+        if ($date != null)
+        {
+            // Carbonのインスタンスを生成
+            $carbon = new Carbon($date);
+
+            $result = $carbon->year.'-';
+            $result = $result.sprintf('%02d', $carbon->month).'-';
+            $result = $result.sprintf('%02d', $carbon->day);
+        }
+
+        return $result;
+    }
+
+    /**
      * 日付をyyyy年mm月dd日に変換
      * 
      * @param string date 日付
