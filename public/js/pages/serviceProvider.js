@@ -55,16 +55,6 @@ $(function() {
      */
     let serviceProviderInputModal;
     /**
-     * ユーザー登録確認モーダル
-     * 
-     */
-    let userRegisterConfirmModal;
-    /**
-     * サービス提供者ユーザー登録モーダル
-     * 
-     */
-    let userInputModal;
-    /**
      * 提供者IDの入力値
      * 
      */
@@ -90,82 +80,6 @@ $(function() {
      */
     let selServiceProviderUseStop = null;
 
-    /**
-     * ServiceProviderInputRegisterModalCallbackClass
-     * 
-     */
-    class ServiceProviderInputRegisterModalCallbackClass {
-        /**
-         * constructor
-         * 
-         */
-        constructor() {};
-
-        /**
-         * サービス提供者登録時コールバック
-         * 
-         * @param {object} serviceProvider サービス提供者情報
-         */
-        registerCallback(serviceProvider) {
-            // グリッドを設定
-            grid.addRow(serviceProvider);
-            // contextにサービス提供者情報を設定
-            userRegisterConfirmModal.setContext(serviceProvider);
-            // ユーザー登録確認モーダルを起動
-            userRegisterConfirmModal.show();
-        }
-    }
-
-    /**
-     * UserRegisterConfirmModalCallbackClass
-     * 
-     */
-    class UserRegisterConfirmModalCallbackClass {
-        /**
-         * constructor
-         * 
-         */
-        constructor() {};
-
-        /**
-         * Yesボタンクリック時
-         * 
-         * @param {Event} e
-         */
-        yesCallback(e) {
-            e.data.me.close(e);
-            // サービス提供者情報を取得
-            let serviceProvider = e.data.me.context;
-
-            // 担当者入力モーダルを初期化
-            userInputModal.init();
-
-            // 担当者種別にサービス提供者を設定し非表示
-            userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
-            userInputModal.$userTypeContainer.hide();
-
-            // サービス提供者IDを設定
-            let selServiceProvider = new SelectBox(userInputModal.$selServiceProvider.attr('id'));
-            selServiceProvider.addItem(serviceProvider.id, serviceProvider.name, true);
-
-            // 担当者アカウント種別に管理者を設定し非表示
-            userInputModal.$radioUserAccountTypeAdmin.prop('checked', true);
-            userInputModal.$userAccountTypeContainer.hide();
-
-            // 担当者入力モーダルを起動
-            userInputModal.show();
-        }
-
-        /**
-         * Noボタンクリック時
-         * 
-         * @param {Event} e
-         */
-        noCallback(e) {
-            e.data.me.close(e);
-        }
-    }
-
     try {
         // 初期化処理を実行
         init();
@@ -184,13 +98,16 @@ $(function() {
             grid = new ServiceProviderGrid('grid');
 
             // サービス提供者入力モーダル
-            serviceProviderInputModal = new ServiceProviderInputModal(new ServiceProviderInputRegisterModalCallbackClass(), 'modalServiceProviderInputRegister');
-
-            // サービス提供者ユーザー登録確認モーダル
-            userRegisterConfirmModal = new ConfirmModal(new UserRegisterConfirmModalCallbackClass(), 'userRegisterModalConfirm');
-
-            // サービス提供者ユーザー登録モーダル
-            userInputModal = new UserInputModal(null, 'modalUserInputRegister');
+            serviceProviderInputModal = new ServiceProviderInputModal(
+                new ServiceProviderInputModalCallbackClass(
+                    serviceProviderInputModalRegisterCallback,
+                    null,
+                    {
+                        grid: grid
+                    }
+                )
+                ,'modalServiceProviderInputRegister'
+            );
 
             // 検索条件を設定
             setSearchConditions();
@@ -270,6 +187,62 @@ $(function() {
         serviceProviderInputModal.init();
         serviceProviderInputModal.show();
     });
+
+    /**
+     * サービス提供者入力モーダル登録時コールバック
+     * 
+     * @param {object} data サービス提供者情報
+     */
+    function serviceProviderInputModalRegisterCallback(data) {
+        // グリッドを設定
+        this.context.grid.addRow(data);
+
+        // ユーザー登録確認モーダルのインスタンスを生成
+        confirmModal = new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                userRegisterConfirmModalRegisterCallback,
+                null,
+                {
+                    serviceProvider: data
+                }
+            )
+            ,'userRegisterModalConfirm'
+        )
+
+        // ユーザー登録確認モーダルを起動
+        confirmModal.show();
+    }
+
+    /**
+     * ユーザー登録確認モーダルYesボタンコールバック
+     * 
+     * @param {Event} e 
+     */
+    function userRegisterConfirmModalRegisterCallback(e) {
+        // モーダルを閉じる
+        this.modal.close(e);
+
+        // 担当者入力モーダルのインスタンスを生成
+        userInputModal = new UserInputModal(null, 'modalUserInputRegister');
+
+        // 担当者入力モーダルを初期化
+        userInputModal.init();
+
+        // 担当者種別にサービス提供者を設定し非表示
+        userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
+        userInputModal.$userTypeContainer.hide();
+
+        // サービス提供者IDを設定
+        let selServiceProvider = new SelectBox(userInputModal.$selServiceProvider.attr('id'));
+        selServiceProvider.addItem(this.context.serviceProvider.id, this.context.serviceProvider.name, true);
+
+        // 担当者アカウント種別に管理者を設定し非表示
+        userInputModal.$radioUserAccountTypeAdmin.prop('checked', true);
+        userInputModal.$userAccountTypeContainer.hide();
+
+        // 担当者入力モーダルを起動
+        userInputModal.show();
+    }
 
     /**
      * リロードボタンクリック時

@@ -1,4 +1,45 @@
 /**
+ * ServiceProviderInputModalCallbackClass
+ * 
+ */
+class ServiceProviderInputModalCallbackClass {
+    /**
+     * constructor
+     * 
+     * @param {Function} registerCallbackProc 登録ボタンクリック時コールバック
+     * @param {Function} updateCallbackProc   更新ボタンクリック時コールバック
+     * @param {object}   context              context
+     */
+    constructor(registerCallbackProc = null, updateCallbackProc = null, context = null) {
+        this.registerCallbackProc = registerCallbackProc;
+        this.updateCallbackProc = updateCallbackProc;
+        this.context = context;
+    };
+
+    /**
+     * サービス提供者登録時コールバック
+     * 
+     * @param {object} data サービス提供者情報
+     */
+    registerCallback(data) {
+        if (this.registerCallbackProc != null) {
+            this.registerCallbackProc(data);
+        }
+    }
+
+    /**
+     * サービス提供者更新時コールバック
+     * 
+     * @param {object} data サービス提供者情報
+     */
+    updateCallback(data) {
+        if (this.updateCallbackProc != null) {
+            this.updateCallbackProc(data);
+        }
+    }
+}
+
+/**
  * ServiceProviderInputModal
  * 
  */

@@ -171,13 +171,4 @@ class ConfirmModal {
         let me = e.data.me;
         me.callbackClass.noCallback(e);
     }
-
-    /**
-     * contextに値を設定
-     * 
-     * @param {object} context 
-     */
-    setContext(context) {
-        this.context = context;
-    }
 }

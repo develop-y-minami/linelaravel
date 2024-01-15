@@ -1,95 +1,4 @@
 /**
- * ServiceProviderInputUpdateModalCallbackClass
- * 
- */
-class ServiceProviderInputUpdateModalCallbackClass {
-    /**
-     * constructor
-     * 
-     * @param {ServiceProviderGrid} serviceProviderGrid ServiceProviderGridインスタンス
-     * @param {number}              id                  サービス提供者情報ID
-     */
-    constructor(serviceProviderGrid, id) {
-        this.serviceProviderGrid = serviceProviderGrid;
-        this.id = id;
-    };
-
-    /**
-     * サービス提供者更新時コールバック
-     * 
-     * @param {object} serviceProvider サービス提供者情報
-     */
-    updateCallback(serviceProvider) {
-        // 行データを取得
-        let row = this.serviceProviderGrid.gridApi.getRowNode(this.id);
-        // 行データを更新
-        row.setData(serviceProvider);
-    }
-}
-
-/**
- * ServiceProviderDeleteConfirmModalCallbackClass
- * 
- */
-class ServiceProviderDeleteConfirmModalCallbackClass {
-    /**
-     * constructor
-     * 
-     * @param {ServiceProviderGrid} serviceProviderGrid ServiceProviderGridインスタンス
-     * @param {number}              id                  サービス提供者情報ID
-     */
-    constructor(serviceProviderGrid, id) {
-        this.serviceProviderGrid = serviceProviderGrid;
-        this.id = id;
-    };
-
-    /**
-     * Yesボタンクリック時
-     * 
-     * @param {Event} e
-     */
-    async yesCallback(e) {
-        let me = e.data.me;
-
-        try {
-            // エラーメッセージを非表示
-            me.errorMessage.hide();
-
-            // ローディングオーバレイを表示
-            me.$loadingOverlay.show();
-
-            // サービス提供者情報を削除
-            let result = await ServiceProviderApi.destroy(this.id);
-
-            if (result.status == FetchApi.STATUS_SUCCESS) {
-                // モーダルを閉じる
-                me.close(e);
-                // 行データを取得
-                let row = this.serviceProviderGrid.gridApi.getRowNode(this.id);
-                // 行データを削除
-                this.serviceProviderGrid.gridApi.applyTransaction({ remove: [row] });
-            } else {
-                me.errorMessage.showServerError();
-            }
-        } catch(error) {
-            console.error(error);
-        } finally {
-            // ローディングオーバレイを非表示
-            me.$loadingOverlay.hide();
-        }
-    }
-
-    /**
-     * Noボタンクリック時
-     * 
-     * @param {Event} e
-     */
-    noCallback(e) {
-        e.data.me.close(e);
-    }
-}
-
-/**
  * ServiceProviderGrid
  * 
  */
@@ -258,21 +167,7 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        // サービス提供者入力モーダルのインスタンスを生成
-                        let serviceProviderInputModal = new ServiceProviderInputModal(
-                            new ServiceProviderInputUpdateModalCallbackClass(params.context, params.data.id),
-                            'modalServiceProviderInputUpdate'
-                        );
-                        serviceProviderInputModal.init();
-                        serviceProviderInputModal.set(
-                            params.data.id,
-                            params.data.providerId,
-                            params.data.name,
-                            DateTimeUtil.convertDate(params.data.useStartDateTime),
-                            params.data.useEndDateTime,
-                            params.data.useStop
-                        );
-                        serviceProviderInputModal.show();
+                        params.context.clickBtnEdit(e, params);
                     }
                     return result;
                 },
@@ -299,14 +194,7 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        // 削除確認モーダルのインスタンスを生成
-                        let serviceProviderDeleteConfirmModal = new ConfirmModal(
-                            new ServiceProviderDeleteConfirmModalCallbackClass(params.context, params.data.id),
-                            'serviceProviderDeleteModalConfirm'
-                        );
-
-                        // 削除確認モーダルを表示
-                        serviceProviderDeleteConfirmModal.show();
+                        params.context.clickBtnDelete(e, params);
                     }
                     return result;
                 },
@@ -329,21 +217,7 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.btnEditClicked = function(e, params) {
-                        // サービス提供者入力モーダルのインスタンスを生成
-                        let serviceProviderInputModal = new ServiceProviderInputModal(
-                            new ServiceProviderInputUpdateModalCallbackClass(params.context, params.data.id),
-                            'modalServiceProviderInputUpdate'
-                        );
-                        serviceProviderInputModal.init();
-                        serviceProviderInputModal.set(
-                            params.data.id,
-                            params.data.providerId,
-                            params.data.name,
-                            DateTimeUtil.convertDate(params.data.useStartDateTime),
-                            params.data.useEndDateTime,
-                            params.data.useStop
-                        );
-                        serviceProviderInputModal.show();
+                        params.context.clickBtnEdit(e, params);
                     }
                     /**
                      * 削除ボタンクリック時
@@ -352,14 +226,7 @@ class ServiceProviderGrid {
                      * @param {object} params 
                      */
                     result.btnDeleteClicked = function(e, params) {
-                        // 削除確認モーダルのインスタンスを生成
-                        let serviceProviderDeleteConfirmModal = new ConfirmModal(
-                            new ServiceProviderDeleteConfirmModalCallbackClass(params.context, params.data.id),
-                            'serviceProviderDeleteModalConfirm'
-                        );
-
-                        // 削除確認モーダルを表示
-                        serviceProviderDeleteConfirmModal.show();
+                        params.context.clickBtnDelete(e, params);
                     }
                     return result;
                 },
@@ -453,5 +320,107 @@ class ServiceProviderGrid {
             'btnDelete'
         ], false);
         this.gridApi.setColumnsVisible(['detailInfo'], true);
+    }
+
+    /**
+     * 編集ボタンクリック時
+     * 
+     * @param {Event} e 
+     * @param {object} params 
+     */
+    clickBtnEdit(e, params) {
+        // サービス提供者入力モーダルのインスタンスを生成
+        let modal = new ServiceProviderInputModal(
+            new ServiceProviderInputModalCallbackClass(
+                null,
+                params.context.updateCallback,
+                {
+                    grid : params.context
+                }
+            )
+            ,'modalServiceProviderInputUpdate'
+        );
+
+        // サービス提供者入力モーダルを起動
+        modal.init();
+        modal.set(
+            params.data.id,
+            params.data.providerId,
+            params.data.name,
+            DateTimeUtil.convertDate(params.data.useStartDateTime),
+            params.data.useEndDateTime,
+            params.data.useStop
+        );
+        modal.show();
+    }
+
+    /**
+     * サービス提供者入力モーダル更新時コールバック
+     * 
+     * @param {object} data サービス提供者情報
+     */
+    updateCallback(data) {
+        // 行データを取得
+        let row = this.context.grid.gridApi.getRowNode(data.id);
+        // 行データを更新
+        row.setData(data);
+    }
+
+    /**
+     * 削除ボタンクリック時
+     * 
+     * @param {Event} e 
+     * @param {object} params 
+     */
+    clickBtnDelete(e, params) {
+        // 削除確認モーダルのインスタンスを生成
+        let modal = new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                params.context.deleteCallback,
+                null,
+                {
+                    grid: params.context,
+                    id: params.data.id
+                }
+            ),
+            'serviceProviderDeleteModalConfirm'
+        );
+
+        // 削除確認モーダルを表示
+        modal.show();
+    }
+
+    /**
+     * 削除確認モーダルYesボタンクリック時コールバック
+     * 
+     * @param {Event} e 
+     */
+    async deleteCallback(e) {
+        try {
+            // エラーメッセージを非表示
+            this.modal.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            this.modal.$loadingOverlay.show();
+
+            // サービス提供者情報を削除
+            let result = await ServiceProviderApi.destroy(this.context.id);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // モーダルを閉じる
+                this.modal.close(e);
+                // 行データを取得
+                let row = this.context.grid.gridApi.getRowNode(this.context.id);
+                // 行データを削除
+                this.context.grid.gridApi.applyTransaction({ remove: [row] });
+            } else {
+                this.modal.errorMessage.showServerError();
+            }
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            this.modal.$loadingOverlay.hide();
+        }
     }
 }
