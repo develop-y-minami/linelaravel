@@ -27,7 +27,11 @@
 
             {{--LINE情報--}}
             <div class="contentContainer lineContainer">
-                <div class="caption itemName">LINE情報</div>
+                {{--LINEアカウント状態--}}
+                <div class="itemBox">
+                    <div class="labelBox {{ \AppViewFacade::lineAccountStatusLabelBoxColor($data->line->lineAccountStatus->id) }}">{{ $data->line->lineAccountStatus->name }}</div>
+                    <div class="caption itemName">LINE情報</div>
+                </div>
                 <div class="profileContainer">
                     {{--LINEプロフィール画像--}}
                     <div class="circleImgContainer">
@@ -37,11 +41,6 @@
                     </div>
                     {{--LINEプロフィール情報コンテナー--}}
                     <div class="infoContainer">
-                        {{--LINEアカウント状態--}}
-                        <div class="accountStatus">
-                            <div class="labelBox {{ \AppViewFacade::lineAccountStatusLabelBoxColor($data->line->lineAccountStatus->id) }}">{{ $data->line->lineAccountStatus->name }}</div>
-                        </div>
-
                         {{--LINEプロフィール情報--}}
                         <div class="profile">
                             <div class="row">
@@ -74,11 +73,13 @@
                 </div>
 
                 <div class="lineUserContainer">
-                    <div class="caption itemName">ユーザー登録情報</div>
-                    <div class="infoContainer">
+                    <div class="itemBox">
                         @if ($data->line->lineUser->id == 0)
                             <div class="labelBox red">未登録</div>
                         @endif
+                        <div class="caption itemName">ユーザー登録情報</div>
+                    </div>
+                    <div class="infoContainer">
                         <div class="lineUserInfo">
                             <div class="row">
                                 <div class="itemName">アカウントID</div>

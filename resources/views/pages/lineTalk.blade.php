@@ -15,6 +15,7 @@
         <div class="lineContainer">
             {{--サービス提供者情報--}}
             <div class="container itemBox serviceProviderContainer">
+                <div class="labelBox green">有効</div>
                 <div class="itemName">サービス提供者</div>
                 <a href="">aaaaaaaaaaa</a>
             </div>
@@ -22,8 +23,8 @@
             {{--LINEプロフィール情報コンテナー--}}
             <div class="container lineProfileContainer">
                 <div class="itemBox">
-                    <div class="itemName">LINE</div>
                     <div class="labelBox green">友達</div>
+                    <div class="itemName">LINE</div>
                 </div>
 
                 <div class="profileContainer">

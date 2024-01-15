@@ -46,10 +46,7 @@
     gap: 15px;
 }
 
-.linePageContainer .itemName {
-    min-width: 100px;
-    font-weight: bold;
-}
+.linePageContainer .itemName { font-weight: bold; }
 
 /******************************************************
 *   LINE情報ページ：通知設定
@@ -85,7 +82,11 @@
 }
 
 /* 右情報表示コンテナー */
-.linePageContainer .lineContainer .profileContainer .infoContainer { flex-grow: 100; }
+.linePageContainer .lineContainer .profileContainer .infoContainer {
+    flex-grow: 100;
+    display: flex;
+    align-items: center;
+}
 
 /* LINE状態 */
 .linePageContainer .lineContainer .profileContainer .accountStatus { margin-bottom: 10px; }
@@ -96,6 +97,7 @@
 .linePageContainer .lineContainer .profileContainer .profile {
     display: flex;
     flex-direction: column;
+    width: 100%;
     font-size: 12px;
     border: solid 1px var(--colorLightGray);
 }
@@ -112,6 +114,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
+    min-width: 100px;
     background-color: #d3ffd3;
 }
 
@@ -139,12 +142,6 @@
 /* 登録情報表示コンテナー */
 .linePageContainer .lineContainer .lineUserContainer .infoContainer { margin: 15px; }
 
-/* 登録状態表示ラベル */
-.linePageContainer .lineContainer .lineUserContainer .infoContainer .labelBox {
-    margin-bottom: 10px;
-    width: 100px;
-}
-
 /* 登録情報 */
 .linePageContainer .lineContainer .lineUserInfo {
     display: flex;
@@ -165,6 +162,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
+    min-width: 100px;
     background-color: #e8d1ff;
 }
 
