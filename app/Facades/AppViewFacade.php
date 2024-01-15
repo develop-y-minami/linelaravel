@@ -10,6 +10,34 @@ use Illuminate\Support\Facades\Auth;
 class AppViewFacade
 {
     /**
+     * ログイン担当者種別がサービス提供者の場合非表示
+     * 
+     * @return string 'style="display:none"'
+     */
+    public static function hideLoginUserIsServiceProvider()
+    {
+        return \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider());
+    }
+
+    /**
+     * 表示モードが編集モード時に非表示
+     * 
+     * @param int mode 表示モード
+     * @return string 'style="display:none"'
+     */
+    public static function hideUpdate($mode)
+    {
+        if ($mode == \EditMode::UPDATE)
+        {
+            return \ViewFacade::hide();
+        }
+        else
+        {
+            return '';
+        }
+    }
+
+    /**
      * 住所を取得
      * 
      * @param string prefectureName 都道府県名

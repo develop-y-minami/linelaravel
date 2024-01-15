@@ -15,6 +15,7 @@ class ViewFacade
      * 要素を非表示に設定
      * 
      * @param bool flg
+     * @return string 'style="display:none"'
      */
     public static function hide($flg = true)
     {

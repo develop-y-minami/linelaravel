@@ -1,4 +1,51 @@
 /**
+ * ConfirmModalCallbackClass
+ * 
+ */
+class ConfirmModalCallbackClass {
+    /**
+     * constructor
+     * 
+     * @param {Function} yesCallbackProc Yesボタンクリック時コールバック
+     * @param {Function} noCallbackProc  Noボタンクリック時コールバック
+     * @param {object}   context              context
+     */
+    constructor(yesCallbackProc = null, noCallbackProc = null, context = null) {
+        this.yesCallbackProc = yesCallbackProc;
+        this.noCallbackProc = noCallbackProc;
+        this.context = context;
+    };
+
+    /**
+     * Yesボタンクリック時コールバック
+     * 
+     * @param {Event} e
+     */
+    yesCallback(e) {
+        this.modal = e.data.me;
+        if (this.yesCallbackProc != null) {
+            this.yesCallbackProc(e);
+        } else {
+            this.modal.close(e);
+        }
+    }
+
+    /**
+     * Yesボタンクリック時コールバック
+     * 
+     * @param {Event} e
+     */
+    noCallback(e) {
+        this.modal = e.data.me;
+        if (this.noCallbackProc != null) {
+            this.noCallbackProc(e);
+        } else {
+            this.modal.close(e);
+        }
+    }
+}
+
+/**
  * ConfirmModal
  * 
  */

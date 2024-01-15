@@ -1,95 +1,4 @@
 /**
- * UserInputUpdateModalCallbackClass
- * 
- */
-class UserInputUpdateModalCallbackClass {
-    /**
-     * constructor
-     * 
-     * @param {UserGrid} userGrid UserGridインスタンス
-     * @param {number}   id       担当者情報ID
-     */
-    constructor(userGrid, id) {
-        this.userGrid = userGrid;
-        this.id = id;
-    };
-
-    /**
-     * 担当者更新時コールバック
-     * 
-     * @param {object} user 担当者情報
-     */
-    updateCallback(user) {
-        // 行データを取得
-        let row = this.userGrid.gridApi.getRowNode(this.id);
-        // 行データを更新
-        row.setData(user);
-    }
-}
-
-/**
- * UserDeleteConfirmModalCallbackClass
- * 
- */
-class UserDeleteConfirmModalCallbackClass {
-    /**
-     * constructor
-     * 
-     * @param {UserGrid} userGrid UserGridインスタンス
-     * @param {number}   id       担当者情報ID
-     */
-    constructor(userGrid, id) {
-        this.userGrid = userGrid;
-        this.id = id;
-    };
-
-    /**
-     * Yesボタンクリック時
-     * 
-     * @param {Event} e
-     */
-    async yesCallback(e) {
-        let me = e.data.me;
-
-        try {
-            // エラーメッセージを非表示
-            me.errorMessage.hide();
-
-            // ローディングオーバレイを表示
-            me.$loadingOverlay.show();
-
-            // 担当者情報を削除
-            let result = await UserApi.destroy(this.id);
-
-            if (result.status == FetchApi.STATUS_SUCCESS) {
-                // モーダルを閉じる
-                me.close(e);
-                // 行データを取得
-                let row = this.userGrid.gridApi.getRowNode(this.id);
-                // 行データを削除
-                this.userGrid.gridApi.applyTransaction({ remove: [row] });
-            } else {
-                me.errorMessage.showServerError();
-            }
-        } catch(error) {
-            console.error(error);
-        } finally {
-            // ローディングオーバレイを非表示
-            me.$loadingOverlay.hide();
-        }
-    }
-
-    /**
-     * Noボタンクリック時
-     * 
-     * @param {Event} e
-     */
-    noCallback(e) {
-        e.data.me.close(e);
-    }
-}
-
-/**
  * UserGrid
  * 
  */
@@ -249,22 +158,7 @@ class UserGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        // 担当者入力モーダルのインスタンスを生成
-                        let userInputModal = new UserInputModal(
-                            new UserInputUpdateModalCallbackClass(params.context, params.data.id),
-                            'modalUserInputUpdate'
-                        );
-                        userInputModal.init();
-                        userInputModal.set(
-                            params.data.id,
-                            params.data.userType.id,
-                            params.data.serviceProvider.id,
-                            params.data.userAccountType.id,
-                            params.data.accountId,
-                            params.data.name,
-                            params.data.email
-                        );
-                        userInputModal.show();
+                        params.context.clickBtnEdit(e, params);
                     }
                     return result;
                 },
@@ -291,14 +185,7 @@ class UserGrid {
                      * @param {object} params 
                      */
                     result.clicked = function(e, params) {
-                        // 削除確認モーダルのインスタンスを生成
-                        let userDeleteConfirmModal = new ConfirmModal(
-                            new UserDeleteConfirmModalCallbackClass(params.context, params.data.id),
-                            'userDeleteModalConfirm'
-                        );
-
-                        // 削除確認モーダルを表示
-                        userDeleteConfirmModal.show();
+                        params.context.clickBtnDelete(e, params);
                     }
                     return result;
                 },
@@ -321,22 +208,7 @@ class UserGrid {
                      * @param {object} params 
                      */
                     result.btnEditClicked = function(e, params) {
-                        // 担当者入力モーダルのインスタンスを生成
-                        let userInputModal = new UserInputModal(
-                            new UserInputUpdateModalCallbackClass(params.context, params.data.id),
-                            'modalUserInputUpdate'
-                        );
-                        userInputModal.init();
-                        userInputModal.set(
-                            params.data.id,
-                            params.data.userType.id,
-                            params.data.serviceProvider.id,
-                            params.data.userAccountType.id,
-                            params.data.accountId,
-                            params.data.name,
-                            params.data.email
-                        );
-                        userInputModal.show();
+                        params.context.clickBtnEdit(e, params);
                     }
                     /**
                      * 削除ボタンクリック時
@@ -345,14 +217,7 @@ class UserGrid {
                      * @param {object} params 
                      */
                     result.btnDeleteClicked = function(e, params) {
-                        // 削除確認モーダルのインスタンスを生成
-                        let userDeleteConfirmModal = new ConfirmModal(
-                            new UserDeleteConfirmModalCallbackClass(params.context, params.data.id),
-                            'userDeleteModalConfirm'
-                        );
-
-                        // 削除確認モーダルを表示
-                        userDeleteConfirmModal.show();
+                        params.context.clickBtnDelete(e, params);
                     }
                     return result;
                 },
@@ -451,5 +316,108 @@ class UserGrid {
             'btnDelete'
         ], false);
         this.gridApi.setColumnsVisible(['detailInfo'], true);
+    }
+
+    /**
+     * 編集ボタンクリック時
+     * 
+     * @param {Event} e 
+     * @param {object} params 
+     */
+    clickBtnEdit(e, params) {
+        // 担当者入力モーダルのインスタンスを生成
+        let modal = new UserInputModal(
+            new UserInputUpdateModalCallbackClass(
+                null,
+                params.context.updateCallback,
+                {
+                    grid : params.context
+                }
+            )
+            ,'modalUserInputUpdate'
+        );
+
+        // 担当者入力モーダルを起動
+        modal.init();
+        modal.set(
+            params.data.id,
+            params.data.userType.id,
+            params.data.serviceProvider.id,
+            params.data.userAccountType.id,
+            params.data.accountId,
+            params.data.name,
+            params.data.email
+        );
+        modal.show();
+    }
+
+    /**
+     * 担当者入力モーダル更新時コールバック
+     * 
+     * @param {object} data 担当者情報
+     */
+    updateCallback(data) {
+        // 行データを取得
+        let row = this.context.grid.gridApi.getRowNode(data.id);
+        // 行データを更新
+        row.setData(data);
+    }
+
+    /**
+     * 削除ボタンクリック時
+     * 
+     * @param {Event} e 
+     * @param {object} params 
+     */
+    clickBtnDelete(e, params) {
+        // 削除確認モーダルのインスタンスを生成
+        let modal = new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                params.context.deleteCallback,
+                null,
+                {
+                    grid: params.context,
+                    id: params.data.id
+                }
+            ),
+            'userDeleteModalConfirm'
+        );
+
+        // 削除確認モーダルを表示
+        modal.show();
+    }
+
+    /**
+     * 削除確認モーダルYesボタンクリック時コールバック
+     * 
+     * @param {Event} e 
+     */
+    async deleteCallback(e) {
+        try {
+            // エラーメッセージを非表示
+            this.modal.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            this.modal.$loadingOverlay.show();
+
+            // 担当者情報を削除
+            let result = await UserApi.destroy(this.context.id);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // モーダルを閉じる
+                this.modal.close(e);
+                // 行データを取得
+                let row = this.context.grid.gridApi.getRowNode(this.context.id);
+                // 行データを削除
+                this.context.grid.gridApi.applyTransaction({ remove: [row] });
+            } else {
+                this.modal.errorMessage.showServerError();
+            }
+        } catch(error) {
+            console.error(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            this.modal.$loadingOverlay.hide();
+        }
     }
 }

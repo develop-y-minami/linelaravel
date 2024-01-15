@@ -11,13 +11,15 @@
         </header>
         <main>
             {{--担当者種別--}}
-            <div id="{{ $id }}UserTypeContainer" class="row" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+            <div id="{{ $id }}UserTypeContainer" class="row"
+            {!! \AppViewFacade::hideLoginUserIsServiceProvider() !!}
+            {!! \AppViewFacade::hideUpdate($mode) !!}>
                 <x-radios.userType :id='$id' :radioItems='$userTypeRadioItems' :checkedValue="Auth::user()->user_type_id"></x-radios.userType>
             </div>
 
             {{--サービス提供者--}}
             @php $selServiceProviderId = $id.'SelServiceProvider' @endphp
-            <div id="{{ $id }}ServiceProviderContainer" class="row hideContainer" {!! \ViewFacade::hide(\AppFacade::loginUserIsServiceProvider()) !!}>
+            <div id="{{ $id }}ServiceProviderContainer" class="row hideContainer" {!! \AppViewFacade::hideLoginUserIsServiceProvider() !!}>
                 <div class="required">サービス提供者</div>
                 <x-selects.serviceProvider :id='$selServiceProviderId' class="large" classBox="full" :selectItems='$serviceProviderSelectItems' :selectedValue="Auth::user()->service_provider_id"></x-selects.serviceProvider>
             </div>
@@ -69,7 +71,7 @@
                                 <input type="file" id="{{ $id }}FileProfileImage">
                             </label>
                         </div>
-                        <div id="{{ $id }}ProfileImageError" class="error">aaaaaaa</div>
+                        <div id="{{ $id }}ProfileImageError" class="error"></div>
                     </div>
                 </div>
             @endif

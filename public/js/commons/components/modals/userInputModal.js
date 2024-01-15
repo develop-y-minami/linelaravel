@@ -1,4 +1,45 @@
 /**
+ * UserInputUpdateModalCallbackClass
+ * 
+ */
+class UserInputUpdateModalCallbackClass {
+    /**
+     * constructor
+     * 
+     * @param {Function} registerCallbackProc 登録ボタンクリック時コールバック
+     * @param {Function} updateCallbackProc   更新ボタンクリック時コールバック
+     * @param {object}   context              context
+     */
+    constructor(registerCallbackProc = null, updateCallbackProc = null, context = null) {
+        this.registerCallbackProc = registerCallbackProc;
+        this.updateCallbackProc = updateCallbackProc;
+        this.context = context;
+    };
+
+    /**
+     * 担当者登録時コールバック
+     * 
+     * @param {object} data 担当者情報
+     */
+    registerCallback(data) {
+        if (this.registerCallbackProc != null) {
+            this.registerCallbackProc(data);
+        }
+    }
+
+    /**
+     * 担当者更新時コールバック
+     * 
+     * @param {object} data 担当者情報
+     */
+    updateCallback(data) {
+        if (this.updateCallbackProc != null) {
+            this.updateCallbackProc(data);
+        }
+    }
+}
+
+/**
  * UserInputModal
  * 
  */
@@ -150,7 +191,7 @@ class UserInputModal {
      * @param {class}  callbackClass ボタンクリック時のコールバック先クラス
      * @param {string} id            モーダルID
      */
-    constructor(callbackClass = null, id = 'modalServiceProviderInput') {
+    constructor(callbackClass = null, id = 'modalUserInput') {
         this.callbackClass = callbackClass;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
