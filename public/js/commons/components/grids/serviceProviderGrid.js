@@ -93,7 +93,7 @@ class ServiceProviderGrid {
                 cellRenderer: LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.url = '';
+                    result.url = '\\serviceProvider\\' + params.data.id;
                     result.name = params.data.providerId;
                     return result;
                 }
@@ -281,6 +281,15 @@ class ServiceProviderGrid {
             add: [data],
             addIndex: addIndex
           });
+    }
+
+    /**
+     * 指定した列を非表示
+     * 
+     * @param {array} columns カラム
+     */
+    hideColumns(columns) {
+        this.gridApi.setColumnsVisible(columns, false);
     }
 
     /**

@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function()
      * @param Request request リクエスト
      * @return Json
      */
-    Route::post('/', [UserController::class, 'users'])->name('users');
+    Route::post('/', [UserController::class, 'users']);
 
     /**
      * 担当者情報を登録する
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function()
      * @param UserRegisterRequest request リクエスト
      * @return Json
      */
-    Route::post('/register', [UserController::class, 'register'])->name('user.register');
+    Route::post('/register', [UserController::class, 'register']);
 
     /**
      * 担当者情報を更新する
@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function()
      * @param int               id      担当者情報ID
      * @return Json
      */
-    Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::patch('/{id}', [UserController::class, 'update']);
 
     /**
      * 担当者情報を削除する

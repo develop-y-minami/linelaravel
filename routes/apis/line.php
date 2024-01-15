@@ -21,7 +21,7 @@ use App\Http\Controllers\Apis\LineController;
  * @param Request request リクエスト
  * @return Json
  */
-Route::post('/notices', [LineController::class, 'notices'])->name('line.notices');
+Route::post('/notices', [LineController::class, 'notices']);
 
 /**
  * LINE情報を取得する
@@ -31,7 +31,7 @@ Route::post('/notices', [LineController::class, 'notices'])->name('line.notices'
  * @param Request request リクエスト
  * @return Json
  */
-Route::post('/lines', [LineController::class, 'lines'])->name('line.lines');
+Route::post('/lines', [LineController::class, 'lines']);
 
 /**
  * LINE担当者情報を設定する
@@ -42,7 +42,7 @@ Route::post('/lines', [LineController::class, 'lines'])->name('line.lines');
  * @param string                 id      ID
  * @return Json
  */
-Route::post('/{id}/user/setting', [LineController::class, 'userSetting'])->whereNumber('id')->name('line.user.setting');
+Route::post('/{id}/user/setting', [LineController::class, 'userSetting'])->whereNumber('id');
 
 /**
  * LINEトーク履歴を取得する
@@ -53,4 +53,4 @@ Route::post('/{id}/user/setting', [LineController::class, 'userSetting'])->where
  * @param string  id      ID
  * @return Json
  */
-Route::post('/{id}/talk/historys', [LineController::class, 'talkHistorys'])->whereNumber('id')->name('line.talk.historys');
+Route::post('/{id}/talk/historys', [LineController::class, 'talkHistorys'])->whereNumber('id');

@@ -21,4 +21,4 @@ use App\Http\Controllers\Apis\LineWebhookController;
  * @param Request request リクエスト
  * @return int HTTPステータスコード
  */
-Route::post('/', [LineWebhookController::class, 'webhook'])->name('line.webhook');
+Route::post('/', [LineWebhookController::class, 'webhook']);

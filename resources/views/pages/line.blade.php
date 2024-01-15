@@ -1,5 +1,5 @@
-{{--baseGridレイアウトを継承--}}
-@extends('layouts.baseGrid')
+{{--baseレイアウトを継承--}}
+@extends('layouts.base')
 
 {{--タイトルを設定--}}
 @section('title', 'LINE情報')
@@ -27,8 +27,8 @@
 
             {{--LINE情報--}}
             <div class="contentContainer lineContainer">
-                {{--LINEアカウント状態--}}
                 <div class="itemBox">
+                    {{--LINEアカウント状態--}}
                     <div class="labelBox {{ \AppViewFacade::lineAccountStatusLabelBoxColor($data->line->lineAccountStatus->id) }}">{{ $data->line->lineAccountStatus->name }}</div>
                     <div class="caption itemName">LINE情報</div>
                 </div>

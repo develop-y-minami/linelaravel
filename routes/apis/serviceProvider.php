@@ -21,7 +21,7 @@ use App\Http\Controllers\Apis\ServiceProviderController;
  * @param Request request リクエスト
  * @return Json
  */
-Route::post('/', [ServiceProviderController::class, 'serviceProviders'])->name('serviceProviders');
+Route::post('/', [ServiceProviderController::class, 'serviceProviders']);
 
 /**
  * サービス提供者情報を登録する
@@ -31,7 +31,7 @@ Route::post('/', [ServiceProviderController::class, 'serviceProviders'])->name('
  * @param ServiceProviderRegisterRequest request リクエスト
  * @return Json
  */
-Route::post('/register', [ServiceProviderController::class, 'register'])->name('serviceProvider.register');
+Route::post('/register', [ServiceProviderController::class, 'register']);
 
 /**
  * サービス提供者情報を更新する
@@ -42,7 +42,7 @@ Route::post('/register', [ServiceProviderController::class, 'register'])->name('
  * @param int                            id      サービス提供者情報ID
  * @return Json
  */
-Route::patch('/{id}', [ServiceProviderController::class, 'update'])->name('serviceProvider.update');
+Route::patch('/{id}', [ServiceProviderController::class, 'update']);
 
 /**
  * サービス提供者情報を削除する
@@ -53,4 +53,4 @@ Route::patch('/{id}', [ServiceProviderController::class, 'update'])->name('servi
  * @param int     id      サービス提供者情報ID
  * @return Json
  */
-Route::delete('/{id}', [ServiceProviderController::class, 'destroy'])->whereNumber('id')->name('serviceProvider.destroy');
+Route::delete('/{id}', [ServiceProviderController::class, 'destroy'])->whereNumber('id');

@@ -21,4 +21,4 @@ use App\Http\Controllers\Apis\LineMessagingApiController;
  * @param Request request リクエスト
  * @return Json
  */
-Route::get('/bot/info', [LineMessagingApiController::class, 'botInfo'])->name('line.messaging.api.bot.info');
+Route::get('/bot/info', [LineMessagingApiController::class, 'botInfo']);

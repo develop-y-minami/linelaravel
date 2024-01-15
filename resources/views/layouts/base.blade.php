@@ -106,7 +106,7 @@
                     <li class="parent"><a href="{{ url('/') }}">設定</a></li>
                     <li class="child"><a href="{{ route('user.index') }}">担当者設定</a></li>
                     @if (\AppFacade::loginUserIsOperator())
-                        <li class="child"><a href="{{ route('serviceProvider.index') }}">サービス提供者設定</a></li>
+                        <li class="child"><a href="{{ route('serviceProviders') }}">サービス提供者設定</a></li>
                     @endif
                 </ul>
             </aside>

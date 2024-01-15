@@ -1,78 +1,109 @@
-{{--baseGridレイアウトを継承--}}
-@extends('layouts.baseGrid')
+{{--baseレイアウトを継承--}}
+@extends('layouts.base')
 
 {{--タイトルを設定--}}
-@section('title', 'サービス提供者')
+@section('title', 'サービス提供者情報')
 
 {{--CSS--}}
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
+    {{--AG Grid--}}    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-grid.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-theme-material.css"/>
+    <link rel="stylesheet" href="{{ asset('css/commons/agGrid.css') }}">
+    {{--サービス提供者情報ページ--}}
+    <link rel="stylesheet" href="{{ asset('css/pages/serviceProvider.css') }}">
 @endpush
 
 @push('js')
-    <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
-    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
-    <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
-    <script src="{{ asset('js/commons/components/grids/cellRenderers/serviceProviderCellRenderer.js') }}"></script>
-    <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
+    {{--AG Grid--}}
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <script src="{{ asset('js/commons/components/grids/agGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/buttonCellRenderer.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/labelBoxCellRenderer.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/linkCellRenderer.js') }}"></script>
+    {{--担当者 Grid--}}
+    <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/userCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
+    {{--LINE Grid--}}
+    <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
+    <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
+    <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--サービス提供者情報ページ--}}
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
 
-{{--見出し--}}
-@section('pageCaption')
-    <div class="caption">サービス提供者</div>
-    <div class="comment">サービス提供者の一覧を表示します</div>
-@endsection
+{{--表示コンテンツ：サービス提供者情報ページ--}}
+@section('page')
+    <div class="serviceProviderPageContainer">
+        <main>
+            {{--非表示領域--}}
+            <div class="hideContainer">
+                <input type="text" id="textServiceProviderId" value="{{ $data->serviceProvider->id }}">
+            </div>
+            {{--サービス提供者情報--}}
+            <div class="contentContainer serviceProviderContainer">
+                <div class="itemBox">
+                    <div class="labelBox
+                        {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->serviceProvider->use_stop) }}">
+                        {{ \ServiceProviderUseStop::getName($data->serviceProvider->use_stop) }}
+                    </div>
+                    <div class="caption itemName">サービス提供者情報</div>
+                </div>
+                <div class="profile">
+                    <div class="row">
+                        <div class="itemName">提供者ID</div>
+                        <div class="data">{{ $data->serviceProvider->provider_id }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">提供者名</div>
+                        <div class="data">{{ $data->serviceProvider->name }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">利用開始日</div>
+                        <div class="data">{{ \ViewFacade::convertJpDate($data->serviceProvider->use_start_date_time) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">利用終了日</div>
+                        <div class="data">{{ \ViewFacade::convertJpDate($data->serviceProvider->use_end_date_time) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">更新日時</div>
+                        <div class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->updated_at) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">登録日時</div>
+                        <div class="data">{{ \ViewFacade::convertJpDateTime($data->serviceProvider->created_at) }}</div>
+                    </div>
+                </div>
+            </div>
 
-{{--検索条件--}}
-@section('searchConditions')
-    {{--サービス提供者IDテキストボックス--}}
-    <div class="content">
-        <input type="text" id="txtProviderId" placeholder="提供者IDを入力">
-    </div>
-    {{--サービス提供者名テキストボックス--}}
-    <div class="content">
-        <input type="text" id="txtName" placeholder="提供者名を入力">
-    </div>
-    {{--利用期間ボックス--}}
-    <div class="content inputContainer">
-        <span class="">利用期間</span>
-        <input type="date" id="txtUseStartDateTime">
-        <span>～</span>
-        <input type="date" id="txtUseEndDateTime">
-    </div>
-    {{--サービス利用状態セレクトボックス--}}
-    <div class="content">
-        <x-selects.serviceProviderUseStop></x-selects.serviceProviderUseStop>
-    </div>
-    {{--検索ボタン--}}
-    <div class="content">
-        <button id="btnSearch" class="blue">検索</button>
-    </div>
-@endsection
+            {{--担当者情報--}}
+            <div class="contentContainer gridContainer">
+                <div class="caption itemName">担当者情報</div>
+                <div id="userGrid" class="grid ag-theme-material"></div>
+            </div>
 
-@section('rightContents')
-    {{--新規追加ボタン--}}
-    <div class="content">
-        <button id="btnInsert" class="blue" {!! \ViewFacade::hide(\AppFacade::loginUserIsUser()) !!}>新規追加</button>
-    </div>
-@endsection
+            {{--LINE情報--}}
+            <div class="contentContainer gridContainer">
+                <div class="caption itemName">LINE情報</div>
+                <div id="lineGrid" class="grid ag-theme-material"></div>
+            </div>
+        </main>
 
-@section('overlayContents')
-    {{--サービス提供者入力モーダル--}}
-    <x-modals.serviceProviderInput id="modalServiceProviderInputRegister"></x-modals.serviceProviderInput>
-    <x-modals.serviceProviderInput id="modalServiceProviderInputUpdate" :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
-    {{--担当者登録確認モーダル--}}
-    <x-modals.confirm id="userRegisterModalConfirm" message="管理者アカウントを追加しますか？"></x-modals.confirm>
-    {{--サービス提供者担当者登録モーダル--}}
-    <x-modals.userInput
-        id="modalUserInputRegister"
-        :userTypeRadioItems='$data->userTypeRadioItems'
-        :serviceProviderSelectItems='$data->serviceProviderSelectItems'
-        :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
-    </x-modals.userInput>
-    {{--サービス提供者削除確認モーダル--}}
-    <x-modals.confirm id="serviceProviderDeleteModalConfirm" message="サービス提供者を削除しますか？"></x-modals.confirm>
+        <aside class="rightSubMenu">
+            <ul class="subMenu">
+                <li><div id="serviceProviderSetting" class="menu">サービス提供者設定</div></li>
+                <li><div class="menu">担当者設定</div></li>
+                <li><div class="menu">担当者通知設定</div></li>
+            </ul>
+        </aside>
+
+        <div id="overlay" class="overlay">
+            <div class="container">
+
+            </div>
+        </div>
+    </div>
 @endsection

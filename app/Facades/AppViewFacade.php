@@ -57,6 +57,24 @@ class AppViewFacade
     }
 
     /**
+     * サービス提供者利用状態に対応する色を返却
+     * 
+     * @param bool useStop サービス提供者利用状態
+     * @return string 色
+     */
+    public function serviceProviderUseStopLabelBoxColor($useStop)
+    {
+        if ($useStop)
+        {
+            return 'red';
+        }
+        else
+        {
+            return 'green';
+        }
+    }
+
+    /**
      * LINEアカウント状態に対応する色を返却
      * 
      * @param int lineAccountStatus LINEアカウント状態
@@ -64,20 +82,14 @@ class AppViewFacade
      */
     public static function lineAccountStatusLabelBoxColor($lineAccountStatus)
     {
-        $color = '';
-
         switch ($lineAccountStatus)
         {
             case \LineAccountStatus::FOLLOW:
             case \LineAccountStatus::FOLLOW:
-                $color = 'green';
-                break;
+                return 'green';
             case \LineAccountStatus::FOLLOW:
             case \LineAccountStatus::FOLLOW:
-                $color = 'red';
-                break;
+                return 'red';
         }
-
-        return $color;
     }
 }

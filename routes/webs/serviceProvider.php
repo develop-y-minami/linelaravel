@@ -23,5 +23,16 @@ Route::middleware('auth')->group(function()
      * @param Request request リクエスト
      * @return View
      */
-    Route::get('/', [ServiceProviderController::class, 'index'])->name('serviceProvider.index');
+    Route::get('/', [ServiceProviderController::class, 'serviceProviders'])->name('serviceProviders');
+
+    /**
+     * サービス提供者ページ
+     * HTTP Method Get
+     * https://{host}/serviceProvider/{id}
+     * 
+     * @param Request request リクエスト
+     * @param int     id      サービス提供者ID
+     * @return View
+     */
+    Route::get('/{id}', [ServiceProviderController::class, 'serviceProvider'])->whereNumber('id')->name('serviceProvider');
 });

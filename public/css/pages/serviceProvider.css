@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+/******************************************************
+*   サービス提供者情報ページ
+******************************************************/
+.serviceProviderPageContainer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+}
+
+/******************************************************
+*   サービス提供者情報ページ：メイン
+******************************************************/
+.serviceProviderPageContainer > main {
+    flex: 1;
+    padding: 0px 25px;
+    overflow: auto;
+}
+
+/******************************************************
+*   サービス提供者情報ページ：右サイドメニュー
+******************************************************/
+.serviceProviderPageContainer > .rightSubMenu {
+    min-width: 250px;
+    border-left: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   サービス提供者情報ページ：コンテナー
+******************************************************/
+.serviceProviderPageContainer .contentContainer {
+    padding: 15px 0px;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   サービス提供者情報ページ：表示項目
+******************************************************/
+.serviceProviderPageContainer .itemBox {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.serviceProviderPageContainer .itemName { font-weight: bold; }
+
+/******************************************************
+*   サービス提供者情報ページ：プロフィール
+******************************************************/
+.serviceProviderPageContainer .serviceProviderContainer .profile {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    width: 100%;
+    font-size: 12px;
+    border: solid 1px var(--colorLightGray);
+}
+
+.serviceProviderPageContainer .serviceProviderContainer .profile .row {
+    flex: 1;
+    display: flex;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+.serviceProviderPageContainer .serviceProviderContainer .profile .row:last-child { border-bottom: none; }
+
+.serviceProviderPageContainer .serviceProviderContainer .profile .itemName {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    min-width: 100px;
+    background-color: #ffcbcb;
+}
+
+.serviceProviderPageContainer .serviceProviderContainer .profile .data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/******************************************************
+*   サービス提供者情報ページ：グリッド
+******************************************************/
+.serviceProviderPageContainer .gridContainer .grid {
+    margin: 15px;
+    height: 300px;
+}

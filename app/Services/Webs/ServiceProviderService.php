@@ -29,6 +29,17 @@ class ServiceProviderService implements ServiceProviderServiceInterface
     }
 
     /**
+     * サービス提供者情報を取得
+     * 
+     * @param int id サービス提供者ID
+     * @return ServiceProvider サービス提供者情報
+     */
+    public function getServiceProvider($id)
+    {
+        return $this->serviceProviderRepository->findById($id);
+    }
+
+    /**
      * サービス提供者セレクトボックスに設定するデータを返却
      * 
      * @return array 選択項目

@@ -275,6 +275,15 @@ class UserGrid {
     }
 
     /**
+     * 指定した列を非表示
+     * 
+     * @param {array} columns カラム
+     */
+    hideColumns(columns) {
+        this.gridApi.setColumnsVisible(columns, false);
+    }
+
+    /**
      * 一覧表示モードで表示
      * 
      */
