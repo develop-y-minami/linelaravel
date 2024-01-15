@@ -21,8 +21,12 @@
         <main>
             {{--サービス提供者情報--}}
             <div class="contentContainer itemBox">
+                <div class="labelBox
+                    {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->line->serviceProvider->use_stop) }}">
+                    {{ \ServiceProviderUseStop::getName($data->line->serviceProvider->use_stop) }}
+                </div>
                 <div class="caption itemName">サービス提供者</div>
-                <a href="">{{ $data->line->serviceProvider->name }}</a>
+                <a href="{{ route('serviceProvider', ['id' => $data->line->serviceProvider->id]) }}">{{ $data->line->serviceProvider->name }}</a>
             </div>
 
             {{--LINE情報--}}

@@ -94,9 +94,9 @@
 
         <aside class="rightSubMenu">
             <ul class="subMenu">
-                <li><div id="serviceProviderSetting" class="menu">サービス提供者設定</div></li>
-                <li><div class="menu">担当者設定</div></li>
-                <li><div class="menu">担当者通知設定</div></li>
+                <li><div id="edit" class="menu">サービス提供者編集</div></li>
+                <li><div id="delete" class="menu">サービス提供者削除</div></li>
+                <li><div id="userRegister" class="menu">担当者追加</div></li>
             </ul>
         </aside>
 

@@ -55,7 +55,7 @@ class UserCellRenderer {
         tableHtml += '</tr>';
         tableHtml += '<tr>';
         tableHtml += '<th>アカウントID</th>';
-        tableHtml += '<td><a href="">' + params.data.accountId + '</a></td>';
+        tableHtml += '<td><a href="\\user\\' + params.data.id + '">' + params.data.accountId + '</a></td>';
         tableHtml += '</tr>';
         tableHtml += '<tr>';
         tableHtml += '<th>担当者名</th>';

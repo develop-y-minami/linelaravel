@@ -109,7 +109,7 @@ class UserGrid {
                 cellRenderer: LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.url = '';
+                    result.url = '\\serviceProvider\\' + params.data.serviceProvider.id;
                     result.name = params.data.serviceProvider.name;
                     return result;
                 }
@@ -126,7 +126,7 @@ class UserGrid {
                 cellRenderer: LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.url = '';
+                    result.url = '\\user\\' + params.data.id;
                     result.name = params.data.accountId;
                     return result;
                 }

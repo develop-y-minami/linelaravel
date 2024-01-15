@@ -23,5 +23,16 @@ Route::middleware('auth')->group(function()
      * @param Request request リクエスト
      * @return View
      */
-    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::get('/', [UserController::class, 'users'])->name('users');
+
+    /**
+     * 担当者ページ
+     * HTTP Method Get
+     * https://{host}/user/{id}
+     * 
+     * @param Request request リクエスト
+     * @param int     id      担当者ID
+     * @return View
+     */
+    Route::get('/{id}', [UserController::class, 'user'])->whereNumber('id')->name('user');
 });

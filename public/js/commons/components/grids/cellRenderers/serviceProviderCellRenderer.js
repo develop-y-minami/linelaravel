@@ -37,7 +37,7 @@ class ServiceProviderCellRenderer {
         tableHtml += '<tbody>';
         tableHtml += '<tr>';
         tableHtml += '<th>提供者ID</th>';
-        tableHtml += '<td><a>' + params.data.providerId + '</a></td>';
+        tableHtml += '<td><a href="\\serviceProvider\\' + params.data.id + '">' + params.data.providerId + '</a></td>';
         tableHtml += '</tr>';
         tableHtml += '<tr>';
         tableHtml += '<th>提供者名</th>';

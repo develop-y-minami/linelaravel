@@ -1,0 +1,127 @@
+@charset "utf-8";
+
+/******************************************************
+*   担当者情報ページ
+******************************************************/
+.userPageContainer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+}
+
+/******************************************************
+*   担当者情報ページ：メイン
+******************************************************/
+.userPageContainer > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px;
+    overflow: auto;
+}
+
+/******************************************************
+*   担当者情報ページ：右サイドメニュー
+******************************************************/
+.userPageContainer > .rightSubMenu {
+    min-width: 250px;
+    border-left: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   担当者情報ページ：コンテナー
+******************************************************/
+.userPageContainer .contentContainer {
+    padding: 15px 0px;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+/******************************************************
+*   担当者情報ページ：表示項目
+******************************************************/
+.userPageContainer .itemBox {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.userPageContainer .itemName { font-weight: bold; }
+
+/******************************************************
+*   担当者情報ページ：プロフィールコンテナー
+******************************************************/
+.userPageContainer .userContainer .profileContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px var(--colorLightGray);
+}
+
+/* プロフィール画像 */
+.userPageContainer .userContainer .profileContainer .circleImgContainer {
+    flex-grow: 1;
+}
+
+/* 右情報表示コンテナー */
+.userPageContainer .userContainer .profileContainer .infoContainer {
+    flex-grow: 100;
+    display: flex;
+    align-items: center;
+}
+
+/* LINE状態 */
+.userPageContainer .userContainer .profileContainer .accountStatus { margin-bottom: 10px; }
+
+.userPageContainer .userContainer .profileContainer .accountStatus .labelBox { width: 100px; }
+
+/* プロフィール表示テーブル */
+.userPageContainer .userContainer .profileContainer .profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 12px;
+    border: solid 1px var(--colorLightGray);
+}
+
+.userPageContainer .userContainer .profileContainer .profile .row {
+    flex: 1;
+    display: flex;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+.userPageContainer .userContainer .profileContainer .profile .row:last-child { border-bottom: none; }
+
+.userPageContainer .userContainer .profileContainer .profile .itemName {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    min-width: 100px;
+    background-color: #e2e2ff;
+}
+
+.userPageContainer .userContainer .profileContainer .profile .data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/******************************************************
+*   担当者情報ページ：グリッド
+******************************************************/
+.userPageContainer .gridContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.userPageContainer .gridContainer .grid {
+    flex: 1;
+    margin: 15px;
+}
