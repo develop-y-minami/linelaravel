@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{{ asset('css/commons/agGrid.css') }}">
     {{--担当者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
+    {{--担当者削除モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userDeleteModal.css') }}">
     {{--サービス提供者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
     {{--サービス提供者情報ページ--}}
@@ -35,6 +37,8 @@
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     {{--担当者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+    {{--担当者削除モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/userDeleteModal.js') }}"></script>
     {{--担当者API--}}
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--サービス提供者入力モーダル--}}
@@ -117,6 +121,7 @@
                 <li><div id="edit" class="menu">サービス提供者編集</div></li>
                 <li><div id="delete" class="menu">サービス提供者削除</div></li>
                 <li><div id="userRegister" class="menu">担当者追加</div></li>
+                <li><div id="userDelete" class="menu">担当者削除</div></li>
             </ul>
         </aside>
 
@@ -132,6 +137,8 @@
                     :serviceProviderSelectItems='$data->serviceProviderSelectItems'
                     :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
                 </x-modals.userInput>
+                {{--担当者削除モーダル--}}
+                <x-modals.userDelete :serviceProviderSelectItems='$data->serviceProviderSelectItems'></x-modals.userDelete>
             </div>
         </div>
     </div>

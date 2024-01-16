@@ -55,6 +55,11 @@ $(function() {
      */
     $userRegister = $('#userRegister');
     /**
+     * 担当者削除
+     * 
+     */
+    $userDelete = $('#userDelete');
+    /**
      * サービス提供者ID
      * 
      */
@@ -167,7 +172,7 @@ $(function() {
         // サービス提供者削除確認モーダルのインスタンスを生成
         let modal = new ConfirmModal(
             new ConfirmModalCallbackClass(
-                confirmModalYesCallback,
+                serviceProviderDeleteConfirmModalYesCallback,
                 null,
                 {
                     id: serviceProviderId
@@ -185,7 +190,7 @@ $(function() {
      * 
      * @param {Event} e 
      */
-    async function confirmModalYesCallback(e) {
+    async function serviceProviderDeleteConfirmModalYesCallback(e) {
         try {
             // エラーメッセージを非表示
             this.modal.errorMessage.hide();
@@ -249,4 +254,26 @@ $(function() {
         // グリッドにデータを追加
         this.context.grid.addRow(data);
     }
+
+    /**
+     * 担当者削除クリック時
+     * 
+     */
+    $userDelete.on('click', function(e) {
+        // 担当者削除モーダルのインスタンスを生成
+        let modal = new UserDeleteModal(
+            new UserDeleteModalCallbackClass(
+                null,
+                {
+                    grid: userGrid
+                }
+            )
+        );
+
+        // 担当者削除モーダルを初期化
+        //modal.init();
+
+        // 担当者削除モーダルを起動
+        modal.show();
+    });
 });

@@ -53,7 +53,12 @@ class UserApiService implements UserApiServiceInterface
             // 担当者種別を設定
             $userType = new UserType($data->userType->id, $data->userType->name);
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+            $serviceProvider = new ServiceProvider(
+                $data->serviceProvider->id,
+                $data->serviceProvider->name,
+                $data->serviceProvider->use_stop,
+                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+            );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
@@ -65,7 +70,9 @@ class UserApiService implements UserApiServiceInterface
                 $data->account_id,
                 $data->name,
                 $data->email,
-                $data->profile_image_file_path
+                $data->profile_image_file_path,
+                $data->created_at,
+                $data->updated_at
             );
 
             // 配列に追加
@@ -115,7 +122,12 @@ class UserApiService implements UserApiServiceInterface
             // 担当者種別を設定
             $userType = new UserType($data->userType->id, $data->userType->name);
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+            $serviceProvider = new ServiceProvider(
+                $data->serviceProvider->id,
+                $data->serviceProvider->name,
+                $data->serviceProvider->use_stop,
+                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+            );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
@@ -127,7 +139,9 @@ class UserApiService implements UserApiServiceInterface
                 $data->account_id,
                 $data->name,
                 $data->email,
-                $data->profile_image_file_path
+                $data->profile_image_file_path,
+                $data->created_at,
+                $data->updated_at
             );
 
             // コミット
@@ -170,7 +184,12 @@ class UserApiService implements UserApiServiceInterface
             // 担当者種別を設定
             $userType = new UserType($data->userType->id, $data->userType->name);
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+            $serviceProvider = new ServiceProvider(
+                $data->serviceProvider->id,
+                $data->serviceProvider->name,
+                $data->serviceProvider->use_stop,
+                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+            );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
@@ -182,7 +201,9 @@ class UserApiService implements UserApiServiceInterface
                 $data->account_id,
                 $data->name,
                 $data->email,
-                $data->profile_image_file_path
+                $data->profile_image_file_path,
+                $data->created_at,
+                $data->updated_at
             );
 
             // コミット

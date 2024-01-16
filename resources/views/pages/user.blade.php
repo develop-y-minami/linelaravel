@@ -30,7 +30,10 @@
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     {{--担当者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+    {{--担当者API--}}
+    <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--担当者情報ページ--}}
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
     <script src="{{ asset('js/pages/user.js') }}"></script>
 @endpush
 
@@ -45,12 +48,15 @@
             {{--サービス提供者情報--}}
             <div class="contentContainer serviceProviderContainer">
                 <div class="itemBox">
-                    <div class="labelBox
+                    <div id="useStop" class="labelBox
                         {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->user->serviceProvider->use_stop) }}">
                         {{ \ServiceProviderUseStop::getName($data->user->serviceProvider->use_stop) }}
                     </div>
                     <div class="caption itemName">サービス提供者</div>
-                    <a href="{{ route('serviceProvider', ['id' => $data->user->serviceProvider->id]) }}">{{ $data->user->serviceProvider->name }}</a>
+                    <a id="serviceProviderId" href="{{ route('serviceProvider', ['id' => $data->user->serviceProvider->id]) }}"
+                        data-value="{{ $data->user->serviceProvider->id }}">
+                        {{ $data->user->serviceProvider->name }}
+                    </a>
                 </div>
             </div>
 
@@ -61,7 +67,7 @@
                     {{--プロフィール画像--}}
                     <div class="circleImgContainer">
                         <div class="imgBox">
-                            <a href="{{ $data->user->profile_image_file_path }}"><img src="{{ $data->user->profile_image_file_path }}"></a>
+                            <a href="{{ asset($data->user->profile_image_file_path) }}"><img src="{{ asset($data->user->profile_image_file_path) }}"></a>
                         </div>
                     </div>
                     {{--プロフィール情報コンテナー--}}
@@ -70,27 +76,31 @@
                         <div class="profile">
                             <div class="row">
                                 <div class="itemName">担当者種別</div>
-                                <div class="data">{{ $data->user->userType->name }}</div>
+                                <div id="userType" class="data" data-value="{{ $data->user->userType->id }}">{{ $data->user->userType->name }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">アカウント種別</div>
-                                <div class="data">{{ $data->user->userAccountType->name }}</div>
+                                <div id="userAccountType" class="data" data-value="{{ $data->user->userAccountType->id }}">{{ $data->user->userAccountType->name }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">アカウントID</div>
-                                <div class="data">{{ $data->user->account_id }}</div>
+                                <div id="accountId" class="data">{{ $data->user->account_id }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">担当者名</div>
-                                <div class="data">{{ $data->user->name }}</div>
+                                <div id="name" class="data">{{ $data->user->name }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="itemName">メールアドレス</div>
+                                <div id="email" class="data">{{ $data->user->email }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">更新日時</div>
-                                <div class="data">{{ \ViewFacade::convertJpDateTime($data->user->updated_at) }}</div>
+                                <div id="updatedAt" class="data">{{ \ViewFacade::convertJpDateTime($data->user->updated_at) }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">登録日時</div>
-                                <div class="data">{{ \ViewFacade::convertJpDateTime($data->user->created_at) }}</div>
+                                <div id="createdAt" class="data">{{ \ViewFacade::convertJpDateTime($data->user->created_at) }}</div>
                             </div>
                         </div>
                     </div>
@@ -115,7 +125,15 @@
 
         <div id="overlay" class="overlay">
             <div class="container">
-                
+                {{--担当者入力モーダル--}}
+                <x-modals.userInput
+                    :mode='\EditMode::UPDATE'
+                    :userTypeRadioItems='$data->userTypeRadioItems'
+                    :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+                    :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
+                </x-modals.userInput>
+                {{--担当者削除確認モーダル--}}
+                <x-modals.confirm id="userDeleteModalConfirm" message="担当者を削除しますか？"></x-modals.confirm>
             </div>
         </div>
     </div>

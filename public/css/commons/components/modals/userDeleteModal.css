@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+/******************************************************
+*   担当者情報削除モーダル
+******************************************************/
+.modalUserDelete {
+    position: relative;
+    width: 600px;
+    height: 90%;
+}
+
+.modalUserDelete > .container { height: 100%; }
+
+.modalUserDelete > .container > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalUserDelete .row {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.modalUserDelete .errorMessage { margin-bottom: 20px; }
+
+.modalUserDelete .row:last-child { margin-bottom: 0px; }
+
+.modalUserDelete .row button { width: 100%; }
+
+.modalUserDelete .gridContainer {
+    flex: 1;
+}

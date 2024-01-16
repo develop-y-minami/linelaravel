@@ -13,9 +13,9 @@ class UserInput extends Component
     /**
      * __construct
      *
-     * @param string id                        id属性に付与する文字列
-     * @param string class                     class属性に付与する文字列
-     * @param string mode                      入力モード
+     * @param string id                         id属性に付与する文字列
+     * @param string class                      class属性に付与する文字列
+     * @param string mode                       入力モード
      * @param array  userTypeRadioItems         担当者種別ラジオボタン表示データ
      * @param array  serviceProviderSelectItems サービス提供者セレクトボックス表示データ
      * @param array  userAccountTypeRadioItems  担当者アカウント種別ラジオボタン表示データ

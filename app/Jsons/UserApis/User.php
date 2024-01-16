@@ -19,6 +19,8 @@ class User implements \JsonSerializable
      * @param string          name                 名前
      * @param string          email                メールアドレス
      * @param string          profileImageFilePath プロフィール画像保存先パス
+     * @param string          createdAt            登録日時
+     * @param string          updatedAt            更新日時
      */
     public function __construct(
         public readonly int $id,
@@ -28,7 +30,9 @@ class User implements \JsonSerializable
         public readonly ?string $accountId,
         public readonly ?string $name,
         public readonly ?string $email,
-        public readonly ?string $profileImageFilePath
+        public readonly ?string $profileImageFilePath,
+        public readonly ?string $createdAt,
+        public readonly ?string $updatedAt
     )
     {
 
