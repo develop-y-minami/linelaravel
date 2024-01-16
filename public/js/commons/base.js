@@ -8,6 +8,19 @@ let globalUserType;
  * 
  */
 let globalUserAccountType;
+/**
+ * 担当者アカウント種別
+ * 
+ */
+let globalPreviousUrl;
+
+/**
+ * 前ページに繊維
+ * 
+ */
+function backPage() {
+    window.location.href = globalPreviousUrl;
+}
 
 $(function() {
     /**
@@ -20,6 +33,11 @@ $(function() {
      * 
      */
     let txtUserAccountType = $('#txtUserAccountType');
+    /**
+     * 前ページのURL
+     * 
+     */
+    let txtPreviousUrl = $('#txtPreviousUrl');
     /**
      * 公式LINEアカウント表示コンテナー
      * 
@@ -42,6 +60,7 @@ $(function() {
             // グローバル変数に値を設定
             globalUserType = Number(txtUserType.val());
             globalUserAccountType = Number(txtUserAccountType.val());
+            globalPreviousUrl = txtPreviousUrl.val();
 
             // インスタンスを生成
             lineOfficialAccountContainer = new LineOfficialAccountContainer()

@@ -43,27 +43,12 @@ class ServiceProviderInputModalCallbackClass {
  * ServiceProviderInputModal
  * 
  */
-class ServiceProviderInputModal {
-    /**
-     * オーバーレイ
-     * 
-     */
-    $overlay;
+class ServiceProviderInputModal extends Modal {
     /**
      * ボタンクリック時のコールバック先クラス
      * 
      */
     callbackClass;
-    /**
-     * モーダル
-     * 
-     */
-    $modal;
-    /**
-     * 閉じるボタン
-     * 
-     */
-    $btnClose;
     /**
      * サービス提供者情報ID
      * 
@@ -122,9 +107,8 @@ class ServiceProviderInputModal {
      * @param {string} id            モーダルID
      */
     constructor(callbackClass = null, id = 'modalServiceProviderInput') {
+        super(id);
         this.callbackClass = callbackClass;
-        this.$modal = $('#' + id);
-        this.$btnClose = $('#' + id + 'BtnClose');
         this.$txtServiceProviderId = $('#' + id + 'TxtServiceProviderId');
         this.$txtProviderId = $('#' + id + 'TxtProviderId');
         this.$txtName = $('#' + id + 'TxtName');
@@ -138,13 +122,7 @@ class ServiceProviderInputModal {
         // インスタンスを生成
         this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
 
-        // オーバーレイを設定
-        this.$overlay = this.$modal.closest('.overlay');
-
         // イベントを設定
-        this.$overlay.on('click', { me : this }, this.close);
-        this.$modal.on('click', this.clickModal);
-        this.$btnClose.on('click', { me : this }, this.close);
         this.$btnRegister.on('click', { me : this }, this.clickBtnRegister);
         this.$btnUpdate.on('click', { me : this }, this.clickBtnUpdate);
     }
@@ -187,34 +165,6 @@ class ServiceProviderInputModal {
         this.$txtUseEndDateTime.val(useEndDateTime);
         this.$checkUseStop.prop('checked', useStop);
     }
-
-    /**
-     * モーダルを表示
-     * 
-     */
-    show() {
-        this.$overlay.show();
-        this.$modal.fadeIn();
-    }
-
-    /**
-     * モーダルを閉じる
-     * 
-     * @param {Event} e 
-     */
-    close(e) {
-        let me = e.data.me;
-        me.errorMessage.hide();
-        me.$overlay.hide();
-        me.$modal.hide();
-    }
-
-    /**
-     * モーダルクリック時
-     * 
-     * @param {Event} e 
-     */
-    clickModal(e) { e.stopPropagation(); }
 
     /**
      * 登録ボタンクリック時

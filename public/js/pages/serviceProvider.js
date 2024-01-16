@@ -152,4 +152,55 @@ $(function() {
         this.context.$useStop.removeClass('red green');
         this.context.$useStop.addClass(ServiceProviderUseStop.getColor(data.useStop));
     }
+
+    /**
+     * サービス提供者削除
+     * 
+     * @param {Event} e
+     */
+    $delete.on('click', function(e) {
+        // サービス提供者削除確認モーダルのインスタンスを生成
+        let modal = new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                confirmModalYesCallback,
+                null,
+                {
+                    id: serviceProviderId
+                }
+            )
+            ,'serviceProviderDeleteModalConfirm'
+        );
+
+        // サービス提供者削除確認モーダルを起動
+        modal.show();
+    });
+
+    /**
+     * サービス提供者削除確認モーダルYesボタンコールバック
+     * 
+     * @param {Event} e 
+     */
+    async function confirmModalYesCallback(e) {
+        try {
+            // エラーメッセージを非表示
+            this.modal.errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            this.modal.$loadingOverlay.show();
+
+            // サービス提供者情報を削除
+            let result = await ServiceProviderApi.destroy(this.context.id);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
+                // 前ページに遷移
+                backPage();
+            } else {
+                this.modal.errorMessage.showServerError();
+            }
+        } catch(error) {
+            console.error(error);
+            // ローディングオーバレイを非表示
+            this.modal.$loadingOverlay.hide();
+        }
+    }
 });

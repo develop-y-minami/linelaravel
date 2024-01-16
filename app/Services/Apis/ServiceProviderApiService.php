@@ -198,12 +198,21 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
             // サービス提供者情報を削除
             $result = $this->serviceProviderRepository->destroy($id);
 
+            // 担当者ID
+            $userIds = array();
+
             // 担当者情報を取得
             $users = $this->userRepository->findByServiceProviderId($id);
             foreach ($users as $user)
             {
+                // 担当者IDを保持
+                $userIds[] = $user->id;
+            }
+
+            if (count($userIds) > 0)
+            {
                 // 担当者情報を削除
-                $this->userRepository->destroy($user->id);
+                $this->userRepository->deletes($userIds);
             }
 
             // ファイル保存先ディレクトリを削除

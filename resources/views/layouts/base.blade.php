@@ -53,6 +53,7 @@
         <div class="hideContainer">
             <input type="text" id="txtUserType" value="{{ Auth::user()->user_type_id }}">
             <input type="text" id="txtUserAccountType" value="{{ Auth::user()->user_account_type_id }}">
+            <input type="text" id="txtPreviousUrl" value="{{ url()->previous(); }}">
         </div>
 
         {{--ヘッダー--}}

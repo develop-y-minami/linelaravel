@@ -86,4 +86,12 @@ interface UserRepositoryInterface
      * @return int 削除件数
      */
     public function destroy($id);
+
+    /**
+     * 担当者情報を削除
+     * 
+     * @param array id 担当者情報ID
+     * @return int 削除件数
+     */
+    public function deletes($ids);
 }

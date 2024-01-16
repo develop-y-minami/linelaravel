@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+/******************************************************
+*   404エラーページ
+******************************************************/
+.errorPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.errorPageContainer .messageContainer .caption {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--colorBlue);
+}
+
+.errorPageContainer .messageContainer ul li {
+    padding: 5px;
+    text-align: center;
+}
+
+.errorPageContainer .messageContainer ul li:first-child { font-weight: bold; }
+
+.errorPageContainer .imgContainer { width: 400px; }
+
+.errorPageContainer .imgContainer img {
+    width: 100%;
+    height: 100%;
+}

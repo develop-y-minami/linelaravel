@@ -108,21 +108,29 @@ class UserController extends Controller
         {
             // 担当者情報を取得
             $user = $this->userService->getUser($id);
-            // 担当者種別セレクトボックス設定データを取得
-            $userTypeSelectItems = $this->userTypeService->getSelectItems();
-            // 担当者種別ラジオボタン設定データを取得
-            $userTypeRadioItems = $this->userTypeService->getRadioItems();
-            // サービス提供者セレクトボックス設定データを取得
-            $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
-            // 担当者アカウント種別セレクトボックス設定データを取得
-            $userAccountTypeSelectItems = $this->userAccountTypeService->getSelectItems();
-            // 担当者アカウント種別ラジオボタン設定データを取得
-            $userAccountTypeRadioItems = $this->userAccountTypeService->getRadioItems();
 
-            // 返却データに設定
-            $result = new UserPage($user, $userTypeSelectItems, $userTypeRadioItems, $serviceProviderSelectItems, $userAccountTypeSelectItems, $userAccountTypeRadioItems);
+            if ($user != null)
+            {
+                // 担当者種別セレクトボックス設定データを取得
+                $userTypeSelectItems = $this->userTypeService->getSelectItems();
+                // 担当者種別ラジオボタン設定データを取得
+                $userTypeRadioItems = $this->userTypeService->getRadioItems();
+                // サービス提供者セレクトボックス設定データを取得
+                $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
+                // 担当者アカウント種別セレクトボックス設定データを取得
+                $userAccountTypeSelectItems = $this->userAccountTypeService->getSelectItems();
+                // 担当者アカウント種別ラジオボタン設定データを取得
+                $userAccountTypeRadioItems = $this->userAccountTypeService->getRadioItems();
 
-            return view('pages.user')->with('data', $result);
+                // 返却データに設定
+                $result = new UserPage($user, $userTypeSelectItems, $userTypeRadioItems, $serviceProviderSelectItems, $userAccountTypeSelectItems, $userAccountTypeRadioItems);
+
+                return view('pages.user')->with('data', $result);
+            }
+            else
+            {
+                abort(404);
+            }
         }
         catch (\Exception $e)
         {

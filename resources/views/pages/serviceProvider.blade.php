@@ -119,6 +119,8 @@
             <div class="container">
                 {{--サービス提供者入力モーダル--}}
                 <x-modals.serviceProviderInput :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
+                {{--サービス提供者削除確認モーダル--}}
+                <x-modals.confirm id="serviceProviderDeleteModalConfirm" message="サービス提供者を削除しますか？"></x-modals.confirm>
             </div>
         </div>
     </div>
