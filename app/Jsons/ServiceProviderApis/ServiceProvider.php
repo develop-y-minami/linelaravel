@@ -18,6 +18,8 @@ class ServiceProvider implements \JsonSerializable
      * @param string useEndDateTime   サービス利用終了日
      * @param bool   useStop          サービス利用状態
      * @param string useStopName      サービス利用状態名称
+     * @param string createdAt        登録日時
+     * @param string updatedAt        更新日時
      */
     public function __construct(
         public readonly int $id,
@@ -26,7 +28,9 @@ class ServiceProvider implements \JsonSerializable
         public readonly ?string $useStartDateTime,
         public readonly ?string $useEndDateTime,
         public readonly bool $useStop,
-        public readonly ?string $useStopName
+        public readonly ?string $useStopName,
+        public readonly ?string $createdAt,
+        public readonly ?string $updatedAt
     )
     {
 

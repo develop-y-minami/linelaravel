@@ -45,6 +45,11 @@ $(function() {
      */
     $edit = $('#edit');
     /**
+     * サービス提供者削除
+     * 
+     */
+    $delete = $('#delete');
+    /**
      * サービス提供者ID
      * 
      */
@@ -100,8 +105,16 @@ $(function() {
         let modal = new ServiceProviderInputModal(
             new ServiceProviderInputModalCallbackClass(
                 null,
-                null,
-                null
+                serviceProviderInputModalUpdateCallback,
+                {
+                    $providerId: $providerId,        
+                    $name: $name,
+                    $useStartDateTime: $useStartDateTime,
+                    $useEndDateTime: $useEndDateTime,
+                    $useStop: $useStop,
+                    $updatedAt: $updatedAt,
+                    $createdAt: $createdAt
+                }
             )
         );
 
@@ -117,4 +130,26 @@ $(function() {
         );
         modal.show();
     });
+
+    /**
+     * サービス提供者入力モーダル更新ボタンコールバック
+     * 
+     * @param {object} data サービス提供者情報
+     */
+    function serviceProviderInputModalUpdateCallback(data) {
+        this.context.$providerId.text(data.providerId);
+        this.context.$name.text(data.name);
+        this.context.$useStartDateTime.data('value', DateTimeUtil.convertDate(data.useStartDateTime));
+        this.context.$useStartDateTime.text(DateTimeUtil.convertJpDate(data.useStartDateTime));
+        this.context.$useEndDateTime.data('value', DateTimeUtil.convertDate(data.useEndDateTime));
+        this.context.$useEndDateTime.text(DateTimeUtil.convertJpDate(data.useEndDateTime));
+        this.context.$updatedAt.text(DateTimeUtil.convertJpDateTime(data.updatedAt));
+        this.context.$createdAt.text(DateTimeUtil.convertJpDateTime(data.createdAt));
+
+        // サービス提供者利用状態LabelBoxを再設定
+        this.context.$useStop.data('value', data.useStop);
+        this.context.$useStop.text(data.useStopName);
+        this.context.$useStop.removeClass('red green');
+        this.context.$useStop.addClass(ServiceProviderUseStop.getColor(data.useStop));
+    }
 });

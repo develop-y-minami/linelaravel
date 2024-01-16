@@ -336,7 +336,7 @@ class UserGrid {
     clickBtnEdit(e, params) {
         // 担当者入力モーダルのインスタンスを生成
         let modal = new UserInputModal(
-            new UserInputUpdateModalCallbackClass(
+            new UserInputModalCallbackClass(
                 null,
                 params.context.updateCallback,
                 {

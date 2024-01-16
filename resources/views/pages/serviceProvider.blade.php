@@ -34,7 +34,10 @@
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
     {{--サービス提供者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    {{--サービス提供者API--}}
+    <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
 

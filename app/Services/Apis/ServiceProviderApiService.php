@@ -72,7 +72,9 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
                 $data->use_start_date_time,
                 $data->use_end_date_time,
                 $data->use_stop,
-                \ServiceProviderUseStop::getName($data->use_stop)
+                \ServiceProviderUseStop::getName($data->use_stop),
+                $data->created_at,
+                $data->updated_at
             );
 
             // 配列に追加
@@ -100,6 +102,10 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
         {
             // サービス提供者情報を登録
             $data = $this->serviceProviderRepository->register($providerId, $name, $useStartDateTime, $useEndDateTime);
+
+            // サービス提供者情報を取得
+            $data = $this->serviceProviderRepository->findById($data->id);
+
             // サービス提供者情報を設定
             $serviceProvider = new ServiceProvider(
                 $data->id,
@@ -108,7 +114,9 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
                 $data->use_start_date_time,
                 $data->use_end_date_time,
                 $data->use_stop,
-                \ServiceProviderUseStop::getName($data->use_stop)
+                \ServiceProviderUseStop::getName($data->use_stop),
+                $data->created_at,
+                $data->updated_at
             );
 
             // コミット
@@ -145,15 +153,20 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
             // サービス提供者情報を更新
             $this->serviceProviderRepository->update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
 
+            // サービス提供者情報を取得
+            $data = $this->serviceProviderRepository->findById($id);
+
             // サービス提供者情報を設定
             $serviceProvider = new ServiceProvider(
-                $id,
-                $providerId,
-                $name,
-                $useStartDateTime,
-                $useEndDateTime,
-                $useStop,
-                \ServiceProviderUseStop::getName($useStop)
+                $data->id,
+                $data->provider_id,
+                $data->name,
+                $data->use_start_date_time,
+                $data->use_end_date_time,
+                $data->use_stop,
+                \ServiceProviderUseStop::getName($data->use_stop),
+                $data->created_at,
+                $data->updated_at
             );
 
             // コミット

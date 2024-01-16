@@ -6,17 +6,26 @@
 
 {{--CSS--}}
 @push('css')
-    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
+    {{--担当者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
+    {{--サービス提供者入力モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
 @endpush
 
 @push('js')
-    <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    {{--担当者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+    {{--担当者API--}}
+    <script src="{{ asset('js/apis/userApi.js') }}"></script>
+    {{--サービス提供者入力モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    {{--サービス提供者Grid--}}
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/serviceProviderCellRenderer.js') }}"></script>
+    {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
-    <script src="{{ asset('js/apis/userApi.js') }}"></script>
+    {{--サービス提供者ページ--}}
     <script src="{{ asset('js/pages/serviceProviders.js') }}"></script>
 @endpush
 

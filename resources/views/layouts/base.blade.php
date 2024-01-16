@@ -37,6 +37,7 @@
         <script src="{{ asset('js/commons/components/checkBoxs/checkBoxs.js') }}"></script>
         <script src="{{ asset('js/commons/components/containers/lineOfficialAccountContainer.js') }}"></script>
         <script src="{{ asset('js/commons/components/messages/errorMessage.js') }}"></script>
+        <script src="{{ asset('js/commons/components/modals/modal.js') }}"></script>
         <script src="{{ asset('js/commons/components/modals/confirmModal.js') }}"></script>
         <script src="{{ asset('js/commons/components/selectBoxs/selectBox.js') }}"></script>
         <script src="{{ asset('js/apis/fetchApi.js') }}"></script>

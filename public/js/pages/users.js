@@ -74,11 +74,6 @@ $(function() {
      * 
      */
     let grid;
-    /**
-     * 担当者入力モーダル
-     * 
-     */
-    let userInputModal;
 
     try {
         // 初期化処理を実行
@@ -95,18 +90,6 @@ $(function() {
     function init() {
         // インスタンスを生成
         grid = new UserGrid('grid');
-
-        // 担当者入力モーダル
-        userInputModal = new UserInputModal(
-            new UserInputUpdateModalCallbackClass(
-                userInputModalRegisterCallback,
-                null,
-                {
-                    grid : grid
-                }
-            )
-            ,'modalUserInputRegister'
-        );
 
         // 検索条件を設定
         setSearchConditions();
@@ -179,9 +162,21 @@ $(function() {
      * 
      */
     $btnInsert.on('click', function() {
+        // 担当者入力モーダル
+        let modal = new UserInputModal(
+            new UserInputModalCallbackClass(
+                userInputModalRegisterCallback,
+                null,
+                {
+                    grid : grid
+                }
+            )
+            ,'modalUserInputRegister'
+        );
+
         // 担当者入力モーダルを起動
-        userInputModal.init();
-        userInputModal.show();
+        modal.init();
+        modal.show();
     });
 
     /**
