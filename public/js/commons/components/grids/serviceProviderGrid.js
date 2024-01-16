@@ -2,32 +2,7 @@
  * ServiceProviderGrid
  * 
  */
-class ServiceProviderGrid {
-    /**
-     * id
-     * 
-     */
-    id;
-    /**
-     * grid
-     * 
-     */
-    grid;
-    /**
-     * gridOptions
-     * 
-     */
-    gridOptions;
-    /**
-     * columnDefs
-     * 
-     */
-    columnDefs;
-    /**
-     * gridApi
-     * 
-     */
-    gridApi;
+class ServiceProviderGrid extends AgGrid {
 
     /**
      * constructor
@@ -35,9 +10,7 @@ class ServiceProviderGrid {
      * @param {string} id ID値
      */
     constructor(id) {
-        this.id = id;
-        this.grid = document.querySelector('#' + id);
-        this.gridOptions = {};
+        super(id);
     }
 
     /**
@@ -51,7 +24,7 @@ class ServiceProviderGrid {
      */
     init(providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null) {
         // default値を設定
-        AgGrid.setDefaultGridOptions(this.gridOptions);
+        this.setDefaultGridOptions(this.gridOptions);
 
         // contextにthisを設定
         this.gridOptions.context = this;
@@ -271,28 +244,6 @@ class ServiceProviderGrid {
     }
 
     /**
-     * 行データを追加
-     * 
-     * @param {object} data 行データ
-     */
-    addRow(data, addIndex = undefined) {
-        // 行データを追加
-        this.gridApi.applyTransaction({
-            add: [data],
-            addIndex: addIndex
-          });
-    }
-
-    /**
-     * 指定した列を非表示
-     * 
-     * @param {array} columns カラム
-     */
-    hideColumns(columns) {
-        this.gridApi.setColumnsVisible(columns, false);
-    }
-
-    /**
      * 一覧表示モードで表示
      * 
      */
@@ -369,10 +320,8 @@ class ServiceProviderGrid {
      * @param {object} data サービス提供者情報
      */
     updateCallback(data) {
-        // 行データを取得
-        let row = this.context.grid.gridApi.getRowNode(data.id);
         // 行データを更新
-        row.setData(data);
+        this.context.grid.updateRow(data.id, data);
     }
 
     /**
@@ -418,10 +367,8 @@ class ServiceProviderGrid {
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる
                 this.modal.close(e);
-                // 行データを取得
-                let row = this.context.grid.gridApi.getRowNode(this.context.id);
                 // 行データを削除
-                this.context.grid.gridApi.applyTransaction({ remove: [row] });
+                this.context.grid.deleteRow(this.context.id);
             } else {
                 this.modal.errorMessage.showServerError();
             }

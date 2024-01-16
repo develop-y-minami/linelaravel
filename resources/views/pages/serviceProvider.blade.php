@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-grid.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.0/styles/ag-theme-material.css"/>
     <link rel="stylesheet" href="{{ asset('css/commons/agGrid.css') }}">
+    {{--担当者入力モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
     {{--サービス提供者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
     {{--サービス提供者情報ページ--}}
@@ -26,12 +28,15 @@
     {{--担当者 Grid--}}
     <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/userCellRenderer.js') }}"></script>
-    <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--LINE Grid--}}
     <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--担当者入力モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+    {{--担当者API--}}
+    <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--サービス提供者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
     {{--サービス提供者API--}}
@@ -121,6 +126,12 @@
                 <x-modals.serviceProviderInput :mode='\EditMode::UPDATE'></x-modals.serviceProviderInput>
                 {{--サービス提供者削除確認モーダル--}}
                 <x-modals.confirm id="serviceProviderDeleteModalConfirm" message="サービス提供者を削除しますか？"></x-modals.confirm>
+                {{--担当者入力モーダル--}}
+                <x-modals.userInput
+                    :userTypeRadioItems='$data->userTypeRadioItems'
+                    :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+                    :userAccountTypeRadioItems='$data->userAccountTypeRadioItems'>
+                </x-modals.userInput>
             </div>
         </div>
     </div>

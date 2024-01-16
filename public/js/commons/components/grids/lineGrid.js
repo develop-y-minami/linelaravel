@@ -2,42 +2,14 @@
  * LineGrid
  * 
  */
-class LineGrid {
-    /**
-     * id
-     * 
-     */
-    id;
-    /**
-     * grid
-     * 
-     */
-    grid;
-    /**
-     * gridOptions
-     * 
-     */
-    gridOptions;
-    /**
-     * columnDefs
-     * 
-     */
-    columnDefs;
-    /**
-     * gridApi
-     * 
-     */
-    gridApi;
-
+class LineGrid extends AgGrid {
     /**
      * constructor
      * 
      * @param {string} id ID値
      */
     constructor(id) {
-        this.id = id;
-        this.grid = document.querySelector('#' + id);
-        this.gridOptions = {};
+        super(id);
     }
 
     /**
@@ -51,7 +23,7 @@ class LineGrid {
      */
     init(lineAccountTypeId = null, lineAccountStatus = null, displayName = null, serviceProviderId = null, userId = null) {
         // default値を設定
-        AgGrid.setDefaultGridOptions(this.gridOptions);
+        this.setDefaultGridOptions(this.gridOptions);
 
         // columnDefsを設定
         this.setColumnDefs();
@@ -189,15 +161,6 @@ class LineGrid {
         } catch(error) {
             throw error;
         }
-    }
-
-    /**
-     * 指定した列を非表示
-     * 
-     * @param {array} columns カラム
-     */
-    hideColumns(columns) {
-        this.gridApi.setColumnsVisible(columns, false);
     }
 
     /**

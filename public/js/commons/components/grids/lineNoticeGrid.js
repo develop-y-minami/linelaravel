@@ -2,32 +2,7 @@
  * LineNoticeGrid
  * 
  */
-class LineNoticeGrid {
-    /**
-     * id
-     * 
-     */
-    id;
-    /**
-     * grid
-     * 
-     */
-    grid;
-    /**
-     * gridOptions
-     * 
-     */
-    gridOptions;
-    /**
-     * columnDefs
-     * 
-     */
-    columnDefs;
-    /**
-     * gridApi
-     * 
-     */
-    gridApi;
+class LineNoticeGrid extends AgGrid {
 
     /**
      * constructor
@@ -35,9 +10,7 @@ class LineNoticeGrid {
      * @param {string} id ID値
      */
     constructor(id) {
-        this.id = id;
-        this.grid = document.querySelector('#' + id);
-        this.gridOptions = {};
+        super(id);
     }
 
     /**
@@ -51,7 +24,7 @@ class LineNoticeGrid {
      */
     init(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
         // default値を設定
-        AgGrid.setDefaultGridOptions(this.gridOptions);
+        this.setDefaultGridOptions(this.gridOptions);
 
         // columnDefsを設定
         this.setColumnDefs();

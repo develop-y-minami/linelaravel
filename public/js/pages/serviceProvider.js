@@ -50,6 +50,11 @@ $(function() {
      */
     $delete = $('#delete');
     /**
+     * 担当者追加
+     * 
+     */
+    $userRegister = $('#userRegister');
+    /**
      * サービス提供者ID
      * 
      */
@@ -202,5 +207,46 @@ $(function() {
             // ローディングオーバレイを非表示
             this.modal.$loadingOverlay.hide();
         }
+    }
+
+    /**
+     * 担当者追加
+     * 
+     * @param {Event} e
+     */
+    $userRegister.on('click', function(e) {
+        // 担当者入力モーダルのインスタンスを生成
+        let modal = new UserInputModal(
+            new UserInputModalCallbackClass(
+                userInputModalRegisterCallback,
+                null,
+                {
+                    grid: userGrid
+                }
+            )
+        );
+
+        // 担当者入力モーダルを初期化
+        modal.init();
+
+        // 担当者種別にサービス提供者を設定し非表示
+        modal.$radioUserTypeServiceProvider.prop('checked', true);
+        modal.$userTypeContainer.hide();
+
+        // サービス提供者IDを設定
+        modal.$selServiceProvider.val(serviceProviderId);
+
+        // 担当者入力モーダルを起動
+        modal.show();
+    });
+
+    /**
+     * 担当者入力モーダル更新ボタンコールバック
+     * 
+     * @param {object} data 担当者情報
+     */
+    function userInputModalRegisterCallback(data) {
+        // グリッドにデータを追加
+        this.context.grid.addRow(data);
     }
 });

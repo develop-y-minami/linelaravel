@@ -5,7 +5,7 @@
 @section('title', '１対１トーク')
 
 {{--JavaScript--}}
-@push('js')
+@push('pageJs')
     {{--AG Grid--}}
     <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>

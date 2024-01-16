@@ -6,14 +6,19 @@
 
 {{--CSS--}}
 @push('css')
+    {{--担当者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userInputModal.css') }}">
 @endpush
 
-@push('js')
-    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+@push('pageJs')
+    {{--担当者Grid--}}
     <script src="{{ asset('js/commons/components/grids/userGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/userCellRenderer.js') }}"></script>
+    {{--担当者入力モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
+    {{--担当者API--}}
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
+    {{--担当者情報ページ--}}
     <script src="{{ asset('js/pages/users.js') }}"></script>
 @endpush
 

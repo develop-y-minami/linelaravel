@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
 @endpush
 
-@push('js')
+@push('pageJs')
     {{--担当者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/userInputModal.js') }}"></script>
     {{--担当者API--}}
