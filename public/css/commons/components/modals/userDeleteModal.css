@@ -5,11 +5,14 @@
 ******************************************************/
 .modalUserDelete {
     position: relative;
-    width: 600px;
-    height: 90%;
+    width: 100%;
+    height: 100%;
 }
 
-.modalUserDelete > .container { height: 100%; }
+.modalUserDelete > .container {
+    height: 100%;
+    border-radius: 0px;
+}
 
 .modalUserDelete > .container > main {
     flex: 1;
@@ -24,12 +27,24 @@
     margin-bottom: 20px;
 }
 
-.modalUserDelete .errorMessage { margin-bottom: 20px; }
-
 .modalUserDelete .row:last-child { margin-bottom: 0px; }
 
-.modalUserDelete .row button { width: 100%; }
-
-.modalUserDelete .gridContainer {
-    flex: 1;
+.modalUserDelete .row.right {
+    align-items: flex-end;
 }
+
+.modalUserDelete .gridContainer { flex: 1; }
+
+.modalUserDelete .gridContainer .grid {
+    margin: 0px !important;
+    height: 100% !important;
+}
+
+.modalUserDelete .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.modalUserDelete .buttonContainer .errorMessage { flex: 1; }

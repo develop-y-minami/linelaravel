@@ -39,7 +39,9 @@ class UserGrid extends AgGrid {
         this.gridOptions.getRowId = function(params) { return params.data.id; }
 
         // グリッド生成
-        this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
+        if (this.gridApi === undefined) {
+            this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
+        }
 
         // 行データを設定
         this.setRowData(userType, serviceProviderId, userAccountType, accountId, name);
@@ -67,7 +69,11 @@ class UserGrid extends AgGrid {
             btnDeleteHide = true;
         }
 
+        // チェックボックスカラムを取得
+        let columnCheckBox = this.columnCheckBox();
+
         this.gridOptions.columnDefs = [
+            columnCheckBox,
             {
                 field: 'userType.name',
                 headerName: '担当者種別',

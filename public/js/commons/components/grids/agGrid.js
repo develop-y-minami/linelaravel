@@ -50,6 +50,8 @@ class AgGrid {
         this.gridOptions.pagination = true;
         this.gridOptions.paginationPageSize = 100;
         this.gridOptions.animateRows = true
+        this.gridOptions.suppressRowClickSelection = true;
+        this.gridOptions.rowSelection = 'multiple';
         this.gridOptions.overlayLoadingTemplate = '<div style="position:absolute;top:0;left:0;right:0; bottom:0; background: url(https://ag-grid.com/images/ag-grid-loading-spinner.svg) center no-repeat" aria-label="loading"></div>';
     }
 
@@ -92,11 +94,40 @@ class AgGrid {
     }
 
     /**
+     * 指定した列を表示
+     * 
+     * @param {array} columns カラム
+     */
+    visibleColumns(columns) {
+        this.gridApi.setColumnsVisible(columns, true);
+    }
+
+    /**
      * 指定した列を非表示
      * 
      * @param {array} columns カラム
      */
     hideColumns(columns) {
         this.gridApi.setColumnsVisible(columns, false);
+    }
+
+    /**
+     * チェックボックス列
+     * 
+     * @param {string} field 列名
+     * @returns {object} checkbox
+     */
+    columnCheckBox(field = 'checkBox') {
+        return {
+            headerName: '',
+            field: 'checkBox',
+            cellRenderer: 'agCheckboxCellRenderer',
+            cellEditor: 'agCheckboxCellEditor',
+            editable: true,
+            width: 50,
+            maxWidth: 50,
+            checkboxSelection: true,
+            hide: true
+        };
     }
 }

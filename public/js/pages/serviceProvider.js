@@ -74,6 +74,26 @@ $(function() {
      * 
      */
     let lineGrid;
+    /**
+     * サービス提供者入力モーダル
+     * 
+     */
+    let serviceProviderInputModal;
+    /**
+     * サービス提供者削除確認モーダル
+     * 
+     */
+    let serviceProviderDeleteConfirmModal;
+    /**
+     * 担当者入力モーダル
+     * 
+     */
+    let userInputModal;
+    /**
+     * 担当者削除モーダル
+     * 
+     */
+    let userDeleteModal;
 
     try {
         // 初期化処理を実行
@@ -89,30 +109,43 @@ $(function() {
      */
     function init() {
         try {
-            // 担当者グリッドのインスタンスを生成
-            userGrid = new UserGrid('userGrid');
-            // LINEグリッドのインスタンスを生成
-            lineGrid = new LineGrid('lineGrid');
-
-            // 担当者グリッドを初期化
-            userGrid.init(null, serviceProviderId, null, null, null);
-            userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
-            // LINEグリッドを初期化
-            lineGrid.init(null, null, null, serviceProviderId, null);
-            lineGrid.hideColumns(['serviceProvider']);
+            initUserGrid();
+            initLineGrid();
+            initServiceProviderInputModal();
+            initServiceProviderDeleteConfirmModal();
+            initUserInputModal();
+            initUserDeleteModal();
         } catch(error) {
             throw error;
         }
     }
 
     /**
-     * サービス提供者編集
+     * 担当者グリッドを初期化
      * 
-     * @param {Event} e
      */
-    $edit.on('click', function(e) {
-        // サービス提供者入力モーダルのインスタンスを生成
-        let modal = new ServiceProviderInputModal(
+    function initUserGrid() {
+        userGrid = new UserGrid('userGrid');
+        userGrid.init(null, serviceProviderId, null, null, null);
+        userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
+    }
+
+    /**
+     * LINEグリッドを初期化
+     * 
+     */
+    function initLineGrid() {
+        lineGrid = new LineGrid('lineGrid');
+        lineGrid.init(null, null, null, serviceProviderId, null);
+        lineGrid.hideColumns(['serviceProvider']);
+    }
+
+    /**
+     * サービス提供者入力モーダルを初期化
+     * 
+     */
+    function initServiceProviderInputModal() {
+        serviceProviderInputModal = new ServiceProviderInputModal(
             new ServiceProviderInputModalCallbackClass(
                 null,
                 serviceProviderInputModalUpdateCallback,
@@ -127,10 +160,65 @@ $(function() {
                 }
             )
         );
+    }
 
+    /**
+     * サービス提供者削除確認モーダルを初期化
+     * 
+     */
+    function initServiceProviderDeleteConfirmModal() {
+        serviceProviderDeleteConfirmModal = new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                serviceProviderDeleteConfirmModalYesCallback,
+                null,
+                {
+                    id: serviceProviderId
+                }
+            )
+            ,'serviceProviderDeleteModalConfirm'
+        );
+    }
+
+    /**
+     * 担当者入力モーダルを初期化
+     * 
+     */
+    function initUserInputModal() {
+        userInputModal = new UserInputModal(
+            new UserInputModalCallbackClass(
+                userInputModalRegisterCallback,
+                null,
+                {
+                    grid: userGrid
+                }
+            )
+        );
+    }
+
+    /**
+     * 担当者削除モーダルを初期化
+     * 
+     */
+    function initUserDeleteModal() {
+        userDeleteModal = new UserDeleteModal(
+            new UserDeleteModalCallbackClass(
+                null,
+                {
+                    grid: userGrid
+                }
+            )
+        );
+    }
+
+    /**
+     * サービス提供者編集
+     * 
+     * @param {Event} e
+     */
+    $edit.on('click', function(e) {
         // サービス提供者入力モーダルを起動
-        modal.init();
-        modal.set(
+        serviceProviderInputModal.init();
+        serviceProviderInputModal.set(
             serviceProviderId,
             $providerId.text(),
             $name.text(),
@@ -138,7 +226,7 @@ $(function() {
             $useEndDateTime.data('value'),
             $useStop.data('value')
         );
-        modal.show();
+        serviceProviderInputModal.show();
     });
 
     /**
@@ -169,20 +257,8 @@ $(function() {
      * @param {Event} e
      */
     $delete.on('click', function(e) {
-        // サービス提供者削除確認モーダルのインスタンスを生成
-        let modal = new ConfirmModal(
-            new ConfirmModalCallbackClass(
-                serviceProviderDeleteConfirmModalYesCallback,
-                null,
-                {
-                    id: serviceProviderId
-                }
-            )
-            ,'serviceProviderDeleteModalConfirm'
-        );
-
         // サービス提供者削除確認モーダルを起動
-        modal.show();
+        serviceProviderDeleteConfirmModal.show();
     });
 
     /**
@@ -220,29 +296,18 @@ $(function() {
      * @param {Event} e
      */
     $userRegister.on('click', function(e) {
-        // 担当者入力モーダルのインスタンスを生成
-        let modal = new UserInputModal(
-            new UserInputModalCallbackClass(
-                userInputModalRegisterCallback,
-                null,
-                {
-                    grid: userGrid
-                }
-            )
-        );
-
         // 担当者入力モーダルを初期化
-        modal.init();
+        userInputModal.init();
 
         // 担当者種別にサービス提供者を設定し非表示
-        modal.$radioUserTypeServiceProvider.prop('checked', true);
-        modal.$userTypeContainer.hide();
+        userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
+        userInputModal.$userTypeContainer.hide();
 
         // サービス提供者IDを設定
-        modal.$selServiceProvider.val(serviceProviderId);
+        userInputModal.$selServiceProvider.val(serviceProviderId);
 
         // 担当者入力モーダルを起動
-        modal.show();
+        userInputModal.show();
     });
 
     /**
@@ -260,20 +325,14 @@ $(function() {
      * 
      */
     $userDelete.on('click', function(e) {
-        // 担当者削除モーダルのインスタンスを生成
-        let modal = new UserDeleteModal(
-            new UserDeleteModalCallbackClass(
-                null,
-                {
-                    grid: userGrid
-                }
-            )
-        );
+        // サービス提供者IDを設定して非表示
+        userDeleteModal.$selServiceProvider.val(serviceProviderId);
+        userDeleteModal.$serviceProviderContainer.hide();
 
         // 担当者削除モーダルを初期化
-        //modal.init();
+        userDeleteModal.init();
 
         // 担当者削除モーダルを起動
-        modal.show();
+        userDeleteModal.show();
     });
 });

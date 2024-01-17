@@ -1,5 +1,10 @@
 class ErrorMessage {
     /**
+     * エラーメッセージ：行未選択
+     * 
+     */
+    static NO_ROW_SELECTED = '行が選択せれていません'
+    /**
      * エラーメッセージ：サーバーエラー
      * 
      */
@@ -61,6 +66,14 @@ class ErrorMessage {
             // メッセージを表示
             this.$message.fadeIn();
         }
+    }
+
+    /**
+     * 行未選択時のメッセージを表示
+     * 
+     */
+    showNoRowSelectedError() {
+        this.showMessage(ErrorMessage.NO_ROW_SELECTED);
     }
 
     /**

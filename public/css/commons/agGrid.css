@@ -9,7 +9,10 @@
     --ag-row-hover-color: var(--colorGray) !important;
     --ag-odd-row-background-color: #f5f5f5 !important;
     --ag-range-selection-border-color: var(--colorBlue) !important;
-    --ag-value-change-value-highlight-background-color:  var(--colorBlue) !important;
+    --ag-value-change-value-highlight-background-color: var(--colorBlue) !important;
+    --ag-checkbox-checked-color: var(--colorBlue) !important;
+    --ag-checkbox-unchecked-color: var(--colorDarkGray) !important;
+    --ag-icon-size: 13px !important;
     font-family: 'Yu Gothic UI', 'メイリオ', 'Meiryo', sans-serif !important;
 }
 
@@ -25,6 +28,16 @@
     display: flex;
     justify-content: center;
 }
+
+.ag-checkbox-edit {
+    justify-content: center !important;
+    padding: 0px !important;
+}
+
+/******************************************************
+*   チェックボックスセル
+******************************************************/
+.ag-checkbox-cell { justify-content: center !important; }
 
 /******************************************************
 *   フッター

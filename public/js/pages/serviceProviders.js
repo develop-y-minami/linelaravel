@@ -94,29 +94,38 @@ $(function() {
      */
     function init() {
         try {
-            // インスタンスを生成
-            grid = new ServiceProviderGrid('grid');
-
-            // サービス提供者入力モーダル
-            serviceProviderInputModal = new ServiceProviderInputModal(
-                new ServiceProviderInputModalCallbackClass(
-                    serviceProviderInputModalRegisterCallback,
-                    null,
-                    {
-                        grid: grid
-                    }
-                )
-                ,'modalServiceProviderInputRegister'
-            );
-
-            // 検索条件を設定
             setSearchConditions();
-
-            // 通知リストグリッドを初期化
-            grid.init(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
+            initGrid();
+            initServiceProviderInputModal();
         } catch(error) {
             throw error;
         }
+    }
+
+    /**
+     * グリッドを初期化
+     * 
+     */
+    function initGrid() {
+        grid = new ServiceProviderGrid('grid');
+        grid.init(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
+    }
+
+    /**
+     * サービス提供者入力モーダルを初期化
+     * 
+     */
+    function initServiceProviderInputModal() {
+        serviceProviderInputModal = new ServiceProviderInputModal(
+            new ServiceProviderInputModalCallbackClass(
+                serviceProviderInputModalRegisterCallback,
+                null,
+                {
+                    grid: grid
+                }
+            )
+            ,'modalServiceProviderInputRegister'
+        );
     }
 
     /**

@@ -4,6 +4,11 @@
  */
 class Modal {
     /**
+     * ID
+     * 
+     */
+    id;
+    /**
      * モーダル
      * 
      */
@@ -25,6 +30,7 @@ class Modal {
      * @param {string} id ID
      */
     constructor(id) {
+        this.id = id;
         this.$modal = $('#' + id);
         this.$btnClose = $('#' + id + 'BtnClose');
         this.$overlay = this.$modal.closest('.overlay');
