@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/userDeleteModal.css') }}">
     {{--サービス提供者入力モーダル--}}
     <link rel="stylesheet" href="{{ asset('css/commons/components/modals/serviceProviderInputModal.css') }}">
+    {{--LINE設定モーダル--}}
+    <link rel="stylesheet" href="{{ asset('css/commons/components/modals/lineSettingModal.css') }}">
     {{--サービス提供者情報ページ--}}
     <link rel="stylesheet" href="{{ asset('css/pages/serviceProvider.css') }}">
 @endpush
@@ -43,6 +45,8 @@
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--サービス提供者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    {{--LINE設定モーダル--}}
+    <script src="{{ asset('js/commons/components/modals/lineSettingModal.js') }}"></script>
     {{--サービス提供者担当者連携セレクトボックス--}}
     <script src="{{ asset('js/commons/components/selectBoxs/serviceProviderUserSelectBox.js') }}"></script>
     {{--サービス提供者API--}}
@@ -124,6 +128,8 @@
                 <li><div id="delete" class="menu">サービス提供者削除</div></li>
                 <li><div id="userRegister" class="menu">担当者追加</div></li>
                 <li><div id="userDelete" class="menu">担当者削除</div></li>
+                <li><div id="lineSetting" class="menu">LINE設定</div></li>
+                <li><div id="lineSettingRelease" class="menu">LINE設定解除</div></li>
             </ul>
         </aside>
 

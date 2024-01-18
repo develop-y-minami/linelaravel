@@ -197,6 +197,7 @@ return [
         'LineNoticeType' =>  App\Consts\LineNoticeType::class,
         'LineSendMessageOrigin' =>  App\Consts\LineSendMessageOrigin::class,
         'LineSendMessageType' =>  App\Consts\LineSendMessageType::class,
+        'LineSettingMode' =>  App\Consts\LineSettingMode::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
         'ServiceProviderUseStop' =>  App\Consts\ServiceProviderUseStop::class,
         'UserAccountType' =>  App\Consts\UserAccountType::class,

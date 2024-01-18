@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+/******************************************************
+*   LINE設定モーダル
+******************************************************/
+.modalLineSetting {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.modalLineSetting > .container {
+    height: 100%;
+    border-radius: 0px;
+}
+
+.modalLineSetting > .container > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalLineSetting .row {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.modalLineSetting .row:last-child { margin-bottom: 0px; }
+
+.modalLineSetting .row.right {
+    align-items: flex-end;
+}
+
+.modalLineSetting .gridContainer { flex: 1; }
+
+.modalLineSetting .gridContainer .grid {
+    margin: 0px !important;
+    height: 100% !important;
+}
+
+.modalLineSetting .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.modalLineSetting .buttonContainer .errorMessage { flex: 1; }

@@ -60,6 +60,16 @@ $(function() {
      */
     $userDelete = $('#userDelete');
     /**
+     * LINE設定
+     * 
+     */
+    $lineSetting = $('#lineSetting');
+    /**
+     * LINE設定解除
+     * 
+     */
+    $lineSettingRelease = $('#lineSettingRelease');
+    /**
      * サービス提供者ID
      * 
      */
@@ -272,4 +282,18 @@ $(function() {
         // 行データを削除
         this.context.grid.deleteRows(ids);
     }
+
+    /**
+     * LINE設定クリック時
+     * 
+     */
+    $lineSetting.on('click', function(e) {
+    });
+
+    /**
+     * LINE設定解除クリック時
+     * 
+     */
+    $lineSettingRelease.on('click', function(e) {
+    });
 });

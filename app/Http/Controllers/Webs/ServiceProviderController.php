@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Webs\ServiceProviderServiceInterface;
 use App\Services\Webs\UserAccountTypeServiceInterface;
+use App\Services\Webs\UserServiceInterface;
 use App\Services\Webs\UserTypeServiceInterface;
 use App\Objects\Pages\ServiceProviderPage;
 use App\Objects\Pages\ServiceProvidersPage;
@@ -27,6 +28,11 @@ class ServiceProviderController extends Controller
      */
     private $userAccountTypeService;
     /**
+     * UserService
+     * 
+     */
+    private $userService;
+    /**
      * UserTypeService
      * 
      */
@@ -37,16 +43,19 @@ class ServiceProviderController extends Controller
      * 
      * @param ServiceProviderServiceInterface serviceProviderService
      * @param UserAccountTypeServiceInterface userAccountTypeService
+     * @param UserServiceInterface            userService
      * @param UserTypeServiceInterface        userTypeService
      */
     public function __construct(
         ServiceProviderServiceInterface $serviceProviderService,
         UserAccountTypeServiceInterface $userAccountTypeService,
+        UserServiceInterface $userService,
         UserTypeServiceInterface $userTypeService
     )
     {
         $this->serviceProviderService = $serviceProviderService;
         $this->userAccountTypeService = $userAccountTypeService;
+        $this->userService = $userService;
         $this->userTypeService = $userTypeService;
     }
 
@@ -104,9 +113,17 @@ class ServiceProviderController extends Controller
                 $serviceProviderSelectItems = $this->serviceProviderService->getSelectItems();
                 // 担当者アカウント種別ラジオボタン設定データを取得
                 $userAccountTypeRadioItems = $this->userAccountTypeService->getRadioItems();
+                // 担当者セレクトボックス設定データを取得
+                $userSelectItems = $this->userService->getSelectItems();
 
                 // 返却データに設定
-                $result = new ServiceProviderPage($serviceProvider, $userTypeRadioItems, $serviceProviderSelectItems, $userAccountTypeRadioItems);
+                $result = new ServiceProviderPage(
+                    $serviceProvider,
+                    $userTypeRadioItems,
+                    $serviceProviderSelectItems,
+                    $userAccountTypeRadioItems,
+                    $userSelectItems
+                );
 
                 return view('pages.serviceProvider')->with('data', $result);
             }
