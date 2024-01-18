@@ -158,6 +158,44 @@ class UserApiService implements UserApiServiceInterface
     }
 
     /**
+     * 担当者情報を削除
+     * 
+     * @param array ids 担当者情報ID
+     * @return int 削除件数
+     */
+    public function deletes($ids)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // 担当者情報を取得
+            $users = $this->userRepository->findByIds($ids);
+
+            // 担当者情報を削除
+            $result = $this->userRepository->deletes($ids);
+
+            foreach ($users as $user)
+            {
+                // ファイル保存先ディレクトリを削除
+                $this->deleteDirectory($user->user_type_id, $user->id, $user->service_provider_id);
+            }
+
+            // コミット
+            \DB::commit();
+
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
      * 担当者情報を更新
      * 
      * @param int    id                担当者情報ID

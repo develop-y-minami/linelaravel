@@ -14,40 +14,6 @@ class UserGrid extends AgGrid {
     }
 
     /**
-     * 初期化
-     * 
-     * @param {number} userType          担当者種別
-     * @param {number} serviceProviderId サービス提供者情報ID
-     * @param {number} userAccountType   担当者アカウント種別
-     * @param {string} accountId         アカウントID
-     * @param {string} name              名前
-     */
-    init(userType = null, serviceProviderId = null, userAccountType = null, accountId = null, name = null) {
-        // default値を設定
-        this.setDefaultGridOptions();
-
-        // contextにthisを設定
-        this.gridOptions.context = this;
-
-        // columnDefsを設定
-        this.setColumnDefs();
-
-        // 行データを初期化
-        this.gridOptions.rowData = [];
-
-        // 行IDを設定
-        this.gridOptions.getRowId = function(params) { return params.data.id; }
-
-        // グリッド生成
-        if (this.gridApi === undefined) {
-            this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
-        }
-
-        // 行データを設定
-        this.setRowData(userType, serviceProviderId, userAccountType, accountId, name);
-    }
-
-    /**
      * columnDefsを設定
      * 
      */
@@ -70,7 +36,11 @@ class UserGrid extends AgGrid {
         }
 
         // チェックボックスカラムを取得
-        let columnCheckBox = this.columnCheckBox();
+        let columnCheckBox = this.columnCheckBox({});
+        // 編集ボタン列
+        let columnBtnEdit = this.columnBtnEdit({hide : btnEditHide});
+        // 削除ボタン列
+        let columnBtnDelete = this.columnBtnDelete({hide : btnDeleteHide});
 
         this.gridOptions.columnDefs = [
             columnCheckBox,
@@ -116,60 +86,8 @@ class UserGrid extends AgGrid {
                 flex: 1,
                 minWidth: 150,
             },
-            {
-                field: 'btnEdit',
-                headerName: '',
-                width: 70,
-                cellClass : 'ag-cell-non-padding',
-                cellStyle: {
-                    textAlign: 'center',
-                },
-                cellRenderer : ButtonCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.id = 'btnEdit' + params.data.id;
-                    result.color = 'green';
-                    result.name = '編集';
-                    /**
-                     * ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.clicked = function(e, params) {
-                        params.context.clickBtnEdit(e, params);
-                    }
-                    return result;
-                },
-                hide: btnEditHide
-            },
-            {
-                field: 'btnDelete',
-                headerName: '',
-                width: 70,
-                cellClass : 'ag-cell-non-padding',
-                cellStyle: {
-                    textAlign: 'center',
-                },
-                cellRenderer : ButtonCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.id = 'btnDelete' + params.data.id;
-                    result.color = 'red';
-                    result.name = '削除';
-                    /**
-                     * ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.clicked = function(e, params) {
-                        params.context.clickBtnDelete(e, params);
-                    }
-                    return result;
-                },
-                hide: btnDeleteHide
-            },
+            columnBtnEdit,
+            columnBtnDelete,
             {
                 field: 'detailInfo',
                 headerName: '担当者情報',
@@ -178,26 +96,10 @@ class UserGrid extends AgGrid {
                 cellRenderer : UserCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.btnEditId = 'detailInfoBtnDelete' + params.data.id;
-                    result.btnDeleteId = 'detailInfoBtnDelete' + params.data.id;
-                    /**
-                     * 編集ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.btnEditClicked = function(e, params) {
-                        params.context.clickBtnEdit(e, params);
-                    }
-                    /**
-                     * 削除ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.btnDeleteClicked = function(e, params) {
-                        params.context.clickBtnDelete(e, params);
-                    }
+                    result.btnEditId = params.context.id + 'DetailInfoBtnDelete' + params.data.id;
+                    result.btnDeleteId = params.context.id + 'DetailInfoBtnDelete' + params.data.id;
+                    result.btnEditClicked = params.context.clickBtnEdit;
+                    result.btnDeleteClicked = params.context.clickBtnDelete;
                     return result;
                 },
                 autoHeight: true,
@@ -215,7 +117,7 @@ class UserGrid extends AgGrid {
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      */
-    async setRowData(userType = null, serviceProviderId = null, userAccountType = null, accountId = null, name = null) {
+    async setRowData({userType = null, serviceProviderId = null, userAccountType = null, accountId = null, name = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -224,7 +126,13 @@ class UserGrid extends AgGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await UserApi.users(userType, serviceProviderId, userAccountType, accountId, name);
+            let result = await UserApi.users({
+                userTypeId : userType,
+                serviceProviderId : serviceProviderId,
+                userAccountTypeId : userAccountType,
+                accountId : accountId,
+                name : name
+            });
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.users;
@@ -291,8 +199,8 @@ class UserGrid extends AgGrid {
      * @param {object} params 
      */
     clickBtnEdit(e, params) {
-        // 担当者入力モーダルのインスタンスを生成
-        let modal = new UserInputModal(
+        // 担当者入力モーダルを起動
+        new UserInputModal(
             new UserInputModalCallbackClass(
                 null,
                 params.context.updateCallback,
@@ -301,11 +209,7 @@ class UserGrid extends AgGrid {
                 }
             )
             ,'modalUserInputUpdate'
-        );
-
-        // 担当者入力モーダルを起動
-        modal.init();
-        modal.set(
+        ).init().set(
             params.data.id,
             params.data.userType.id,
             params.data.serviceProvider.id,
@@ -313,8 +217,7 @@ class UserGrid extends AgGrid {
             params.data.accountId,
             params.data.name,
             params.data.email
-        );
-        modal.show();
+        ).show();
     }
 
     /**
@@ -334,8 +237,8 @@ class UserGrid extends AgGrid {
      * @param {object} params 
      */
     clickBtnDelete(e, params) {
-        // 削除確認モーダルのインスタンスを生成
-        let modal = new ConfirmModal(
+        // 削除確認モーダルを表示
+        new ConfirmModal(
             new ConfirmModalCallbackClass(
                 params.context.deleteCallback,
                 null,
@@ -345,10 +248,7 @@ class UserGrid extends AgGrid {
                 }
             ),
             'userDeleteModalConfirm'
-        );
-
-        // 削除確認モーダルを表示
-        modal.show();
+        ).show();
     }
 
     /**

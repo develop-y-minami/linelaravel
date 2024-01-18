@@ -14,32 +14,6 @@ class LineNoticeGrid extends AgGrid {
     }
 
     /**
-     * 初期化
-     * 
-     * @param {string} noticeDate        通知日
-     * @param {number} lineNoticeTypeId  LINE通知種別
-     * @param {string} displayName       LINE表示名
-     * @param {number} serviceProviderId サービス提供者ID
-     * @param {number} userId            担当者ID
-     */
-    init(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
-        // default値を設定
-        this.setDefaultGridOptions(this.gridOptions);
-
-        // columnDefsを設定
-        this.setColumnDefs();
-
-        // 行データを初期化
-        this.gridOptions.rowData = [];
-
-        // グリッド生成
-        this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
-
-        // 行データを設定
-        this.setRowData(noticeDate, lineNoticeTypeId, displayName, serviceProviderId, userId);
-    }
-
-    /**
      * columnDefsを設定
      * 
      */
@@ -111,24 +85,7 @@ class LineNoticeGrid extends AgGrid {
                 cellRenderer : LabelBoxCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    switch (Number(params.data.lineNoticeType.id)) {
-                        case LineNoticeType.MESSAGE:
-                        case LineNoticeType.POSTBACK:
-                        case LineNoticeType.VIDEO_PLAY_COMPLETE:
-                            result.labelColor = 'lightBlue';
-                            break;
-                        case LineNoticeType.UNSEND:
-                        case LineNoticeType.UNFOLLOW:
-                        case LineNoticeType.LEAVE:
-                        case LineNoticeType.MEMBER_LEFT:
-                            result.labelColor = 'red';
-                            break;
-                        case LineNoticeType.FOLLOW:
-                        case LineNoticeType.JOIN:
-                        case LineNoticeType.MEMBER_JOINED:
-                                result.labelColor = 'green';
-                                break;
-                    }
+                    result.labelColor = LineNoticeType.getColor(params.data.lineNoticeType.id);
                     result.labelName = params.data.lineNoticeType.displayName;
                     return result;
                 }
@@ -150,7 +107,7 @@ class LineNoticeGrid extends AgGrid {
      * @param {number} serviceProviderId サービス提供者ID
      * @param {number} userId            担当者ID
      */
-    async setRowData(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
+    async setRowData({noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -159,7 +116,13 @@ class LineNoticeGrid extends AgGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await LineApi.notices(noticeDate, lineNoticeTypeId, displayName, serviceProviderId, userId);
+            let result = await LineApi.notices({
+                noticeDate : noticeDate,
+                lineNoticeTypeId : lineNoticeTypeId,
+                displayName : displayName,
+                serviceProviderId : serviceProviderId,
+                userId : userId
+            });
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.lineNotices;

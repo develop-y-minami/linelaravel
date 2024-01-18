@@ -73,12 +73,11 @@ $(function() {
      * Grid
      * 
      */
-    let grid;
+    let grid = new UserGrid('grid').create();
 
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -87,15 +86,35 @@ $(function() {
      * 初期化処理
      * 
      */
-    function init() {
-        // インスタンスを生成
-        grid = new UserGrid('grid');
+    function init() { setGrid(); }
 
+    /**
+     * 検索ボタンクリック時
+     * 
+     */
+    $btnSearch.on('click', function() { setGrid(); });
+
+    /**
+     * リロードボタンクリック時
+     * 
+     */
+    $btnReload.on('click', function() { setGrid(); });
+
+    /**
+     * グリッドを設定
+     * 
+     */
+    function setGrid() {
         // 検索条件を設定
         setSearchConditions();
-
-        // 担当者グリッドを初期化
-        grid.init(selUserType, selServiceProvider, selUserAccountType, txtAccountId, txtName);
+        // 行データを設定
+        grid.setRowData({
+            userType : selUserType,
+            serviceProviderId : selServiceProvider,
+            userAccountType : selUserAccountType,
+            accountId : txtAccountId,
+            name : txtName
+        });
     }
 
     /**
@@ -147,23 +166,12 @@ $(function() {
     })
 
     /**
-     * 検索ボタンクリック時
-     * 
-     */
-    $btnSearch.on('click', function() {
-        // 検索条件を設定
-        setSearchConditions();
-        // グリッドを設定
-        grid.setRowData(selUserType, selServiceProvider, selUserAccountType, txtAccountId, txtName);
-    });
-
-    /**
      * 新規登録ボタンクリック時
      * 
      */
     $btnInsert.on('click', function() {
-        // 担当者入力モーダル
-        let modal = new UserInputModal(
+        // 担当者入力モーダルを起動
+        new UserInputModal(
             new UserInputModalCallbackClass(
                 userInputModalRegisterCallback,
                 null,
@@ -172,11 +180,7 @@ $(function() {
                 }
             )
             ,'modalUserInputRegister'
-        );
-
-        // 担当者入力モーダルを起動
-        modal.init();
-        modal.show();
+        ).init().show();
     });
 
     /**
@@ -188,13 +192,4 @@ $(function() {
         // グリッドを設定
         this.context.grid.addRow(data);
     }
-
-    /**
-     * リロードボタンクリック時
-     * 
-     */
-    $btnReload.on('click', function() {
-        // グリッドを設定
-        grid.setRowData(selUserType, selServiceProvider, selUserAccountType, txtAccountId, txtName);
-    });
 });

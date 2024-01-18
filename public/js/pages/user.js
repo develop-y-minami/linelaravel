@@ -68,12 +68,11 @@ $(function() {
      * LINEグリッド
      * 
      */
-    let lineGrid;
+    let lineGrid = new LineGrid('lineGrid').create();
 
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -84,12 +83,9 @@ $(function() {
      */
     function init() {
         try {
-            // LINEグリッドのインスタンスを生成
-            lineGrid = new LineGrid('lineGrid');
-
-            // LINEグリッドを初期化
-            lineGrid.init(null, null, null, null, userId);
+            // LINEグリッドにデータを設定
             lineGrid.hideColumns(['serviceProvider']);
+            lineGrid.setRowData({userId : userId});
         } catch(error) {
             throw error;
         }
@@ -101,8 +97,8 @@ $(function() {
      * @param {Event} e
      */
     $edit.on('click', function(e) {
-        // 担当者入力モーダルのインスタンスを生成
-        let modal = new UserInputModal(
+        // 担当者入力モーダルを起動
+        new UserInputModal(
             new UserInputModalCallbackClass(
                 null,
                 userInputModalUpdateCallback,
@@ -118,11 +114,7 @@ $(function() {
                     $createdAt : $createdAt
                 }
             )
-        );
-
-        // 担当者入力モーダルを起動
-        modal.init();
-        modal.set(
+        ).init().set(
             userId,
             $userType.data('value'),
             $serviceProviderId.data('value'),
@@ -130,8 +122,7 @@ $(function() {
             $accountId.text(),
             $name.text(),
             $email.text()
-        );
-        modal.show();
+        ).show();
     });
 
     /**
@@ -167,8 +158,8 @@ $(function() {
      * @param {Event} e
      */
     $delete.on('click', function(e) {
-        // 担当者削除確認モーダルのインスタンスを生成
-        let modal = new ConfirmModal(
+        // 担当者削除確認モーダルを起動
+        new ConfirmModal(
             new ConfirmModalCallbackClass(
                 userDeleteConfirmModalYesCallback,
                 null,
@@ -177,10 +168,7 @@ $(function() {
                 }
             )
             ,'userDeleteModalConfirm'
-        );
-
-        // 担当者削除確認モーダルを起動
-        modal.show();
+        ).show();
     });
 
     /**

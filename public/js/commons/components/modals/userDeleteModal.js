@@ -75,7 +75,7 @@ class UserDeleteModal extends Modal {
         this.errorMessage = new ErrorMessage(id + 'ErrorMessage');
 
         // グリッドのインスタンスを生成
-        this.grid = new UserGrid(id + 'Grid');
+        this.grid = new UserGrid(id + 'Grid').create();
 
         // イベントを設定
         this.$btnDelete.on('click', { me : this }, this.clickBtnDelete);
@@ -86,15 +86,27 @@ class UserDeleteModal extends Modal {
      * 
      */
     init() {
+        this.$selServiceProvider.val('0');
+    }
+
+    /**
+     * グリッドを設定
+     * 
+     * @returns {AgGrid} this
+     */
+    setGrid() {
         // サービス提供者IDを設定
         let serviceProviderId = null;
         if (this.$selServiceProvider.val() != '0') {
             serviceProviderId = Number(this.$selServiceProvider.val());
         }
-        // 担当者グリッドを初期化
-        this.grid.init(null, serviceProviderId, null, null, null);
+
+        // グリッドに行を設定
         this.grid.visibleColumns(['checkBox']);
         this.grid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
+        this.grid.setRowData({serviceProviderId : serviceProviderId});
+
+        return this;
     }
 
     /**
@@ -116,23 +128,32 @@ class UserDeleteModal extends Modal {
             return;
         }
 
-        // 削除確認モーダルのインスタンスを生成
-        let modal = new ConfirmModal(
+        // 担当者IDを設定
+        let ids = [];
+        for (let i = 0; i < rows.length; i++) {
+            ids.push(rows[i].id)
+        }
+
+        // 削除確認モーダルを表示
+        new ConfirmModal(
             new ConfirmModalCallbackClass(
                 me.deleteCallback,
                 null,
                 {
                     me: me,
-                    event: e
+                    event: e,
+                    ids: ids
                 }
             ),
             me.id + 'UserDeleteModalConfirm'
-        );
-
-        // 削除確認モーダルを表示
-        modal.show();
+        ).show();
     }
 
+    /**
+     * 削除確認モーダルYesボタンコールバック
+     * 
+     * @param {Event} e 
+     */
     async deleteCallback(e) {
         try {
             // エラーメッセージを非表示
@@ -142,7 +163,7 @@ class UserDeleteModal extends Modal {
             this.modal.$loadingOverlay.show();
 
             // 担当者情報を削除
-            let result = await UserApi.deletes();
+            let result = await UserApi.deletes(this.context.ids);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // 削除確認モーダルを閉じる
@@ -153,7 +174,7 @@ class UserDeleteModal extends Modal {
 
                 if (this.context.me.callbackClass !== null) {
                     // コールバックを実行
-                    this.context.me.callbackClass.callback([]);
+                    this.context.me.callbackClass.callback(this.context.ids);
                 }
 
             } else {

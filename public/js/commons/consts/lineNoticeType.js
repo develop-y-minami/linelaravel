@@ -53,4 +53,27 @@ class LineNoticeType {
      * 
      */
     static VIDEO_PLAY_COMPLETE = 10;
+
+    /**
+     * LINE通知種別に対応する色を返却
+     * 
+     * @param {number} lineNoticeType LINE通知種別
+     */
+    static getColor(lineNoticeType) {
+        switch (lineNoticeType) {
+            case LineNoticeType.MESSAGE:
+            case LineNoticeType.POSTBACK:
+            case LineNoticeType.VIDEO_PLAY_COMPLETE:
+                return 'lightBlue';
+            case LineNoticeType.UNSEND:
+            case LineNoticeType.UNFOLLOW:
+            case LineNoticeType.LEAVE:
+            case LineNoticeType.MEMBER_LEFT:
+                return 'red';
+            case LineNoticeType.FOLLOW:
+            case LineNoticeType.JOIN:
+            case LineNoticeType.MEMBER_JOINED:
+                return 'green';
+        }
+    }
 }

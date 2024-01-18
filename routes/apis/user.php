@@ -27,13 +27,23 @@ Route::middleware('auth')->group(function()
 
     /**
      * 担当者情報を登録する
-     * HTTP Method Post
-     * https://{host}/api/user/register
+     * HTTP Method Put
+     * https://{host}/api/user
      * 
      * @param UserRegisterRequest request リクエスト
      * @return Json
      */
-    Route::post('/register', [UserController::class, 'register']);
+    Route::put('/', [UserController::class, 'register']);
+
+    /**
+     * 担当者情報を削除する
+     * HTTP Method Delete
+     * https://{host}/api/user
+     * 
+     * @param UserDeleteRequest request リクエスト
+     * @return Json
+     */
+    Route::delete('/', [UserController::class, 'deletes']);
 
     /**
      * 担当者情報を更新する

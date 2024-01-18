@@ -38,7 +38,7 @@ $(function() {
      * Grid
      * 
      */
-    let grid;
+    let grid = new LineNoticeGrid('grid').create();
     /**
      * LINE通知日の入力値
      * 
@@ -68,7 +68,6 @@ $(function() {
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -77,19 +76,35 @@ $(function() {
      * 初期化処理
      * 
      */
-    function init() {
-        try {
-            // インスタンスを生成
-            grid = new LineNoticeGrid('grid');
+    function init() { setGrid(); }
 
-            // 検索条件を設定
-            setSearchConditions();
+    /**
+     * 検索ボタンクリック時
+     * 
+     */
+    $btnSearch.on('click', function() { setGrid(); });
 
-            // 通知リストグリッドを初期化
-            grid.init(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
-        } catch(error) {
-            throw error;
-        }
+    /**
+     * リロードボタンクリック時
+     * 
+     */
+    $btnReload.on('click', function() { setGrid(); });
+
+    /**
+     * グリッドを設定
+     * 
+     */
+    function setGrid() {
+        // 検索条件を設定
+        setSearchConditions();
+        // 行データを設定
+        grid.setRowData({
+            noticeDate : txtLineNoticeDate,
+            lineNoticeTypeId : selLineNoticeType,
+            displayName : txtLineDisplayName,
+            serviceProviderId : selServiceProvider,
+            userId : searchUser
+        });
     }
 
     /**
@@ -127,24 +142,4 @@ $(function() {
             txtLineDisplayName = $txtLineDisplayName.val().trim();
         }
     }
-
-    /**
-     * 検索ボタンクリック時
-     * 
-     */
-    $btnSearch.on('click', function() {
-        // 検索条件を設定
-        setSearchConditions();
-        // グリッドを設定
-        grid.setRowData(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
-    });
-
-    /**
-     * リロードボタンクリック時
-     * 
-     */
-    $btnReload.on('click', function() {
-        // グリッドを設定
-        grid.setRowData(txtLineNoticeDate, selLineNoticeType, txtLineDisplayName, selServiceProvider, searchUser);
-    });
 });

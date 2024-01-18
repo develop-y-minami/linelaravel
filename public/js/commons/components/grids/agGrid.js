@@ -41,6 +41,41 @@ class AgGrid {
     }
 
     /**
+     * グリッドを作成
+     * 
+     * @param {AgGrid} this
+     */
+    create() {
+        // default値を設定
+        this.setDefaultGridOptions();
+
+        // contextにthisを設定
+        this.gridOptions.context = this;
+
+        // columnDefsを設定
+        this.setColumnDefs();
+
+        // 行データを初期化
+        this.gridOptions.rowData = [];
+
+        // 行IDを設定
+        this.gridOptions.getRowId = this.getRowId;
+
+        // グリッド生成
+        this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
+
+        return this;
+    }
+
+    /**
+     * 行IDを返却
+     * 
+     * @param {object} params 
+     * @returns {number} ID
+     */
+    getRowId(params) { return params.data.id }
+
+    /**
      * gridOptionsのdefault値を設定
      * 
      */
@@ -94,6 +129,17 @@ class AgGrid {
     }
 
     /**
+     * 行データを削除
+     * 
+     * @param {array} ids id
+     */
+    deleteRows(ids) {
+        for (let i = 0; i < ids.length; i++) {
+            this.deleteRow(ids[i]);
+        }
+    }
+
+    /**
      * 指定した列を表示
      * 
      * @param {array} columns カラム
@@ -114,20 +160,86 @@ class AgGrid {
     /**
      * チェックボックス列
      * 
-     * @param {string} field 列名
-     * @returns {object} checkbox
+     * @param {string}  field      列名
+     * @param {string}  headerName 列表示名
+     * @param {boolean} editable   編集可否
+     * @param {number}  width      列幅
+     * @param {boolean} hide       表示非表示
+     * @returns {object} 列定義
      */
-    columnCheckBox(field = 'checkBox') {
+    columnCheckBox({field = 'checkBox', headerName = '', editable = true, width = 50, hide = true}) {
         return {
-            headerName: '',
-            field: 'checkBox',
-            cellRenderer: 'agCheckboxCellRenderer',
+            field: field,
+            headerName: headerName,
+            cellRenderer: editable,
             cellEditor: 'agCheckboxCellEditor',
             editable: true,
-            width: 50,
-            maxWidth: 50,
+            width: width,
+            maxWidth: width,
             checkboxSelection: true,
-            hide: true
+            hide: hide
         };
+    }
+
+    /**
+     * 編集ボタン列
+     * 
+     * @param {string}  field      列名
+     * @param {string}  headerName 列表示名
+     * @param {number}  width      列幅
+     * @param {boolean} hide       表示非表示
+     * @returns {object} 列定義
+     */
+    columnBtnEdit({field = 'btnEdit', headerName = '', width = 70, hide = true}) {
+        return {
+            field: field,
+            headerName: headerName,
+            width: width,
+            cellClass : 'ag-cell-non-padding',
+            cellStyle: {
+                textAlign: 'center',
+            },
+            cellRenderer : ButtonCellRenderer,
+            cellRendererParams: function(params) {
+                let result = {};
+                result.id = params.context.id + 'BtnEdit' + params.data.id;
+                result.color = 'green';
+                result.name = '編集';
+                result.clicked = params.context.clickBtnEdit;
+                return result;
+            },
+            hide: hide
+        }
+    }
+
+    /**
+     * 削除ボタン列
+     * 
+     * @param {string}  field      列名
+     * @param {string}  headerName 列表示名
+     * @param {number}  width      列幅
+     * @param {boolean} hide       表示非表示
+     * @returns {object} 列定義
+     */
+    columnBtnDelete({field = 'btnDelete', headerName = '', width = 70, hide = true}) {
+        return {
+            field: field,
+            headerName: headerName,
+            width: width,
+            cellClass : 'ag-cell-non-padding',
+            cellStyle: {
+                textAlign: 'center',
+            },
+            cellRenderer : ButtonCellRenderer,
+            cellRendererParams: function(params) {
+                let result = {};
+                result.id = params.context.id + 'BtnDelete' + params.data.id;
+                result.color = 'red';
+                result.name = '削除';
+                result.clicked = params.context.clickBtnDelete;
+                return result;
+            },
+            hide: hide
+        }
     }
 }

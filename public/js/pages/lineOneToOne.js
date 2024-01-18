@@ -43,7 +43,7 @@ $(function() {
      * Grid
      * 
      */
-    let grid;
+    let grid = new LineGrid('grid').create();
     /**
      * LINEアカウント種別ID
      * 
@@ -74,7 +74,6 @@ $(function() {
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -83,19 +82,35 @@ $(function() {
      * 初期化処理
      * 
      */
-    function init() {
-        try {
-            // インスタンスを生成
-            grid = new LineGrid('grid');
+    function init() { setGrid(); }
 
-            // 検索条件を設定
-            setSearchConditions();
+    /**
+     * 検索ボタンクリック時
+     * 
+     */
+    $btnSearch.on('click', function() { setGrid(); });
 
-            // グリッドを初期化
-            grid.init(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
-        } catch(error) {
-            throw error;
-        }
+    /**
+     * リロードボタンクリック時
+     * 
+     */
+    $btnReload.on('click', function() { setGrid(); });
+
+    /**
+     * グリッドを設定
+     * 
+     */
+    function setGrid() {
+        // 検索条件を設定
+        setSearchConditions();
+        // 行データを設定
+        grid.setRowData({
+            lineAccountTypeId : lineAccountTypeId,
+            lineAccountStatusId : selLineAccountStatus,
+            displayName : txtLineDisplayName,
+            serviceProviderId : selServiceProvider,
+            userId : selUser
+        });
     }
 
     /**
@@ -139,24 +154,4 @@ $(function() {
             grid.showGridMode();
         }
     })
-
-    /**
-     * 検索ボタンクリック時
-     * 
-     */
-    $btnSearch.on('click', function() {
-        // 検索条件を設定
-        setSearchConditions();
-        // グリッドを設定
-        grid.setRowData(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
-    });
-
-    /**
-     * リロードボタンクリック時
-     * 
-     */
-    $btnReload.on('click', function() {
-        // グリッドを設定
-        grid.setRowData(lineAccountTypeId, selLineAccountStatus, txtLineDisplayName, selServiceProvider, selUser);
-    });
 });

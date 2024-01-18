@@ -8,11 +8,6 @@ class UserApi {
      * 
      */
     static PREFIX = 'user';
-    /**
-     * user/register
-     * 
-     */
-    static PREFIX_REGISTER = UserApi.PREFIX + '/register';
 
     /**
      * 担当者情報を取得
@@ -23,7 +18,7 @@ class UserApi {
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      */
-    static async users(userTypeId = null, serviceProviderId = null, userAccountTypeId = null, accountId = null, name = null) {
+    static async users({userTypeId = null, serviceProviderId = null, userAccountTypeId = null, accountId = null, name = null}) {
         // パラメータを設定
         let data = {};
         if (userTypeId !== null) data.userTypeId = userTypeId;
@@ -63,7 +58,7 @@ class UserApi {
         data.password_confirmation = passwordConfirm;
         data.profileImage = profileImage;
 
-        let response = await FetchApi.post(UserApi.PREFIX_REGISTER, data);
+        let response = await FetchApi.put(UserApi.PREFIX, data);
         return response;
     }
 
@@ -105,6 +100,17 @@ class UserApi {
     static async destroy(id) {
         let url = UserApi.PREFIX + '/' + id;
         let response = await FetchApi.delete(url);
+        return response;
+    }
+
+    /**
+     * 担当者情報を削除
+     * 
+     * @param {array} ids 担当者情報ID
+     * @returns {object}  
+     */
+    static async deletes(ids) {
+        let response = await FetchApi.delete(UserApi.PREFIX, {ids : ids});
         return response;
     }
 }

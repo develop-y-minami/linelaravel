@@ -48,12 +48,7 @@ $(function() {
      * Grid
      * 
      */
-    let grid;
-    /**
-     * サービス提供者入力モーダル
-     * 
-     */
-    let serviceProviderInputModal;
+    let grid = new ServiceProviderGrid('grid').create();
     /**
      * 提供者IDの入力値
      * 
@@ -83,7 +78,6 @@ $(function() {
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -92,40 +86,35 @@ $(function() {
      * 初期化処理
      * 
      */
-    function init() {
-        try {
-            setSearchConditions();
-            initGrid();
-            initServiceProviderInputModal();
-        } catch(error) {
-            throw error;
-        }
-    }
+    function init() { setGrid(); }
 
     /**
-     * グリッドを初期化
+     * 検索ボタンクリック時
      * 
      */
-    function initGrid() {
-        grid = new ServiceProviderGrid('grid');
-        grid.init(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
-    }
+    $btnSearch.on('click', function() { setGrid(); });
 
     /**
-     * サービス提供者入力モーダルを初期化
+     * リロードボタンクリック時
      * 
      */
-    function initServiceProviderInputModal() {
-        serviceProviderInputModal = new ServiceProviderInputModal(
-            new ServiceProviderInputModalCallbackClass(
-                serviceProviderInputModalRegisterCallback,
-                null,
-                {
-                    grid: grid
-                }
-            )
-            ,'modalServiceProviderInputRegister'
-        );
+    $btnReload.on('click', function() { setGrid(); });
+
+    /**
+     * グリッドを設定
+     * 
+     */
+    function setGrid() {
+        // 検索条件を設定
+        setSearchConditions();
+        // 行データを設定
+        grid.setRowData({
+            providerId : txtProviderId,
+            name : txtName,
+            useStartDateTime : txtUseStartDateTime,
+            useEndDateTime : txtUseEndDateTime,
+            useStop : selServiceProviderUseStop
+        });
     }
 
     /**
@@ -177,24 +166,21 @@ $(function() {
     })
 
     /**
-     * 検索ボタンクリック時
-     * 
-     */
-    $btnSearch.on('click', function() {
-        // 検索条件を設定
-        setSearchConditions();
-        // グリッドを設定
-        grid.setRowData(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
-    });
-
-    /**
      * 新規登録ボタンクリック時
      * 
      */
     $btnInsert.on('click', function() {
         // サービス提供者入力モーダルを起動
-        serviceProviderInputModal.init();
-        serviceProviderInputModal.show();
+        new ServiceProviderInputModal(
+            new ServiceProviderInputModalCallbackClass(
+                serviceProviderInputModalRegisterCallback,
+                null,
+                {
+                    grid: grid
+                }
+            )
+            ,'modalServiceProviderInputRegister'
+        ).init().show();
     });
 
     /**
@@ -206,8 +192,8 @@ $(function() {
         // グリッドを設定
         this.context.grid.addRow(data);
 
-        // ユーザー登録確認モーダルのインスタンスを生成
-        confirmModal = new ConfirmModal(
+        // ユーザー登録確認モーダルを起動
+        new ConfirmModal(
             new ConfirmModalCallbackClass(
                 userRegisterConfirmModalRegisterCallback,
                 null,
@@ -216,10 +202,7 @@ $(function() {
                 }
             )
             ,'userRegisterModalConfirm'
-        )
-
-        // ユーザー登録確認モーダルを起動
-        confirmModal.show();
+        ).show();
     }
 
     /**
@@ -232,10 +215,7 @@ $(function() {
         this.modal.close(e);
 
         // 担当者入力モーダルのインスタンスを生成
-        userInputModal = new UserInputModal(null, 'modalUserInputRegister');
-
-        // 担当者入力モーダルを初期化
-        userInputModal.init();
+        userInputModal = new UserInputModal(null, 'modalUserInputRegister').init();
 
         // 担当者種別にサービス提供者を設定し非表示
         userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
@@ -252,13 +232,4 @@ $(function() {
         // 担当者入力モーダルを起動
         userInputModal.show();
     }
-
-    /**
-     * リロードボタンクリック時
-     * 
-     */
-    $btnReload.on('click', function() {
-        // グリッドを設定
-        grid.setRowData(txtProviderId, txtName, txtUseStartDateTime, txtUseEndDateTime, selServiceProviderUseStop);
-    });
 });

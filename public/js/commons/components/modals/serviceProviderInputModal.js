@@ -130,6 +130,7 @@ class ServiceProviderInputModal extends Modal {
     /**
      * モーダルを初期化
      * 
+     * @returns {Modal} this
      */
     init() {
         this.$txtServiceProviderId.val('');
@@ -138,6 +139,8 @@ class ServiceProviderInputModal extends Modal {
         this.$txtUseStartDateTime.val(DateTimeUtil.getToday());
         this.$txtUseEndDateTime.val('');
         this.$checkUseStop.prop('checked', false);
+
+        return this;
     }
 
     /**
@@ -149,6 +152,7 @@ class ServiceProviderInputModal extends Modal {
      * @param {string}  useStartDateTime  サービス利用開始日
      * @param {string}  useEndDateTime    サービス利用終了日
      * @param {boolean} useStop           利用停止
+     * @returns {Modal} this
      */
     set(
         serviceProviderId,
@@ -164,6 +168,8 @@ class ServiceProviderInputModal extends Modal {
         this.$txtUseStartDateTime.val(useStartDateTime);
         this.$txtUseEndDateTime.val(useEndDateTime);
         this.$checkUseStop.prop('checked', useStop);
+
+        return this;
     }
 
     /**

@@ -25,13 +25,13 @@ Route::post('/', [ServiceProviderController::class, 'serviceProviders']);
 
 /**
  * サービス提供者情報を登録する
- * HTTP Method Post
- * https://{host}/api/serviceProvider/register
+ * HTTP Method Put
+ * https://{host}/api/serviceProvider
  * 
  * @param ServiceProviderRegisterRequest request リクエスト
  * @return Json
  */
-Route::post('/register', [ServiceProviderController::class, 'register']);
+Route::put('/', [ServiceProviderController::class, 'register']);
 
 /**
  * サービス提供者情報を更新する

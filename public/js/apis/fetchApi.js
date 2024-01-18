@@ -84,6 +84,44 @@ class FetchApi {
     }
 
     /**
+     * HTTP Method PUT
+     * 
+     * @param {string} url  URL
+     * @param {object} data データ
+     * @returns {object}
+     */
+    static async put(url, data = {}) {
+        let response;
+        try {
+            response = await fetch(
+                FetchApi.URL_ROOT_API + '/' + url,
+                {
+                    method: 'PUT',
+                    headers: 
+                    {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
+            if (response.ok) {
+                let data = await response.json();
+                return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
+            } else {
+                if (response.status === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
+                } else {
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                }
+            }
+        } catch(error) {
+            return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
+        }
+    }
+
+    /**
      * HTTP Method PATCH
      * 
      * @param {string} url  URL
@@ -124,13 +162,24 @@ class FetchApi {
     /**
      * HTTP Method DELETE
      * 
-     * @param {string} url - URL
+     * @param {string} url  URL
+     * @param {object} data データ
      * @returns {object}
      */
-    static async delete(url) {
+    static async delete(url, data = {}) {
         let response;
         try {
-            response = await fetch(FetchApi.URL_ROOT_API + '/' + url, { method: 'DELETE' });
+            response = await fetch(
+                FetchApi.URL_ROOT_API + '/' + url,
+                {
+                    method: 'DELETE',
+                    headers: 
+                    {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
             if (response.ok) {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};

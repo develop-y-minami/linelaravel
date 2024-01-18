@@ -68,37 +68,28 @@ $(function() {
      * 担当者グリッド
      * 
      */
-    let userGrid;
+    let userGrid = new UserGrid('userGrid').create();
     /**
      * LINEグリッド
      * 
      */
-    let lineGrid;
-    /**
-     * サービス提供者入力モーダル
-     * 
-     */
-    let serviceProviderInputModal;
-    /**
-     * サービス提供者削除確認モーダル
-     * 
-     */
-    let serviceProviderDeleteConfirmModal;
-    /**
-     * 担当者入力モーダル
-     * 
-     */
-    let userInputModal;
+    let lineGrid = new LineGrid('lineGrid').create();
     /**
      * 担当者削除モーダル
      * 
      */
-    let userDeleteModal;
+    let userDeleteModal = new UserDeleteModal(
+        new UserDeleteModalCallbackClass(
+            userDeleteModalCallback,
+            {
+                grid: userGrid
+            }
+        )
+    );
 
     try {
         // 初期化処理を実行
         init();
-
     } catch(error) {
         console.error(error);
     }
@@ -109,43 +100,30 @@ $(function() {
      */
     function init() {
         try {
-            initUserGrid();
-            initLineGrid();
-            initServiceProviderInputModal();
-            initServiceProviderDeleteConfirmModal();
-            initUserInputModal();
-            initUserDeleteModal();
+            // 担当者グリッドにデータを設定
+            userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
+            userGrid.setRowData({serviceProviderId : serviceProviderId});
+
+            // LINEグリッドにデータを設定
+            lineGrid.hideColumns(['serviceProvider']);
+            lineGrid.setRowData({serviceProviderId : serviceProviderId});    
+
+            // 担当者削除モーダルのサービス提供者IDを設定して非表示
+            userDeleteModal.$selServiceProvider.val(serviceProviderId);
+            userDeleteModal.$serviceProviderContainer.hide();
         } catch(error) {
             throw error;
         }
     }
 
     /**
-     * 担当者グリッドを初期化
+     * サービス提供者編集
      * 
+     * @param {Event} e
      */
-    function initUserGrid() {
-        userGrid = new UserGrid('userGrid');
-        userGrid.init(null, serviceProviderId, null, null, null);
-        userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
-    }
-
-    /**
-     * LINEグリッドを初期化
-     * 
-     */
-    function initLineGrid() {
-        lineGrid = new LineGrid('lineGrid');
-        lineGrid.init(null, null, null, serviceProviderId, null);
-        lineGrid.hideColumns(['serviceProvider']);
-    }
-
-    /**
-     * サービス提供者入力モーダルを初期化
-     * 
-     */
-    function initServiceProviderInputModal() {
-        serviceProviderInputModal = new ServiceProviderInputModal(
+    $edit.on('click', function(e) {
+        // サービス提供者入力モーダルを起動
+        new ServiceProviderInputModal(
             new ServiceProviderInputModalCallbackClass(
                 null,
                 serviceProviderInputModalUpdateCallback,
@@ -159,74 +137,14 @@ $(function() {
                     $createdAt: $createdAt
                 }
             )
-        );
-    }
-
-    /**
-     * サービス提供者削除確認モーダルを初期化
-     * 
-     */
-    function initServiceProviderDeleteConfirmModal() {
-        serviceProviderDeleteConfirmModal = new ConfirmModal(
-            new ConfirmModalCallbackClass(
-                serviceProviderDeleteConfirmModalYesCallback,
-                null,
-                {
-                    id: serviceProviderId
-                }
-            )
-            ,'serviceProviderDeleteModalConfirm'
-        );
-    }
-
-    /**
-     * 担当者入力モーダルを初期化
-     * 
-     */
-    function initUserInputModal() {
-        userInputModal = new UserInputModal(
-            new UserInputModalCallbackClass(
-                userInputModalRegisterCallback,
-                null,
-                {
-                    grid: userGrid
-                }
-            )
-        );
-    }
-
-    /**
-     * 担当者削除モーダルを初期化
-     * 
-     */
-    function initUserDeleteModal() {
-        userDeleteModal = new UserDeleteModal(
-            new UserDeleteModalCallbackClass(
-                null,
-                {
-                    grid: userGrid
-                }
-            )
-        );
-    }
-
-    /**
-     * サービス提供者編集
-     * 
-     * @param {Event} e
-     */
-    $edit.on('click', function(e) {
-        // サービス提供者入力モーダルを起動
-        serviceProviderInputModal.init();
-        serviceProviderInputModal.set(
+        ).init().set(
             serviceProviderId,
             $providerId.text(),
             $name.text(),
             $useStartDateTime.data('value'),
             $useEndDateTime.data('value'),
             $useStop.data('value')
-        );
-        serviceProviderInputModal.show();
+        ).show();
     });
 
     /**
@@ -258,7 +176,16 @@ $(function() {
      */
     $delete.on('click', function(e) {
         // サービス提供者削除確認モーダルを起動
-        serviceProviderDeleteConfirmModal.show();
+        new ConfirmModal(
+            new ConfirmModalCallbackClass(
+                serviceProviderDeleteConfirmModalYesCallback,
+                null,
+                {
+                    id: serviceProviderId
+                }
+            )
+            ,'serviceProviderDeleteModalConfirm'
+        ).show();
     });
 
     /**
@@ -296,18 +223,25 @@ $(function() {
      * @param {Event} e
      */
     $userRegister.on('click', function(e) {
-        // 担当者入力モーダルを初期化
-        userInputModal.init();
+        let modal = new UserInputModal(
+            new UserInputModalCallbackClass(
+                userInputModalRegisterCallback,
+                null,
+                {
+                    grid: userGrid
+                }
+            )
+        ).init();
 
         // 担当者種別にサービス提供者を設定し非表示
-        userInputModal.$radioUserTypeServiceProvider.prop('checked', true);
-        userInputModal.$userTypeContainer.hide();
+        modal.$radioUserTypeServiceProvider.prop('checked', true);
+        modal.$userTypeContainer.hide();
 
         // サービス提供者IDを設定
-        userInputModal.$selServiceProvider.val(serviceProviderId);
+        modal.$selServiceProvider.val(serviceProviderId);
 
         // 担当者入力モーダルを起動
-        userInputModal.show();
+        modal.show();
     });
 
     /**
@@ -325,14 +259,17 @@ $(function() {
      * 
      */
     $userDelete.on('click', function(e) {
-        // サービス提供者IDを設定して非表示
-        userDeleteModal.$selServiceProvider.val(serviceProviderId);
-        userDeleteModal.$serviceProviderContainer.hide();
-
-        // 担当者削除モーダルを初期化
-        userDeleteModal.init();
-
         // 担当者削除モーダルを起動
-        userDeleteModal.show();
+        userDeleteModal.setGrid().show();
     });
+
+    /**
+     * 担当者削除モーダル削除ボタンコールバック
+     * 
+     * @param {array} ids 担当者ID
+     */
+    function userDeleteModalCallback(ids) {
+        // 行データを削除
+        this.context.grid.deleteRows(ids);
+    }
 });

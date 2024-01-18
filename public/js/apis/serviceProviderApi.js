@@ -8,11 +8,6 @@ class ServiceProviderApi {
      * 
      */
     static PREFIX = 'serviceProvider';
-    /**
-     * serviceProvider/register
-     * 
-     */
-    static PREFIX_REGISTER = ServiceProviderApi.PREFIX + '/register';
 
     /**
      * サービス提供者情報を取得
@@ -24,13 +19,7 @@ class ServiceProviderApi {
      * @param {boolean} useStop          サービス利用状態
      * @returns {object}  
      */
-    static async  serviceProviders(
-        providerId = null,
-        name = null,
-        useStartDateTime = null,
-        useEndDateTime = null,
-        useStop = null
-    ) {
+    static async  serviceProviders({providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null}) {
         // パラメータを設定
         let data = {};
         if (providerId !== null) data.providerId = providerId;
@@ -60,7 +49,7 @@ class ServiceProviderApi {
         data.useStartDateTime = useStartDateTime;
         data.useEndDateTime = useEndDateTime;
 
-        let response = await FetchApi.post(ServiceProviderApi.PREFIX_REGISTER, data);
+        let response = await FetchApi.put(ServiceProviderApi.PREFIX, data);
         return response;
     }
 

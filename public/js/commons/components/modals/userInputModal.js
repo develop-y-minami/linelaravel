@@ -215,6 +215,7 @@ class UserInputModal extends Modal {
     /**
      * モーダルを初期化
      * 
+     * @param {Modal} this
      */
     init() {
         if (globalUserType == UserType.OPERATOR)
@@ -231,6 +232,8 @@ class UserInputModal extends Modal {
         this.$txtPassword.val('');
         this.$txtPasswordConfirm.val('');
         this.clearProfileImage(this);
+
+        return this;
     }
 
     /**
@@ -243,6 +246,7 @@ class UserInputModal extends Modal {
      * @param {string} accountId         アカウントID
      * @param {string} name              担当者名
      * @param {string} email             メールアドレス
+     * @param {Modal} this
      */
     set(
         userId,
@@ -274,6 +278,8 @@ class UserInputModal extends Modal {
         this.$txtAccountId.val(accountId);
         this.$txtName.val(name);
         this.$txtEmail.val(email);
+
+        return this;
     }
 
     /**

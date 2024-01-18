@@ -36,6 +36,14 @@ interface UserApiServiceInterface
     public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password, $profileImage);
 
     /**
+     * 担当者情報を削除
+     * 
+     * @param array ids 担当者情報ID
+     * @return int 削除件数
+     */
+    public function deletes($ids);
+
+    /**
      * 担当者情報を更新
      * 
      * @param int    id                担当者情報ID

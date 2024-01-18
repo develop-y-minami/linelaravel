@@ -68,8 +68,8 @@ class ServiceProviderController extends Controller
 
     /**
      * サービス提供者情報を登録する
-     * HTTP Method Post
-     * https://{host}/api/serviceProvider/register
+     * HTTP Method Put
+     * https://{host}/api/serviceProvider
      * 
      * @param ServiceProviderRegisterRequest request リクエスト
      * @return Json

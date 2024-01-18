@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserDeleteRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Services\Apis\UserApiServiceInterface;
@@ -74,8 +75,8 @@ class UserController extends Controller
 
     /**
      * 担当者情報を登録する
-     * HTTP Method Post
-     * https://{host}/api/user/register
+     * HTTP Method Put
+     * https://{host}/api/user
      * 
      * @param UserRegisterRequest request リクエスト
      * @return Json
@@ -107,6 +108,33 @@ class UserController extends Controller
 
             // HTTPステータスコード:200 
             return $this->jsonResponse($response);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * 担当者情報を削除する
+     * HTTP Method Delete
+     * https://{host}/api/user
+     * 
+     * @param UserDeleteRequest request リクエスト
+     * @return Json
+     */
+    public function deletes(UserDeleteRequest $request)
+    {
+        try
+        {
+            // パラメータを取得
+            $ids = $request->input('ids');
+
+            // 担当者情報を削除
+            $this->userApiService->deletes($ids);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse();
         }
         catch (\Exception $e)
         {

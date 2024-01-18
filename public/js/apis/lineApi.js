@@ -39,7 +39,7 @@ class LineApi {
      * @param {number} userId            担当者ID
      * @returns {object} 
      */
-    static async notices(noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null) {
+    static async notices({noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null}) {
         // パラメータを設定
         let data = {};
         if (noticeDate !== null) data.noticeDate = noticeDate;
@@ -62,7 +62,7 @@ class LineApi {
      * @param {number} userId              担当者ID
      * @returns {object} 
      */
-    static async lines(lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, serviceProviderId = null, userId = null) {
+    static async lines({lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, serviceProviderId = null, userId = null}) {
         // パラメータを設定
         let data = {};
         if (lineAccountTypeId !== null) data.lineAccountTypeId = lineAccountTypeId;

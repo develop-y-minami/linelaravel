@@ -58,6 +58,21 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * ユーザー情報を取得
+     * 
+     * @param array ids ID
+     * @return Collection 担当者情報
+     */
+    public function findByIds($ids)
+    {
+        return User::with([
+            'userType',
+            'serviceProvider',
+            'userAccountType',
+        ])->whereIn('id', $ids)->get();
+    }
+
+    /**
      * 担当者情報を取得
      * 
      * @param int serviceProviderId サービス提供者ID

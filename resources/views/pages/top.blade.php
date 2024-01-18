@@ -5,7 +5,7 @@
 @section('title', 'トップ')
 
 {{--JavaScript--}}
-@push('js')
+@push('pageJs')
     {{--AG Grid--}}
     <script src="{{ asset('js/commons/consts/lineNoticeType.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineNoticeGrid.js') }}"></script>

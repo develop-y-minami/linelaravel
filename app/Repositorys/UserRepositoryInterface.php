@@ -24,6 +24,14 @@ interface UserRepositoryInterface
     public function findById($id);
 
     /**
+     * ユーザー情報を取得
+     * 
+     * @param array ids ID
+     * @return Collection 担当者情報
+     */
+    public function findByIds($ids);
+
+    /**
      * 担当者情報を取得
      * 
      * @param int serviceProviderId サービス提供者ID

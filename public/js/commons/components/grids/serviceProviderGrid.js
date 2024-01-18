@@ -14,38 +14,6 @@ class ServiceProviderGrid extends AgGrid {
     }
 
     /**
-     * 初期化
-     * 
-     * @param {string}  providerId       サービス提供者ID
-     * @param {string}  name             サービス提供者名
-     * @param {string}  useStartDateTime サービス利用開始日
-     * @param {string}  useEndDateTime   サービス利用終了日
-     * @param {boolean} useStop          サービス利用状況
-     */
-    init(providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null) {
-        // default値を設定
-        this.setDefaultGridOptions(this.gridOptions);
-
-        // contextにthisを設定
-        this.gridOptions.context = this;
-
-        // columnDefsを設定
-        this.setColumnDefs();
-
-        // 行データを初期化
-        this.gridOptions.rowData = [];
-
-        // 行IDを設定
-        this.gridOptions.getRowId = function(params) { return params.data.id; }
-
-        // グリッド生成
-        this.gridApi = agGrid.createGrid(this.grid, this.gridOptions);
-
-        // 行データを設定
-        this.setRowData(providerId, name, useStartDateTime, useEndDateTime, useStop);
-    }
-
-    /**
      * columnDefsを設定
      * 
      */
@@ -57,6 +25,11 @@ class ServiceProviderGrid extends AgGrid {
             btnEditHide = true;
             btnDeleteHide = true;
         }
+
+        // 編集ボタン列
+        let columnBtnEdit = this.columnBtnEdit({hide : btnEditHide});
+        // 削除ボタン列
+        let columnBtnDelete = this.columnBtnDelete({hide : btnDeleteHide});
 
         this.gridOptions.columnDefs = [
             {
@@ -110,69 +83,13 @@ class ServiceProviderGrid extends AgGrid {
                 cellRenderer : LabelBoxCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    if (params.data.useStop === true) {
-                        result.labelColor = 'red';
-                    } else {
-                        result.labelColor = 'green';
-                    }
+                    result.labelColor = ServiceProviderUseStop.getColor(params.data.useStop);
                     result.labelName = params.data.useStopName;
                     return result;
                 }
             },
-            {
-                field: 'btnEdit',
-                headerName: '',
-                width: 70,
-                cellClass : 'ag-cell-non-padding',
-                cellStyle: {
-                    textAlign: 'center',
-                },
-                cellRenderer : ButtonCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.id = 'btnEdit' + params.data.id;
-                    result.color = 'green';
-                    result.name = '編集';
-                    /**
-                     * ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.clicked = function(e, params) {
-                        params.context.clickBtnEdit(e, params);
-                    }
-                    return result;
-                },
-                hide: btnEditHide
-            },
-            {
-                field: 'btnDelete',
-                headerName: '',
-                width: 70,
-                cellClass : 'ag-cell-non-padding',
-                cellStyle: {
-                    textAlign: 'center',
-                },
-                cellRenderer : ButtonCellRenderer,
-                cellRendererParams: function(params) {
-                    let result = {};
-                    result.id = 'btnDelete' + params.data.id;
-                    result.color = 'red';
-                    result.name = '削除';
-                    /**
-                     * ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.clicked = function(e, params) {
-                        params.context.clickBtnDelete(e, params);
-                    }
-                    return result;
-                },
-                hide: btnDeleteHide
-            },
+            columnBtnEdit,
+            columnBtnDelete,
             {
                 field: 'detailInfo',
                 headerName: '提供者情報',
@@ -181,26 +98,10 @@ class ServiceProviderGrid extends AgGrid {
                 cellRenderer : ServiceProviderCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.btnEditId = 'detailInfoBtnDelete' + params.data.id;
-                    result.btnDeleteId = 'detailInfoBtnDelete' + params.data.id;
-                    /**
-                     * 編集ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.btnEditClicked = function(e, params) {
-                        params.context.clickBtnEdit(e, params);
-                    }
-                    /**
-                     * 削除ボタンクリック時
-                     * 
-                     * @param {Event} e 
-                     * @param {object} params 
-                     */
-                    result.btnDeleteClicked = function(e, params) {
-                        params.context.clickBtnDelete(e, params);
-                    }
+                    result.btnEditId = params.context.id + 'DetailInfoBtnDelete' + params.data.id;
+                    result.btnDeleteId = params.context.id + 'DetailInfoBtnDelete' + params.data.id;
+                    result.btnEditClicked = params.context.clickBtnEdit;
+                    result.btnDeleteClicked = params.context.clickBtnDelete;
                     return result;
                 },
                 autoHeight: true,
@@ -218,7 +119,7 @@ class ServiceProviderGrid extends AgGrid {
      * @param {string}  useEndDateTime   サービス利用終了日
      * @param {boolean} useStop          サービス利用状態
      */
-    async setRowData(providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null) {
+    async setRowData({providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -227,7 +128,13 @@ class ServiceProviderGrid extends AgGrid {
             let rowData = [];
 
             // API経由で通知情報を取得
-            let result = await ServiceProviderApi.serviceProviders(providerId, name, useStartDateTime, useEndDateTime, useStop);
+            let result = await ServiceProviderApi.serviceProviders({
+                providerId : providerId,
+                name : name,
+                useStartDateTime : useStartDateTime,
+                useEndDateTime : useEndDateTime,
+                useStop : useStop
+            });
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 rowData = result.data.serviceProviders;
@@ -289,8 +196,8 @@ class ServiceProviderGrid extends AgGrid {
      * @param {object} params 
      */
     clickBtnEdit(e, params) {
-        // サービス提供者入力モーダルのインスタンスを生成
-        let modal = new ServiceProviderInputModal(
+        // サービス提供者入力モーダルを起動
+        new ServiceProviderInputModal(
             new ServiceProviderInputModalCallbackClass(
                 null,
                 params.context.updateCallback,
@@ -299,19 +206,14 @@ class ServiceProviderGrid extends AgGrid {
                 }
             )
             ,'modalServiceProviderInputUpdate'
-        );
-
-        // サービス提供者入力モーダルを起動
-        modal.init();
-        modal.set(
+        ).init().set(
             params.data.id,
             params.data.providerId,
             params.data.name,
             DateTimeUtil.convertDate(params.data.useStartDateTime),
             params.data.useEndDateTime,
             params.data.useStop
-        );
-        modal.show();
+        ).show();
     }
 
     /**
@@ -331,8 +233,8 @@ class ServiceProviderGrid extends AgGrid {
      * @param {object} params 
      */
     clickBtnDelete(e, params) {
-        // 削除確認モーダルのインスタンスを生成
-        let modal = new ConfirmModal(
+        // 削除確認モーダルを表示
+        new ConfirmModal(
             new ConfirmModalCallbackClass(
                 params.context.deleteCallback,
                 null,
@@ -342,10 +244,7 @@ class ServiceProviderGrid extends AgGrid {
                 }
             ),
             'serviceProviderDeleteModalConfirm'
-        );
-
-        // 削除確認モーダルを表示
-        modal.show();
+        ).show();
     }
 
     /**
