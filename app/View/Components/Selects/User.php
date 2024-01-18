@@ -46,6 +46,6 @@ class User extends Component
      */
     public function render()
     {
-        return view('components.selects.select');
+        return view('components.selects.user');
     }
 }

@@ -6,10 +6,14 @@
 
 {{--JavaScript--}}
 @push('pageJs')
-    {{--AG Grid--}}
+    {{--LINE通知Grid--}}
     <script src="{{ asset('js/commons/consts/lineNoticeType.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineNoticeGrid.js') }}"></script>
+    {{--サービス提供者担当者連携セレクトボックス--}}
+    <script src="{{ asset('js/commons/components/selectBoxs/serviceProviderUserSelectBox.js') }}"></script>
+    {{--LINEAPI--}}
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--トップページ--}}
     <script src="{{ asset('js/pages/top.js') }}"></script>
 @endpush
 

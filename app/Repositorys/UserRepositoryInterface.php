@@ -42,6 +42,14 @@ interface UserRepositoryInterface
     /**
      * 担当者情報を取得
      * 
+     * @param int userTypeId 担当者種別
+     * @return Collection 担当者情報
+     */
+    public function findByUserTypeId($userTypeId);
+
+    /**
+     * 担当者情報を取得
+     * 
      * @param int    userTypeId        担当者種別
      * @param int    serviceProviderId サービス提供者情報ID
      * @param int    userAccountTypeId 担当者アカウント種別

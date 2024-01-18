@@ -45,6 +45,11 @@ $(function() {
      */
     let grid = new LineGrid('grid').create();
     /**
+     * サービス提供者担当者連携セレクトボックス
+     * 
+     */
+    let serviceProviderUserSelectBox = new ServiceProviderUserSelectBox().init();
+    /**
      * LINEアカウント種別ID
      * 
      */

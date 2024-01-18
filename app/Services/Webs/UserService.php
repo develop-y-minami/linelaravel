@@ -3,6 +3,7 @@
 namespace App\Services\Webs;
 
 use App\Objects\SelectItem;
+use App\Objects\UserSelectItem;
 use App\Repositorys\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,11 +62,11 @@ class UserService implements UserServiceInterface
         else
         {
             // 運用者の場合は全担当者を取得
-            $datas = $this->userRepository->getAll();
+            $datas = $this->userRepository->findByUserTypeId(\UserType::SERVICE_PROVIDER);
         }
         foreach ($datas as $data)
         {
-            $result[] = new SelectItem($data->id, $data->name);
+            $result[] = new UserSelectItem($data->id, $data->name, $data->service_provider_id);
         }
 
         return $result;

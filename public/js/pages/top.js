@@ -40,6 +40,11 @@ $(function() {
      */
     let grid = new LineNoticeGrid('grid').create();
     /**
+     * サービス提供者担当者連携セレクトボックス
+     * 
+     */
+    let serviceProviderUserSelectBox = new ServiceProviderUserSelectBox().init();
+    /**
      * LINE通知日の入力値
      * 
      */

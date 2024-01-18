@@ -6,11 +6,15 @@
 
 {{--JavaScript--}}
 @push('pageJs')
-    {{--AG Grid--}}
+    {{--LINEGrid--}}
     <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/lineGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/lineCellRenderer.js') }}"></script>
+    {{--サービス提供者担当者連携セレクトボックス--}}
+    <script src="{{ asset('js/commons/components/selectBoxs/serviceProviderUserSelectBox.js') }}"></script>
+    {{--LINEAPI--}}
     <script src="{{ asset('js/apis/lineApi.js') }}"></script>
+    {{--１対１トークページ--}}
     <script src="{{ asset('js/pages/lineOneToOne.js') }}"></script>
 @endpush
 

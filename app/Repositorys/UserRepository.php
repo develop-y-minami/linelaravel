@@ -80,7 +80,18 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findByServiceProviderId($serviceProviderId)
     {
-        return User::whereServiceProviderId($serviceProviderId)->get();
+        return User::whereServiceProviderId($serviceProviderId)->orderBy('user_account_type_id')->orderBy('account_id')->get();
+    }
+
+    /**
+     * 担当者情報を取得
+     * 
+     * @param int userTypeId 担当者種別
+     * @return Collection 担当者情報
+     */
+    public function findByUserTypeId($userTypeId)
+    {
+        return User::whereUserTypeId($userTypeId)->orderBy('service_provider_id')->orderBy('user_account_type_id')->orderBy('account_id')->get();
     }
 
     /**

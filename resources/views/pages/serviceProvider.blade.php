@@ -43,6 +43,8 @@
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--サービス提供者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
+    {{--サービス提供者担当者連携セレクトボックス--}}
+    <script src="{{ asset('js/commons/components/selectBoxs/serviceProviderUserSelectBox.js') }}"></script>
     {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}

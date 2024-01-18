@@ -13,6 +13,11 @@ class SelectBox {
      * 
      */
     $element;
+    /**
+     * option
+     * 
+     */
+    $options;
 
     /**
      * constructor
@@ -22,6 +27,13 @@ class SelectBox {
     constructor(id) {
         this.id = id;
         this.$element = $('#' + id);
+
+        // optionを保持
+        this.$options = [];
+        let childrens = this.$element.children();
+        for (let i = 0; i < childrens.length; i++) {
+            this.$options.push($(childrens[i]));
+        }
     }
 
     /**
@@ -34,5 +46,17 @@ class SelectBox {
     addItem(value, name, selected = false) {
         let selectedAttr = selected == true ? 'selected' : '';
         this.$element.append('<option value="' + value + '" ' + selectedAttr + '>' + name + '</option>');
+    }
+
+    /**
+     * 先頭項目以外を削除
+     * 
+     */
+    removeOtherFirst() {
+        for (let i = 0; i < this.$options.length; i++) {
+            if (i > 0) {
+                this.$options[i].remove();
+            }
+        }
     }
 }

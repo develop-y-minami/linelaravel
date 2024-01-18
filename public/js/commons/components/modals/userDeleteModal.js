@@ -37,6 +37,16 @@ class UserDeleteModal extends Modal {
      */
     callbackClass;
     /**
+     * サービス提供者コンテナー
+     * 
+     */
+    $serviceProviderContainer;
+    /**
+     * サービス提供者セレクトボックス
+     * 
+     */
+    $selServiceProvider;
+    /**
      * 更新ボタン
      * 
      */
