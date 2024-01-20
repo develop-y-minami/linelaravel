@@ -121,6 +121,104 @@ $(function() {
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
             userDeleteModal.$serviceProviderContainer.hide();
+
+            
+            let ctx = document.getElementById("lineAccountTypeDoughnutChart");
+            let myPieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                  labels: ['１対１', 'グループ'],
+                  datasets: [{
+                      backgroundColor: [
+                          "#cfffcf",
+                          "#d0d0ff"
+                      ],
+                      data: [64, 36]
+                  }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'トークタイプ'
+                          }
+                    }
+                }
+              });
+            
+              let ctx2 = document.getElementById("lineAccountStatusDoughnutChart");
+              let myPieChart2 = new Chart(ctx2, {
+                  type: 'doughnut',
+                  data: {
+                    labels: ['友達/参加中', 'ブロック/退出中'],
+                    datasets: [{
+                        backgroundColor: [
+                            "#cfffcf",
+                            "#ffb8b8"
+                        ],
+                        data: [64, 36]
+                    }]
+                  },
+                  options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '状態'
+                          }
+                    }
+                }
+                });
+
+                let ctx3 = document.getElementById("lineUserDoughnutChart");
+                let myPieChart3 = new Chart(ctx3, {
+                    type: 'doughnut',
+                    data: {
+                      labels: ['登録済', '未登録'],
+                      datasets: [{
+                          backgroundColor: [
+                              "#eccdff",
+                              "#f1f1f1"
+                          ],
+                          data: [64, 36]
+                      }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'ユーザー登録'
+                              }
+                        }
+                    }
+                  });
+
+                let ctx4 = document.getElementById("lineBarChart");
+                let myPieChart4 = new Chart(ctx4, {
+                    type: 'bar',
+                    data: {
+                      labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                      datasets: [{
+                        label: '有効LINE数',
+                          backgroundColor: [
+                              "#00ff0030"
+                          ],
+                          borderColor: [
+                            "#4bc0c0"
+                          ],
+                          data: [100, 90, 80, 95, 114, 167]
+                      }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'LINE数 推移'
+                              }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                  });
         } catch(error) {
             throw error;
         }

@@ -23,6 +23,8 @@
 @endpush
 
 @push('js')
+    {{--Chart js--}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{--AG Grid--}}
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <script src="{{ asset('js/commons/components/grids/agGrid.js') }}"></script>
@@ -110,14 +112,56 @@
             </div>
 
             {{--担当者情報--}}
-            <div class="contentContainer gridContainer">
+            <div class="contentContainer userContainer">
                 <div class="caption itemName">担当者情報</div>
+                <div class="profile">
+                    <div class="row">
+                        <div class="itemName">担当者数</div>
+                        <div id="userCount" class="data">15</div>
+                    </div>
+                </div>
+                {{--担当者グリッド--}}
                 <div id="userGrid" class="grid ag-theme-material"></div>
             </div>
 
             {{--LINE情報--}}
-            <div class="contentContainer gridContainer">
+            <div class="contentContainer lineContainer">
                 <div class="caption itemName">LINE情報</div>
+                <div class="profile">
+                    <div class="row">
+                        <div class="itemName">LINE数</div>
+                        <div id="lineCount" class="data">15</div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">有効LINE数</div>
+                        <div id="lineCount" class="data">5</div>
+                    </div>
+                </div>
+                <div class="statisticsContainer">
+                    <div class="doughnutChartContainer">
+                        <div class="chartContainer">
+                            <canvas id="lineAccountTypeDoughnutChart"></canvas>
+                        </div>
+                        <div class="chartContainer">
+                            <canvas id="lineAccountStatusDoughnutChart"></canvas>
+                        </div>
+                        <div class="chartContainer">
+                            <canvas id="lineUserDoughnutChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="barChartContainer">
+                        <div class="termContainer">
+                            <div class="term">年</div>
+                            <div class="term active">月</div>
+                            <div class="term">日</div>
+                            <input type="date" value="2024-01-20">
+                        </div>
+                        <div class="chartContainer">
+                            <canvas id="lineBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                {{--LINEグリッド--}}
                 <div id="lineGrid" class="grid ag-theme-material"></div>
             </div>
         </main>

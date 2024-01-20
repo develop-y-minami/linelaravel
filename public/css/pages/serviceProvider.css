@@ -51,32 +51,33 @@
 /******************************************************
 *   サービス提供者情報ページ：プロフィール
 ******************************************************/
-.serviceProviderPageContainer .serviceProviderContainer .profile {
+.serviceProviderPageContainer .profile {
     display: flex;
     flex-direction: column;
     margin: 15px;
-    width: 100%;
     font-size: 12px;
     border: solid 1px var(--colorLightGray);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-.serviceProviderPageContainer .serviceProviderContainer .profile .row {
+.serviceProviderPageContainer .profile .row {
     flex: 1;
     display: flex;
     border-bottom: solid 1px var(--colorLightGray);
 }
 
-.serviceProviderPageContainer .serviceProviderContainer .profile .row:last-child { border-bottom: none; }
+.serviceProviderPageContainer .profile .row:last-child { border-bottom: none; }
 
-.serviceProviderPageContainer .serviceProviderContainer .profile .itemName {
+.serviceProviderPageContainer .profile .itemName {
     display: flex;
     align-items: center;
     padding: 10px;
     min-width: 100px;
-    background-color: #ffcbcb;
+    font-weight: normal;
 }
 
-.serviceProviderPageContainer .serviceProviderContainer .profile .data {
+.serviceProviderPageContainer .profile .data {
     flex: 1;
     display: flex;
     align-items: center;
@@ -84,9 +85,70 @@
 }
 
 /******************************************************
+*   サービス提供者情報ページ：サービス提供者情報
+******************************************************/
+.serviceProviderPageContainer .serviceProviderContainer .profile .itemName {
+    color: #ff7373;
+}
+
+/******************************************************
+*   サービス提供者情報ページ：担当者情報
+******************************************************/
+.serviceProviderPageContainer .userContainer .profile .itemName {
+    color: #8a8aff;
+}
+
+/******************************************************
+*   サービス提供者情報ページ：LINE情報
+******************************************************/
+.serviceProviderPageContainer .lineContainer .profile .itemName {
+    color: #29cb29;
+}
+
+/******************************************************
 *   サービス提供者情報ページ：グリッド
 ******************************************************/
-.serviceProviderPageContainer .gridContainer .grid {
+.serviceProviderPageContainer .grid {
     margin: 15px;
     height: 300px;
 }
+
+/******************************************************
+*   サービス提供者情報ページ：グラフ
+******************************************************/
+.serviceProviderPageContainer .statisticsContainer {
+    margin: 15px;
+}
+
+.serviceProviderPageContainer .doughnutChartContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.serviceProviderPageContainer .doughnutChartContainer .chartContainer { height: 300px; }
+
+.serviceProviderPageContainer .barChartContainer .termContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.serviceProviderPageContainer .barChartContainer .termContainer .term {
+    padding: 5px;
+    border: solid 1px var(--colorGray);
+    border-radius: 50%;
+    color: var(--colorGray);
+    cursor: pointer;
+}
+
+.serviceProviderPageContainer .barChartContainer .termContainer .term.active {
+    border: solid 1px var(--colorBlue);
+    color: var(--colorBlue);
+}
+
+.serviceProviderPageContainer .barChartContainer .chartContainer { height: 400px; }
