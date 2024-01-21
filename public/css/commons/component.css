@@ -31,6 +31,13 @@
 }
 
 /******************************************************
+*   グラフコンテナー
+******************************************************/
+.chartContainer {
+    position: relative;
+}
+
+/******************************************************
 *   labelBox
 ******************************************************/
 .labelBox {
@@ -175,6 +182,10 @@ button.reload:focus svg path { fill: var(--colorBlue) !important; }
     width: 100%;
     height: 100%;
     background: url(https://ag-grid.com/images/ag-grid-loading-spinner.svg) center no-repeat;
+}
+
+.overlay.transparent {
+    background-color: transparent !important;
 }
 
 /******************************************************

@@ -51,9 +51,9 @@
 .userPageContainer .itemName { font-weight: bold; }
 
 /******************************************************
-*   担当者情報ページ：プロフィールコンテナー
+*   担当者情報ページ：画像付きプロフィールコンテナー
 ******************************************************/
-.userPageContainer .userContainer .profileContainer {
+.userPageContainer .profileContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -63,53 +63,59 @@
     border: solid 1px var(--colorLightGray);
 }
 
-/* プロフィール画像 */
-.userPageContainer .userContainer .profileContainer .circleImgContainer {
+.userPageContainer .profileContainer .circleImgContainer {
     flex-grow: 1;
 }
 
-/* 右情報表示コンテナー */
-.userPageContainer .userContainer .profileContainer .infoContainer {
+.userPageContainer .profileContainer .infoContainer {
     flex-grow: 100;
     display: flex;
     align-items: center;
 }
 
-/* LINE状態 */
-.userPageContainer .userContainer .profileContainer .accountStatus { margin-bottom: 10px; }
+.userPageContainer .profileContainer .profile { width: 100%; }
 
-.userPageContainer .userContainer .profileContainer .accountStatus .labelBox { width: 100px; }
-
-/* プロフィール表示テーブル */
-.userPageContainer .userContainer .profileContainer .profile {
+/******************************************************
+*   担当者情報ページ：プロフィール
+******************************************************/
+.userPageContainer .profile {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    margin: 15px;
     font-size: 12px;
     border: solid 1px var(--colorLightGray);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-.userPageContainer .userContainer .profileContainer .profile .row {
+.userPageContainer .profile .row {
     flex: 1;
     display: flex;
     border-bottom: solid 1px var(--colorLightGray);
 }
 
-.userPageContainer .userContainer .profileContainer .profile .row:last-child { border-bottom: none; }
+.userPageContainer .profile .row:last-child { border-bottom: none; }
 
-.userPageContainer .userContainer .profileContainer .profile .itemName {
+.userPageContainer .profile .itemName {
     display: flex;
     align-items: center;
     padding: 10px;
     min-width: 100px;
-    background-color: #e2e2ff;
+    font-weight: normal;
 }
 
-.userPageContainer .userContainer .profileContainer .profile .data {
+.userPageContainer .profile .data {
     flex: 1;
     display: flex;
     align-items: center;
     padding: 10px;
+}
+
+/******************************************************
+*   担当者情報ページ：担当者情報
+******************************************************/
+.userPageContainer  .userContainer .profile .itemName {
+    color: #8a8aff;
 }
 
 /******************************************************

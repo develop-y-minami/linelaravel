@@ -51,6 +51,12 @@
     <script src="{{ asset('js/commons/components/modals/lineSettingModal.js') }}"></script>
     {{--サービス提供者担当者連携セレクトボックス--}}
     <script src="{{ asset('js/commons/components/selectBoxs/serviceProviderUserSelectBox.js') }}"></script>
+    {{--グラフ--}}
+    <script src="{{ asset('js/commons/components/charts/myChart.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/doughnuts/doughnutChart.js') }}"></script>
+    {{--トークタイプドーナッツグラフ--}}
+    <script src="{{ asset('js/commons/consts/lineAccountType.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/doughnuts/lineAccountTypeDoughnutChart.js') }}"></script>
     {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
@@ -140,9 +146,7 @@
                 </div>
                 <div class="statisticsContainer">
                     <div class="doughnutChartContainer">
-                        <div class="chartContainer">
-                            <canvas id="lineAccountTypeDoughnutChart"></canvas>
-                        </div>
+                        <x-charts.doughnuts.lineAccountType :serviceProviderId='$data->serviceProvider->id'></x-charts.doughnuts.lineAccountType>
                         <div class="chartContainer">
                             <canvas id="lineAccountStatusDoughnutChart"></canvas>
                         </div>

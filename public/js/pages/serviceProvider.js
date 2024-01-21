@@ -100,6 +100,11 @@ $(function() {
      */
     let lineGrid = new LineGrid('lineGrid').create();
     /**
+     * トークタイプドーナッツグラフ
+     * 
+     */
+    let lineAccountTypeDoughnutChart = new LineAccountTypeDoughnutChart();
+    /**
      * 担当者削除モーダル
      * 
      */
@@ -123,7 +128,8 @@ $(function() {
             {
                 grid: lineGrid,
                 $lineCount: $lineCount,
-                $lineValidCount: $lineValidCount
+                $lineValidCount: $lineValidCount,
+                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart
             }
         )
         ,'modalLineSettingSetting'
@@ -139,7 +145,8 @@ $(function() {
             {
                 grid: lineGrid,
                 $lineCount: $lineCount,
-                $lineValidCount: $lineValidCount
+                $lineValidCount: $lineValidCount,
+                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart
             }
         )
         ,'modalLineSettingRelease'
@@ -164,33 +171,12 @@ $(function() {
             // LINEグリッドにデータを設定
             setLineGrid();
 
+            // グラフを描画
+            lineAccountTypeDoughnutChart.setData();
+
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
             userDeleteModal.$serviceProviderContainer.hide();
-
-            
-            let ctx = document.getElementById("lineAccountTypeDoughnutChart");
-            let myPieChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                  labels: ['１対１', 'グループ'],
-                  datasets: [{
-                      backgroundColor: [
-                          "#cfffcf",
-                          "#d0d0ff"
-                      ],
-                      data: [64, 36]
-                  }]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'トークタイプ'
-                          }
-                    }
-                }
-              });
             
               let ctx2 = document.getElementById("lineAccountStatusDoughnutChart");
               let myPieChart2 = new Chart(ctx2, {
@@ -481,6 +467,9 @@ $(function() {
         this.context.$lineCount.html(this.context.grid.gridApi.getDisplayedRowCount());
         // 有効LINE数を設定
         this.context.$lineValidCount.html(this.context.grid.getValidRowCount());
+
+        // グラフを再描画
+        this.context.lineAccountTypeDoughnutChart.setData();
     }
 
     /**
@@ -504,5 +493,8 @@ $(function() {
         this.context.$lineCount.html(this.context.grid.gridApi.getDisplayedRowCount());
         // 有効LINE数を設定
         this.context.$lineValidCount.html(this.context.grid.getValidRowCount());
+
+        // グラフを再描画
+        this.context.lineAccountTypeDoughnutChart.setData();
     }
 });
