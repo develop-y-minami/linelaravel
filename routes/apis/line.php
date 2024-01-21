@@ -14,6 +14,16 @@ use App\Http\Controllers\Apis\LineController;
 |
 */
 /**
+ * LINE情報を取得する
+ * HTTP Method Post
+ * https://{host}/api/line
+ * 
+ * @param Request request リクエスト
+ * @return Json
+ */
+Route::post('/', [LineController::class, 'lines']);
+
+/**
  * LINE通知情報を取得する
  * HTTP Method Post
  * https://{host}/api/line/notices
@@ -24,14 +34,14 @@ use App\Http\Controllers\Apis\LineController;
 Route::post('/notices', [LineController::class, 'notices']);
 
 /**
- * LINE情報を取得する
- * HTTP Method Post
- * https://{host}/api/line/lines
+ * サービス提供者を設定する
+ * HTTP Method Patch
+ * https://{host}/api/line/serviceProvider
  * 
- * @param Request request リクエスト
+ * @param LineServiceProviderUpdateRequest request リクエスト
  * @return Json
  */
-Route::post('/lines', [LineController::class, 'lines']);
+Route::patch('/serviceProvider', [LineController::class, 'updatesServiceProvider']);
 
 /**
  * LINE担当者情報を設定する

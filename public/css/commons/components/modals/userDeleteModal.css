@@ -29,10 +29,6 @@
 
 .modalUserDelete .row:last-child { margin-bottom: 0px; }
 
-.modalUserDelete .row.right {
-    align-items: flex-end;
-}
-
 .modalUserDelete .gridContainer { flex: 1; }
 
 .modalUserDelete .gridContainer .grid {

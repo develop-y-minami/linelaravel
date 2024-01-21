@@ -49,6 +49,19 @@ class SelectBox {
     }
 
     /**
+     * 項目値に指定された選択項目を削除
+     * 
+     * @param {*} value 項目値
+     */
+    removeByValue(value) {
+        for (let i = 0; i < this.$options.length; i++) {
+            if (value == this.$options[i].val()) {
+                this.$options[i].remove();
+            }
+        }
+    }
+
+    /**
      * 先頭項目以外を削除
      * 
      */

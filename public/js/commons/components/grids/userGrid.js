@@ -116,9 +116,12 @@ class UserGrid extends AgGrid {
      * @param {number} userAccountType   担当者アカウント種別
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
+     * @param {Deferred}
      */
     async setRowData({userType = null, serviceProviderId = null, userAccountType = null, accountId = null, name = null}) {
         try {
+            let deferred = new $.Deferred();
+
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
 

@@ -45,7 +45,7 @@ class ServiceProviderUserSelectBox {
                     // 選択項目を取得
                     let user = this.userSelectBox.$options[i];
 
-                    if (Number(serviceProviderId) === user.data('service-provider-id')) {
+                    if (Number(serviceProviderId) === user.data('serviceproviderid')) {
                         // 同一サービス提供者の担当者を追加
                         this.userSelectBox.$element.append(user);
                     }

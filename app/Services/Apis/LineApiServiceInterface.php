@@ -53,6 +53,15 @@ interface LineApiServiceInterface
     );
 
     /**
+     * サービス提供者情報を更新
+     * 
+     * @param array ids               LINE情報ID
+     * @param int   serviceProviderId サービス提供者ID
+     * @return array LINE情報
+     */
+    public function updatesServiceProvider($ids, $serviceProviderId);
+
+    /**
      * LINE担当者情報を設定
      * 
      * @param int   id                LINE情報ID

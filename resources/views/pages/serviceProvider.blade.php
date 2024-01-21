@@ -55,6 +55,7 @@
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
     <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/lineSettingMode.js') }}"></script>
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
 
@@ -117,7 +118,7 @@
                 <div class="profile">
                     <div class="row">
                         <div class="itemName">担当者数</div>
-                        <div id="userCount" class="data">15</div>
+                        <div id="userCount" class="data"></div>
                     </div>
                 </div>
                 {{--担当者グリッド--}}
@@ -130,11 +131,11 @@
                 <div class="profile">
                     <div class="row">
                         <div class="itemName">LINE数</div>
-                        <div id="lineCount" class="data">15</div>
+                        <div id="lineCount" class="data"></div>
                     </div>
                     <div class="row">
                         <div class="itemName">有効LINE数</div>
-                        <div id="lineCount" class="data">5</div>
+                        <div id="lineValidCount" class="data"></div>
                     </div>
                 </div>
                 <div class="statisticsContainer">
@@ -191,6 +192,20 @@
                 </x-modals.userInput>
                 {{--担当者削除モーダル--}}
                 <x-modals.userDelete :serviceProviderSelectItems='$data->serviceProviderSelectItems'></x-modals.userDelete>
+                {{--LINE設定モーダル--}}
+                <x-modals.lineSetting
+                    id="modalLineSettingSetting" 
+                    :settingServiceProviderId='$data->serviceProvider->id'
+                    :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+                    :userSelectItems='$data->userSelectItems'>
+                </x-modals.lineSetting>
+                <x-modals.lineSetting
+                    id="modalLineSettingRelease" 
+                    :mode='\LineSettingMode::RELEASE["value"]'
+                    :settingServiceProviderId='$data->serviceProvider->id'
+                    :serviceProviderSelectItems='$data->serviceProviderSelectItems'
+                    :userSelectItems='$data->userSelectItems'>
+                </x-modals.lineSetting>
             </div>
         </div>
     </div>

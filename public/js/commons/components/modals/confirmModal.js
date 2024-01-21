@@ -56,6 +56,11 @@ class ConfirmModal extends Modal {
      */
     callbackClass;
     /**
+     * メッセージ
+     * 
+     */
+    $message;
+    /**
      * Yesボタン
      * 
      */
@@ -85,6 +90,7 @@ class ConfirmModal extends Modal {
     constructor(callbackClass = null, id = 'modalConfirm') {
         super(id);
         this.callbackClass = callbackClass;
+        this.$message = $('#' + id + 'Message');
         this.$btnYes = $('#' + id + 'BtnYes');
         this.$btnNo = $('#' + id + 'BtnNo');
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
@@ -95,6 +101,18 @@ class ConfirmModal extends Modal {
         // イベントを設定
         this.$btnYes.on('click', { me : this }, this.clickBtnYes);
         this.$btnNo.on('click', { me : this }, this.clickBtnNo);
+    }
+
+    /**
+     * メッセージを設定
+     * 
+     * @param {string} message メッセージ
+     * @returns {Modal} this
+     */
+    setMessage(message) {
+        this.$message.html(message);
+
+        return this;
     }
 
     /**

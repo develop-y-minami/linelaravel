@@ -29,8 +29,16 @@
 
 .modalLineSetting .row:last-child { margin-bottom: 0px; }
 
-.modalLineSetting .row.right {
-    align-items: flex-end;
+.modalLineSetting .conditionsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalLineSetting .conditionsContainer .conditions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .modalLineSetting .gridContainer { flex: 1; }

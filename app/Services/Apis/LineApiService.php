@@ -187,6 +187,66 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     }
 
     /**
+     * サービス提供者情報を更新
+     * 
+     * @param array ids               LINE情報ID
+     * @param int   serviceProviderId サービス提供者ID
+     * @return array LINE情報
+     */
+    public function updatesServiceProvider($ids, $serviceProviderId)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // 返却データ
+            $result = array();
+
+            $serviceProviderSettingDate;
+            if ($serviceProviderId == null) {
+                $serviceProviderSettingDate = null;
+            } else {
+                // 現在日付を設定
+                $serviceProviderSettingDate = Carbon::today()->__toString();
+            }
+
+            // サービス提供者情報を更新
+            $this->lineRepository->updatesServiceProvider($ids, $serviceProviderId, $serviceProviderSettingDate);
+
+            // LINE情報を取得
+            $datas = $this->lineRepository->findByIds($ids);
+            foreach ($datas as $data)
+            {
+                // サービス提供者情報を設定
+                $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+                // ユーザー情報を設定
+                $user = new User($data->user->id, $data->user->name);
+                // LINEアカウント状態を設定
+                $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
+                // LINEアカウント種別を設定
+                $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
+                // LINE情報を設定
+                $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
+
+                // 配列に追加
+                $result[] = $line;
+            }
+
+            // コミット
+            \DB::commit();
+
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
      * LINE担当者情報を設定
      * 
      * @param int   id                LINE情報ID

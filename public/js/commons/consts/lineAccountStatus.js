@@ -39,4 +39,21 @@ class LineAccountStatus {
                 return 'red';
         }
     }
+
+    /**
+     * アカウント状態が有効か判定
+     * 
+     * @param {number} lineAccountStatus LINEアカウント状態
+     * @returns {boolean} 結果
+     */
+    static isValid(lineAccountStatus) {
+        switch (Number(lineAccountStatus)) {
+            case LineAccountStatus.FOLLOW:
+            case LineAccountStatus.JOIN:
+                return true;
+            case LineAccountStatus.UNFOLLOW:
+            case LineAccountStatus.LEAVE:
+                return false;
+        }
+    }
 }

@@ -36,6 +36,22 @@ class LineRepository implements LineRepositoryInterface
     /**
      * LINE情報を取得
      * 
+     * @param array ids ID
+     * @return Line LINE情報
+     */
+    public function findByIds($ids)
+    {
+        return Line::with([
+            'serviceProvider',
+            'user',
+            'lineAccountType',
+            'lineAccountStatus'
+        ])->whereIn('id', $ids)->get();
+    }
+
+    /**
+     * LINE情報を取得
+     * 
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
@@ -75,7 +91,11 @@ class LineRepository implements LineRepositoryInterface
         // 担当者ID
         if ($userId != null) $query->whereUserId($userId);
 
-        $query->orderBy('created_at', 'desc');
+        $query->orderBy('service_provider_id')
+        ->orderBy('user_id')
+        ->orderBy('line_account_type_id')
+        ->orderBy('line_account_status_id')
+        ->orderBy('display_name');
 
         return $query->get();
     }
@@ -115,6 +135,24 @@ class LineRepository implements LineRepositoryInterface
             'picture_url' => $pictureUrl,
             'line_account_status_id' => $lineAccountStatusId,
             'line_account_type_id' => $lineAccountTypeId,
+        ]);
+    }
+
+    /**
+     * サービス提供者を更新
+     * 
+     * @param array  ids                        LINE情報ID
+     * @param int    serviceProviderId          サービス提供者ID
+     * @param string serviceProviderSettingDate サービス提供者設定日
+     * @return int 更新件数
+     */
+    public function updatesServiceProvider($ids, $serviceProviderId, $serviceProviderSettingDate)
+    {
+        return Line::whereIn('id', $ids)->update([
+            'service_provider_id' => $serviceProviderId,
+            'service_provider_setting_date' => $serviceProviderSettingDate,
+            'user_id' => null,
+            'user_setting_date' => null
         ]);
     }
 

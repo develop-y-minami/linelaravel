@@ -40,6 +40,21 @@ $(function() {
      */
     $createdAt = $('#createdAt');
     /**
+     * 担当者数
+     * 
+     */
+    $userCount = $('#userCount');
+    /**
+     * LINE数
+     * 
+     */
+    $lineCount = $('#lineCount');
+    /**
+     * 有効LINE数
+     * 
+     */
+    $lineValidCount = $('#lineValidCount');
+    /**
      * サービス提供者編集
      * 
      */
@@ -92,10 +107,43 @@ $(function() {
         new UserDeleteModalCallbackClass(
             userDeleteModalCallback,
             {
-                grid: userGrid
+                grid: userGrid,
+                $userCount: $userCount
             }
         )
-    );
+    ).init();
+    /**
+     * LINE設定モーダル（設定）
+     * 
+     */
+    let lineSettingSettingModal = new LineSettingModal(
+        new LineSettingModalCallbackClass(
+            lineSettingModalSettingCallback,
+            null,
+            {
+                grid: lineGrid,
+                $lineCount: $lineCount,
+                $lineValidCount: $lineValidCount
+            }
+        )
+        ,'modalLineSettingSetting'
+    ).init();
+    /**
+     * LINE設定モーダル（解除）
+     * 
+     */
+    let lineSettingReleaseModal = new LineSettingModal(
+        new LineSettingModalCallbackClass(
+            null,
+            lineSettingModalReleaseCallback,
+            {
+                grid: lineGrid,
+                $lineCount: $lineCount,
+                $lineValidCount: $lineValidCount
+            }
+        )
+        ,'modalLineSettingRelease'
+    ).init();
 
     try {
         // 初期化処理を実行
@@ -111,12 +159,10 @@ $(function() {
     function init() {
         try {
             // 担当者グリッドにデータを設定
-            userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
-            userGrid.setRowData({serviceProviderId : serviceProviderId});
+            setUserGrid();
 
             // LINEグリッドにデータを設定
-            lineGrid.hideColumns(['serviceProvider']);
-            lineGrid.setRowData({serviceProviderId : serviceProviderId});    
+            setLineGrid();
 
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
@@ -222,6 +268,34 @@ $(function() {
         } catch(error) {
             throw error;
         }
+    }
+
+    /**
+     * 担当者グリッドを設定
+     * 
+     */
+    async function setUserGrid() {
+        // 非表示カラムを設定
+        userGrid.hideColumns(['userType.name', 'serviceProvider', 'btnEdit', 'btnDelete']);
+
+        // 行データを設定
+        await userGrid.setRowData({serviceProviderId : serviceProviderId});
+
+        // 担当者数を設定
+        $userCount.html(userGrid.gridApi.getDisplayedRowCount());
+    }
+
+    async function setLineGrid() {
+        // 非表示カラムを設定
+        lineGrid.hideColumns(['serviceProvider']);
+
+        // 行データを設定
+        await lineGrid.setRowData({serviceProviderId : serviceProviderId});
+
+        // LINE数を設定
+        $lineCount.html(lineGrid.gridApi.getDisplayedRowCount());
+        // 有効LINE数を設定
+        $lineValidCount.html(lineGrid.getValidRowCount());
     }
 
     /**
@@ -336,7 +410,8 @@ $(function() {
                 userInputModalRegisterCallback,
                 null,
                 {
-                    grid: userGrid
+                    grid: userGrid,
+                    $userCount: $userCount
                 }
             )
         ).init();
@@ -360,6 +435,8 @@ $(function() {
     function userInputModalRegisterCallback(data) {
         // グリッドにデータを追加
         this.context.grid.addRow(data);
+        // 担当者数を設定
+        this.context.$userCount.html(this.context.grid.gridApi.getDisplayedRowCount());
     }
 
     /**
@@ -379,6 +456,8 @@ $(function() {
     function userDeleteModalCallback(ids) {
         // 行データを削除
         this.context.grid.deleteRows(ids);
+        // 担当者数を設定
+        this.context.$userCount.html(this.context.grid.gridApi.getDisplayedRowCount());
     }
 
     /**
@@ -386,12 +465,44 @@ $(function() {
      * 
      */
     $lineSetting.on('click', function(e) {
+        // LINE設定モーダルを起動
+        lineSettingSettingModal.init().setGrid().show();
     });
+
+    /**
+     * LINE設定モーダル設定ボタンコールバック
+     * 
+     * @param {array} datas LINE情報
+     */
+    function lineSettingModalSettingCallback(datas) {
+        // グリッドにデータを追加
+        this.context.grid.addRows(datas);
+        // LINE数を設定
+        this.context.$lineCount.html(this.context.grid.gridApi.getDisplayedRowCount());
+        // 有効LINE数を設定
+        this.context.$lineValidCount.html(this.context.grid.getValidRowCount());
+    }
 
     /**
      * LINE設定解除クリック時
      * 
      */
     $lineSettingRelease.on('click', function(e) {
+        // LINE設定モーダルを起動
+        lineSettingReleaseModal.init().setGrid().show();
     });
+
+    /**
+     * LINE設定モーダル解除ボタンコールバック
+     * 
+     * @param {array} ids LINE情報ID
+     */
+    function lineSettingModalReleaseCallback(ids) {
+        // 行データを削除
+        this.context.grid.deleteRows(ids);
+        // LINE数を設定
+        this.context.$lineCount.html(this.context.grid.gridApi.getDisplayedRowCount());
+        // 有効LINE数を設定
+        this.context.$lineValidCount.html(this.context.grid.getValidRowCount());
+    }
 });

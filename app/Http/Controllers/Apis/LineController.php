@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\LineServiceProviderUpdateRequest;
 use App\Http\Requests\LineUserSettingRequest;
 use App\Services\Apis\LineApiServiceInterface;
 use App\Jsons\LineApis\Responses\LinesResponse;
@@ -30,6 +31,46 @@ class LineController extends Controller
     public function __construct(LineApiServiceInterface $lineApiServiceInterface)
     {
         $this->lineApiServiceInterface = $lineApiServiceInterface;
+    }
+
+    /**
+     * LINE情報を取得する
+     * HTTP Method Post
+     * https://{host}/api/line
+     * 
+     * @param Request request リクエスト
+     * @return Json
+     */
+    public function lines(Request $request)
+    {
+        try
+        {
+            // パラメータを取得
+            $lineAccountTypeId = $request->input('lineAccountTypeId');
+            $lineAccountStatusId = $request->input('lineAccountStatusId');
+            $displayName = $request->input('displayName');
+            $serviceProviderId = $request->input('serviceProviderId');
+            $userId = $request->input('userId');
+
+            // キャスト
+            $lineAccountTypeId = $lineAccountTypeId == null ? null : (int)$lineAccountTypeId;
+            $lineAccountStatusId = $lineAccountStatusId == null ? null : (int)$lineAccountStatusId;
+            $serviceProviderId = $serviceProviderId == null ? null : (int)$serviceProviderId;
+            $userId = $userId == null ? null : (int)$userId;
+
+            // LINE情報を取得する
+            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
+            
+            // レスポンスデータを生成
+            $response = new LinesResponse($lines);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse($response);
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
     }
 
     /**
@@ -72,32 +113,26 @@ class LineController extends Controller
     }
 
     /**
-     * LINE情報を取得する
-     * HTTP Method Post
-     * https://{host}/api/line/lines
+     * サービス提供者を設定する
+     * HTTP Method Patch
+     * https://{host}/api/line/serviceProvider
      * 
-     * @param Request request リクエスト
+     * @param LineServiceProviderUpdateRequest request リクエスト
      * @return Json
      */
-    public function lines(Request $request)
+    public function updatesServiceProvider(LineServiceProviderUpdateRequest $request)
     {
         try
         {
             // パラメータを取得
-            $lineAccountTypeId = $request->input('lineAccountTypeId');
-            $lineAccountStatusId = $request->input('lineAccountStatusId');
-            $displayName = $request->input('displayName');
+            $ids = $request->input('ids');
             $serviceProviderId = $request->input('serviceProviderId');
-            $userId = $request->input('userId');
 
             // キャスト
-            $lineAccountTypeId = $lineAccountTypeId == null ? null : (int)$lineAccountTypeId;
-            $lineAccountStatusId = $lineAccountStatusId == null ? null : (int)$lineAccountStatusId;
             $serviceProviderId = $serviceProviderId == null ? null : (int)$serviceProviderId;
-            $userId = $userId == null ? null : (int)$userId;
 
-            // LINE情報を取得する
-            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
+            // サービス提供者情報を更新する
+            $lines = $this->lineApiServiceInterface->updatesServiceProvider($ids, $serviceProviderId);
             
             // レスポンスデータを生成
             $response = new LinesResponse($lines);

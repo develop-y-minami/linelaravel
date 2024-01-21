@@ -19,6 +19,14 @@ interface LineRepositoryInterface
     /**
      * LINE情報を取得
      * 
+     * @param array ids ID
+     * @return Line LINE情報
+     */
+    public function findByIds($ids);
+
+    /**
+     * LINE情報を取得
+     * 
      * @param int    lineAccountTypeId   LINEアカウント種別
      * @param int    lineAccountStatusId LINEアカウント状態
      * @param string displayName         LINE 表示名
@@ -59,6 +67,16 @@ interface LineRepositoryInterface
         $lineAccountStatusId,
         $lineAccountTypeId
     );
+
+    /**
+     * サービス提供者を更新
+     * 
+     * @param array  ids                        LINE情報ID
+     * @param int    serviceProviderId          サービス提供者ID
+     * @param string serviceProviderSettingDate サービス提供者設定日
+     * @return int 更新件数
+     */
+    public function updatesServiceProvider($ids, $serviceProviderId, $serviceProviderSettingDate);
 
     /**
      * LINE情報を更新

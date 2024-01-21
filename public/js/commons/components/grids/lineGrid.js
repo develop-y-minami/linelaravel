@@ -174,4 +174,21 @@ class LineGrid extends AgGrid {
         ], false);
         this.gridApi.setColumnsVisible(['detailInfo'], true);
     }
+
+    /**
+     * 有効LINE数を取得
+     * 
+     * @returns {number} 有効LINE数
+     */
+    getValidRowCount() {
+        let count = 0;
+
+        this.gridApi.forEachNode(function(node) { 
+            if (LineAccountStatus.isValid(node.data.lineAccountStatus.id)) {
+                count++;
+            }
+        });
+
+        return count;
+    }
 }

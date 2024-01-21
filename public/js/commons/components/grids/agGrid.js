@@ -104,6 +104,17 @@ class AgGrid {
     }
 
     /**
+     * 行データを追加
+     * 
+     * @param {array} datas 行データ
+     */
+    addRows(datas) {
+        for (let i = 0; i < datas.length; i++) {
+            this.addRow(datas[i]);
+        }
+    }
+
+    /**
      * 行データを更新
      * 
      * @param {*}      id   id

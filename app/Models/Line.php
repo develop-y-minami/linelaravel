@@ -29,7 +29,10 @@ class Line extends Model
         'picture_url',
         'line_account_type_id',
         'line_account_status_id',
+        'service_provider_id',
+        'service_provider_setting_date',
         'user_id',
+        'user_setting_date',
         'notice_setting',
         'notice_user_setting',
     ];

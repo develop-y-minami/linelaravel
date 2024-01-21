@@ -14,10 +14,10 @@ class LineApi {
      */
     static PREFIX_NOTICES = LineApi.PREFIX + '/notices';
     /**
-     * line/lines
+     * line/serviceProvider
      * 
      */
-    static PREFIX_LINES = LineApi.PREFIX + '/lines';
+    static PREFIX_SERVICE_PROVIDER = LineApi.PREFIX + '/serviceProvider';
     /**
      * line/{id}/user/setting
      * 
@@ -28,6 +28,29 @@ class LineApi {
      * 
      */
     static PREFIX_LINE_TALK_HISTORYS = '/talk/historys';
+
+    /**
+     * LINE情報を取得する
+     * 
+     * @param {number} lineAccountTypeId   LINEアカウント種別ID
+     * @param {number} lineAccountStatusId LINEアカウント状態
+     * @param {string} displayName         LINE表示名
+     * @param {number} serviceProviderId   サービス提供者ID
+     * @param {number} userId              担当者ID
+     * @returns {object} 
+     */
+    static async lines({lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, serviceProviderId = null, userId = null}) {
+        // パラメータを設定
+        let data = {};
+        if (lineAccountTypeId !== null) data.lineAccountTypeId = lineAccountTypeId;
+        if (lineAccountStatusId !== null) data.lineAccountStatusId = lineAccountStatusId;
+        if (displayName !== null) data.displayName = displayName;
+        if (serviceProviderId !== null) data.serviceProviderId = serviceProviderId;
+        if (userId !== null) data.userId = userId;
+
+        let response = await FetchApi.post(LineApi.PREFIX, data);
+        return response;
+    }
 
     /**
      * LINE通知情報を取得する
@@ -53,25 +76,19 @@ class LineApi {
     }
 
     /**
-     * LINE情報を取得する
+     * サービス提供者を設定
      * 
-     * @param {number} lineAccountTypeId   LINEアカウント種別ID
-     * @param {number} lineAccountStatusId LINEアカウント状態
-     * @param {string} displayName         LINE表示名
-     * @param {number} serviceProviderId   サービス提供者ID
-     * @param {number} userId              担当者ID
+     * @param {array}  ids               LINE情報ID
+     * @param {number} serviceProviderId サービス提供者ID
      * @returns {object} 
      */
-    static async lines({lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, serviceProviderId = null, userId = null}) {
+    static async updatesServiceProvider(ids, serviceProviderId) {
         // パラメータを設定
         let data = {};
-        if (lineAccountTypeId !== null) data.lineAccountTypeId = lineAccountTypeId;
-        if (lineAccountStatusId !== null) data.lineAccountStatusId = lineAccountStatusId;
-        if (displayName !== null) data.displayName = displayName;
-        if (serviceProviderId !== null) data.serviceProviderId = serviceProviderId;
-        if (userId !== null) data.userId = userId;
+        data.ids = ids;
+        data.serviceProviderId = serviceProviderId;
 
-        let response = await FetchApi.post(LineApi.PREFIX_LINES, data);
+        let response = await FetchApi.patch(LineApi.PREFIX_SERVICE_PROVIDER, data);
         return response;
     }
 

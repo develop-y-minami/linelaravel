@@ -94,9 +94,12 @@ class UserDeleteModal extends Modal {
     /**
      * モーダルを初期化
      * 
+     * @returns {Modal} this
      */
     init() {
         this.$selServiceProvider.val('0');
+
+        return this;
     }
 
     /**
@@ -183,6 +186,8 @@ class UserDeleteModal extends Modal {
                 this.context.me.close(this.context.event);
 
                 if (this.context.me.callbackClass !== null) {
+                    // データを削除
+                    this.context.me.grid.deleteRows(this.context.ids);
                     // コールバックを実行
                     this.context.me.callbackClass.callback(this.context.ids);
                 }
