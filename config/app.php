@@ -200,6 +200,7 @@ return [
         'LineSettingMode' =>  App\Consts\LineSettingMode::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
         'ServiceProviderUseStop' =>  App\Consts\ServiceProviderUseStop::class,
+        'Term' =>  App\Consts\Term::class,
         'UserAccountType' =>  App\Consts\UserAccountType::class,
         'UserType' =>  App\Consts\UserType::class,
         'ArrayFacade' => App\Facades\ArrayFacadeClass::class,

@@ -33,8 +33,32 @@
 /******************************************************
 *   グラフコンテナー
 ******************************************************/
-.chartContainer {
-    position: relative;
+.chartContainer { position: relative; }
+
+/******************************************************
+*   日付棒グラフコンテナー
+******************************************************/
+.dateBarChartContainer { position: relative; }
+
+.dateBarChartContainer .termContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.dateBarChartContainer .termContainer .term {
+    padding: 5px;
+    border: solid 1px var(--colorGray);
+    border-radius: 50%;
+    color: var(--colorGray);
+    cursor: pointer;
+}
+
+.dateBarChartContainer .termContainer .term.active {
+    border: solid 1px var(--colorBlue);
+    color: var(--colorBlue);
 }
 
 /******************************************************

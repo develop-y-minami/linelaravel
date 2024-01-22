@@ -9,7 +9,7 @@ class DateTimeUtil {
      * 
      * @returns {string} 現在日付
      */
-    static getToday() {
+    static today() {
         let result = '';
 
         // Date型に変換
@@ -26,12 +26,86 @@ class DateTimeUtil {
     }
 
     /**
+     * 指定した日付の初日を取得
+     * 
+     * @param {string} strDate   日時文字列
+     * @returns {string} 日付
+     */
+    static startDate(strDate) {
+        let dateTime = new Date(strDate);
+
+        dateTime.setDate(1);
+
+        return DateTimeUtil.formatDate(dateTime.toLocaleDateString());
+    }
+
+    /**
+     * 指定した日付の月末を取得
+     * 
+     * @param {string} strDate   日時文字列
+     * @returns {string} 日付
+     */
+    static endDate(strDate) {
+        let dateTime = new Date(strDate);
+
+        dateTime.setMonth(dateTime.getMonth() + 1);
+        dateTime.setDate(0);
+
+        return DateTimeUtil.formatDate(dateTime.toLocaleDateString());
+    }
+
+    /**
+     * 指定した日付の年始を取得
+     * 
+     * @param {string} strDate   日時文字列
+     * @returns {string} 日付
+     */
+    static yearStartDate(strDate) {
+        let dateTime = new Date(strDate);
+
+        dateTime.setMonth(0);
+        dateTime.setDate(1);
+
+        return DateTimeUtil.formatDate(dateTime.toLocaleDateString());
+    }
+
+    /**
+     * 指定した日付の年末を取得
+     * 
+     * @param {string} strDate   日時文字列
+     * @returns {string} 日付
+     */
+    static yearLastDate(strDate) {
+        let dateTime = new Date(strDate);
+
+        dateTime.setMonth(12);
+        dateTime.setDate(0);
+
+        return DateTimeUtil.formatDate(dateTime.toLocaleDateString());
+    }
+
+    /**
+     * 指定した年数前の日付を返却
+     * 
+     * @param {string} strDate   日時文字列
+     * @param {number} yearCount 年数
+     * @returns {string} 日付
+     */
+    static beforeYear(strDate, yearCount) {
+        let dateTime = new Date(strDate);
+
+        dateTime.setFullYear(dateTime.getFullYear() - yearCount);
+
+        return DateTimeUtil.formatDate(dateTime.toLocaleDateString());
+    }
+
+    /**
      * yyyy-mm-ddに変換
      * 
      * @param {string} strDate 日時文字列
      * @returns {string} 変換後日時
      */
-    static convertDate(strDate) {
+    static formatDate(strDate) {
         let result = '';
 
         if (strDate !== null && strDate !== '') {

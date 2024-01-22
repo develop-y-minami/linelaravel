@@ -235,6 +235,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
             $data->id,
             $data->display_name,
             $data->picture_url,
+            $data->service_provider_setting_date,
             $lineAccountStatus,
             $lineAccountType,
             $lineUser,

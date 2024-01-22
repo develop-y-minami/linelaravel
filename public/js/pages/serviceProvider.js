@@ -115,6 +115,11 @@ $(function() {
      */
     let lineUserDoughnutChart = new LineUserDoughnutChart();
     /**
+     * LINE数推移棒グラフ
+     * 
+     */
+    let lineTransitionBarChartContainer = new DateBarChartContainer({dateBarChart : LineTransitionBarChart, dateBarChartId : 'lineTransitionBarChart'});
+    /**
      * 担当者削除モーダル
      * 
      */
@@ -189,12 +194,13 @@ $(function() {
             lineAccountTypeDoughnutChart.setData();
             lineAccountStatusDoughnutChart.setData();
             lineUserDoughnutChart.setData();
+            lineTransitionBarChartContainer.setData();
 
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
             userDeleteModal.$serviceProviderContainer.hide();
 
-                let ctx4 = document.getElementById("lineBarChart");
+                /* let ctx4 = document.getElementById("lineBarChart");
                 let myPieChart4 = new Chart(ctx4, {
                     type: 'bar',
                     data: {
@@ -220,7 +226,7 @@ $(function() {
                         responsive: true,
                         maintainAspectRatio: false
                     }
-                  });
+                  }); */
         } catch(error) {
             throw error;
         }
@@ -293,9 +299,9 @@ $(function() {
     function serviceProviderInputModalUpdateCallback(data) {
         this.context.$providerId.text(data.providerId);
         this.context.$name.text(data.name);
-        this.context.$useStartDateTime.data('value', DateTimeUtil.convertDate(data.useStartDateTime));
+        this.context.$useStartDateTime.data('value', DateTimeUtil.formatDate(data.useStartDateTime));
         this.context.$useStartDateTime.text(DateTimeUtil.convertJpDate(data.useStartDateTime));
-        this.context.$useEndDateTime.data('value', DateTimeUtil.convertDate(data.useEndDateTime));
+        this.context.$useEndDateTime.data('value', DateTimeUtil.formatDate(data.useEndDateTime));
         this.context.$useEndDateTime.text(DateTimeUtil.convertJpDate(data.useEndDateTime));
         this.context.$updatedAt.text(DateTimeUtil.convertJpDateTime(data.updatedAt));
         this.context.$createdAt.text(DateTimeUtil.convertJpDateTime(data.createdAt));

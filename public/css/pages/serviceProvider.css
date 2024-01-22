@@ -130,25 +130,4 @@
 
 .serviceProviderPageContainer .doughnutChartContainer .chartContainer { height: 300px; }
 
-.serviceProviderPageContainer .barChartContainer .termContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-}
-
-.serviceProviderPageContainer .barChartContainer .termContainer .term {
-    padding: 5px;
-    border: solid 1px var(--colorGray);
-    border-radius: 50%;
-    color: var(--colorGray);
-    cursor: pointer;
-}
-
-.serviceProviderPageContainer .barChartContainer .termContainer .term.active {
-    border: solid 1px var(--colorBlue);
-    color: var(--colorBlue);
-}
-
-.serviceProviderPageContainer .barChartContainer .chartContainer { height: 400px; }
+.serviceProviderPageContainer .dateBarChartContainer .chartContainer { height: 400px; }

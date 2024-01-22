@@ -58,10 +58,15 @@
     <script src="{{ asset('js/commons/consts/lineAccountType.js') }}"></script>
     <script src="{{ asset('js/commons/components/charts/doughnuts/lineAccountTypeDoughnutChart.js') }}"></script>
     {{--LINE状態ドーナッツグラフ--}}
-    <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
     <script src="{{ asset('js/commons/components/charts/doughnuts/lineAccountStatusDoughnutChart.js') }}"></script>
     {{--LINEユーザードーナッツグラフ--}}
     <script src="{{ asset('js/commons/components/charts/doughnuts/lineUserDoughnutChart.js') }}"></script>
+    {{--LINE数推移棒グラフ--}}
+    <script src="{{ asset('js/commons/consts/term.js') }}"></script>
+    <script src="{{ asset('js/commons/components/containers/dateBarChartContainer.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/bars/barChart.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/bars/dateBarChart.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/bars/lineTransitionBarChart.js') }}"></script>
     {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
@@ -158,17 +163,10 @@
                         {{-- LINEユーザードーナッツグラフ --}}
                         <x-charts.doughnuts.lineUser :serviceProviderId='$data->serviceProvider->id'></x-charts.doughnuts.lineUser>
                     </div>
-                    <div class="barChartContainer">
-                        <div class="termContainer">
-                            <div class="term">年</div>
-                            <div class="term active">月</div>
-                            <div class="term">日</div>
-                            <input type="date" value="2024-01-20">
-                        </div>
-                        <div class="chartContainer">
-                            <canvas id="lineBarChart"></canvas>
-                        </div>
-                    </div>
+                    {{--LINE数推移棒グラフ--}}
+                    <x-containers.dateBarChart>
+                        <x-charts.bars.lineTransition :serviceProviderId='$data->serviceProvider->id'></x-charts.bars.lineTransition>
+                    </x-containers.dateBarChart>
                 </div>
                 {{--LINEグリッド--}}
                 <div id="lineGrid" class="grid ag-theme-material"></div>

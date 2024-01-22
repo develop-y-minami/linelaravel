@@ -136,7 +136,7 @@ class ServiceProviderInputModal extends Modal {
         this.$txtServiceProviderId.val('');
         this.$txtProviderId.val('');
         this.$txtName.val('');
-        this.$txtUseStartDateTime.val(DateTimeUtil.getToday());
+        this.$txtUseStartDateTime.val(DateTimeUtil.today());
         this.$txtUseEndDateTime.val('');
         this.$checkUseStop.prop('checked', false);
 

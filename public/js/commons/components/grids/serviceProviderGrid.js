@@ -210,7 +210,7 @@ class ServiceProviderGrid extends AgGrid {
             params.data.id,
             params.data.providerId,
             params.data.name,
-            DateTimeUtil.convertDate(params.data.useStartDateTime),
+            DateTimeUtil.formatDate(params.data.useStartDateTime),
             params.data.useEndDateTime,
             params.data.useStop
         ).show();
