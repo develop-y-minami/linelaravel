@@ -45,7 +45,8 @@ class LineRepository implements LineRepositoryInterface
             'serviceProvider',
             'user',
             'lineAccountType',
-            'lineAccountStatus'
+            'lineAccountStatus',
+            'lineUser'
         ])->whereIn('id', $ids)->get();
     }
 
@@ -73,7 +74,8 @@ class LineRepository implements LineRepositoryInterface
             'serviceProvider',
             'user',
             'lineAccountType',
-            'lineAccountStatus'
+            'lineAccountStatus',
+            'lineUser'
         ]);
 
         // LINEアカウント種別

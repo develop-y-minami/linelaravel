@@ -25,7 +25,7 @@ class LineUserFactory extends Factory
 
         return [
             'line_id' => Line::factory(),
-            'application_id' => fake()->word(),
+            'account_id' => fake()->word(),
             'mail' => fake()->email(),
             'tel_number' => fake()->phoneNumber(),
             'fax_number' => fake()->phoneNumber(),

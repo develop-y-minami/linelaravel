@@ -19,11 +19,6 @@ class MyChart {
      */
     chartObj;
     /**
-     * データ未設定時のカラー
-     * 
-     */
-    NO_DATA_COLOR = '#f1f1f1';
-    /**
      * オーバーレイ
      * 
      */

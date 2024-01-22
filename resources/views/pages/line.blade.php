@@ -87,7 +87,7 @@
                         <div class="lineUserInfo">
                             <div class="row">
                                 <div class="itemName">アカウントID</div>
-                                <div class="data">{{ $data->line->lineUser->application_id }}</div>
+                                <div class="data">{{ $data->line->lineUser->account_id }}</div>
                             </div>
                             <div class="row">
                                 <div class="itemName">人格</div>

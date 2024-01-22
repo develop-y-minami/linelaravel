@@ -54,9 +54,14 @@
     {{--グラフ--}}
     <script src="{{ asset('js/commons/components/charts/myChart.js') }}"></script>
     <script src="{{ asset('js/commons/components/charts/doughnuts/doughnutChart.js') }}"></script>
-    {{--トークタイプドーナッツグラフ--}}
+    {{--LINEトークタイプドーナッツグラフ--}}
     <script src="{{ asset('js/commons/consts/lineAccountType.js') }}"></script>
     <script src="{{ asset('js/commons/components/charts/doughnuts/lineAccountTypeDoughnutChart.js') }}"></script>
+    {{--LINE状態ドーナッツグラフ--}}
+    <script src="{{ asset('js/commons/consts/lineAccountStatus.js') }}"></script>
+    <script src="{{ asset('js/commons/components/charts/doughnuts/lineAccountStatusDoughnutChart.js') }}"></script>
+    {{--LINEユーザードーナッツグラフ--}}
+    <script src="{{ asset('js/commons/components/charts/doughnuts/lineUserDoughnutChart.js') }}"></script>
     {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
@@ -146,13 +151,12 @@
                 </div>
                 <div class="statisticsContainer">
                     <div class="doughnutChartContainer">
+                        {{-- LINEトークタイプドーナッツグラフ --}}
                         <x-charts.doughnuts.lineAccountType :serviceProviderId='$data->serviceProvider->id'></x-charts.doughnuts.lineAccountType>
-                        <div class="chartContainer">
-                            <canvas id="lineAccountStatusDoughnutChart"></canvas>
-                        </div>
-                        <div class="chartContainer">
-                            <canvas id="lineUserDoughnutChart"></canvas>
-                        </div>
+                        {{-- LINE状態ドーナッツグラフ --}}
+                        <x-charts.doughnuts.lineAccountStatus :serviceProviderId='$data->serviceProvider->id'></x-charts.doughnuts.lineAccountStatus>
+                        {{-- LINEユーザードーナッツグラフ --}}
+                        <x-charts.doughnuts.lineUser :serviceProviderId='$data->serviceProvider->id'></x-charts.doughnuts.lineUser>
                     </div>
                     <div class="barChartContainer">
                         <div class="termContainer">

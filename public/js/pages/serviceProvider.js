@@ -100,10 +100,20 @@ $(function() {
      */
     let lineGrid = new LineGrid('lineGrid').create();
     /**
-     * トークタイプドーナッツグラフ
+     * LINEトークタイプドーナッツグラフ
      * 
      */
     let lineAccountTypeDoughnutChart = new LineAccountTypeDoughnutChart();
+    /**
+     * LINE状態ドーナッツグラフ
+     * 
+     */
+    let lineAccountStatusDoughnutChart = new LineAccountStatusDoughnutChart();
+    /**
+     * LINEユーザードーナッツグラフ
+     * 
+     */
+    let lineUserDoughnutChart = new LineUserDoughnutChart();
     /**
      * 担当者削除モーダル
      * 
@@ -129,7 +139,9 @@ $(function() {
                 grid: lineGrid,
                 $lineCount: $lineCount,
                 $lineValidCount: $lineValidCount,
-                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart
+                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart,
+                lineAccountStatusDoughnutChart: lineAccountStatusDoughnutChart,
+                lineUserDoughnutChart: lineUserDoughnutChart
             }
         )
         ,'modalLineSettingSetting'
@@ -146,7 +158,9 @@ $(function() {
                 grid: lineGrid,
                 $lineCount: $lineCount,
                 $lineValidCount: $lineValidCount,
-                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart
+                lineAccountTypeDoughnutChart: lineAccountTypeDoughnutChart,
+                lineAccountStatusDoughnutChart: lineAccountStatusDoughnutChart,
+                lineUserDoughnutChart: lineUserDoughnutChart
             }
         )
         ,'modalLineSettingRelease'
@@ -173,56 +187,12 @@ $(function() {
 
             // グラフを描画
             lineAccountTypeDoughnutChart.setData();
+            lineAccountStatusDoughnutChart.setData();
+            lineUserDoughnutChart.setData();
 
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
             userDeleteModal.$serviceProviderContainer.hide();
-            
-              let ctx2 = document.getElementById("lineAccountStatusDoughnutChart");
-              let myPieChart2 = new Chart(ctx2, {
-                  type: 'doughnut',
-                  data: {
-                    labels: ['友達/参加中', 'ブロック/退出中'],
-                    datasets: [{
-                        backgroundColor: [
-                            "#cfffcf",
-                            "#ffb8b8"
-                        ],
-                        data: [64, 36]
-                    }]
-                  },
-                  options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '状態'
-                          }
-                    }
-                }
-                });
-
-                let ctx3 = document.getElementById("lineUserDoughnutChart");
-                let myPieChart3 = new Chart(ctx3, {
-                    type: 'doughnut',
-                    data: {
-                      labels: ['登録済', '未登録'],
-                      datasets: [{
-                          backgroundColor: [
-                              "#eccdff",
-                              "#f1f1f1"
-                          ],
-                          data: [64, 36]
-                      }]
-                    },
-                    options: {
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'ユーザー登録'
-                              }
-                        }
-                    }
-                  });
 
                 let ctx4 = document.getElementById("lineBarChart");
                 let myPieChart4 = new Chart(ctx4, {
@@ -470,6 +440,8 @@ $(function() {
 
         // グラフを再描画
         this.context.lineAccountTypeDoughnutChart.setData();
+        this.context.lineAccountStatusDoughnutChart.setData();
+        this.context.lineUserDoughnutChart.setData();
     }
 
     /**
@@ -496,5 +468,7 @@ $(function() {
 
         // グラフを再描画
         this.context.lineAccountTypeDoughnutChart.setData();
+        this.context.lineAccountStatusDoughnutChart.setData();
+        this.context.lineUserDoughnutChart.setData();
     }
 });

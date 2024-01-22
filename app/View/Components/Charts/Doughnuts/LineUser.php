@@ -5,10 +5,10 @@ namespace App\View\Components\Charts\Doughnuts;
 use Illuminate\View\Component;
 
 /**
- * LINEトークタイプ ドーナッツグラフ Component
+ * LINEユーザー ドーナッツグラフ Component
  * 
  */
-class LineAccountType extends Component
+class LineUser extends Component
 {
     /**
      * __construct
@@ -20,7 +20,7 @@ class LineAccountType extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = 'lineAccountTypeDoughnutChart',
+        public readonly string $id = 'lineUserDoughnutChart',
         public readonly string $class = '',
         public readonly string $serviceProviderId = '0',
         public readonly string $userId = '0'
@@ -36,6 +36,6 @@ class LineAccountType extends Component
      */
     public function render()
     {
-        return view('components.charts.doughnuts.lineAccountType');
+        return view('components.charts.doughnuts.lineUser');
     }
 }

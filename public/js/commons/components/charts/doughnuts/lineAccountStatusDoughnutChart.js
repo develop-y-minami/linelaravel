@@ -1,28 +1,8 @@
 /**
- * LineAccountTypeDoughnutChart
+ * LineAccountStatusDoughnutChart
  * 
  */
-class LineAccountTypeDoughnutChart extends DoughnutChart {
-    /**
-     * グラフタイトル
-     * 
-     */
-    TITLE = 'トークタイプ';
-    /**
-     * 凡例
-     * 
-     */
-    LABELS = ['１対１', 'グループ'];
-    /**
-     * 背景色
-     * 
-     */
-    BACK_GROUND_COLOR = ['#00ff002b', '#0000ff17', this.NO_DATA_COLOR];
-    /**
-     * 線色
-     * 
-     */
-    BORDER_COLOR = ['#00ff00', '#009fff', this.NO_DATA_COLOR];
+class LineAccountStatusDoughnutChart extends DoughnutChart {
     /**
      * サービス提供者ID
      * 
@@ -49,13 +29,13 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
      * 
      * @param {string} id ID値
      */
-    constructor(id = 'lineAccountTypeDoughnutChart') {
+    constructor(id = 'lineAccountStatusDoughnutChart') {
         super(
             id,
-            'トークタイプ',
-            ['１対１', 'グループ'],
-            ['#00ff002b', '#0000ff17', '#f1f1f1'],
-            ['#00ff00', '#009fff', '#f1f1f1'],
+            '状態',
+            ['友達/参加中', 'ブロック/退出中'],
+            ['#00ff002b', '#ff00002e', '#f1f1f1'],
+            ['#00ff00', '#ff0000', '#f1f1f1'],
             [null, null, 100]
         );
 
@@ -94,14 +74,14 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
                 let dataCount = lines.length;
 
                 // データ数
-                let oneToOneCount = 0;
-                let group = 0;
+                let validCount = 0;
+                let noValidCount = 0;
 
                 for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].lineAccountType.id === LineAccountType.ONE_TO_ONE) {
-                        oneToOneCount++;
+                    if (LineAccountStatus.isValid(lines[i].lineAccountStatus.id)) {
+                        validCount++;
                     } else {
-                        group++;
+                        noValidCount++;
                     }
                 }
 
@@ -113,16 +93,16 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
                     data.push(null);
                     data.push(100);
                 } else {
-                    // １対１
-                    if (oneToOneCount > 0) {
-                        data.push((oneToOneCount / dataCount) * 100);
+                    // 友達/参加中
+                    if (validCount > 0) {
+                        data.push((validCount / dataCount) * 100);
                     } else {
                         data.push(null);
                     }
 
-                    // グループ
-                    if (group > 0) {
-                        data.push((group / dataCount) * 100);
+                    // ブロック/退出中
+                    if (noValidCount > 0) {
+                        data.push((noValidCount / dataCount) * 100);
                     } else {
                         data.push(null);
                     }

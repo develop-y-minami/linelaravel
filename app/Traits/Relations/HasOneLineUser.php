@@ -20,7 +20,7 @@ trait HasOneLineUser
         return $this->hasOne(LineUser::class)->withDefault(function($model) {
             $model->id = 0;
             $model->line_id = 0;
-            $model->application_id = null;
+            $model->account_id = null;
             $model->personality_id = null;
             $model->name = null;
             $model->name_kana = null;

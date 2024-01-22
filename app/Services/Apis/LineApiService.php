@@ -17,6 +17,7 @@ use App\Jsons\LineApis\LineTalkContentImages;
 use App\Jsons\LineApis\LineTalkContentImage;
 use App\Jsons\LineApis\LineTalkContentText;
 use App\Jsons\LineApis\LineTalkHistory;
+use App\Jsons\LineApis\LineUser;
 use App\Jsons\LineApis\ServiceProvider;
 use App\Jsons\LineApis\User;
 use Carbon\Carbon;
@@ -80,20 +81,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
      */
     public function getLine($id)
     {
-        // LINE情報を取得
-        $data = $this->lineRepository->findById($id);
-        // サービス提供者情報を設定
-        $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
-        // ユーザー情報を設定
-        $user = new User($data->user->id, $data->user->name);
-        // LINEアカウント状態を設定
-        $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
-        // LINEアカウント種別を設定
-        $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
-        // LINE情報を設定
-        $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
-
-        return $line;
+        return $this->getLineJsonObject($data);
     }
 
     /**
@@ -121,19 +109,8 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
         foreach ($datas as $data)
         {
-            // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
-            // ユーザー情報を設定
-            $user = new User($data->user->id, $data->user->name);
-            // LINEアカウント状態を設定
-            $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
-            // LINEアカウント種別を設定
-            $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
-            // LINE情報を設定
-            $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
-
             // 配列に追加
-            $result[] = $line;
+            $result[] = $this->getLineJsonObject($data);
         }
 
         return $result;
@@ -218,19 +195,8 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
             $datas = $this->lineRepository->findByIds($ids);
             foreach ($datas as $data)
             {
-                // サービス提供者情報を設定
-                $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
-                // ユーザー情報を設定
-                $user = new User($data->user->id, $data->user->name);
-                // LINEアカウント状態を設定
-                $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
-                // LINEアカウント種別を設定
-                $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
-                // LINE情報を設定
-                $line = new Line($data->id, $data->display_name, $data->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
-
                 // 配列に追加
-                $result[] = $line;
+                $result[] = $this->getLineJsonObject($data);
             }
 
             // コミット
@@ -244,6 +210,39 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
             \DB::rollback();
             throw $e;
         }
+    }
+
+    /**
+     * LINE情報JSONオブジェクトを返却
+     * 
+     * @param Line data LINE情報
+     * @return Line JSONオブジェクト
+     */
+    private function getLineJsonObject($data)
+    {
+        // LINEユーザー情報を設定
+        $lineUser = new LineUser($data->lineUser->id, $data->lineUser->account_id);
+        // サービス提供者情報を設定
+        $serviceProvider = new ServiceProvider($data->serviceProvider->id, $data->serviceProvider->name);
+        // ユーザー情報を設定
+        $user = new User($data->user->id, $data->user->name);
+        // LINEアカウント状態を設定
+        $lineAccountStatus = new LineAccountStatus($data->lineAccountStatus->id, $data->lineAccountStatus->name);
+        // LINEアカウント種別を設定
+        $lineAccountType = new LineAccountType($data->lineAccountType->id, $data->lineAccountType->name);
+        // LINE情報を設定
+        $line = new Line(
+            $data->id,
+            $data->display_name,
+            $data->picture_url,
+            $lineAccountStatus,
+            $lineAccountType,
+            $lineUser,
+            $serviceProvider,
+            $user
+        );
+
+        return $line;
     }
 
     /**

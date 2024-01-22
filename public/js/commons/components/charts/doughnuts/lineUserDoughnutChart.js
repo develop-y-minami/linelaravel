@@ -1,28 +1,8 @@
 /**
- * LineAccountTypeDoughnutChart
+ * LineUserDoughnutChart
  * 
  */
-class LineAccountTypeDoughnutChart extends DoughnutChart {
-    /**
-     * グラフタイトル
-     * 
-     */
-    TITLE = 'トークタイプ';
-    /**
-     * 凡例
-     * 
-     */
-    LABELS = ['１対１', 'グループ'];
-    /**
-     * 背景色
-     * 
-     */
-    BACK_GROUND_COLOR = ['#00ff002b', '#0000ff17', this.NO_DATA_COLOR];
-    /**
-     * 線色
-     * 
-     */
-    BORDER_COLOR = ['#00ff00', '#009fff', this.NO_DATA_COLOR];
+class LineUserDoughnutChart extends DoughnutChart {
     /**
      * サービス提供者ID
      * 
@@ -49,14 +29,14 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
      * 
      * @param {string} id ID値
      */
-    constructor(id = 'lineAccountTypeDoughnutChart') {
+    constructor(id = 'lineUserDoughnutChart') {
         super(
             id,
-            'トークタイプ',
-            ['１対１', 'グループ'],
-            ['#00ff002b', '#0000ff17', '#f1f1f1'],
-            ['#00ff00', '#009fff', '#f1f1f1'],
-            [null, null, 100]
+            'ユーザー登録',
+            ['登録済', '未登録'],
+            ['#9300ff29', '#f1f1f1'],
+            ['#9300ff', '#f1f1f1'],
+            [null, 100]
         );
 
         // サービス提供者ID
@@ -94,14 +74,14 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
                 let dataCount = lines.length;
 
                 // データ数
-                let oneToOneCount = 0;
-                let group = 0;
+                let existCount = 0;
+                let noExistCount = 0;
 
                 for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].lineAccountType.id === LineAccountType.ONE_TO_ONE) {
-                        oneToOneCount++;
+                    if (lines[i].lineUser.id > 0) {
+                        existCount++;
                     } else {
-                        group++;
+                        noExistCount++;
                     }
                 }
 
@@ -110,19 +90,18 @@ class LineAccountTypeDoughnutChart extends DoughnutChart {
 
                 if (dataCount === 0) {
                     data.push(null);
-                    data.push(null);
                     data.push(100);
                 } else {
-                    // １対１
-                    if (oneToOneCount > 0) {
-                        data.push((oneToOneCount / dataCount) * 100);
+                    // 登録済
+                    if (existCount > 0) {
+                        data.push((existCount / dataCount) * 100);
                     } else {
                         data.push(null);
                     }
 
-                    // グループ
-                    if (group > 0) {
-                        data.push((group / dataCount) * 100);
+                    // 未登録
+                    if (noExistCount > 0) {
+                        data.push((noExistCount / dataCount) * 100);
                     } else {
                         data.push(null);
                     }

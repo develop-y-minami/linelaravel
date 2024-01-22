@@ -17,7 +17,7 @@
                 <tbody>
                     <tr>
                         <th>ユーザーID</th>
-                        <td><a href="">{{ $lineUser->application_id }}</a></td>
+                        <td><a href="">{{ $lineUser->account_id }}</a></td>
                     </tr>
                     <tr>
                         <th>区分</th>
