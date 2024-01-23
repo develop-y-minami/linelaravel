@@ -161,4 +161,29 @@ class ServiceProviderController extends Controller
             throw $e;
         }
     }
+
+    /**
+     * LINE数推移情報を取得
+     * HTTP Method Post
+     * https://{host}/api/serviceProvider/{id}/lineTransition
+     * 
+     * @param Request request リクエスト
+     * @param int     id      サービス提供者情報ID
+     * @return Json
+     */
+    public function lineTransitions(Request $request, $id)
+    {
+        try
+        {
+            // サービス提供者情報を削除
+            //$this->serviceProviderApiService->destroy($id);
+
+            // HTTPステータスコード:200 
+            return $this->jsonResponse();
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
 }
