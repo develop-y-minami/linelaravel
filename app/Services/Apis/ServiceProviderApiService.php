@@ -2,6 +2,7 @@
 
 namespace App\Services\Apis;
 
+use App\Repositorys\LineTransitionRepositoryInterface;
 use App\Repositorys\ServiceProviderRepositoryInterface;
 use App\Repositorys\UserRepositoryInterface;
 use App\Jsons\ServiceProviderApis\ServiceProvider;
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Storage;
  */
 class ServiceProviderApiService implements ServiceProviderApiServiceInterface
 {
+    /**
+     * LineTransitionRepositoryInterface
+     * 
+     */
+    private $lineTransitionRepository;
     /**
      * ServiceProviderRepositoryInterface
      * 
@@ -27,10 +33,12 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     /**
      * __construct
      * 
+     * @param LineTransitionRepositoryInterface  lineTransitionRepository
      * @param ServiceProviderRepositoryInterface serviceProviderRepository
      * @param UserRepositoryInterface            userRepository
      */
     public function __construct(
+        LineTransitionRepositoryInterface $lineTransitionRepository,
         ServiceProviderRepositoryInterface $serviceProviderRepository,
         UserRepositoryInterface $userRepository
     )
@@ -79,6 +87,30 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
 
             // 配列に追加
             $result[] = $serviceProvider;
+        }
+
+        return $result;
+    }
+
+    /**
+     * LINE数推移情報を取得
+     * 
+     * @param int    id                 サービス提供者情報ID
+     * @param string transitionDateFrom 日付：FROM
+     * @param string transitionDateTo   日付：TO
+     * @return array LINE数推移情報
+     */
+    public function getLineTransitions($id, $transitionDateFrom = null, $transitionDateTo  = null)
+    {
+        // 返却データ
+        $result = array();
+
+        // LINE数推移情報を取得
+        $datas = $this->lineTransitionRepository->findByServiceProvider($id, $transitionDateFrom, $transitionDateTo);
+        foreach ($datas as $data)
+        {
+            // LINE数推移情報を取得
+            
         }
 
         return $result;

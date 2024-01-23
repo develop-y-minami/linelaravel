@@ -29,5 +29,8 @@ class BarChart extends MyChart {
         this.chartObj.options.plugins.title.text = title;
         this.chartObj.options.responsive = true;
         this.chartObj.options.maintainAspectRatio = false;
+        this.chartObj.options.scales = {};
+        this.chartObj.options.scales.x = {};
+        this.chartObj.options.scales.y = {};
     }
 }

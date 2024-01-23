@@ -66,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Apis\ServiceProviderApiServiceInterface::class,
             function ($app) {
                 return new \App\Services\Apis\ServiceProviderApiService(
+                    $app->make(\App\Repositorys\LineTransitionRepositoryInterface::class),
                     $app->make(\App\Repositorys\ServiceProviderRepositoryInterface::class),
                     $app->make(\App\Repositorys\UserRepositoryInterface::class)
                 );

@@ -44,6 +44,29 @@ class LineTransitionBarChart extends DateBarChart {
             []
         );
 
+        // 減少数の棒グラフを追加
+        this.chartObj.data.datasets.push({
+            label: '減少数',
+            backgroundColor: ['#ff00002e'],
+            borderColor: ['#ff0000'],
+            borderWidth: 1,
+            data: []
+        });
+
+        // 有効LINE数の線グラフを追加
+        this.chartObj.data.datasets.push({
+            type: 'line',
+            label: '有効LINE数',
+            backgroundColor: ['#0000ff'],
+            borderColor: ['#0000ff'],
+            borderWidth: 1,
+            data: []
+        });
+
+        // 棒グラフを積み上げに設定
+        this.chartObj.options.scales.x.stacked = true;
+        this.chartObj.options.scales.y.stacked = true;
+
         // サービス提供者ID
         this.$serviceProviderId = $('#' + id + 'ServiceProviderId');
         this.serviceProviderId = null;

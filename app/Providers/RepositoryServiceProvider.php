@@ -101,6 +101,12 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositorys\LineTalkHistoryRepository::class
         );
 
+        // LineTransitionRepository
+        $this->app->bind(
+            \App\Repositorys\LineTransitionRepositoryInterface::class,
+            \App\Repositorys\LineTransitionRepository::class
+        );
+
         // ServiceProviderRepository
         $this->app->bind(
             \App\Repositorys\ServiceProviderRepositoryInterface::class,

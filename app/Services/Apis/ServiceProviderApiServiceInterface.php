@@ -27,6 +27,16 @@ interface ServiceProviderApiServiceInterface
     );
 
     /**
+     * LINE数推移情報を取得
+     * 
+     * @param int    id                 サービス提供者情報ID
+     * @param string transitionDateFrom 日付：FROM
+     * @param string transitionDateTo   日付：TO
+     * @return array LINE数推移情報
+     */
+    public function getLineTransitions($id, $transitionDateFrom = null, $transitionDateTo  = null);
+
+    /**
      * サービス提供者情報を登録
      * 
      * @param string providerId       サービス提供者ID
