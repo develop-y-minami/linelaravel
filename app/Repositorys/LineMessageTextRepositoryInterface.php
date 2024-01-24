@@ -9,11 +9,11 @@ namespace App\Repositorys;
 interface LineMessageTextRepositoryInterface
 {
     /**
-     * LINEメッセージ情報を登録
+     * 登録
      * 
      * @param int    lineMessageId LINEメッセージ情報ID
      * @param string text          メッセージ
      * @return LineMessageText LINEメッセージテキスト情報
      */
-    public function create($lineMessageId, $text);
+    public function register($lineMessageId, $text);
 }

@@ -5,18 +5,20 @@ namespace App\Repositorys;
 /**
  * UserRepositoryInterface
  * 
+ * 担当者情報
+ * 
  */
 interface UserRepositoryInterface
 {
     /**
-     * 全担当者情報を取得
+     * 全データ取得
      * 
      * @return Collection 担当者情報
      */
     public function getAll();
 
     /**
-     * ユーザー情報を取得
+     * ID検索
      * 
      * @param int id ID
      * @return User ユーザー情報
@@ -24,7 +26,7 @@ interface UserRepositoryInterface
     public function findById($id);
 
     /**
-     * ユーザー情報を取得
+     * 複数ID検索
      * 
      * @param array ids ID
      * @return Collection 担当者情報
@@ -32,27 +34,27 @@ interface UserRepositoryInterface
     public function findByIds($ids);
 
     /**
-     * 担当者情報を取得
+     * サービス提供者情報ID検索
      * 
-     * @param int serviceProviderId サービス提供者ID
+     * @param int serviceProviderId サービス提供者情報ID
      * @return Collection 担当者情報
      */
     public function findByServiceProviderId($serviceProviderId);
 
     /**
-     * 担当者情報を取得
+     * 担当者種別情報ID検索
      * 
-     * @param int userTypeId 担当者種別
+     * @param int userTypeId 担当者種別情報ID
      * @return Collection 担当者情報
      */
     public function findByUserTypeId($userTypeId);
 
     /**
-     * 担当者情報を取得
+     * 条件指定検索
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return Collection 担当者情報
@@ -60,11 +62,11 @@ interface UserRepositoryInterface
     public function findByconditions($userTypeId = null, $serviceProviderId = null, $userAccountTypeId = null, $accountId = null, $name = null);
 
     /**
-     * 担当者情報を登録
+     * 登録
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
@@ -74,12 +76,12 @@ interface UserRepositoryInterface
     public function register($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email, $password);
 
     /**
-     * 担当者情報を更新
+     * 更新
      * 
-     * @param int    id                担当者情報ID
-     * @param int    userTypeId        担当者種別
+     * @param int    id                ID
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
@@ -88,7 +90,7 @@ interface UserRepositoryInterface
     public function update($id, $userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name, $email);
 
     /**
-     * 担当者情報を保存
+     * 保存
      * 
      * @param User user 担当者情報
      * @return bool 結果
@@ -96,17 +98,17 @@ interface UserRepositoryInterface
     public function save($user);
 
     /**
-     * 担当者情報を削除
+     * 削除
      * 
-     * @param int id 担当者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id);
 
     /**
-     * 担当者情報を削除
+     * 複数削除
      * 
-     * @param array id 担当者情報ID
+     * @param array id ID
      * @return int 削除件数
      */
     public function deletes($ids);

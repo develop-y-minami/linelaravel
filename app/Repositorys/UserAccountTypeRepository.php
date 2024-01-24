@@ -8,11 +8,13 @@ use App\Models\UserAccountType;
 /**
  * UserAccountTypeRepository
  * 
+ * 担当者アカウント種別情報
+ * 
  */
 class UserAccountTypeRepository implements UserAccountTypeRepositoryInterface
 {
     /**
-     * 全担当者アカウント種別情報を取得
+     * 全データ取得
      * 
      * @return Collection 担当者アカウント種別情報
      */

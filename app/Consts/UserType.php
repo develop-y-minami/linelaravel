@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * UserType
  * 
+ * 担当者種別情報
+ * 
  */
 class UserType
 {

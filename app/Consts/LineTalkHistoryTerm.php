@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineTalkHistoryTerm
  * 
+ * LINEトーク履歴表示期間
+ * 
  */
 class LineTalkHistoryTerm
 {

@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * UserDeleteRequest
  * 
+ * 担当者情報削除リクエスト
+ * 
  */
 class UserDeleteRequest extends FormRequest
 {

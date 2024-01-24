@@ -4,6 +4,9 @@ namespace App\Facades;
 
 /**
  * ArrayFacade
+ * 
+ * 配列共通処理
+ * 
  */
 class ArrayFacade
 {

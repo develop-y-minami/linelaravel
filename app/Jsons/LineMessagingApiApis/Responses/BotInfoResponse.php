@@ -7,6 +7,8 @@ use App\Jsons\LineMessagingApiApis\BotInfo;
 /**
  * BotInfoResponse
  * 
+ * ボット情報取得レスポンス
+ * 
  */
 class BotInfoResponse implements \JsonSerializable
 {

@@ -5,6 +5,8 @@ namespace App\Objects;
 /**
  * UserSelectItem
  * 
+ * 担当者情報セレクトボックス選択項目
+ * 
  */
 class UserSelectItem extends SelectItem
 {

@@ -10,6 +10,8 @@ use App\Services\Apis\LineWebhookServiceInterface;
 /**
  * LineWebhookController
  * 
+ * LINE Webhook
+ * 
  */
 class LineWebhookController extends Controller
 {

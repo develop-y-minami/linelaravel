@@ -8,13 +8,15 @@ use App\Models\LineNoticeType;
 /**
  * LineNoticeTypeRepository
  * 
+ * LINE通知種別情報
+ * 
  */
 class LineNoticeTypeRepository implements LineNoticeTypeRepositoryInterface
 {
     /**
-     * LINE通知種別を取得
+     * 全データ取得
      * 
-     * @return Collection LINE通知種別
+     * @return Collection LINE通知種別情報
      */
     public function getAll()
     {
@@ -22,10 +24,10 @@ class LineNoticeTypeRepository implements LineNoticeTypeRepositoryInterface
     }
 
     /**
-     * LINE通知種別を取得
+     * 種別名検索
      * 
-     * @param string LINE通知種別名
-     * @return LineNoticeType LINE通知種別
+     * @param string 種別名
+     * @return LineNoticeType LINE通知種別情報
      */
     public function findByType($type)
     {

@@ -5,7 +5,7 @@ namespace App\Consts;
 /**
  * EditMode
  * 
- * モード
+ * 登録/編集モード
  * 
  */
 class EditMode

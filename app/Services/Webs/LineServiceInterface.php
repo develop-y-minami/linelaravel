@@ -5,6 +5,8 @@ namespace App\Services\Webs;
 /**
  * LineServiceInterface
  * 
+ * LINE情報
+ * 
  */
 interface LineServiceInterface
 {

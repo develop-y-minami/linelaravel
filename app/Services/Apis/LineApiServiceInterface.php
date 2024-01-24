@@ -19,38 +19,26 @@ interface LineApiServiceInterface
     /**
      * LINE情報を返却
      * 
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param string displayName         LINE 表示名
-     * @param int    serviceProviderId   サービス提供者ID
-     * @param int    userId              担当者ID
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return array LINE情報
      */
-    public function getLines(
-        $lineAccountTypeId = null,
-        $lineAccountStatusId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    );
+    public function getLines($lineAccountTypeId = null, $lineAccountStatusId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null);
 
     /**
      * LINE通知情報を返却
      * 
-     * @param string noticeDate        通知日
-     * @param int    lineNoticeTypeId  LINE通知種別
-     * @param string displayName       LINE 表示名
-     * @param int    serviceProviderId サービス提供者ID
-     * @param int    userId            担当者ID
+     * @param string noticeDate             通知日
+     * @param int    lineNoticeTypeId       LINE通知種別情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return array LINE通知情報
      */
-    public function getNotices(
-        $noticeDate = null,
-        $lineNoticeTypeId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    );
+    public function getNotices($noticeDate = null, $lineNoticeTypeId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null);
 
     /**
      * サービス提供者情報を更新

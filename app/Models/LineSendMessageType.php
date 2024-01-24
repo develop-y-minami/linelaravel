@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineSendMessageType
  * 
+ * LINE送信メッセージ種別情報
+ * 
  */
 class LineSendMessageType extends Model
 {

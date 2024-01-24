@@ -5,15 +5,17 @@ namespace App\Jsons\LineMessagingApiApis;
 /**
  * BotInfo
  * 
+ * ボット情報
+ * 
  */
 class BotInfo implements \JsonSerializable
 {
     /**
      * __construct
      * 
-     * @param string basicId     ボットのベーシックID
-     * @param string displayName ボットの表示名
-     * @param string pictureUrl  プロフィール画像のURL
+     * @param string basicId     ベーシックID
+     * @param string displayName 表示名
+     * @param string pictureUrl  プロフィール画像URL
      */
     public function __construct(
         public readonly string $basicId,

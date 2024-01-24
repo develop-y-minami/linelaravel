@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineMessage
  * 
+ * LINEメッセージ情報
+ * 
  */
 class LineMessage extends Model
 {
@@ -22,7 +24,8 @@ class LineMessage extends Model
      */
     protected $fillable = [
         'line_message_type_id',
-        'message_id',
-        'quote_token',
+        'line_channel_message_id',
+        'line_channel_quote_token',
+        'line_notice_id',
     ];
 }

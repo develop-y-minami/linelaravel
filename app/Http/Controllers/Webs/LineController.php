@@ -16,6 +16,8 @@ use App\Objects\Pages\LinePage;
 /**
  * LineController
  * 
+ * LINE情報
+ * 
  */
 class LineController extends Controller
 {

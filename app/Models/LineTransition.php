@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineTransition
  * 
+ * LINE数推移情報
+ * 
  */
 class LineTransition extends Model
 {

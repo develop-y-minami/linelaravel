@@ -7,13 +7,15 @@ use App\Jsons\UserApis\User;
 /**
  * UserUpdateResponse
  * 
+ * 担当者情報更新レスポンス
+ * 
  */
 class UserUpdateResponse implements \JsonSerializable
 {
     /**
      * __construct
      * 
-     * @param User user ユーザー情報
+     * @param User user 担当者情報
      */
     public function __construct(public readonly User $user)
     {

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Gender
  * 
+ * 性別情報
+ * 
  */
 class Gender extends Model
 {

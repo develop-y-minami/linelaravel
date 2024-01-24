@@ -7,6 +7,8 @@ use App\Models\ServiceProvider;
 /**
  * ServiceProviderPage
  * 
+ * サービス提供者情報ページ
+ * 
  */
 class ServiceProviderPage
 {

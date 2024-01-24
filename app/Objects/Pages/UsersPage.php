@@ -5,6 +5,8 @@ namespace App\Objects\Pages;
 /**
  * UsersPage
  * 
+ * 担当者情報ページ
+ * 
  */
 class UsersPage
 {

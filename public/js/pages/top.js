@@ -23,7 +23,7 @@ $(function() {
      * LINE表示名テキストボックス
      * 
      */
-    let $txtLineDisplayName = $('#txtLineDisplayName');
+    let $txtLineChannelDisplayName = $('#txtLineChannelDisplayName');
     /**
      * 検索ボタン
      * 
@@ -68,7 +68,7 @@ $(function() {
      * LINE表示名の入力値
      * 
      */
-    let txtLineDisplayName = null;
+    let txtLineChannelDisplayName = null;
 
     try {
         // 初期化処理を実行
@@ -106,7 +106,7 @@ $(function() {
         grid.setRowData({
             noticeDate : txtLineNoticeDate,
             lineNoticeTypeId : selLineNoticeType,
-            displayName : txtLineDisplayName,
+            lineChannelDisplayName : txtLineChannelDisplayName,
             serviceProviderId : selServiceProvider,
             userId : searchUser
         });
@@ -142,9 +142,9 @@ $(function() {
         }
 
         // LINE表示名
-        txtLineDisplayName = null;
-        if (StringUtil.isInputBlank($txtLineDisplayName.val()) !== '') {
-            txtLineDisplayName = $txtLineDisplayName.val().trim();
+        txtLineChannelDisplayName = null;
+        if (StringUtil.isInputBlank($txtLineChannelDisplayName.val()) !== '') {
+            txtLineChannelDisplayName = $txtLineChannelDisplayName.val().trim();
         }
     }
 });

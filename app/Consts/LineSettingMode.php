@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineSettingMode
  * 
+ * LINE設定/解除
+ * 
  */
 class LineSettingMode
 {

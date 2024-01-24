@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Personality
  * 
+ * 人格情報
+ * 
  */
 class Personality extends Model
 {

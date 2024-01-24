@@ -14,6 +14,8 @@ use App\Objects\Pages\UsersPage;
 /**
  * UserController
  * 
+ * 担当者情報
+ * 
  */
 class UserController extends Controller
 {
@@ -99,7 +101,7 @@ class UserController extends Controller
      * https://{host}/user/{id}
      * 
      * @param Request request リクエスト
-     * @param int     id      担当者ID
+     * @param int id ID
      * @return View
      */
     public function user(Request $request, $id)

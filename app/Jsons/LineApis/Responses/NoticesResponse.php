@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis\Responses;
 /**
  * NoticesResponse
  * 
+ * LINE通知情報取得レスポンス
+ * 
  */
 class NoticesResponse implements \JsonSerializable
 {

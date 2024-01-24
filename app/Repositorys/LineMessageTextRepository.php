@@ -12,13 +12,13 @@ use App\Models\LineMessageText;
 class LineMessageTextRepository implements LineMessageTextRepositoryInterface
 {
     /**
-     * LINEメッセージ情報を登録
+     * 登録
      * 
      * @param int    lineMessageId LINEメッセージ情報ID
      * @param string text          メッセージ
      * @return LineMessageText LINEメッセージテキスト情報
      */
-    public function create($lineMessageId, $text)
+    public function register($lineMessageId, $text)
     {
         return LineMessageText::create([
             'line_message_id' => $lineMessageId,

@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineAccountStatus
  * 
+ * LINEアカウント状態情報
+ * 
  */
 class LineAccountStatus
 {

@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis;
 /**
  * LineNoticeType
  * 
+ * LINE通知種別情報
+ * 
  */
 class LineNoticeType implements \JsonSerializable
 {
@@ -12,7 +14,7 @@ class LineNoticeType implements \JsonSerializable
      * __construct
      * 
      * @param int    id          ID
-     * @param string displayName LINE通知種別
+     * @param string displayName 表示名
      */
     public function __construct(public readonly int $id, public readonly string $displayName)
     {

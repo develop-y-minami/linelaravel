@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineChannelMode
  * 
+ * LINEチャネル状態
+ * 
  */
 class LineChannelMode
 {

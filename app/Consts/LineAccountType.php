@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineAccountType
  * 
+ * LINEアカウント種別情報
+ * 
  */
 class LineAccountType
 {

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 /**
  * UserRepository
  * 
+ * 担当者情報
+ * 
  */
 class UserRepository implements UserRepositoryInterface
 {
@@ -43,7 +45,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * ユーザー情報を取得
+     * ID検索
      * 
      * @param int id ID
      * @return User ユーザー情報
@@ -58,7 +60,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * ユーザー情報を取得
+     * 複数ID検索
      * 
      * @param array ids ID
      * @return Collection 担当者情報
@@ -73,9 +75,9 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を取得
+     * サービス提供者情報ID検索
      * 
-     * @param int serviceProviderId サービス提供者ID
+     * @param int serviceProviderId サービス提供者情報ID
      * @return Collection 担当者情報
      */
     public function findByServiceProviderId($serviceProviderId)
@@ -84,9 +86,9 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を取得
+     * 担当者種別情報ID検索
      * 
-     * @param int userTypeId 担当者種別
+     * @param int userTypeId 担当者種別情報ID
      * @return Collection 担当者情報
      */
     public function findByUserTypeId($userTypeId)
@@ -95,11 +97,11 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を取得
+     * 条件指定検索
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return Collection 担当者情報
@@ -114,13 +116,13 @@ class UserRepository implements UserRepositoryInterface
             'userAccountType',
         ]);
 
-        // 担当者種別
+        // 担当者種別情報ID
         if ($userTypeId !== null) $query->whereUserTypeId($userTypeId);
 
         // サービス提供者情報ID
         if ($serviceProviderId !== null) $query->whereServiceProviderId($serviceProviderId);
 
-        // 担当者アカウント種別
+        // 担当者アカウント種別情報ID
         if ($userAccountTypeId !== null) $query->whereUserAccountTypeId($userAccountTypeId);
 
         // アカウントID
@@ -154,11 +156,11 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を登録
+     * 登録
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
@@ -179,12 +181,12 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を更新
+     * 更新
      * 
-     * @param int    id                担当者情報ID
-     * @param int    userTypeId        担当者種別
+     * @param int    id                ID
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
@@ -203,7 +205,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を保存
+     * 保存
      * 
      * @param User user 担当者情報
      * @return bool 結果
@@ -214,9 +216,9 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を削除
+     * 削除
      * 
-     * @param int id 担当者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id)
@@ -225,9 +227,9 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 担当者情報を削除
+     * 複数削除
      * 
-     * @param array id 担当者情報ID
+     * @param array id ID
      * @return int 削除件数
      */
     public function deletes($ids)

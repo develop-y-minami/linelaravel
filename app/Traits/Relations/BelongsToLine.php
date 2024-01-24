@@ -19,9 +19,10 @@ trait BelongsToLine
     {
         return $this->belongsTo(Line::class)->withDefault(function($model) {
             $model->id = 0;
-            $model->account_id = null;
-            $model->display_name = null;
-            $model->picture_url = null;
+            $model->line_channel_user_id = null;
+            $model->line_channel_group_id = null;
+            $model->line_channel_display_name = null;
+            $model->line_channel_picture_url = null;
             $model->line_account_type_id = 0;
             $model->line_account_status_id = 0;
             $model->service_provider_id = null;

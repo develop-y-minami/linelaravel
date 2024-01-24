@@ -7,6 +7,8 @@ use App\Repositorys\UserTypeRepositoryInterface;
 /**
  * UserTypeService
  * 
+ * 担当者種別情報
+ * 
  */
 class UserTypeService implements UserTypeServiceInterface
 {

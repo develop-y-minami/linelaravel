@@ -33,7 +33,7 @@
             <div class="contentContainer lineContainer">
                 <div class="itemBox">
                     {{--LINEアカウント状態--}}
-                    <div class="labelBox {{ \AppViewFacade::lineAccountStatusLabelBoxColor($data->line->lineAccountStatus->id) }}">{{ $data->line->lineAccountStatus->name }}</div>
+                    <div class="labelBox {{ \AppViewFacade::lineAccountStatusIdLabelBoxColor($data->line->lineAccountStatus->id) }}">{{ $data->line->lineAccountStatus->name }}</div>
                     <div class="caption itemName">LINE情報</div>
                 </div>
                 <div class="profileContainer">

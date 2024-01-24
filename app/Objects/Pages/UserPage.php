@@ -7,6 +7,8 @@ use App\Models\User;
 /**
  * UserPage
  * 
+ * 担当者情報ページ
+ * 
  */
 class UserPage
 {

@@ -10,6 +10,8 @@ use App\Rules\HalfSize;
 /**
  * UserRegisterRequest
  * 
+ * 担当者情報登録リクエスト
+ * 
  */
 class UserRegisterRequest extends FormRequest
 {

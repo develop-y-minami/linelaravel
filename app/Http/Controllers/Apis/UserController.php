@@ -15,6 +15,8 @@ use App\Jsons\UserApis\Responses\UsersResponse;
 /**
  * UserController
  * 
+ * 担当者情報
+ * 
  */
 class UserController extends Controller
 {
@@ -148,7 +150,7 @@ class UserController extends Controller
      * https://{host}/api/user/{id}
      * 
      * @param UserUpdateRequest request リクエスト
-     * @param int               id      担当者情報ID
+     * @param int id ID
      * @return Json
      */
     public function update(UserUpdateRequest $request, $id)
@@ -189,7 +191,7 @@ class UserController extends Controller
      * https://{host}/api/user/{id}
      * 
      * @param Request request リクエスト
-     * @param int     id      担当者情報ID
+     * @param int id ID
      * @return Json
      */
     public function destroy(Request $request, $id)

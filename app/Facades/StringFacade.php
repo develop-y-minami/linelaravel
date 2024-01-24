@@ -4,6 +4,9 @@ namespace App\Facades;
 
 /**
  * StringFacade
+ * 
+ * 文字列共通処理
+ * 
  */
 class StringFacade
 {

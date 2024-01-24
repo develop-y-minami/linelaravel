@@ -8,6 +8,9 @@ use Carbon\Carbon;
 
 /**
  * ViewFacade
+ * 
+ * ビュー共通処理
+ * 
  */
 class ViewFacade
 {

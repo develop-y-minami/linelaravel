@@ -5,6 +5,8 @@ namespace App\Services\Webs;
 /**
  * LineNoticeTypeServiceInterface
  * 
+ * LINE通知種別情報
+ * 
  */
 interface LineNoticeTypeServiceInterface
 {

@@ -5,6 +5,8 @@ namespace App\Jsons\UserApis;
 /**
  * User
  * 
+ * 担当者情報
+ * 
  */
 class User implements \JsonSerializable
 {
@@ -18,7 +20,7 @@ class User implements \JsonSerializable
      * @param string          accountId            アカウントID
      * @param string          name                 名前
      * @param string          email                メールアドレス
-     * @param string          profileImageFilePath プロフィール画像保存先パス
+     * @param string          profileImageFilePath プロフィール画像ファイルパス
      * @param string          createdAt            登録日時
      * @param string          updatedAt            更新日時
      */

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineTalkHistory
  * 
+ * LINEトーク履歴情報
+ * 
  */
 class LineTalkHistory extends Model
 {

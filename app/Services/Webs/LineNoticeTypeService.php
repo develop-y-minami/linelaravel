@@ -13,6 +13,8 @@ use App\Repositorys\LineOfUserNoticeSettingRepositoryInterface;
 /**
  * LineNoticeTypeService
  * 
+ * LINE通知種別情報
+ * 
  */
 class LineNoticeTypeService implements LineNoticeTypeServiceInterface
 {

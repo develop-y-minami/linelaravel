@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * Personality
  * 
+ * 人格情報
+ * 
  */
 class Personality
 {

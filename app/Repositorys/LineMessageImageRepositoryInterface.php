@@ -5,38 +5,40 @@ namespace App\Repositorys;
 /**
  * LineMessageImageRepositoryInterface
  * 
+ * LINEメッセージ画像情報
+ * 
  */
 interface LineMessageImageRepositoryInterface
 {
     /**
-     * LINEメッセージ画像情報を取得
+     * 画像セットID検索
      * 
-     * @param string imageSetId image_set_id
+     * @param string lineChannelImageSetId 画像セットID
      * @return Collection LINEメッセージ画像情報
      */
-    public function findByImageSetId($imageSetId);
+    public function findByLineChannelImageSetId($lineChannelImageSetId);
     
     /**
-     * LINEメッセージ画像情報を登録
+     * 登録
      * 
-     * @param int    lineMessageId                     LINEメッセージ情報ID
-     * @param string contentProviderType               画像ファイルの提供元
-     * @param string contentProviderOriginalContentUrl 画像ファイルのURL
-     * @param string contentProviderPreviewImageUrl    プレビュー画像のURL
-     * @param string imageSetId                        画像セットID
-     * @param int    imageSetIndex                     同時に送信した画像セットの中で、何番目の画像かを示す
-     * @param int    imageSetTotal                     同時に送信した画像の総数
-     * @param string filePath                          画像ファイルパス
+     * @param int    lineMessageId                                LINEメッセージ情報ID
+     * @param string lineChannelContentProviderType               画像ファイル提供元
+     * @param string lineChannelContentProviderOriginalContentUrl 画像ファイルURL
+     * @param string lineChannelContentProviderPreviewImageUrl    プレビュー画像ファイルURL
+     * @param string lineChannelImageSetId                        画像セットID
+     * @param int    lineChannelImageSetIndex                     画像番号
+     * @param int    lineChannelImageSetTotal                     画像数
+     * @param string filePath                                     画像ファイルパス
      * @return LineMessageImage LINEメッセージ画像情報
      */
-    public function create(
+    public function register(
         $lineMessageId,
-        $contentProviderType,
-        $contentProviderOriginalContentUrl,
-        $contentProviderPreviewImageUrl,
-        $imageSetId,
-        $imageSetIndex,
-        $imageSetTotal,
+        $lineChannelContentProviderType,
+        $lineChannelContentProviderOriginalContentUrl,
+        $lineChannelContentProviderPreviewImageUrl,
+        $lineChannelImageSetId,
+        $lineChannelImageSetIndex,
+        $lineChannelImageSetTotal,
         $filePath
     );
 }

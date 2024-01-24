@@ -5,13 +5,15 @@ namespace App\Services\Webs;
 /**
  * UserServiceInterface
  * 
+ * 担当者情報
+ * 
  */
 interface UserServiceInterface
 {
     /**
      * 担当者情報を取得
      * 
-     * @param int id 担当者ID
+     * @param int id ID
      * @return User 担当者情報
      */
     public function getUser($id);

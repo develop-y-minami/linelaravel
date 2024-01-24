@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis;
 /**
  * LineTalk
  * 
+ * LINEトーク情報
+ * 
  */
 class LineTalk implements \JsonSerializable
 {

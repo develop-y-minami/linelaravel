@@ -5,6 +5,8 @@ namespace App\Objects\Pages;
 /**
  * TopPage
  * 
+ * トップページ
+ * 
  */
 class TopPage
 {

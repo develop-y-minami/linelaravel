@@ -7,6 +7,8 @@ use App\Jsons\LineApis\Line;
 /**
  * TalkHistorysResponse
  * 
+ * LINEトーク履歴情報取得レスポンス
+ * 
  */
 class TalkHistorysResponse implements \JsonSerializable
 {

@@ -23,7 +23,7 @@ class LineCellRenderer {
         let circleImgContainerGui = document.createElement('div');
         let circleImgContainerHtml = '';
         circleImgContainerHtml += '<div class="imgBox">';
-        circleImgContainerHtml += '<img src="' + params.data.pictureUrl + '">';
+        circleImgContainerHtml += '<img src="' + params.data.lineChannelPictureUrl + '">';
         circleImgContainerHtml += '</div>';
         circleImgContainerGui.classList.add('circleImgContainer');
         circleImgContainerGui.innerHTML = circleImgContainerHtml;
@@ -36,7 +36,7 @@ class LineCellRenderer {
         tableHtml += '<tbody>';
         tableHtml += '<tr>';
         tableHtml += '<th>名前</th>';
-        tableHtml += '<td><a href="info\\' + params.data.id + '">' + params.data.displayName + '</a></td>';
+        tableHtml += '<td><a href="info\\' + params.data.id + '">' + params.data.lineChannelDisplayName + '</a></td>';
         tableHtml += '</tr>';
         tableHtml += '<tr>';
 

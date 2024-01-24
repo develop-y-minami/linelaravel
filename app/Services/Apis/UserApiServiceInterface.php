@@ -5,15 +5,17 @@ namespace App\Services\Apis;
 /**
  * UserApiServiceInterface
  * 
+ * 担当者情報
+ * 
  */
 interface UserApiServiceInterface
 {
     /**
      * 担当者情報を取得
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return array 担当者情報
@@ -23,9 +25,9 @@ interface UserApiServiceInterface
     /**
      * 担当者情報を登録
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @param string email             メールアドレス
@@ -38,7 +40,7 @@ interface UserApiServiceInterface
     /**
      * 担当者情報を削除
      * 
-     * @param array ids 担当者情報ID
+     * @param array ids ID
      * @return int 削除件数
      */
     public function deletes($ids);
@@ -46,10 +48,10 @@ interface UserApiServiceInterface
     /**
      * 担当者情報を更新
      * 
-     * @param int    id                担当者情報ID
-     * @param int    userTypeId        担当者種別
+     * @param int    id                ID
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
-     * @param int    userAccountTypeId 担当者アカウント種別
+     * @param int    userAccountTypeId 担当者アカウント種別情報ID
      * @param string accountId         アカウントID
      * @param string name              名前
      * @return User 担当者情報
@@ -59,7 +61,7 @@ interface UserApiServiceInterface
     /**
      * 担当者情報を削除
      * 
-     * @param int id 担当者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id);

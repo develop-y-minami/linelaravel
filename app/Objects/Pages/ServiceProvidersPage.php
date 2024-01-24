@@ -5,6 +5,8 @@ namespace App\Objects\Pages;
 /**
  * ServiceProvidersPage
  * 
+ * サービス提供者情報ページ
+ * 
  */
 class ServiceProvidersPage
 {

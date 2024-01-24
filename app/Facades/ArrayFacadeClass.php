@@ -4,6 +4,10 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * ArrayFacadeClass
+ * 
+ */
 class ArrayFacadeClass extends Facade
 {
 

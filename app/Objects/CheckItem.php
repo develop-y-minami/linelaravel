@@ -5,6 +5,8 @@ namespace App\Objects;
 /**
  * CheckItem
  * 
+ * チェックボックス
+ * 
  */
 class CheckItem
 {

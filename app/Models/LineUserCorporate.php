@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineUserCorporate
  * 
+ * LINEユーザー企業情報
+ * 
  */
 class LineUserCorporate extends Model
 {

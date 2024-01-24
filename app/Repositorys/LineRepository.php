@@ -12,7 +12,7 @@ use App\Models\Line;
 class LineRepository implements LineRepositoryInterface
 {
     /**
-     * LINE情報を取得
+     * 全データ取得
      * 
      * @param int id ID
      * @return Line LINE情報
@@ -34,7 +34,7 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINE情報を取得
+     * 複数ID検索
      * 
      * @param array ids ID
      * @return Line LINE情報
@@ -51,22 +51,27 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINE情報を取得
+     * LINEユーザーID検索
      * 
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param string displayName         LINE 表示名
-     * @param int    serviceProviderId   サービス提供者ID
-     * @param int    userId              担当者ID
+     * @param string lineChannelUserId LINEユーザーID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelUserId($lineChannelUserId)
+    {
+        return Line::whereLineChannelUserId($lineChannelUserId)->first();
+    }
+
+    /**
+     * 条件指定検索
+     * 
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return Collection LINE情報
      */
-    public function findByconditions(
-        $lineAccountTypeId = null,
-        $lineAccountStatusId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    )
+    public function findByconditions($lineAccountTypeId = null, $lineAccountStatusId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null)
     {
         $query = Line::query();
 
@@ -84,67 +89,52 @@ class LineRepository implements LineRepositoryInterface
         // LINEアカウント状態
         if ($lineAccountStatusId !== null) $query->whereLineAccountStatusId($lineAccountStatusId);
 
-        // LINE 表示名
-        if ($displayName != null) $query->where('display_name', 'LIKE', "$displayName%");
+        // LINEプロフィール表示名
+        if ($lineChannelDisplayName != null) $query->where('line_channel_display_name', 'LIKE', "$lineChannelDisplayName%");
 
-        // サービス提供者ID
+        // サービス提供者情報ID
         if ($serviceProviderId != null) $query->whereServiceProviderId($serviceProviderId);
 
-        // 担当者ID
+        // 担当者情報ID
         if ($userId != null) $query->whereUserId($userId);
 
         $query->orderBy('service_provider_id')
         ->orderBy('user_id')
         ->orderBy('line_account_type_id')
         ->orderBy('line_account_status_id')
-        ->orderBy('display_name');
+        ->orderBy('line_channel_display_name');
 
         return $query->get();
     }
 
     /**
-     * LINE情報を取得
+     * 登録
      * 
-     * @param string accountId LINEアカウントID
+     * @param string lineChannelUserId      LINEユーザーID
+     * @param string lineChannelGroupId     LINEグループID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param string lineChannelPictureUrl  LINEプロフィール画像URL
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByAccountId($accountId)
-    {
-        return Line::whereAccountId($accountId)->first();
-    }
-
-    /**
-     * LINE情報を作成
-     * 
-     * @param string accountId           LINEアカウントID
-     * @param string displayName         LINE表示名
-     * @param string pictureUrl          LINEプロフィール画像URL
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @return Line LINE情報
-     */
-    public function create(
-        $accountId,
-        $displayName,
-        $pictureUrl,
-        $lineAccountStatusId,
-        $lineAccountTypeId
-    )
+    public function register($lineChannelUserId, $lineChannelGroupId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId)
     {
         return Line::create([
-            'account_id' => $accountId,
-            'display_name' => $displayName,
-            'picture_url' => $pictureUrl,
+            'line_channel_user_id' => $lineChannelUserId,
+            'line_channel_group_id' => $lineChannelGroupId,
+            'line_channel_display_name' => $lineChannelDisplayName,
+            'line_channel_picture_url' => $lineChannelPictureUrl,
             'line_account_status_id' => $lineAccountStatusId,
             'line_account_type_id' => $lineAccountTypeId,
         ]);
     }
 
     /**
-     * サービス提供者を更新
+     * サービス提供者情報複数更新
      * 
-     * @param array  ids                        LINE情報ID
-     * @param int    serviceProviderId          サービス提供者ID
+     * @param array  ids                        ID
+     * @param int    serviceProviderId          サービス提供者情報ID
      * @param string serviceProviderSettingDate サービス提供者設定日
      * @return int 更新件数
      */
@@ -159,26 +149,27 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINE情報を更新
+     * 保存
      * 
      * @param Line line LINE情報
      * @return Line LINE情報
      */
-    public function save($line) {
+    public function save($line)
+    {
         $line->save();
         return $line;
     }
 
     /**
-     * LINEアカウント状態を更新
+     * LINEアカウント状態情報を保存
      * 
-     * @param Line line              LINE情報
-     * @param int  lineAccountStatus LINEアカウント状態
+     * @param Line line                LINE情報
+     * @param int  lineAccountStatusId LINEアカウント状態情報ID
      * @return Line LINE情報
      */
-    public function saveLineAccountStatus($line, $lineAccountStatus)
+    public function saveLineAccountStatus($line, $lineAccountStatusId)
     {
-        $line->line_account_status_id = $lineAccountStatus;
+        $line->line_account_status_id = $lineAccountStatusId;
         return $this->save($line);
     }
 }

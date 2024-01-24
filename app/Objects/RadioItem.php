@@ -5,6 +5,8 @@ namespace App\Objects;
 /**
  * RadioItem
  * 
+ * ラジオボタン
+ * 
  */
 class RadioItem
 {

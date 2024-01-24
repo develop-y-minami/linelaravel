@@ -5,6 +5,8 @@ namespace App\Objects;
 /**
  * SelectItem
  * 
+ * セレクトボックス選択項目
+ * 
  */
 class SelectItem
 {

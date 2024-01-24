@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineAccountType
  * 
+ * LINEアカウント種別情報
+ * 
  */
 class LineAccountType extends Model
 {

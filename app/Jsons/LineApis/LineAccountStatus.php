@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis;
 /**
  * LineAccountStatus
  * 
+ * LINEアカウント状態情報
+ * 
  */
 class LineAccountStatus implements \JsonSerializable
 {
@@ -12,7 +14,7 @@ class LineAccountStatus implements \JsonSerializable
      * __construct
      * 
      * @param int    id   ID
-     * @param string name LINEアカウント状態
+     * @param string name 状態名
      */
     public function __construct(public readonly ?int $id, public readonly ?string $name)
     {

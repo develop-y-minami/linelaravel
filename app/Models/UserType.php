@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * UserType
  * 
+ * 担当者種別情報
+ * 
  */
 class UserType extends Model
 {

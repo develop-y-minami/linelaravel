@@ -61,14 +61,14 @@ class LineGrid extends AgGrid {
                 hide: userHide,
             },
             {
-                field: 'displayName',
+                field: 'lineChannelDisplayName',
                 headerName: 'LINE',
                 flex: 1,
                 cellRenderer : LinkCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
                     result.url = '\\line\\' + params.data.id;
-                    result.name = params.data.displayName;
+                    result.name = params.data.lineChannelDisplayName;
                     return result;
                 }
             },
@@ -101,13 +101,13 @@ class LineGrid extends AgGrid {
     /**
      * 行データを設定
      * 
-     * @param {number} lineAccountTypeId LINEアカウント種別ID
-     * @param {number} lineAccountStatus LINEアカウント状態
-     * @param {string} displayName       LINE表示名
-     * @param {number} serviceProviderId サービス提供者ID
-     * @param {number} userId            担当者ID
+     * @param {number} lineAccountTypeId      LINEアカウント種別情報ID
+     * @param {number} lineAccountStatusId    LINEアカウント状態情報ID
+     * @param {string} lineChannelDisplayName LINEプロフィール表示名
+     * @param {number} serviceProviderId      サービス提供者情報ID
+     * @param {number} userId                 担当者情報ID
      */
-    async setRowData({lineAccountTypeId = null, lineAccountStatus = null, displayName = null, serviceProviderId = null, userId = null}) {
+    async setRowData({lineAccountTypeId = null, lineAccountStatusId = null, lineChannelDisplayName = null, serviceProviderId = null, userId = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -118,8 +118,8 @@ class LineGrid extends AgGrid {
             // API経由で通知情報を取得
             let result = await LineApi.lines({
                 lineAccountTypeId : lineAccountTypeId,
-                lineAccountStatusId : lineAccountStatus,
-                displayName : displayName,
+                lineAccountStatusId : lineAccountStatusId,
+                lineChannelDisplayName : lineChannelDisplayName,
                 serviceProviderId : serviceProviderId,
                 userId : userId
             });
@@ -144,7 +144,7 @@ class LineGrid extends AgGrid {
      */
     showGridMode() {
         let columns = [];
-        columns.push('displayName');
+        columns.push('lineChannelDisplayName');
         columns.push('lineAccountStatus');
 
         // サービス提供者情報の表示設定
@@ -167,7 +167,7 @@ class LineGrid extends AgGrid {
      */
     showDetailInfoMode() {
         this.gridApi.setColumnsVisible([
-            'displayName',
+            'lineChannelDisplayName',
             'lineAccountStatus',
             'serviceProvider',
             'user'

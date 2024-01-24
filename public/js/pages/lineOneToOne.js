@@ -23,7 +23,7 @@ $(function() {
      * LINE表示名テキストボックス
      * 
      */
-    let $txtLineDisplayName = $('#txtLineDisplayName');
+    let $txtLineChannelDisplayName = $('#txtLineChannelDisplayName');
     /**
      * 表示モード切替
      * 
@@ -73,7 +73,7 @@ $(function() {
      * LINE表示名の入力値
      * 
      */
-    let txtLineDisplayName = null;
+    let txtLineChannelDisplayName = null;
 
 
     try {
@@ -112,7 +112,7 @@ $(function() {
         grid.setRowData({
             lineAccountTypeId : lineAccountTypeId,
             lineAccountStatusId : selLineAccountStatus,
-            displayName : txtLineDisplayName,
+            lineChannelDisplayName : txtLineChannelDisplayName,
             serviceProviderId : selServiceProvider,
             userId : selUser
         });
@@ -142,9 +142,9 @@ $(function() {
         }
 
         // LINE表示名
-        txtLineDisplayName = null;
-        if (StringUtil.isInputBlank($txtLineDisplayName.val()) !== '') {
-            txtLineDisplayName = $txtLineDisplayName.val().trim();
+        txtLineChannelDisplayName = null;
+        if (StringUtil.isInputBlank($txtLineChannelDisplayName.val()) !== '') {
+            txtLineChannelDisplayName = $txtLineChannelDisplayName.val().trim();
         }
     }
 

@@ -8,6 +8,8 @@ use App\Repositorys\LineRepositoryInterface;
 /**
  * LineService
  * 
+ * LINE情報
+ * 
  */
 class LineService implements LineServiceInterface
 {

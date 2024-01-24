@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineNotice
  * 
+ * LINE通知情報
+ * 
  */
 class LineNotice extends Model
 {
     use HasFactory;
     use \App\Traits\Relations\BelongsToLine;
-    use \App\Traits\Relations\BelongsToLineMessage;
     use \App\Traits\Relations\BelongsToLineNoticeType;
+    use \App\Traits\Relations\HasOneLineMessage;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +27,6 @@ class LineNotice extends Model
         'notice_date_time',
         'line_notice_type_id',
         'line_id',
-        'content',
-        'line_message_id',
+        'content'
     ];
 }

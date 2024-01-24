@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis;
 /**
  * ServiceProvider
  * 
+ * サービス提供者情報
+ * 
  */
 class ServiceProvider implements \JsonSerializable
 {

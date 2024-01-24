@@ -43,7 +43,7 @@
     </div>
     {{--トーク相手/グループテキストボックス--}}
     <div class="content">
-        <input type="text" id="txtLineDisplayName" placeholder="LINEを入力">
+        <input type="text" id="txtLineChannelDisplayName" placeholder="LINEを入力">
     </div>
     {{--検索ボタン--}}
     <div class="content">

@@ -8,6 +8,8 @@ use App\Repositorys\LineAccountStatusRepositoryInterface;
 /**
  * LineAccountStatusService
  * 
+ * LINEアカウント状態情報
+ * 
  */
 class LineAccountStatusService implements LineAccountStatusServiceInterface
 {

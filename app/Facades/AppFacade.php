@@ -6,18 +6,21 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * AppFacade
+ * 
+ * アプリケーション共通処理
+ * 
  */
 class AppFacade
 {
     /**
      * 担当者種別が運用者か判定
      * 
-     * @param int userType 担当者種別
+     * @param int userTypeId 担当者種別情報ID
      * @return bool
      */
-    public static function isOperator($userType)
+    public static function isOperator($userTypeId)
     {
-        if (\UserType::OPERATOR == $userType)
+        if (\UserType::OPERATOR == $userTypeId)
         {
             return true;
         }
@@ -30,12 +33,12 @@ class AppFacade
     /**
      * 担当者種別がサービス提供者か判定
      * 
-     * @param int userType 担当者種別
+     * @param int userTypeId 担当者種別情報ID
      * @return bool
      */
-    public static function isServiceProvider($userType)
+    public static function isServiceProvider($userTypeId)
     {
-        if (\UserType::SERVICE_PROVIDER == $userType)
+        if (\UserType::SERVICE_PROVIDER == $userTypeId)
         {
             return true;
         }
@@ -48,12 +51,12 @@ class AppFacade
     /**
      * 担当者アカウント種別が一般か判定
      * 
-     * @param int userType ユーザー種別
+     * @param int userAccountTypeId 担当者アカウント種別情報ID
      * @return bool
      */
-    public static function isUser($userAccountType)
+    public static function isUser($userAccountTypeId)
     {
-        if (\UserAccountType::USER == $userAccountType)
+        if (\UserAccountType::USER == $userAccountTypeId)
         {
             return true;
         }
@@ -66,12 +69,12 @@ class AppFacade
     /**
      * 担当者アカウント種別が管理者か判定
      * 
-     * @param int userType ユーザー種別
+     * @param int userAccountTypeId 担当者アカウント種別情報ID
      * @return bool
      */
-    public static function isAdmin($userAccountType)
+    public static function isAdmin($userAccountTypeId)
     {
-        if (\UserAccountType::ADMIN == $userAccountType)
+        if (\UserAccountType::ADMIN == $userAccountTypeId)
         {
             return true;
         }

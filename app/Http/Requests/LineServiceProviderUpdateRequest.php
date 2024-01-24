@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * LineServiceProviderUpdateRequest
  * 
+ * LINEサービス提供者情報更新リクエスト
+ * 
  */
 class LineServiceProviderUpdateRequest extends FormRequest
 {

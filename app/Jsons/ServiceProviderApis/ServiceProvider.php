@@ -13,9 +13,9 @@ class ServiceProvider implements \JsonSerializable
     /**
      * __construct
      * 
-     * @param int    id               ID
-     * @param string providerId       提供者ID
-     * @param string name             提供者名
+     * @param int    id           ID
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
      * @param string useStartDate 利用開始日
      * @param string useEndDate   利用終了日
      * @param bool   useStopFlg   利用停止フラグ

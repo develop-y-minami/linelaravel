@@ -87,26 +87,20 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     /**
      * LINE情報を返却
      * 
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param string displayName         LINE 表示名
-     * @param int    serviceProviderId   サービス提供者ID
-     * @param int    userId              担当者ID
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return array LINE情報
      */
-    public function getLines(
-        $lineAccountTypeId = null,
-        $lineAccountStatusId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    )
+    public function getLines($lineAccountTypeId = null, $lineAccountStatusId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null)
     {
         // 返却データ
         $result = array();
 
         // LINE情報を取得
-        $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
+        $datas = $this->lineRepository->findByconditions($lineAccountTypeId, $lineAccountStatusId, $lineChannelDisplayName, $serviceProviderId, $userId);
         foreach ($datas as $data)
         {
             // 配列に追加
@@ -119,28 +113,24 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     /**
      * LINE通知情報を返却
      * 
-     * @param string noticeDate        通知日
-     * @param int    lineNoticeTypeId  LINE通知種別
-     * @param string displayName       LINE 表示名
-     * @param int    serviceProviderId サービス提供者ID
-     * @param int    userId            担当者ID
+     * @param string noticeDate             通知日
+     * @param int    lineNoticeTypeId       LINE通知種別情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return array LINE通知情報
      */
-    public function getNotices(
-        $noticeDate = null,
-        $lineNoticeTypeId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    )
+    public function getNotices($noticeDate = null, $lineNoticeTypeId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null)
     {
         // 返却データ
         $result = array();
 
         // LINE通知情報を取得
-        $datas = $this->lineNoticeRepository->findByconditions($noticeDate, $lineNoticeTypeId, $displayName, $serviceProviderId, $userId);
+        $datas = $this->lineNoticeRepository->findByconditions($noticeDate, $lineNoticeTypeId, $lineChannelDisplayName, $serviceProviderId, $userId);
         foreach ($datas as $data)
         {
+            // LINEユーザー情報を設定
+            $lineUser = new LineUser($data->line->lineUser->id, $data->line->lineUser->account_id);
             // サービス提供者情報を設定
             $serviceProvider = new ServiceProvider($data->line->serviceProvider->id, $data->line->serviceProvider->name);
             // ユーザー情報を設定
@@ -150,7 +140,7 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
             // LINEアカウント種別を設定
             $lineAccountType = new LineAccountType($data->line->lineAccountType->id, $data->line->lineAccountType->name);
             // LINE情報を設定
-            $line = new Line($data->line->id, $data->line->display_name, $data->line->picture_url, $lineAccountStatus, $lineAccountType, $serviceProvider, $user);
+            $line = new Line($data->line->id, $data->line->line_channel_display_name, $data->line->line_channel_picture_url, $lineAccountStatus, $lineAccountType, $lineUser, $serviceProvider, $user);
             // LINE通知種別を設定
             $lineNoticeType = new LineNoticeType($data->lineNoticeType->id, $data->lineNoticeType->display_name);
             // LINE通知情報を設定
@@ -213,10 +203,10 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
     }
 
     /**
-     * LINE情報JSONオブジェクトを返却
+     * LINE情報JSONオブジェクトを取得
      * 
      * @param Line data LINE情報
-     * @return Line JSONオブジェクト
+     * @return Line  LINE情報JSONオブジェクト
      */
     private function getLineJsonObject($data)
     {
@@ -233,8 +223,8 @@ class LineApiService extends LineMessagingApiService implements LineApiServiceIn
         // LINE情報を設定
         $line = new Line(
             $data->id,
-            $data->display_name,
-            $data->picture_url,
+            $data->line_channel_display_name,
+            $data->line_channel_picture_url,
             $lineAccountStatus,
             $lineAccountType,
             $lineUser,

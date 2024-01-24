@@ -10,6 +10,8 @@ use App\Jsons\LineMessagingApiApis\Responses\BotInfoResponse;
 /**
  * LineMessagingApiController
  * 
+ * LINE MessagingApi
+ * 
  */
 class LineMessagingApiController extends Controller
 {

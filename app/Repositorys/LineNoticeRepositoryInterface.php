@@ -5,36 +5,31 @@ namespace App\Repositorys;
 /**
  * LineNoticeRepositoryInterface
  * 
+ * LINE通知情報
+ * 
  */
 interface LineNoticeRepositoryInterface
 {
     /**
-     * LINE通知情報を取得
+     * 条件指定検索
      * 
-     * @param string noticeDate        通知日
-     * @param int    lineNoticeTypeId  LINE通知種別
-     * @param string displayName       LINE 表示名
-     * @param int    serviceProviderId サービス提供者ID
-     * @param int    userId            担当者ID
+     * @param string noticeDate             通知日
+     * @param int    lineNoticeTypeId       LINE通知種別情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return Collection LINE通知情報
      */
-    public function findByconditions(
-        $noticeDate = null,
-        $lineNoticeTypeId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    );
+    public function findByconditions($noticeDate = null, $lineNoticeTypeId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null);
 
     /**
-     * LINE通知情報を登録
+     * 登録
      * 
      * @param string noticeDateTime   通知日時
-     * @param int    lineNoticeTypeId LINE通知種別
-     * @param int    lineId           LINE情報ID
-     * @param string content          内容
-     * @param int    lineMessageId    LINEメッセージ情報ID
+     * @param int    lineNoticeTypeId LINE通知種別情報ID
+     * @param int    lineId           LINEプロフィール表示名
+     * @param string content          通知内容
      * @return LineNotice LINE通知情報
      */
-    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId = 0);
+    public function register($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
 }

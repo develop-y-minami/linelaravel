@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 /**
  * UserApiService
  * 
+ * 担当者情報
+ * 
  */
 class UserApiService implements UserApiServiceInterface
 {
@@ -34,7 +36,7 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を取得
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
      * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
@@ -46,34 +48,12 @@ class UserApiService implements UserApiServiceInterface
         // 返却データ
         $result = array();
 
-        // サービス提供者情報を取得
+        // 担当者情報を取得
         $datas = $this->userRepository->findByconditions($userTypeId, $serviceProviderId, $userAccountTypeId, $accountId, $name);
         foreach ($datas as $data)
         {
-            // 担当者種別を設定
-            $userType = new UserType($data->userType->id, $data->userType->name);
-            // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->serviceProvider->id,
-                $data->serviceProvider->name,
-                $data->serviceProvider->use_stop_flg,
-                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
-            );
-            // 担当者アカウント種別を設定
-            $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
-            $user = new User(
-                $data->id,
-                $userType,
-                $serviceProvider,
-                $userAccountType,
-                $data->account_id,
-                $data->name,
-                $data->email,
-                $data->profile_image_file_path,
-                $data->created_at,
-                $data->updated_at
-            );
+            $user = $this->getUserJsonObject($data);
 
             // 配列に追加
             $result[] = $user;
@@ -85,7 +65,7 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を登録
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
      * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
@@ -119,30 +99,8 @@ class UserApiService implements UserApiServiceInterface
                 $this->userRepository->save($data);
             }
 
-            // 担当者種別を設定
-            $userType = new UserType($data->userType->id, $data->userType->name);
-            // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->serviceProvider->id,
-                $data->serviceProvider->name,
-                $data->serviceProvider->use_stop_flg,
-                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
-            );
-            // 担当者アカウント種別を設定
-            $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
             // 担当者情報を設定
-            $user = new User(
-                $data->id,
-                $userType,
-                $serviceProvider,
-                $userAccountType,
-                $data->account_id,
-                $data->name,
-                $data->email,
-                $data->profile_image_file_path,
-                $data->created_at,
-                $data->updated_at
-            );
+            $user = $this->getUserJsonObject($data);
 
             // コミット
             \DB::commit();
@@ -160,7 +118,7 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を削除
      * 
-     * @param array ids 担当者情報ID
+     * @param array ids ID
      * @return int 削除件数
      */
     public function deletes($ids)
@@ -198,8 +156,8 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を更新
      * 
-     * @param int    id                担当者情報ID
-     * @param int    userTypeId        担当者種別
+     * @param int    id                ID
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    serviceProviderId サービス提供者情報ID
      * @param int    userAccountTypeId 担当者アカウント種別
      * @param string accountId         アカウントID
@@ -218,31 +176,9 @@ class UserApiService implements UserApiServiceInterface
 
             // 担当者情報を取得
             $data = $this->userRepository->findById($id);
-
-            // 担当者種別を設定
-            $userType = new UserType($data->userType->id, $data->userType->name);
-            // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->serviceProvider->id,
-                $data->serviceProvider->name,
-                $data->serviceProvider->use_stop_flg,
-                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
-            );
-            // 担当者アカウント種別を設定
-            $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
+            
             // 担当者情報を設定
-            $user = new User(
-                $data->id,
-                $userType,
-                $serviceProvider,
-                $userAccountType,
-                $data->account_id,
-                $data->name,
-                $data->email,
-                $data->profile_image_file_path,
-                $data->created_at,
-                $data->updated_at
-            );
+            $user = $this->getUserJsonObject($data);
 
             // コミット
             \DB::commit();
@@ -260,7 +196,7 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者情報を削除
      * 
-     * @param int id 担当者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id)
@@ -293,9 +229,45 @@ class UserApiService implements UserApiServiceInterface
     }
 
     /**
+     * 担当者情報JSONオブジェクトを取得
+     * 
+     * @param User 担当者情報
+     * @return User 担当者情報JSONオブジェクト
+     */
+    private function getUserJsonObject($data)
+    {
+        // 担当者種別を設定
+        $userType = new UserType($data->userType->id, $data->userType->name);
+
+        // サービス提供者情報を設定
+        $serviceProvider = new ServiceProvider(
+            $data->serviceProvider->id,
+            $data->serviceProvider->name,
+            $data->serviceProvider->use_stop_flg,
+            \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
+        );
+
+        // 担当者アカウント種別を設定
+        $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
+
+        return new User(
+            $data->id,
+            $userType,
+            $serviceProvider,
+            $userAccountType,
+            $data->account_id,
+            $data->name,
+            $data->email,
+            $data->profile_image_file_path,
+            $data->created_at,
+            $data->updated_at
+        );
+    }
+
+    /**
      * プロフィール画像を保存
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    userId            担当者情報ID
      * @param int    serviceProviderId サービス提供者情報ID
      * @param string profileImageFile プロフィール画像
@@ -349,7 +321,7 @@ class UserApiService implements UserApiServiceInterface
     /**
      * 担当者ファイル保存用ディレクトリを削除
      * 
-     * @param int    userTypeId        担当者種別
+     * @param int    userTypeId        担当者種別情報ID
      * @param int    userId            担当者情報ID
      * @param int    serviceProviderId サービス提供者情報ID
      */

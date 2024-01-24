@@ -13,6 +13,8 @@ use App\Objects\Pages\TopPage;
 /**
  * TopController
  * 
+ * トップページ
+ * 
  */
 class TopController extends Controller
 {

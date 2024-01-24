@@ -5,21 +5,23 @@ namespace App\Repositorys;
 /**
  * LineAccountStatusRepositoryInterface
  * 
+ * LINEアカウント状態情報
+ * 
  */
 interface LineAccountStatusRepositoryInterface
 {
     /**
-     * LINEアカウント状態を取得
+     * 全データ取得
      * 
-     * @return Collection LINEアカウント状態
+     * @return Collection LINEアカウント状態情報
      */
     public function getAll();
 
     /**
-     * LINEアカウント状態を取得
+     * LINEアカウント種別情報ID検索
      * 
-     * @param int lineAccountTypeId LINEアカウント種別
-     * @return Collection LINEアカウント状態
+     * @param int lineAccountTypeId LINEアカウント種別情報ID
+     * @return Collection LINEアカウント状態情報
      */
     public function findByLineAccountTypeId($lineAccountTypeId);
 }

@@ -12,9 +12,9 @@ class UserApi {
     /**
      * 担当者情報を取得
      * 
-     * @param {number} userTypeId        担当者種別
+     * @param {number} userTypeId        担当者種別情報ID
      * @param {number} serviceProviderId サービス提供者情報ID
-     * @param {number} userAccountTypeId 担当者アカウント種別
+     * @param {number} userAccountTypeId 担当者アカウント種別情報ID
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      */
@@ -34,9 +34,9 @@ class UserApi {
     /**
      * 担当者情報を登録
      * 
-     * @param {number} userTypeId        担当者種別
+     * @param {number} userTypeId        担当者種別情報ID
      * @param {number} serviceProviderId サービス提供者情報ID
-     * @param {number} userAccountTypeId 担当者アカウント種別
+     * @param {number} userAccountTypeId 担当者アカウント種別情報ID
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      * @param {string} email             メールアドレス
@@ -65,10 +65,10 @@ class UserApi {
     /**
      * 担当者情報を更新
      * 
-     * @param {number} id                担当者ID
-     * @param {number} userTypeId        担当者種別
+     * @param {number} id                ID
+     * @param {number} userTypeId        担当者種別情報ID
      * @param {number} serviceProviderId サービス提供者情報ID
-     * @param {number} userAccountTypeId 担当者アカウント種別
+     * @param {number} userAccountTypeId 担当者アカウント種別情報ID
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
      * @param {string} email             メールアドレス

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Line
  * 
+ * LINE情報
+ * 
  */
 class Line extends Model
 {
@@ -24,9 +26,10 @@ class Line extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'account_id',
-        'display_name',
-        'picture_url',
+        'line_channel_user_id',
+        'line_channel_group_id',
+        'line_channel_display_name',
+        'line_channel_picture_url',
         'line_account_type_id',
         'line_account_status_id',
         'service_provider_id',

@@ -8,14 +8,16 @@ use App\Models\LineMessageType;
 /**
  * LineMessageTypeRepository
  * 
+ * LINEメッセージ種別情報
+ * 
  */
 class LineMessageTypeRepository implements LineMessageTypeRepositoryInterface
 {
     /**
-     * LINEメッセージ種別を取得
+     * 名称検索
      * 
-     * @param string name LINEメッセージ種別名
-     * @return LineMessageType LINEメッセージ種別
+     * @param string name 名称
+     * @return LineMessageType LINEメッセージ種別情報
      */
     public function findByName($name)
     {

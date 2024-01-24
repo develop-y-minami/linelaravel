@@ -20,6 +20,8 @@ use App\Repositorys\LineSendMessageTextRepositoryInterface;
 /**
  * LineWebhookService
  * 
+ * LINE Webhook
+ * 
  */
 class LineWebhookService extends LineMessagingApiService  implements LineWebhookServiceInterface
 {
@@ -109,14 +111,188 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     }
 
     /**
+     * メッセージイベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param array  source    送信元情報
+     * @param array  message   メッセージ情報
+     * @param int    timestamp タイムスタンプ
+     */
+    public function message($type, $source, $message, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // sourseタイプを取得
+            $sourceType = \ArrayFacade::getArrayValue($source, 'type');
+
+            // IDを保持
+            $sourceId;
+
+            // LINE情報を保持
+            $line;
+
+            if ($sourceType == 'user')
+            {
+                // ユーザーIDを設定
+                $sourceId = \ArrayFacade::getArrayValue($source, 'userId');
+                // LINE情報を取得
+                $line = $this->lineRepository->findByLineChannelUserId($sourceId);
+                if ($line == null)
+                {
+                    // LINE情報に登録
+                    $line = $this->registerLineOneToOne($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
+                }
+            }
+            else
+            {
+                // グループIDを設定
+                $sourceId = \ArrayFacade::getArrayValue($source, 'groupId');
+            }
+
+            // LINEメッセージ種別を取得
+            $messageType = \ArrayFacade::getArrayValue($message, 'type');
+            $lineMessageType = $this->lineMessageTypeRepository->findByName($messageType);
+
+            // LINE通知情報を作成
+            $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+
+            // LINEメッセージ情報を登録
+            $lineMessage = $this->registerLineMessage($lineMessageType->id, $message, $lineNotice->id);
+
+            // メッセージタイプに対応する処理を実行
+            switch ($lineMessageType->id)
+            {
+                case \LineMessageType::TEXT:
+                    // LINEテキストメッセージを登録
+                    $this->registerLineMessageText($lineMessage->id, $message);
+                    break;
+                case \LineMessageType::IMAGE:
+                    // LINE画像メッセージを登録
+                    $this->registerLineMessageImage($line->id, $lineMessage->id, $message);
+                    break;
+            }
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * フォローイベント時の処理を実行
+     * 
+     * @param string mode       チャネル状態
+     * @param string replyToken リプライトークン
+     * @param string type       タイプ
+     * @param string userId     ユーザーID
+     * @param int    timestamp  タイムスタンプ
+     */
+    public function follow($mode, $replyToken, $type, $userId, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // LINE情報を取得
+            $line = $this->lineRepository->findByLineChannelUserId($userId);
+            if ($line == null)
+            {
+                // LINE情報に登録
+                $line = $this->registerLineOneToOne($userId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
+            }
+            else
+            {
+                // LINE情報が既に登録済み時の処理を実行
+                if ($line->line_account_status_id == \LineAccountStatus::UNFOLLOW)
+                {
+                    // ブロック中の場合は友達に状態を変更
+                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::FOLLOW);
+                }
+            }
+
+            // LINE通知情報を作成
+            $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+
+            if ($mode == \LineChannelMode::ACTIVE)
+            {
+                // リプライメッセージ送信
+                $this->replyFollow($replyToken, $line->id, $line->display_name);
+            }
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * フォロー解除イベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param string userId    ユーザーID
+     * @param int    timestamp タイムスタンプ
+     */
+    public function unfollow($type, $userId, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // LINE情報を取得
+            $line = $this->lineRepository->findByLineChannelUserId($userId);
+            if ($line == null)
+            {
+                // LINE情報に登録
+                $line = $this->registerLine($userId, \LineAccountStatus::UNFOLLOW, \LineAccountType::ONE_TO_ONE);
+            }
+            else
+            {
+                // LINE情報が既に登録済み時の処理を実行
+                if ($line->line_account_status_id == \LineAccountStatus::FOLLOW)
+                {
+                    // ブロック中の場合は友達に状態を変更
+                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::UNFOLLOW);
+                }
+            }
+
+            // LINE通知情報を作成
+            $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
      * LINE情報を登録
      * 
-     * @param string                 userId            ユーザーID
+     * @param string            userId            ユーザーID
      * @param LineAccountStatus lineAccountStatus LINEアカウント状態
      * @param LineAccountType   lineAccountType   LINEアカウント種別
      * @return Line LINE情報
      */
-    private function createLine($userId, $lineAccountStatus, $lineAccountType)
+    private function registerLineOneToOne($userId, $lineAccountStatus, $lineAccountType)
     {
         try
         {
@@ -126,8 +302,9 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             $pictureUrl = $response->getPictureUrl();
 
             // LINE情報に登録
-            return $this->lineRepository->create(
+            return $this->lineRepository->register(
                 $userId,
+                null,
                 $displayName,
                 $pictureUrl,
                 $lineAccountStatus,
@@ -146,10 +323,9 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      * @param string type          タイプ
      * @param int    lineId        LINE情報ID
      * @param int    timestamp     タイムスタンプ
-     * @param int    lineMessageId LINEメッセージ情報ID
      * @return LineNotice LINE通知情報
      */
-    private function createLineNotice($type, $lineId, $timestamp, $lineMessageId = 0)
+    private function registerLineNotice($type, $lineId, $timestamp)
     {
         try
         {
@@ -162,7 +338,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             $content = $lineNoticeTypes->content;
 
             // LINE通知情報に登録
-            return $this->lineNoticeRepository->create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId);
+            return $this->lineNoticeRepository->register($noticeDateTime, $lineNoticeTypeId, $lineId, $content);
         }
         catch (\Exception $e)
         {
@@ -173,18 +349,19 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     /**
      * LINEメッセージ情報を登録
      * 
-     * @param int    lineMessageTypeId LINEメッセージ種別ID
+     * @param int    lineMessageTypeId LINEメッセージ種別情報ID
      * @param array  message           メッセージ情報
+     * @param int    lineNoticeId      LINE通知情報ID
      * @return LineMessage LINEメッセージ情報
      */
-    private function createLineMessage($lineMessageTypeId, $message) {
+    private function registerLineMessage($lineMessageTypeId, $message, $lineNoticeId) {
         try
         {
             // 登録情報を取得
             $messageId = \ArrayFacade::getArrayValue($message, 'id');
             $messageQuoteToken = \ArrayFacade::getArrayValue($message, 'quoteToken');
             // LINEメッセージ情報に登録
-            return $this->lineMessageRepository->create($lineMessageTypeId, $messageId, $messageQuoteToken);;
+            return $this->lineMessageRepository->register($lineMessageTypeId, $messageId, $messageQuoteToken, $lineNoticeId);
         }
         catch (\Exception $e)
         {
@@ -199,13 +376,13 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      * @param array  message       メッセージ情報
      * @return LineMessageText LINEメッセージテキスト情報
      */
-    private function createLineMessageText($lineMessageId, $message) {
+    private function registerLineMessageText($lineMessageId, $message) {
         try
         {
             // 登録情報を取得
             $text = \ArrayFacade::getArrayValue($message, 'text');
             // LINEメッセージテキスト情報に登録
-            return $this->lineMessageTextRepository->create($lineMessageId, $text);
+            return $this->lineMessageTextRepository->register($lineMessageId, $text);
         }
         catch (\Exception $e)
         {
@@ -221,7 +398,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      * @param array  message       メッセージ情報
      * @return LineMessageImage LINEメッセージ画像情報
      */
-    private function createLineMessageImage($lineId, $lineMessageId, $message) {
+    private function registerLineMessageImage($lineId, $lineMessageId, $message) {
         try
         {
             // 登録情報を取得
@@ -262,7 +439,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             $lineImageFilePath = 'storage/'.$lineImageFileName;
 
             // LINEメッセージ画像情報に登録
-            return $this->lineMessageImageRepository->create(
+            return $this->lineMessageImageRepository->register(
                 $lineMessageId,
                 $contentProviderType,
                 $contentProviderOriginalContentUrl,
@@ -275,177 +452,6 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         }
         catch (\Exception $e)
         {
-            throw $e;
-        }
-    }
-
-    /**
-     * メッセージイベント時の処理を実行
-     * 
-     * @param string type      タイプ
-     * @param array  source    送信元情報
-     * @param array  message   メッセージ情報
-     * @param int    timestamp タイムスタンプ
-     */
-    public function message($type, $source, $message, $timestamp)
-    {
-        // トランザクション開始
-        \DB::beginTransaction();
-
-        try
-        {
-            // sourseタイプを取得
-            $sourceType = \ArrayFacade::getArrayValue($source, 'type');
-
-            // idを設定
-            $sourceId;
-            if ($sourceType == 'user')
-            {
-                // ユーザーIDを設定
-                $sourceId = \ArrayFacade::getArrayValue($source, 'userId');
-            }
-            else
-            {
-                // グループIDを設定
-                $sourceId = \ArrayFacade::getArrayValue($source, 'groupId');
-            }
-
-            // LINE情報を取得
-            $line = $this->lineRepository->findByAccountId($sourceId);
-            if ($line == null)
-            {
-                // LINE情報に登録
-                $line = $this->createLine($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
-            }
-
-            // LINEメッセージ種別を取得
-            $messageType = \ArrayFacade::getArrayValue($message, 'type');
-            $lineMessageType = $this->lineMessageTypeRepository->findByName($messageType);
-
-            // LINEメッセージ情報を登録
-            $lineMessage = $this->createLineMessage($lineMessageType->id, $message);
-
-            // LINE通知情報を作成
-            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp, $lineMessage->id);
-
-            // メッセージタイプに対応する処理を実行
-            switch ($lineMessageType->id)
-            {
-                case \LineMessageType::TEXT:
-                    // LINEテキストメッセージを登録
-                    $this->createLineMessageText($lineMessage->id, $message);
-                    break;
-                case \LineMessageType::IMAGE:
-                    // LINE画像メッセージを登録
-                    $this->createLineMessageImage($line->id, $lineMessage->id, $message);
-                    break;
-            }
-
-            // コミット
-            \DB::commit();
-        }
-        catch (\Exception $e)
-        {
-            // ロールバック
-            \DB::rollback();
-            throw $e;
-        }
-    }
-
-    /**
-     * フォローイベント時の処理を実行
-     * 
-     * @param string mode       チャネル状態
-     * @param string replyToken リプライトークン
-     * @param string type       タイプ
-     * @param string userId     ユーザーID
-     * @param int    timestamp  タイムスタンプ
-     */
-    public function follow($mode, $replyToken, $type, $userId, $timestamp)
-    {
-        // トランザクション開始
-        \DB::beginTransaction();
-
-        try
-        {
-            // LINE情報を取得
-            $line = $this->lineRepository->findByAccountId($userId);
-            if ($line == null)
-            {
-                // LINE情報に登録
-                $line = $this->createLine($userId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
-            }
-            else
-            {
-                // LINE情報が既に登録済み時の処理を実行
-                if ($line->line_account_status_id == \LineAccountStatus::UNFOLLOW)
-                {
-                    // ブロック中の場合は友達に状態を変更
-                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::FOLLOW);
-                }
-            }
-
-            // LINE通知情報を作成
-            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
-
-            if ($mode == \LineChannelMode::ACTIVE)
-            {
-                // リプライメッセージ送信
-                $this->replyFollow($replyToken, $line->id, $line->display_name);
-            }
-
-            // コミット
-            \DB::commit();
-        }
-        catch (\Exception $e)
-        {
-            // ロールバック
-            \DB::rollback();
-            throw $e;
-        }
-    }
-
-    /**
-     * フォロー解除イベント時の処理を実行
-     * 
-     * @param string type      タイプ
-     * @param string userId    ユーザーID
-     * @param int    timestamp タイムスタンプ
-     */
-    public function unfollow($type, $userId, $timestamp)
-    {
-        // トランザクション開始
-        \DB::beginTransaction();
-
-        try
-        {
-            // LINE情報を取得
-            $line = $this->lineRepository->findByAccountId($userId);
-            if ($line == null)
-            {
-                // LINE情報に登録
-                $line = $this->createLine($userId, \LineAccountStatus::UNFOLLOW, \LineAccountType::ONE_TO_ONE);
-            }
-            else
-            {
-                // LINE情報が既に登録済み時の処理を実行
-                if ($line->line_account_status_id == \LineAccountStatus::FOLLOW)
-                {
-                    // ブロック中の場合は友達に状態を変更
-                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::UNFOLLOW);
-                }
-            }
-
-            // LINE通知情報を作成
-            $lineNotice = $this->createLineNotice($type, $line->id, $timestamp);
-
-            // コミット
-            \DB::commit();
-        }
-        catch (\Exception $e)
-        {
-            // ロールバック
-            \DB::rollback();
             throw $e;
         }
     }

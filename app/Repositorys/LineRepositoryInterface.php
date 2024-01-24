@@ -9,7 +9,7 @@ namespace App\Repositorys;
 interface LineRepositoryInterface
 {
     /**
-     * LINE情報を取得
+     * 全データ取得
      * 
      * @param int id ID
      * @return Line LINE情報
@@ -17,7 +17,7 @@ interface LineRepositoryInterface
     public function findById($id);
 
     /**
-     * LINE情報を取得
+     * 複数ID検索
      * 
      * @param array ids ID
      * @return Line LINE情報
@@ -25,61 +25,50 @@ interface LineRepositoryInterface
     public function findByIds($ids);
 
     /**
-     * LINE情報を取得
+     * LINEユーザーID検索
      * 
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param string displayName         LINE 表示名
-     * @param int    serviceProviderId   サービス提供者ID
-     * @param int    userId              担当者ID
+     * @param string lineChannelUserId LINEユーザーID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelUserId($lineChannelUserId);
+
+    /**
+     * 条件指定検索
+     * 
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return Collection LINE情報
      */
-    public function findByconditions(
-        $lineAccountTypeId = null,
-        $lineAccountStatusId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    );
+    public function findByconditions($lineAccountTypeId = null, $lineAccountStatusId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null);
 
     /**
-     * LINE情報を取得
+     * 登録
      * 
-     * @param string accountId LINEアカウントID
+     * @param string lineChannelUserId      LINEユーザーID
+     * @param string lineChannelGroupId     LINEグループID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param string lineChannelPictureUrl  LINEプロフィール画像URL
+     * @param int    lineAccountStatusId    LINEアカウント状態情報ID
+     * @param int    lineAccountTypeId      LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByAccountId($accountId);
+    public function register($lineChannelUserId, $lineChannelGroupId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId);
 
     /**
-     * LINE情報を作成
+     * サービス提供者情報複数更新
      * 
-     * @param string accountId           LINEアカウントID
-     * @param string displayName         LINE表示名
-     * @param string pictureUrl          LINEプロフィール画像URL
-     * @param int    lineAccountStatusId LINEアカウント状態
-     * @param int    lineAccountTypeId   LINEアカウント種別
-     * @return Line LINE情報
-     */
-    public function create(
-        $accountId,
-        $displayName,
-        $pictureUrl,
-        $lineAccountStatusId,
-        $lineAccountTypeId
-    );
-
-    /**
-     * サービス提供者を更新
-     * 
-     * @param array  ids                        LINE情報ID
-     * @param int    serviceProviderId          サービス提供者ID
+     * @param array  ids                        ID
+     * @param int    serviceProviderId          サービス提供者情報ID
      * @param string serviceProviderSettingDate サービス提供者設定日
      * @return int 更新件数
      */
     public function updatesServiceProvider($ids, $serviceProviderId, $serviceProviderSettingDate);
 
     /**
-     * LINE情報を更新
+     * 保存
      * 
      * @param Line line LINE情報
      * @return Line LINE情報
@@ -87,11 +76,11 @@ interface LineRepositoryInterface
     public function save($line);
     
     /**
-     * LINEアカウント状態を更新
+     * LINEアカウント状態情報を保存
      * 
-     * @param Line line              LINE情報
-     * @param int  lineAccountStatus LINEアカウント状態
+     * @param Line line                LINE情報
+     * @param int  lineAccountStatusId LINEアカウント状態情報ID
      * @return Line LINE情報
      */
-    public function saveLineAccountStatus($line, $lineAccountStatus);
+    public function saveLineAccountStatus($line, $lineAccountStatusId);
 }

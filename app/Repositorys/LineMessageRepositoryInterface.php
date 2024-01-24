@@ -9,12 +9,13 @@ namespace App\Repositorys;
 interface LineMessageRepositoryInterface
 {
     /**
-     * LINEメッセージ情報を登録
+     * 登録
      * 
-     * @param int    lineMessageTypeId LINEメッセージ種別
-     * @param string messageId         メッセージID
-     * @param string quoteToken        メッセージの引用トークン
+     * @param int    lineMessageTypeId     LINEメッセージ種別情報ID
+     * @param string lineChannelMessageId  LINEメッセージID
+     * @param string lineChannelQuoteToken LINEメッセージ引用トークン
+     * @param string lineNoticeId          LINE通知情報ID
      * @return LineMessage LINEメッセージ情報
      */
-    public function create($lineMessageTypeId, $messageId, $quoteToken);
+    public function register($lineMessageTypeId, $lineChannelMessageId, $lineChannelQuoteToken, $lineNoticeId);
 }

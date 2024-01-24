@@ -14,6 +14,8 @@ use App\Jsons\LineApis\Responses\TalkHistorysResponse;
 /**
  * LineController
  * 
+ * LINE情報
+ * 
  */
 class LineController extends Controller
 {
@@ -48,7 +50,7 @@ class LineController extends Controller
             // パラメータを取得
             $lineAccountTypeId = $request->input('lineAccountTypeId');
             $lineAccountStatusId = $request->input('lineAccountStatusId');
-            $displayName = $request->input('displayName');
+            $lineChannelDisplayName = $request->input('lineChannelDisplayName');
             $serviceProviderId = $request->input('serviceProviderId');
             $userId = $request->input('userId');
 
@@ -59,7 +61,7 @@ class LineController extends Controller
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE情報を取得する
-            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $displayName, $serviceProviderId, $userId);
+            $lines = $this->lineApiServiceInterface->getLines($lineAccountTypeId, $lineAccountStatusId, $lineChannelDisplayName, $serviceProviderId, $userId);
             
             // レスポンスデータを生成
             $response = new LinesResponse($lines);
@@ -88,7 +90,7 @@ class LineController extends Controller
             // パラメータを取得
             $noticeDate = $request->input('noticeDate');
             $lineNoticeTypeId = $request->input('lineNoticeTypeId');
-            $displayName = $request->input('displayName');
+            $lineChannelDisplayName = $request->input('lineChannelDisplayName');
             $serviceProviderId = $request->input('serviceProviderId');
             $userId = $request->input('userId');
 
@@ -98,7 +100,7 @@ class LineController extends Controller
             $userId = $userId == null ? null : (int)$userId;
 
             // LINE通知情報を取得する
-            $notices = $this->lineApiServiceInterface->getNotices($noticeDate, $lineNoticeTypeId, $displayName, $serviceProviderId, $userId);
+            $notices = $this->lineApiServiceInterface->getNotices($noticeDate, $lineNoticeTypeId, $lineChannelDisplayName, $serviceProviderId, $userId);
             
             // レスポンスデータを生成
             $response = new NoticesResponse($notices);

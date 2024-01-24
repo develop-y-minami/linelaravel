@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * LineMessageImage
  * 
+ * LINEメッセージ画像情報
+ * 
  */
 class LineMessageImage extends Model
 {
@@ -20,12 +22,12 @@ class LineMessageImage extends Model
      */
     protected $fillable = [
         'line_message_id',
-        'content_provider_type',
-        'content_provider_original_content_url',
-        'content_provider_preview_image_url',
-        'image_set_id',
-        'image_set_index',
-        'image_set_total',
+        'line_channel_content_provider_type',
+        'line_channel_content_provider_original_content_url',
+        'line_channel_content_provider_preview_image_url',
+        'line_channel_image_set_id',
+        'line_channel_image_set_index',
+        'line_channel_image_set_total',
         'file_path'
     ];
 }

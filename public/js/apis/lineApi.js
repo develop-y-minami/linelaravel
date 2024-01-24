@@ -32,19 +32,19 @@ class LineApi {
     /**
      * LINE情報を取得する
      * 
-     * @param {number} lineAccountTypeId   LINEアカウント種別ID
-     * @param {number} lineAccountStatusId LINEアカウント状態
-     * @param {string} displayName         LINE表示名
-     * @param {number} serviceProviderId   サービス提供者ID
-     * @param {number} userId              担当者ID
+     * @param {number} lineAccountTypeId      LINEアカウント種別情報ID
+     * @param {number} lineAccountStatusId    LINEアカウント状態情報ID
+     * @param {string} lineChannelDisplayName LINEプロフィール表示名
+     * @param {number} serviceProviderId      サービス提供者情報ID
+     * @param {number} userId                 担当者情報ID
      * @returns {object} 
      */
-    static async lines({lineAccountTypeId = null, lineAccountStatusId = null, displayName = null, serviceProviderId = null, userId = null}) {
+    static async lines({lineAccountTypeId = null, lineAccountStatusId = null, lineChannelDisplayName = null, serviceProviderId = null, userId = null}) {
         // パラメータを設定
         let data = {};
         if (lineAccountTypeId !== null) data.lineAccountTypeId = lineAccountTypeId;
         if (lineAccountStatusId !== null) data.lineAccountStatusId = lineAccountStatusId;
-        if (displayName !== null) data.displayName = displayName;
+        if (lineChannelDisplayName !== null) data.lineChannelDisplayName = lineChannelDisplayName;
         if (serviceProviderId !== null) data.serviceProviderId = serviceProviderId;
         if (userId !== null) data.userId = userId;
 
@@ -55,19 +55,19 @@ class LineApi {
     /**
      * LINE通知情報を取得する
      * 
-     * @param {string} noticeDate        通知日
-     * @param {number} lineNoticeTypeId  LINE通知種別
-     * @param {string} displayName       LINE表示名
-     * @param {number} serviceProviderId サービス提供者ID
-     * @param {number} userId            担当者ID
+     * @param {string} noticeDate             通知日
+     * @param {number} lineNoticeTypeId       LINE通知種別情報ID
+     * @param {string} lineChannelDisplayName LINEプロフィール表示名
+     * @param {number} serviceProviderId      サービス提供者情報ID
+     * @param {number} userId                 担当者情報ID
      * @returns {object} 
      */
-    static async notices({noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null}) {
+    static async notices({noticeDate = null, lineNoticeTypeId = null, lineChannelDisplayName = null, serviceProviderId = null, userId = null}) {
         // パラメータを設定
         let data = {};
         if (noticeDate !== null) data.noticeDate = noticeDate;
         if (lineNoticeTypeId !== null) data.lineNoticeTypeId = lineNoticeTypeId;
-        if (displayName !== null) data.displayName = displayName;
+        if (lineChannelDisplayName !== null) data.lineChannelDisplayName = lineChannelDisplayName;
         if (serviceProviderId !== null) data.serviceProviderId = serviceProviderId;
         if (userId !== null) data.userId = userId;
 
@@ -78,8 +78,8 @@ class LineApi {
     /**
      * サービス提供者を設定
      * 
-     * @param {array}  ids               LINE情報ID
-     * @param {number} serviceProviderId サービス提供者ID
+     * @param {array}  ids               ID
+     * @param {number} serviceProviderId サービス提供者情報ID
      * @returns {object} 
      */
     static async updatesServiceProvider(ids, serviceProviderId) {
@@ -95,8 +95,8 @@ class LineApi {
     /**
      * LINE担当者情報を設定する
      * 
-     * @param {number}  id                LINE情報ID
-     * @param {number}  userId            担当者ID
+     * @param {number}  id                ID
+     * @param {number}  userId            担当者情報ID
      * @param {boolean} noticeSetting     LINE通知設定
      * @param {array}   lineNoticeSttings LINE通知種別
      * @returns {object} 
@@ -118,7 +118,7 @@ class LineApi {
     /**
      * LINEトーク履歴を取得する
      * 
-     * @param {number}  id                  LINE情報ID
+     * @param {number}  id                  ID
      * @param {number}  lineTalkHistoryTerm LINEトーク履歴表示期間
      * @returns {object} 
      */

@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineSendMessageOrigin
  * 
+ * LINE送信メッセージ発生元情報
+ * 
  */
 class LineSendMessageOrigin
 {

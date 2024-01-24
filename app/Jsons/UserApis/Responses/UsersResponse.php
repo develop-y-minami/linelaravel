@@ -5,6 +5,8 @@ namespace App\Jsons\UserApis\Responses;
 /**
  * UsersResponse
  * 
+ * 担当者情報取得レスポンス
+ * 
  */
 class UsersResponse implements \JsonSerializable
 {

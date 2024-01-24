@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * LineNoticeType
  * 
+ * LINE通知種別情報
+ * 
  */
 class LineNoticeType
 {

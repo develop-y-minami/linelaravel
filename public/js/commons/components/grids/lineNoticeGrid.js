@@ -72,7 +72,7 @@ class LineNoticeGrid extends AgGrid {
                 cellRendererParams: function(params) {
                     let result = {};
                     result.url = 'line\\info\\' + params.data.line.id;
-                    result.name = params.data.line.displayName;
+                    result.name = params.data.line.lineChannelDisplayName;
                     return result;
                 }
             },
@@ -101,13 +101,13 @@ class LineNoticeGrid extends AgGrid {
     /**
      * 行データを設定
      * 
-     * @param {string} noticeDate        通知日
-     * @param {number} lineNoticeTypeId  LINE通知種別
-     * @param {string} displayName       LINE表示名
-     * @param {number} serviceProviderId サービス提供者ID
-     * @param {number} userId            担当者ID
+     * @param {string} noticeDate             通知日
+     * @param {number} lineNoticeTypeId       LINE通知種別情報ID
+     * @param {string} lineChannelDisplayName LINEプロフィール表示名
+     * @param {number} serviceProviderId      サービス提供者情報ID
+     * @param {number} userId                 担当者情報ID
      */
-    async setRowData({noticeDate = null, lineNoticeTypeId = null, displayName = null, serviceProviderId = null, userId = null}) {
+    async setRowData({noticeDate = null, lineNoticeTypeId = null, lineChannelDisplayName = null, serviceProviderId = null, userId = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -119,7 +119,7 @@ class LineNoticeGrid extends AgGrid {
             let result = await LineApi.notices({
                 noticeDate : noticeDate,
                 lineNoticeTypeId : lineNoticeTypeId,
-                displayName : displayName,
+                lineChannelDisplayName : lineChannelDisplayName,
                 serviceProviderId : serviceProviderId,
                 userId : userId
             });

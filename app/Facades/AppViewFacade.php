@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * AppViewFacade
+ * 
+ * アプリケーションビュー共通処理
+ * 
  */
 class AppViewFacade
 {
@@ -77,12 +80,12 @@ class AppViewFacade
     /**
      * LINEアカウント状態に対応する色を返却
      * 
-     * @param int lineAccountStatus LINEアカウント状態
+     * @param int lineAccountStatusId LINEアカウント状態ID
      * @return string 色
      */
-    public static function lineAccountStatusLabelBoxColor($lineAccountStatus)
+    public static function lineAccountStatusIdLabelBoxColor($lineAccountStatusId)
     {
-        switch ($lineAccountStatus)
+        switch ($lineAccountStatusId)
         {
             case \LineAccountStatus::FOLLOW:
             case \LineAccountStatus::FOLLOW:

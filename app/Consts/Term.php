@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * Term
  * 
+ * 期間
+ * 
  */
 class Term
 {

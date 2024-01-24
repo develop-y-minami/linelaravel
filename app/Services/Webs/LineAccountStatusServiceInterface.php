@@ -5,6 +5,8 @@ namespace App\Services\Webs;
 /**
  * LineAccountStatusServiceInterface
  * 
+ * LINEアカウント状態情報
+ * 
  */
 interface LineAccountStatusServiceInterface
 {

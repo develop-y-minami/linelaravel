@@ -5,6 +5,8 @@ namespace App\Services\Apis;
 /**
  * LineWebhookServiceInterface
  * 
+ * LINE Webhook
+ * 
  */
 interface LineWebhookServiceInterface
 {

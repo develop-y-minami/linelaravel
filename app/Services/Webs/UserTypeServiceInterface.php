@@ -5,6 +5,8 @@ namespace App\Services\Webs;
 /**
  * UserTypeServiceInterface
  * 
+ * 担当者種別情報
+ * 
  */
 interface UserTypeServiceInterface
 {

@@ -5,6 +5,8 @@ namespace App\Jsons\LineApis;
 /**
  * User
  * 
+ * 担当者情報
+ * 
  */
 class User implements \JsonSerializable
 {

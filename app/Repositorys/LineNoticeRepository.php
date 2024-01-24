@@ -8,26 +8,22 @@ use App\Models\LineNotice;
 /**
  * LineNoticeRepository
  * 
+ * LINE通知情報
+ * 
  */
 class LineNoticeRepository implements LineNoticeRepositoryInterface
 {
     /**
-     * LINE通知情報を取得
+     * 条件指定検索
      * 
-     * @param string noticeDate        通知日
-     * @param int    lineNoticeTypeId  LINE通知種別
-     * @param string displayName       LINE 表示名
-     * @param int    serviceProviderId サービス提供者ID
-     * @param int    userId            担当者ID
+     * @param string noticeDate             通知日
+     * @param int    lineNoticeTypeId       LINE通知種別情報ID
+     * @param string lineChannelDisplayName LINEプロフィール表示名
+     * @param int    serviceProviderId      サービス提供者情報ID
+     * @param int    userId                 担当者情報ID
      * @return Collection LINE通知情報
      */
-    public function findByconditions(
-        $noticeDate = null,
-        $lineNoticeTypeId = null,
-        $displayName = null,
-        $serviceProviderId = null,
-        $userId = null
-    )
+    public function findByconditions($noticeDate = null, $lineNoticeTypeId = null, $lineChannelDisplayName = null, $serviceProviderId = null, $userId = null)
     {
         $query = LineNotice::query();
 
@@ -43,22 +39,22 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
         // 通知日
         if ($noticeDate != null) $query->whereDate('notice_date_time', $noticeDate);
 
-        // LINE通知種別
+        // LINE通知種別情報ID
         if ($lineNoticeTypeId != null) $query->whereLineNoticeTypeId($lineNoticeTypeId);
 
-        // LINE 表示名
-        if ($displayName != null)
+        // LINEプロフィール表示名
+        if ($lineChannelDisplayName != null)
         {
-            $query->withWhereHas('line', function($query) use ($displayName) { $query->where('display_name', 'LIKE', "$displayName%"); });
+            $query->withWhereHas('line', function($query) use ($lineChannelDisplayName) { $query->where('line_channel_display_name', 'LIKE', "$lineChannelDisplayName%"); });
         }
         
-        // サービス提供者ID
+        // サービス提供者情報ID
         if ($serviceProviderId != null) 
         {
             $query->withWhereHas('line.serviceProvider', function($query) use ($serviceProviderId) { $query->whereId($serviceProviderId); });
         }
 
-        // 担当者ID
+        // 担当者情報ID
         if ($userId != null) 
         {
             $query->withWhereHas('line.user', function($query) use ($userId) { $query->whereId($userId); });
@@ -70,23 +66,21 @@ class LineNoticeRepository implements LineNoticeRepositoryInterface
     }
 
     /**
-     * LINE通知情報を登録
+     * 登録
      * 
      * @param string noticeDateTime   通知日時
-     * @param int    lineNoticeTypeId LINE通知種別
-     * @param int    lineId           LINE情報ID
-     * @param string content          内容
-     * @param int    lineMessageId    LINEメッセージ情報ID
+     * @param int    lineNoticeTypeId LINE通知種別情報ID
+     * @param int    lineId           LINEプロフィール表示名
+     * @param string content          通知内容
      * @return LineNotice LINE通知情報
      */
-    public function create($noticeDateTime, $lineNoticeTypeId, $lineId, $content, $lineMessageId = 0)
+    public function register($noticeDateTime, $lineNoticeTypeId, $lineId, $content)
     {
         return LineNotice::create([
             'notice_date_time' => $noticeDateTime,
             'line_notice_type_id' => $lineNoticeTypeId,
             'line_id' => $lineId,
-            'content' => $content,
-            'line_message_id' => $lineMessageId
+            'content' => $content
         ]);
     }
 }

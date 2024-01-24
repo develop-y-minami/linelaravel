@@ -4,6 +4,9 @@ namespace App\Facades;
 
 /**
  * FileFacade
+ * 
+ * ファイル共通処理
+ * 
  */
 class FileFacade
 {
