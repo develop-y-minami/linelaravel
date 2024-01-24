@@ -33,7 +33,7 @@
     {{--担当者API--}}
     <script src="{{ asset('js/apis/userApi.js') }}"></script>
     {{--担当者情報ページ--}}
-    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStopFlg.js') }}"></script>
     <script src="{{ asset('js/pages/user.js') }}"></script>
 @endpush
 
@@ -48,9 +48,9 @@
             {{--サービス提供者情報--}}
             <div class="contentContainer serviceProviderContainer">
                 <div class="itemBox">
-                    <div id="useStop" class="labelBox
-                        {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->user->serviceProvider->use_stop) }}">
-                        {{ \ServiceProviderUseStop::getName($data->user->serviceProvider->use_stop) }}
+                    <div id="useStopFlg" class="labelBox
+                        {{ \AppViewFacade::serviceProviderUseStopFlgLabelBoxColor($data->user->serviceProvider->use_stop_flg) }}">
+                        {{ \ServiceProviderUseStopFlg::getName($data->user->serviceProvider->use_stop_flg) }}
                     </div>
                     <div class="caption itemName">サービス提供者</div>
                     <a id="serviceProviderId" href="{{ route('serviceProvider', ['id' => $data->user->serviceProvider->id]) }}"

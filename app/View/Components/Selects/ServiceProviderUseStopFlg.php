@@ -5,10 +5,10 @@ namespace App\View\Components\Selects;
 use Illuminate\View\Component;
 
 /**
- * サービス提供者利用状態セレクトボックス Component
+ * サービス提供者利用停止セレクトボックス Component
  * 
  */
-class ServiceProviderUseStop extends Component
+class ServiceProviderUseStopFlg extends Component
 {
     /**
      * __construct
@@ -20,7 +20,7 @@ class ServiceProviderUseStop extends Component
      * @return void
      */
     public function __construct(
-        public readonly string $id = 'selServiceProviderUseStop',
+        public readonly string $id = 'selServiceProviderUseStopFlg',
         public readonly string $name = '',
         public readonly string $class = '',
         public readonly string $classBox = ''
@@ -36,6 +36,6 @@ class ServiceProviderUseStop extends Component
      */
     public function render()
     {
-        return view('components.selects.serviceProviderUseStop');
+        return view('components.selects.serviceProviderUseStopFlg');
     }
 }

@@ -1,6 +1,8 @@
 /**
  * serviceProviderSettingModal
  * 
+ * サービス提供者情報設定モーダル
+ * 
  */
 class ServiceProviderSettingModal {
     /**

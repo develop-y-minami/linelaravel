@@ -14,6 +14,8 @@ use App\Objects\Pages\ServiceProvidersPage;
 /**
  * ServiceProviderController
  * 
+ * サービス提供者情報
+ * 
  */
 class ServiceProviderController extends Controller
 {
@@ -95,7 +97,7 @@ class ServiceProviderController extends Controller
      * https://{host}/serviceProvider/{id}
      * 
      * @param Request request リクエスト
-     * @param int     id      サービス提供者ID
+     * @param int id サービス提供者ID
      * @return View
      */
     public function serviceProvider(Request $request, $id)

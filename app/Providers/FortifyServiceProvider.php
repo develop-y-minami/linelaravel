@@ -53,20 +53,20 @@ class FortifyServiceProvider extends ServiceProvider
                 $serviceProvider = \App\Models\ServiceProvider::whereProviderId($serviceProviderId)->first();
                 if ($serviceProvider != null)
                 {
-                    if ($serviceProvider->use_stop == true)
+                    if ($serviceProvider->use_stop_flg == true)
                     {
                         // サービス利用停止
                         throw ValidationException::withMessages(['serviceProviderId' => 'サービスの利用が停止されています']);
                     }
 
-                    if ($serviceProvider->use_end_date_time != null)
+                    if ($serviceProvider->use_end_date != null)
                     {
                         // 現在日付を取得
                         $today = Carbon::today();
                         // サービス利用終了日を取得
-                        $useEndDateTime = new Carbon($serviceProvider->use_end_date_time);
+                        $useEndDate = new Carbon($serviceProvider->use_end_date);
                         // サービス利用期間が終了しているか判定
-                        if ($today->lt($useEndDateTime) == false)
+                        if ($today->lt($useEndDate) == false)
                         {
                             throw ValidationException::withMessages(['serviceProviderId' => 'サービス利用期間が終了しました']);
                         }

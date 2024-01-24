@@ -10,20 +10,20 @@ $(function() {
      */
     let $txtName = $('#txtName');
     /**
-     * サービス利用開始日テキストボックス
+     * 利用開始日テキストボックス
      * 
      */
-    let $txtUseStartDateTime = $('#txtUseStartDateTime');
+    let $txtUseStartDate = $('#txtUseStartDate');
     /**
-     * サービス利用終了日テキストボックス
+     * 利用終了日テキストボックス
      * 
      */
-    let $txtUseEndDateTime = $('#txtUseEndDateTime');
+    let $txtUseEndDate = $('#txtUseEndDate');
     /**
-     * サービス利用状態セレクトボックス
+     * 利用停止フラグセレクトボックス
      * 
      */
-    let $selServiceProviderUseStop = $('#selServiceProviderUseStop');
+    let $selServiceProviderUseStopFlg = $('#selServiceProviderUseStopFlg');
     /**
      * 表示モード切替
      * 
@@ -60,20 +60,20 @@ $(function() {
      */
     let txtName = null;
     /**
-     * サービス利用開始日の入力値
+     * 利用開始日の入力値
      * 
      */
-    let txtUseStartDateTime = null;
+    let txtUseStartDate = null;
     /**
-     * サービス利用終了日の入力値
+     * 利用終了日の入力値
      * 
      */
-    let txtUseEndDateTime = null;
+    let txtUseEndDate = null;
     /**
-     * サービス利用状態の選択値
+     * 利用停止フラグの選択値
      * 
      */
-    let selServiceProviderUseStop = null;
+    let selServiceProviderUseStopFlg = null;
 
     try {
         // 初期化処理を実行
@@ -111,9 +111,9 @@ $(function() {
         grid.setRowData({
             providerId : txtProviderId,
             name : txtName,
-            useStartDateTime : txtUseStartDateTime,
-            useEndDateTime : txtUseEndDateTime,
-            useStop : selServiceProviderUseStop
+            useStartDate : txtUseStartDate,
+            useEndDate : txtUseEndDate,
+            useStopFlg : selServiceProviderUseStopFlg
         });
     }
 
@@ -134,22 +134,22 @@ $(function() {
             txtName = $txtName.val().trim();
         }
 
-        // サービス利用開始日
-        txtUseStartDateTime = null;
-        if ($txtUseStartDateTime.val() !== '') {
-            txtUseStartDateTime = $txtUseStartDateTime.val();
+        // 利用開始日
+        txtUseStartDate = null;
+        if ($txtUseStartDate.val() !== '') {
+            txtUseStartDate = $txtUseStartDate.val();
         }
 
         // サービス利用終了
-        txtUseEndDateTime = null;
-        if ($txtUseEndDateTime.val() !== '') {
-            txtUseEndDateTime = $txtUseEndDateTime.val();
+        txtUseEndDate = null;
+        if ($txtUseEndDate.val() !== '') {
+            txtUseEndDate = $txtUseEndDate.val();
         }
 
-        // サービス利用状態
-        selServiceProviderUseStop = null;
-        if ($selServiceProviderUseStop.val() !== '') {
-            selServiceProviderUseStop = $selServiceProviderUseStop.val();
+        // 利用停止フラグ
+        selServiceProviderUseStopFlg = null;
+        if ($selServiceProviderUseStopFlg.val() !== '') {
+            selServiceProviderUseStopFlg = $selServiceProviderUseStopFlg.val();
         }
     }
 

@@ -39,7 +39,7 @@ Route::put('/', [ServiceProviderController::class, 'register']);
  * https://{host}/api/serviceProvider/{id}
  * 
  * @param ServiceProviderUpdateRequest request リクエスト
- * @param int                            id      サービス提供者情報ID
+ * @param int id ID
  * @return Json
  */
 Route::patch('/{id}', [ServiceProviderController::class, 'update']);
@@ -50,7 +50,7 @@ Route::patch('/{id}', [ServiceProviderController::class, 'update']);
  * https://{host}/api/serviceProvider/{id}
  * 
  * @param Request request リクエスト
- * @param int     id      サービス提供者情報ID
+ * @param int id ID
  * @return Json
  */
 Route::delete('/{id}', [ServiceProviderController::class, 'destroy'])->whereNumber('id');

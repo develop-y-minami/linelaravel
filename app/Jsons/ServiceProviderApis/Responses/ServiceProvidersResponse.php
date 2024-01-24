@@ -5,6 +5,8 @@ namespace App\Jsons\ServiceProviderApis\Responses;
 /**
  * ServiceProvidersResponse
  * 
+ * サービス提供者情報取得レスポンス
+ * 
  */
 class ServiceProvidersResponse implements \JsonSerializable
 {

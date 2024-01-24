@@ -13,7 +13,7 @@ $(function() {
      * サービス提供者利用状態
      * 
      */
-    $useStop = $('#useStop');
+    $useStopFlg = $('#useStopFlg');
     /**
      * 担当者種別
      * 
@@ -104,7 +104,7 @@ $(function() {
                 userInputModalUpdateCallback,
                 {
                     $serviceProviderId : $serviceProviderId,
-                    $useStop : $useStop,
+                    $useStopFlg : $useStopFlg,
                     $userType : $userType,
                     $userAccountType : $userAccountType,
                     $accountId : $accountId,
@@ -146,10 +146,10 @@ $(function() {
         this.context.$serviceProviderId.text(data.serviceProvider.name);
         this.context.$serviceProviderId.attr('href', '\\serviceProvider\\' + data.serviceProvider.id);
         // サービス提供者利用状態LabelBoxを再設定
-        this.context.$useStop.data('value', data.serviceProvider.useStop);
-        this.context.$useStop.text(data.serviceProvider.useStopName);
-        this.context.$useStop.removeClass('red green');
-        this.context.$useStop.addClass(ServiceProviderUseStop.getColor(data.serviceProvider.useStop));
+        this.context.$useStopFlg.data('value', data.serviceProvider.useStopFlg);
+        this.context.$useStopFlg.text(data.serviceProvider.useStopName);
+        this.context.$useStopFlg.removeClass('red green');
+        this.context.$useStopFlg.addClass(ServiceProviderUseStopFlg.getColor(data.serviceProvider.useStopFlg));
     }
 
     /**

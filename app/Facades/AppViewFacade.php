@@ -57,14 +57,14 @@ class AppViewFacade
     }
 
     /**
-     * サービス提供者利用状態に対応する色を返却
+     * サービス提供者利用停止フラグに対応する色を返却
      * 
-     * @param bool useStop サービス提供者利用状態
+     * @param bool useStopFlg 利用停止フラグ
      * @return string 色
      */
-    public function serviceProviderUseStopLabelBoxColor($useStop)
+    public function serviceProviderUseStopFlgLabelBoxColor($useStopFlg)
     {
-        if ($useStop)
+        if ($useStopFlg)
         {
             return 'red';
         }

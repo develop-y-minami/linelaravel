@@ -8,6 +8,8 @@ use App\Rules\HalfSize;
 /**
  * ServiceProviderRegisterRequest
  * 
+ * サービス提供者情報登録リクエスト
+ * 
  */
 class ServiceProviderRegisterRequest extends FormRequest
 {
@@ -34,8 +36,8 @@ class ServiceProviderRegisterRequest extends FormRequest
         return [
             'providerId' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_PROVIDER_ID, new HalfSize(), 'unique:service_providers,provider_id'],
             'name' => ['required', 'string', 'max:'.\Length::SERVICE_PROVIDER_NAME],
-            'useStartDateTime' => ['required', 'date'],
-            'useEndDateTime' => ['nullable', 'date', 'after:useStartDateTime'],
+            'useStartDate' => ['required', 'date'],
+            'useEndDate' => ['nullable', 'date', 'after:useStartDate'],
         ];
     }
     

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * ServiceProvider
  * 
+ * サービス提供者情報
+ * 
  */
 class ServiceProvider extends Model
 {
@@ -21,8 +23,8 @@ class ServiceProvider extends Model
     protected $fillable = [
         'provider_id',
         'name',
-        'use_start_date_time',
-        'use_end_date_time',
-        'use_stop'
+        'use_start_date',
+        'use_end_date',
+        'use_stop_flg'
     ];
 }

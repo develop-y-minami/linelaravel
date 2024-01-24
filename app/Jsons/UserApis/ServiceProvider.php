@@ -5,6 +5,8 @@ namespace App\Jsons\UserApis;
 /**
  * ServiceProvider
  * 
+ * サービス提供者情報
+ * 
  */
 class ServiceProvider implements \JsonSerializable
 {
@@ -12,14 +14,14 @@ class ServiceProvider implements \JsonSerializable
      * __construct
      * 
      * @param int    id          ID
-     * @param string name        名前
-     * @param bool   useStop     サービス利用状態
-     * @param string useStopName サービス利用状態名称
+     * @param string name        提供者名
+     * @param bool   useStopFlg  利用停止フラグ
+     * @param string useStopName 利用停止名称
      */
     public function __construct(
         public readonly int $id,
         public readonly ?string $name,
-        public readonly bool $useStop,
+        public readonly bool $useStopFlg,
         public readonly ?string $useStopName
     )
     {

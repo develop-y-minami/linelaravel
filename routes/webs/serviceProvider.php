@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function()
      * https://{host}/serviceProvider/{id}
      * 
      * @param Request request リクエスト
-     * @param int     id      サービス提供者ID
+     * @param int id ID
      * @return View
      */
     Route::get('/{id}', [ServiceProviderController::class, 'serviceProvider'])->whereNumber('id')->name('serviceProvider');

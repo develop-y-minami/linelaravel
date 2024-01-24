@@ -20,7 +20,7 @@
     {{--サービス提供者入力モーダル--}}
     <script src="{{ asset('js/commons/components/modals/serviceProviderInputModal.js') }}"></script>
     {{--サービス提供者Grid--}}
-    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStopFlg.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/serviceProviderGrid.js') }}"></script>
     <script src="{{ asset('js/commons/components/grids/cellRenderers/serviceProviderCellRenderer.js') }}"></script>
     {{--サービス提供者API--}}
@@ -48,13 +48,13 @@
     {{--利用期間ボックス--}}
     <div class="content inputContainer">
         <span class="">利用期間</span>
-        <input type="date" id="txtUseStartDateTime">
+        <input type="date" id="txtUseStartDate">
         <span>～</span>
-        <input type="date" id="txtUseEndDateTime">
+        <input type="date" id="txtUseEndDate">
     </div>
     {{--サービス利用状態セレクトボックス--}}
     <div class="content">
-        <x-selects.serviceProviderUseStop></x-selects.serviceProviderUseStop>
+        <x-selects.serviceProviderUseStopFlg></x-selects.serviceProviderUseStopFlg>
     </div>
     {{--検索ボタン--}}
     <div class="content">

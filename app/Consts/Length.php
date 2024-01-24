@@ -5,6 +5,8 @@ namespace App\Consts;
 /**
  * Length
  * 
+ * 桁数
+ * 
  */
 class Length
 {

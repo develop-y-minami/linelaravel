@@ -70,7 +70,7 @@
     {{--サービス提供者API--}}
     <script src="{{ asset('js/apis/serviceProviderApi.js') }}"></script>
     {{--サービス提供者情報ページ--}}
-    <script src="{{ asset('js/commons/consts/serviceProviderUseStop.js') }}"></script>
+    <script src="{{ asset('js/commons/consts/serviceProviderUseStopFlg.js') }}"></script>
     <script src="{{ asset('js/commons/consts/lineSettingMode.js') }}"></script>
     <script src="{{ asset('js/pages/serviceProvider.js') }}"></script>
 @endpush
@@ -86,11 +86,11 @@
             {{--サービス提供者情報--}}
             <div class="contentContainer serviceProviderContainer">
                 <div class="itemBox">
-                    <div id="useStop" class="labelBox
-                        {{ \AppViewFacade::serviceProviderUseStopLabelBoxColor($data->serviceProvider->use_stop) }}"
-                        data-value="{{ $data->serviceProvider->use_stop }}"
+                    <div id="useStopFlg" class="labelBox
+                        {{ \AppViewFacade::serviceProviderUseStopFlgLabelBoxColor($data->serviceProvider->use_stop_flg) }}"
+                        data-value="{{ $data->serviceProvider->use_stop_flg }}"
                         >
-                        {{ \ServiceProviderUseStop::getName($data->serviceProvider->use_stop) }}
+                        {{ \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg) }}
                     </div>
                     <div class="caption itemName">サービス提供者情報</div>
                 </div>
@@ -105,16 +105,16 @@
                     </div>
                     <div class="row">
                         <div class="itemName">利用開始日</div>
-                        <div id="useStartDateTime" class="data"
-                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_start_date_time) }}">
-                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_start_date_time) }}
+                        <div id="useStartDate" class="data"
+                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_start_date) }}">
+                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_start_date) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="itemName">利用終了日</div>
-                        <div id="useEndDateTime" class="data"
-                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_end_date_time) }}">
-                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_end_date_time) }}
+                        <div id="useEndDate" class="data"
+                            data-value="{{ \ViewFacade::convertDate($data->serviceProvider->use_end_date) }}">
+                            {{ \ViewFacade::convertJpDate($data->serviceProvider->use_end_date) }}
                         </div>
                     </div>
                     <div class="row">

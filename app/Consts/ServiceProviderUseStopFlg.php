@@ -3,10 +3,12 @@
 namespace App\Consts;
 
 /**
- * ServiceProviderUseStop
+ * ServiceProviderUseStopFlg
+ * 
+ * サービス提供者情報利用停止フラグ
  * 
  */
-class ServiceProviderUseStop
+class ServiceProviderUseStopFlg
 {
     /**
      * USE
@@ -29,11 +31,11 @@ class ServiceProviderUseStop
     {
         if ($value == true)
         {
-            return \ServiceProviderUseStop::STOP['name'];
+            return \ServiceProviderUseStopFlg::STOP['name'];
         }
         else
         {
-            return \ServiceProviderUseStop::USE['name'];
+            return \ServiceProviderUseStopFlg::USE['name'];
         }
     }
 }

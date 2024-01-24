@@ -7,6 +7,8 @@ use App\Jsons\ServiceProviderApis\ServiceProvider;
 /**
  * ServiceProviderRegisterResponse
  * 
+ * サービス提供者情報登録レスポンス
+ * 
  */
 class ServiceProviderRegisterResponse implements \JsonSerializable
 {

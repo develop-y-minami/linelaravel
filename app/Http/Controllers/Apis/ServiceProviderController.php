@@ -11,6 +11,12 @@ use App\Jsons\ServiceProviderApis\Responses\ServiceProviderRegisterResponse;
 use App\Jsons\ServiceProviderApis\Responses\ServiceProviderUpdateResponse;
 use App\Jsons\ServiceProviderApis\Responses\ServiceProvidersResponse;
 
+/**
+ * ServiceProviderController
+ * 
+ * サービス提供者情報
+ * 
+ */
 class ServiceProviderController extends Controller
 {
     /**
@@ -44,15 +50,15 @@ class ServiceProviderController extends Controller
             // パラメータを取得
             $providerId = $request->input('providerId');
             $name = $request->input('name');
-            $useStartDateTime = $request->input('useStartDateTime');
-            $useEndDateTime = $request->input('useEndDateTime');
-            $useStop = $request->input('useStop');
+            $useStartDate = $request->input('useStartDate');
+            $useEndDate = $request->input('useEndDate');
+            $useStopFlg = $request->input('useStopFlg');
 
             // キャスト
-            $useStop = $useStop === null ? null : (bool)$useStop;
+            $useStopFlg = $useStopFlg === null ? null : (bool)$useStopFlg;
 
             // サービス提供者情報を取得する
-            $serviceProviders = $this->serviceProviderApiService->getServiceProviders($providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+            $serviceProviders = $this->serviceProviderApiService->getServiceProviders($providerId, $name, $useStartDate, $useEndDate, $useStopFlg);
             
             // レスポンスデータを生成
             $response = new ServiceProvidersResponse($serviceProviders);
@@ -81,11 +87,11 @@ class ServiceProviderController extends Controller
             // パラメータを取得
             $providerId = $request->input('providerId');
             $name = $request->input('name');
-            $useStartDateTime = $request->input('useStartDateTime');
-            $useEndDateTime = $request->input('useEndDateTime');
+            $useStartDate = $request->input('useStartDate');
+            $useEndDate = $request->input('useEndDate');
 
             // サービス提供者情報を登録
-            $serviceProvider = $this->serviceProviderApiService->register($providerId, $name, $useStartDateTime, $useEndDateTime);
+            $serviceProvider = $this->serviceProviderApiService->register($providerId, $name, $useStartDate, $useEndDate);
 
             // レスポンスデータを生成
             $response = new ServiceProviderRegisterResponse($serviceProvider);
@@ -105,7 +111,7 @@ class ServiceProviderController extends Controller
      * https://{host}/api/serviceProvider/{id}
      * 
      * @param ServiceProviderUpdateRequest request リクエスト
-     * @param int                          id      サービス提供者情報ID
+     * @param int id ID
      * @return Json
      */
     public function update(ServiceProviderUpdateRequest $request, $id)
@@ -115,15 +121,15 @@ class ServiceProviderController extends Controller
             // パラメータを取得
             $providerId = $request->input('providerId');
             $name = $request->input('name');
-            $useStartDateTime = $request->input('useStartDateTime');
-            $useEndDateTime = $request->input('useEndDateTime');
-            $useStop = $request->input('useStop');
+            $useStartDate = $request->input('useStartDate');
+            $useEndDate = $request->input('useEndDate');
+            $useStopFlg = $request->input('useStopFlg');
 
             // キャスト
-            $useStop = $useStop === null ? null : (bool)$useStop;
+            $useStopFlg = $useStopFlg === null ? null : (bool)$useStopFlg;
 
             // サービス提供者情報を更新
-            $serviceProvider = $this->serviceProviderApiService->update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+            $serviceProvider = $this->serviceProviderApiService->update($id, $providerId, $name, $useStartDate, $useEndDate, $useStopFlg);
 
             // レスポンスデータを生成
             $response = new ServiceProviderUpdateResponse($serviceProvider);
@@ -143,7 +149,7 @@ class ServiceProviderController extends Controller
      * https://{host}/api/serviceProvider/{id}
      * 
      * @param Request request リクエスト
-     * @param int     id      サービス提供者情報ID
+     * @param int id 提供者情報ID
      * @return Json
      */
     public function destroy(Request $request, $id)

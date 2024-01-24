@@ -56,8 +56,8 @@ class UserApiService implements UserApiServiceInterface
             $serviceProvider = new ServiceProvider(
                 $data->serviceProvider->id,
                 $data->serviceProvider->name,
-                $data->serviceProvider->use_stop,
-                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+                $data->serviceProvider->use_stop_flg,
+                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
             );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
@@ -125,8 +125,8 @@ class UserApiService implements UserApiServiceInterface
             $serviceProvider = new ServiceProvider(
                 $data->serviceProvider->id,
                 $data->serviceProvider->name,
-                $data->serviceProvider->use_stop,
-                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+                $data->serviceProvider->use_stop_flg,
+                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
             );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);
@@ -225,8 +225,8 @@ class UserApiService implements UserApiServiceInterface
             $serviceProvider = new ServiceProvider(
                 $data->serviceProvider->id,
                 $data->serviceProvider->name,
-                $data->serviceProvider->use_stop,
-                \ServiceProviderUseStop::getName($data->serviceProvider->use_stop),
+                $data->serviceProvider->use_stop_flg,
+                \ServiceProviderUseStopFlg::getName($data->serviceProvider->use_stop_flg),
             );
             // 担当者アカウント種別を設定
             $userAccountType = new UserAccountType($data->userAccountType->id, $data->userAccountType->name);

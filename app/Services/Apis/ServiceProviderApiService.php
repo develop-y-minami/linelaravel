@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 /**
  * ServiceProviderApiService
  * 
+ * サービス提供者情報
+ * 
  */
 class ServiceProviderApiService implements ServiceProviderApiServiceInterface
 {
@@ -50,40 +52,24 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     /**
      * サービス提供者情報を取得
      * 
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
-     * @param bool   useStop          サービス利用状態
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
+     * @param bool   useStopFlg   利用停止フラグ
      * @return array サービス提供者情報
      */
-    public function getServiceProviders(
-        $providerId = null,
-        $name = null,
-        $useStartDateTime = null,
-        $useEndDateTime = null,
-        $useStop = null
-    )
+    public function getServiceProviders($providerId = null, $name = null, $useStartDate = null, $useEndDate = null, $useStopFlg = null)
     {
         // 返却データ
         $result = array();
 
         // サービス提供者情報を取得
-        $datas = $this->serviceProviderRepository->findByconditions($providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+        $datas = $this->serviceProviderRepository->findByconditions($providerId, $name, $useStartDate, $useEndDate, $useStopFlg);
         foreach ($datas as $data)
         {
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->id,
-                $data->provider_id,
-                $data->name,
-                $data->use_start_date_time,
-                $data->use_end_date_time,
-                $data->use_stop,
-                \ServiceProviderUseStop::getName($data->use_stop),
-                $data->created_at,
-                $data->updated_at
-            );
+            $serviceProvider = $this->getServiceProviderJsonObject($data);
 
             // 配列に追加
             $result[] = $serviceProvider;
@@ -119,13 +105,13 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     /**
      * サービス提供者情報を登録
      * 
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
      * @return ServiceProvider サービス提供者情報
      */
-    public function register($providerId, $name, $useStartDateTime, $useEndDateTime)
+    public function register($providerId, $name, $useStartDate, $useEndDate)
     {
         // トランザクション開始
         \DB::beginTransaction();
@@ -133,23 +119,13 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
         try
         {
             // サービス提供者情報を登録
-            $data = $this->serviceProviderRepository->register($providerId, $name, $useStartDateTime, $useEndDateTime);
+            $data = $this->serviceProviderRepository->register($providerId, $name, $useStartDate, $useEndDate);
 
             // サービス提供者情報を取得
             $data = $this->serviceProviderRepository->findById($data->id);
 
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->id,
-                $data->provider_id,
-                $data->name,
-                $data->use_start_date_time,
-                $data->use_end_date_time,
-                $data->use_stop,
-                \ServiceProviderUseStop::getName($data->use_stop),
-                $data->created_at,
-                $data->updated_at
-            );
+            $serviceProvider = $this->getServiceProviderJsonObject($data);
 
             // コミット
             \DB::commit();
@@ -167,15 +143,15 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     /**
      * サービス提供者情報を更新
      * 
-     * @param int    id               サービス提供者情報ID
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
-     * @param bool   useStop          サービス利用状態
+     * @param int    id           ID
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
+     * @param bool   useStopFlg   利用停止フラグ
      * @return ServiceProvider サービス提供者情報
      */
-    public function update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop)
+    public function update($id, $providerId, $name, $useStartDate, $useEndDate, $useStopFlg)
     {
         // トランザクション開始
         \DB::beginTransaction();
@@ -183,23 +159,13 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
         try
         {
             // サービス提供者情報を更新
-            $this->serviceProviderRepository->update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+            $this->serviceProviderRepository->update($id, $providerId, $name, $useStartDate, $useEndDate, $useStopFlg);
 
             // サービス提供者情報を取得
             $data = $this->serviceProviderRepository->findById($id);
 
             // サービス提供者情報を設定
-            $serviceProvider = new ServiceProvider(
-                $data->id,
-                $data->provider_id,
-                $data->name,
-                $data->use_start_date_time,
-                $data->use_end_date_time,
-                $data->use_stop,
-                \ServiceProviderUseStop::getName($data->use_stop),
-                $data->created_at,
-                $data->updated_at
-            );
+            $serviceProvider = $this->getServiceProviderJsonObject($data);
 
             // コミット
             \DB::commit();
@@ -217,7 +183,7 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     /**
      * サービス提供者情報を削除
      * 
-     * @param int id サービス提供者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id)
@@ -264,9 +230,30 @@ class ServiceProviderApiService implements ServiceProviderApiServiceInterface
     }
 
     /**
+     * サービス提供者情報JSONオブジェクトを取得
+     * 
+     * @param ServiceProvider サービス提供者情報
+     * @return ServiceProvider サービス提供者情報JSONオブジェクト
+     */
+    private function getServiceProviderJsonObject($data)
+    {
+        return new ServiceProvider(
+            $data->id,
+            $data->provider_id,
+            $data->name,
+            $data->use_start_date,
+            $data->use_end_date,
+            $data->use_stop_flg,
+            \ServiceProviderUseStopFlg::getName($data->use_stop_flg),
+            $data->created_at,
+            $data->updated_at
+        );
+    }
+
+    /**
      * サービス提供者ファイル保存用ディレクトリを削除
      * 
-     * @param int id サービス提供者情報ID
+     * @param int id ID
      */
     private function deleteDirectory($id)
     {

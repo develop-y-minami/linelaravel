@@ -19,7 +19,7 @@ class ServiceProviderCellRenderer {
 
         // 利用状態ラベルのカラーを設定
         let labelColor = ''
-        if (params.data.useStop === true) {
+        if (params.data.useStopFlg === true) {
             labelColor = 'red';
         } else {
             labelColor = 'green';
@@ -45,11 +45,11 @@ class ServiceProviderCellRenderer {
         tableHtml += '</tr>';
         tableHtml += '<tr>';
         tableHtml += '<th>利用開始日</th>';
-        tableHtml += '<td>' + DateTimeUtil.convertJpDate(params.data.useStartDateTime) + '</td>';
+        tableHtml += '<td>' + DateTimeUtil.convertJpDate(params.data.useStartDate) + '</td>';
         tableHtml += '</tr>';
         tableHtml += '<tr>';
         tableHtml += '<th>利用終了日</th>';
-        tableHtml += '<td>' + DateTimeUtil.convertJpDate(params.data.useEndDateTime) + '</td>';
+        tableHtml += '<td>' + DateTimeUtil.convertJpDate(params.data.useEndDate) + '</td>';
         tableHtml += '</tr>';
         tableHtml += '</tbody>';
         tableHtml += '</table>';

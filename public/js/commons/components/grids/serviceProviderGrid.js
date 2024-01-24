@@ -1,6 +1,8 @@
 /**
  * ServiceProviderGrid
  * 
+ * サービス提供者情報Grid
+ * 
  */
 class ServiceProviderGrid extends AgGrid {
 
@@ -51,7 +53,7 @@ class ServiceProviderGrid extends AgGrid {
                 minWidth: 200,
             },
             {
-                field: 'useStartDateTime',
+                field: 'useStartDate',
                 headerName: '利用開始日',
                 width: 150,
                 headerClass: 'ag-header-center',
@@ -59,11 +61,11 @@ class ServiceProviderGrid extends AgGrid {
                     textAlign: 'center',
                 },
                 cellRenderer: function(params) {
-                    return DateTimeUtil.convertJpDate(params.data.useStartDateTime);
+                    return DateTimeUtil.convertJpDate(params.data.useStartDate);
                 }
             },
             {
-                field: 'useEndDateTime',
+                field: 'useEndDate',
                 headerName: '利用終了日',
                 width: 150,
                 headerClass: 'ag-header-center',
@@ -71,11 +73,11 @@ class ServiceProviderGrid extends AgGrid {
                     textAlign: 'center',
                 },
                 cellRenderer: function(params) {
-                    return DateTimeUtil.convertJpDate(params.data.useEndDateTime);
+                    return DateTimeUtil.convertJpDate(params.data.useEndDate);
                 }
             },
             {
-                field: 'useStop',
+                field: 'useStopFlg',
                 headerName: '利用状態',
                 width: 150,
                 headerClass : 'ag-header-center',
@@ -83,7 +85,7 @@ class ServiceProviderGrid extends AgGrid {
                 cellRenderer : LabelBoxCellRenderer,
                 cellRendererParams: function(params) {
                     let result = {};
-                    result.labelColor = ServiceProviderUseStop.getColor(params.data.useStop);
+                    result.labelColor = ServiceProviderUseStopFlg.getColor(params.data.useStopFlg);
                     result.labelName = params.data.useStopName;
                     return result;
                 }
@@ -115,11 +117,11 @@ class ServiceProviderGrid extends AgGrid {
      * 
      * @param {string}  providerId       サービス提供者ID
      * @param {string}  name             サービス提供者名
-     * @param {string}  useStartDateTime サービス利用開始日
-     * @param {string}  useEndDateTime   サービス利用終了日
-     * @param {boolean} useStop          サービス利用状態
+     * @param {string}  useStartDate サービス利用開始日
+     * @param {string}  useEndDate   サービス利用終了日
+     * @param {boolean} useStopFlg          サービス利用状態
      */
-    async setRowData({providerId = null, name = null, useStartDateTime = null, useEndDateTime = null, useStop = null}) {
+    async setRowData({providerId = null, name = null, useStartDate = null, useEndDate = null, useStopFlg = null}) {
         try {
             // オーバーレイを表示
             this.gridApi.showLoadingOverlay();
@@ -131,9 +133,9 @@ class ServiceProviderGrid extends AgGrid {
             let result = await ServiceProviderApi.serviceProviders({
                 providerId : providerId,
                 name : name,
-                useStartDateTime : useStartDateTime,
-                useEndDateTime : useEndDateTime,
-                useStop : useStop
+                useStartDate : useStartDate,
+                useEndDate : useEndDate,
+                useStopFlg : useStopFlg
             });
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
@@ -158,9 +160,9 @@ class ServiceProviderGrid extends AgGrid {
         let columns = [];
         columns.push('providerId');
         columns.push('name');
-        columns.push('useStartDateTime');
-        columns.push('useEndDateTime');
-        columns.push('useStop');
+        columns.push('useStartDate');
+        columns.push('useEndDate');
+        columns.push('useStopFlg');
 
         // 管理者の場合に表示
         if (globalUserAccountType == UserAccountType.ADMIN) {
@@ -180,9 +182,9 @@ class ServiceProviderGrid extends AgGrid {
         this.gridApi.setColumnsVisible([
             'providerId',
             'name',
-            'useStartDateTime',
-            'useEndDateTime',
-            'useStop',
+            'useStartDate',
+            'useEndDate',
+            'useStopFlg',
             'btnEdit',
             'btnDelete'
         ], false);
@@ -210,9 +212,9 @@ class ServiceProviderGrid extends AgGrid {
             params.data.id,
             params.data.providerId,
             params.data.name,
-            DateTimeUtil.formatDate(params.data.useStartDateTime),
-            params.data.useEndDateTime,
-            params.data.useStop
+            DateTimeUtil.formatDate(params.data.useStartDate),
+            params.data.useEndDate,
+            params.data.useStopFlg
         ).show();
     }
 

@@ -26,9 +26,9 @@
             <div class="row">
                 <div>利用期間</div>
                 <div class="inputContainer">
-                    <input type="date" id="{{ $id }}TxtUseStartDateTime" class="large">
+                    <input type="date" id="{{ $id }}TxtUseStartDate" class="large">
                     <span>～</span>
-                    <input type="date" id="{{ $id }}TxtUseEndDateTime" class="large">
+                    <input type="date" id="{{ $id }}TxtUseEndDate" class="large">
                 </div>
             </div>
 
@@ -36,8 +36,8 @@
                 {{--利用停止状態--}}
                 <div class="row">
                     <div class="checkBox">
-                        <input type="checkbox" id="{{ $id }}CheckUseStop">
-                        <label for="{{ $id }}CheckUseStop">利用停止に設定</label>
+                        <input type="checkbox" id="{{ $id }}CheckUseStopFlg">
+                        <label for="{{ $id }}CheckUseStopFlg">利用停止に設定</label>
                     </div>
                 </div>
             @endif

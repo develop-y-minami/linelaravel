@@ -199,7 +199,7 @@ return [
         'LineSendMessageType' =>  App\Consts\LineSendMessageType::class,
         'LineSettingMode' =>  App\Consts\LineSettingMode::class,
         'LineTalkHistoryTerm' =>  App\Consts\LineTalkHistoryTerm::class,
-        'ServiceProviderUseStop' =>  App\Consts\ServiceProviderUseStop::class,
+        'ServiceProviderUseStopFlg' =>  App\Consts\ServiceProviderUseStopFlg::class,
         'Term' =>  App\Consts\Term::class,
         'UserAccountType' =>  App\Consts\UserAccountType::class,
         'UserType' =>  App\Consts\UserType::class,

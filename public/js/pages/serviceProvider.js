@@ -18,17 +18,17 @@ $(function() {
      * 利用開始日
      * 
      */
-    $useStartDateTime = $('#useStartDateTime');
+    $useStartDate = $('#useStartDate');
     /**
      * 利用終了日
      * 
      */
-    $useEndDateTime = $('#useEndDateTime');
+    $useEndDate = $('#useEndDate');
     /**
      * 利用状態
      * 
      */
-    $useStop = $('#useStop');
+    $useStopFlg = $('#useStopFlg');
     /**
      * 更新日時
      * 
@@ -199,34 +199,7 @@ $(function() {
             // 担当者削除モーダルのサービス提供者IDを設定して非表示
             userDeleteModal.$selServiceProvider.val(serviceProviderId);
             userDeleteModal.$serviceProviderContainer.hide();
-
-                /* let ctx4 = document.getElementById("lineBarChart");
-                let myPieChart4 = new Chart(ctx4, {
-                    type: 'bar',
-                    data: {
-                      labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                      datasets: [{
-                        label: '有効LINE数',
-                          backgroundColor: [
-                              "#00ff0030"
-                          ],
-                          borderColor: [
-                            "#4bc0c0"
-                          ],
-                          data: [100, 90, 80, 95, 114, 167]
-                      }]
-                    },
-                    options: {
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'LINE数 推移'
-                              }
-                        },
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                  }); */
+            
         } catch(error) {
             throw error;
         }
@@ -274,9 +247,9 @@ $(function() {
                 {
                     $providerId: $providerId,        
                     $name: $name,
-                    $useStartDateTime: $useStartDateTime,
-                    $useEndDateTime: $useEndDateTime,
-                    $useStop: $useStop,
+                    $useStartDate: $useStartDate,
+                    $useEndDate: $useEndDate,
+                    $useStopFlg: $useStopFlg,
                     $updatedAt: $updatedAt,
                     $createdAt: $createdAt
                 }
@@ -285,9 +258,9 @@ $(function() {
             serviceProviderId,
             $providerId.text(),
             $name.text(),
-            $useStartDateTime.data('value'),
-            $useEndDateTime.data('value'),
-            $useStop.data('value')
+            $useStartDate.data('value'),
+            $useEndDate.data('value'),
+            $useStopFlg.data('value')
         ).show();
     });
 
@@ -299,18 +272,18 @@ $(function() {
     function serviceProviderInputModalUpdateCallback(data) {
         this.context.$providerId.text(data.providerId);
         this.context.$name.text(data.name);
-        this.context.$useStartDateTime.data('value', DateTimeUtil.formatDate(data.useStartDateTime));
-        this.context.$useStartDateTime.text(DateTimeUtil.convertJpDate(data.useStartDateTime));
-        this.context.$useEndDateTime.data('value', DateTimeUtil.formatDate(data.useEndDateTime));
-        this.context.$useEndDateTime.text(DateTimeUtil.convertJpDate(data.useEndDateTime));
+        this.context.$useStartDate.data('value', DateTimeUtil.formatDate(data.useStartDate));
+        this.context.$useStartDate.text(DateTimeUtil.convertJpDate(data.useStartDate));
+        this.context.$useEndDate.data('value', DateTimeUtil.formatDate(data.useEndDate));
+        this.context.$useEndDate.text(DateTimeUtil.convertJpDate(data.useEndDate));
         this.context.$updatedAt.text(DateTimeUtil.convertJpDateTime(data.updatedAt));
         this.context.$createdAt.text(DateTimeUtil.convertJpDateTime(data.createdAt));
 
         // サービス提供者利用状態LabelBoxを再設定
-        this.context.$useStop.data('value', data.useStop);
-        this.context.$useStop.text(data.useStopName);
-        this.context.$useStop.removeClass('red green');
-        this.context.$useStop.addClass(ServiceProviderUseStop.getColor(data.useStop));
+        this.context.$useStopFlg.data('value', data.useStopFlg);
+        this.context.$useStopFlg.text(data.useStopName);
+        this.context.$useStopFlg.removeClass('red green');
+        this.context.$useStopFlg.addClass(ServiceProviderUseStopFlg.getColor(data.useStopFlg));
     }
 
     /**

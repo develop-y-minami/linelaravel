@@ -5,71 +5,67 @@ namespace App\Repositorys;
 /**
  * ServiceProviderRepositoryInterface
  * 
+ * サービス提供者情報
+ * 
  */
 interface ServiceProviderRepositoryInterface
 {
     /**
-     * 全サービス提供者情報を取得
+     * 全データ取得
      * 
      * @return Collection サービス提供者情報
      */
     public function getAll();
 
     /**
-     * サービス提供者情報を取得
+     * ID検索
      * 
-     * @param int id サービス提供者情報ID
+     * @param int id ID
      * @return ServiceProvider サービス提供者情報
      */
     public function findById($id);
 
     /**
-     * サービス提供者情報を取得
+     * 条件指定検索
      * 
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
-     * @param bool   useStop          サービス利用状態
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
+     * @param bool   useStopFlg   利用停止フラグ
      * @return Collection サービス提供者情報
      */
-    public function findByconditions(
-        $providerId = null,
-        $name = null,
-        $useStartDateTime = null,
-        $useEndDateTime = null,
-        $useStop = null
-    );
+    public function findByconditions($providerId = null, $name = null, $useStartDate = null, $useEndDate = null, $useStopFlg = null);
 
     /**
-     * サービス提供者情報を登録
+     * 登録
      * 
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
-     * @param bool   useStop          サービス利用状態
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
+     * @param bool   useStopFlg   利用停止フラグ
      * @return ServiceProvider サービス提供者情報
      */
-    public function register($providerId, $name, $useStartDateTime, $useEndDateTime, $useStop = false);
+    public function register($providerId, $name, $useStartDate, $useEndDate, $useStopFlg = false);
 
     /**
-     * サービス提供者情報を更新
+     * 更新
      * 
-     * @param int    id               サービス提供者情報ID
-     * @param string providerId       サービス提供者ID
-     * @param string name             サービス提供者名
-     * @param string useStartDateTime サービス利用開始日
-     * @param string useEndDateTime   サービス利用終了日
-     * @param bool   useStop          サービス利用状態
+     * @param int    id           ID
+     * @param string providerId   提供者ID
+     * @param string name         提供者名
+     * @param string useStartDate 利用開始日
+     * @param string useEndDate   利用終了日
+     * @param bool   useStopFlg   利用停止フラグ
      * @return int 更新数
      */
-    public function update($id, $providerId, $name, $useStartDateTime, $useEndDateTime, $useStop);
+    public function update($id, $providerId, $name, $useStartDate, $useEndDate, $useStopFlg);
 
     /**
-     * サービス提供者情報を削除
+     * 削除
      * 
-     * @param int id サービス提供者情報ID
+     * @param int id ID
      * @return int 削除件数
      */
     public function destroy($id);

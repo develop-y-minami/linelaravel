@@ -21,9 +21,9 @@ trait BelongsToServiceProvider
             $model->id = 0;
             $model->provider_id = null;
             $model->name = null;
-            $model->use_start_date_time = null;
-            $model->use_end_date_time = null;
-            $model->use_stop = false;
+            $model->use_start_date = null;
+            $model->use_end_date = null;
+            $model->use_stop_flg = false;
         });
     }
 }

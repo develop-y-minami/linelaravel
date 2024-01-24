@@ -1,6 +1,8 @@
 /**
  * ServiceProviderInputModalCallbackClass
  * 
+ * サービス提供者情報入力モーダルコールバック
+ * 
  */
 class ServiceProviderInputModalCallbackClass {
     /**
@@ -42,6 +44,8 @@ class ServiceProviderInputModalCallbackClass {
 /**
  * ServiceProviderInputModal
  * 
+ * サービス提供者情報入力モーダル
+ * 
  */
 class ServiceProviderInputModal extends Modal {
     /**
@@ -68,17 +72,17 @@ class ServiceProviderInputModal extends Modal {
      * 利用開始日
      * 
      */
-    $txtUseStartDateTime;
+    $txtUseStartDate;
     /**
      * 利用終了日
      * 
      */
-    $txtUseEndDateTime;
+    $txtUseEndDate;
     /**
      * 使用状態
      * 
      */
-    $checkUseStop;
+    $checkUseStopFlg;
     /**
      * 登録ボタン
      * 
@@ -112,9 +116,9 @@ class ServiceProviderInputModal extends Modal {
         this.$txtServiceProviderId = $('#' + id + 'TxtServiceProviderId');
         this.$txtProviderId = $('#' + id + 'TxtProviderId');
         this.$txtName = $('#' + id + 'TxtName');
-        this.$txtUseStartDateTime = $('#' + id + 'TxtUseStartDateTime');
-        this.$txtUseEndDateTime = $('#' + id + 'TxtUseEndDateTime');
-        this.$checkUseStop = $('#' + id + 'CheckUseStop');
+        this.$txtUseStartDate = $('#' + id + 'TxtUseStartDate');
+        this.$txtUseEndDate = $('#' + id + 'TxtUseEndDate');
+        this.$checkUseStopFlg = $('#' + id + 'CheckUseStopFlg');
         this.$btnRegister = $('#' + id + 'BtnRegister');
         this.$btnUpdate = $('#' + id + 'BtnUpdate');
         this.$loadingOverlay = $('#' + id + 'LoadingOverlay');
@@ -136,9 +140,9 @@ class ServiceProviderInputModal extends Modal {
         this.$txtServiceProviderId.val('');
         this.$txtProviderId.val('');
         this.$txtName.val('');
-        this.$txtUseStartDateTime.val(DateTimeUtil.today());
-        this.$txtUseEndDateTime.val('');
-        this.$checkUseStop.prop('checked', false);
+        this.$txtUseStartDate.val(DateTimeUtil.today());
+        this.$txtUseEndDate.val('');
+        this.$checkUseStopFlg.prop('checked', false);
 
         return this;
     }
@@ -149,25 +153,25 @@ class ServiceProviderInputModal extends Modal {
      * @param {number}  serviceProviderId サービス提供者情報ID
      * @param {string}  providerId        提供者ID
      * @param {string}  name              提供者名
-     * @param {string}  useStartDateTime  サービス利用開始日
-     * @param {string}  useEndDateTime    サービス利用終了日
-     * @param {boolean} useStop           利用停止
+     * @param {string}  useStartDate  サービス利用開始日
+     * @param {string}  useEndDate    サービス利用終了日
+     * @param {boolean} useStopFlg           利用停止
      * @returns {Modal} this
      */
     set(
         serviceProviderId,
         providerId,
         name,
-        useStartDateTime,
-        useEndDateTime,
-        useStop
+        useStartDate,
+        useEndDate,
+        useStopFlg
         ) {
         this.$txtServiceProviderId.val(serviceProviderId);
         this.$txtProviderId.val(providerId);
         this.$txtName.val(name);
-        this.$txtUseStartDateTime.val(useStartDateTime);
-        this.$txtUseEndDateTime.val(useEndDateTime);
-        this.$checkUseStop.prop('checked', useStop);
+        this.$txtUseStartDate.val(useStartDate);
+        this.$txtUseEndDate.val(useEndDate);
+        this.$checkUseStopFlg.prop('checked', useStopFlg);
 
         return this;
     }
@@ -190,11 +194,11 @@ class ServiceProviderInputModal extends Modal {
             // パラメータを取得
             let providerId = me.$txtProviderId.val().trim();
             let name = me.$txtName.val().trim();
-            let useStartDateTime = me.$txtUseStartDateTime.val();
-            let useEndDateTime = me.$txtUseEndDateTime.val();
+            let useStartDate = me.$txtUseStartDate.val();
+            let useEndDate = me.$txtUseEndDate.val();
 
             // サービス提供者情報を登録
-            let result = await ServiceProviderApi.register(providerId, name, useStartDateTime, useEndDateTime);
+            let result = await ServiceProviderApi.register(providerId, name, useStartDate, useEndDate);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる
@@ -242,12 +246,12 @@ class ServiceProviderInputModal extends Modal {
             let serviceProviderId = Number(me.$txtServiceProviderId.val());
             let providerId = me.$txtProviderId.val().trim();
             let name = me.$txtName.val().trim();
-            let useStartDateTime = me.$txtUseStartDateTime.val();
-            let useEndDateTime = me.$txtUseEndDateTime.val();
-            let useStop = me.$checkUseStop.prop('checked');
+            let useStartDate = me.$txtUseStartDate.val();
+            let useEndDate = me.$txtUseEndDate.val();
+            let useStopFlg = me.$checkUseStopFlg.prop('checked');
 
             // サービス提供者情報を更新
-            let result = await ServiceProviderApi.update(serviceProviderId, providerId, name, useStartDateTime, useEndDateTime, useStop);
+            let result = await ServiceProviderApi.update(serviceProviderId, providerId, name, useStartDate, useEndDate, useStopFlg);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 // モーダルを閉じる

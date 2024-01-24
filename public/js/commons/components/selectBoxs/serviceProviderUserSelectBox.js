@@ -1,6 +1,8 @@
 /**
  * ServiceProviderUserSelectBox
  * 
+ * サービス提供者担当者連携セレクトボックス
+ * 
  */
 class ServiceProviderUserSelectBox {
     /**
