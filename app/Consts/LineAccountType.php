@@ -20,4 +20,9 @@ class LineAccountType
      * 
      */
     public const GROUP = 2;
+    /**
+     * GROUP_MEMBER
+     * 
+     */
+    public const GROUP_MEMBER = 3;
 }
