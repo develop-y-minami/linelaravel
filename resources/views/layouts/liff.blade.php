@@ -26,11 +26,22 @@
         {{--JQuery--}}
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
+        {{--共通JS--}}
+        <script src="{{ asset('js/commons/components/messages/errorMessage.js') }}"></script>
+        <script src="{{ asset('js/apis/fetchApi.js') }}"></script>
+        <script src="{{ asset('js/apis/liffApi.js') }}"></script>
+        <script src="{{ asset('js/liffs/liff.js') }}"></script>
+
         {{--各ページのJavaScript：固有を読み込み--}}
         @stack('js')
+        
     </head>
 
     <body class="base">
         @yield('page')
+
+        <div id="loadingOverlay" class="overlay">
+            <div class="loading"></div>
+        </div>
     </body>
 </html>

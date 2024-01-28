@@ -188,6 +188,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'EditMode' =>  App\Consts\EditMode::class,
         'Length' =>  App\Consts\Length::class,
+        'LiffPage' =>  App\Consts\LiffPage::class,
         'LiffPageType' =>  App\Consts\LiffPageType::class,
         'LineAccountType' =>  App\Consts\LineAccountType::class,
         'LineAccountStatus' =>  App\Consts\LineAccountStatus::class,

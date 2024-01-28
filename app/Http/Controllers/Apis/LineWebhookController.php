@@ -67,7 +67,6 @@ class LineWebhookController extends Controller
                     case 'message':
                         $this->lineWebhookService->message($type, $source, $event['message'], $timestamp);
                         break;
-                    
                     // フォローイベント
                     case 'follow':
                         $this->lineWebhookService->follow($mode, $replyToken, $type, $source['userId'], $timestamp);
@@ -75,6 +74,21 @@ class LineWebhookController extends Controller
                     // フォロー解除イベント
                     case 'unfollow':
                         $this->lineWebhookService->unfollow($type, $source['userId'], $timestamp);
+                        break;
+                    // グループ参加イベント
+                    case 'join':
+                        $this->lineWebhookService->join($type, $source['groupId'], $timestamp);
+                        break;
+                    // グループ退出イベント
+                    case 'leave':
+                        $this->lineWebhookService->leave($type, $source['groupId'], $timestamp);
+                        break;
+                    // メンバー退出イベント
+                    case 'memberLeft':
+                        // 退出メンバーを取得
+                        $left = \ArrayFacade::getArrayValue($event, 'left');
+                        $members = \ArrayFacade::getArrayValue($left, 'members');
+                        $this->lineWebhookService->memberLeft($type, $source['groupId'], $members, $timestamp);
                         break;
                     default:
                         break;

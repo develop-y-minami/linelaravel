@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Liffs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Objects\Liffs\SettingServiceProvider;
 
 /**
  * LiffController
+ * 
+ * LIFF
  * 
  */
 class LiffController extends Controller
@@ -16,7 +19,6 @@ class LiffController extends Controller
      * HTTP Method Get
      * https://{host}/liff/setting/serviceProvider
      * 
-     * @param string id ID
      * @param Request request リクエスト
      * @return View
      */
@@ -24,7 +26,14 @@ class LiffController extends Controller
     {
         try
         {
-            return view('liffs.settingServiceProvider');
+            // パラメータを取得
+            $liffPageId = $request->input('liffPageId');
+            $lineId = $request->input('lineId');
+
+            // 返却データに設定
+            $result = new SettingServiceProvider($liffPageId, $lineId);
+
+            return view('liffs.settingServiceProvider')->with('data', $result);
         }
         catch (\Exception $e)
         {

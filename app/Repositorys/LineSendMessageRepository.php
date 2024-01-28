@@ -8,26 +8,22 @@ use App\Models\LineSendMessage;
 /**
  * LineSendMessageRepository
  * 
+ * LINE送信メッセージ情報
+ * 
  */
 class LineSendMessageRepository implements LineSendMessageRepositoryInterface
 {
     /**
-     * LINE送信メッセージを登録
+     * 登録
      * 
      * @param string sendDateTime            LINEメッセージ送信日時
-     * @param int    lineSendMessageOriginId LINEメッセージ送信種別
-     * @param int    lineSendMessageTypeId   LINEメッセージ種別
+     * @param int    lineSendMessageOriginId LINE送信メッセージ発生元情報ID
+     * @param int    lineSendMessageTypeId   LINE送信メッセージ種別情報ID
      * @param int    lineId                  LINE情報ID
-     * @param int    userId                  担当者ID
+     * @param int    userId                  担当者情報ID
      * @return LineSendMessage LINE送信メッセージ
      */
-    public function create(
-        $sendDateTime,
-        $lineSendMessageOriginId,
-        $lineSendMessageTypeId,
-        $lineId,
-        $userId
-    )
+    public function register($sendDateTime, $lineSendMessageOriginId, $lineSendMessageTypeId, $lineId, $userId)
     {
         return LineSendMessage::create([
             'send_date_time' => $sendDateTime,

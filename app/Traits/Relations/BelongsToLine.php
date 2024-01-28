@@ -30,6 +30,7 @@ trait BelongsToLine
             $model->user_id = null;
             $model->user_setting_date = null;
             $model->line_of_user_notice = false;
+            $model->line_id = null;
         });
     }
 }

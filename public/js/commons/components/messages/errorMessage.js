@@ -20,7 +20,7 @@ class ErrorMessage {
      * 
      * @param {string} id ID
      */
-    constructor(id) {
+    constructor(id = 'errorMessage') {
         this.$message = $('#' + id);
     }
 

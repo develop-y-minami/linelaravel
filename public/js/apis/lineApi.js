@@ -1,6 +1,8 @@
 /**
  * LineApi
  * 
+ * LINE情報 Api
+ * 
  */
 class LineApi {
     /**

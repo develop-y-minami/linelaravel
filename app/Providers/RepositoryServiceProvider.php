@@ -83,6 +83,12 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositorys\LineRepository::class
         );
 
+        // LineSendMessageFlexRepository
+        $this->app->bind(
+            \App\Repositorys\LineSendMessageFlexRepositoryInterface::class,
+            \App\Repositorys\LineSendMessageFlexRepository::class
+        );
+
         // LineSendMessageRepository
         $this->app->bind(
             \App\Repositorys\LineSendMessageRepositoryInterface::class,

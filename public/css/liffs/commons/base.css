@@ -4,9 +4,16 @@
 *   共通レイアウト
 ******************************************************/
 .base {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100vh;
     font-size: 16px;
+}
+
+.errorPage {
+    width: 100%;
+    height: 100%;
+    
 }

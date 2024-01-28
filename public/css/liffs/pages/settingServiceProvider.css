@@ -3,25 +3,24 @@
 /******************************************************
 *   サービス提供者設定ページ
 ******************************************************/
-.settingServiceProviderPage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px;
-    width: 100%;
-    height: 100vh;
-}
+.settingServiceProviderPage { display: none; }
 
-.settingServiceProviderPage .row {
+.settingServiceProviderPage .pageContainer { padding: 15px; }
+
+.settingServiceProviderPage .pageContainer .row {
     margin-bottom: 15px;
     width: 100%;
 }
 
-.settingServiceProviderPage .row .inputLabel {
-    margin-bottom: 10px;
-}
-
-.settingServiceProviderPage .row input,
-.settingServiceProviderPage .row button {
+.settingServiceProviderPage .errorMessage {
+    display: none;
+    margin-bottom: 15px;
     width: 100%;
 }
+
+.settingServiceProviderPage .pageContainer .row .inputLabel { margin-bottom: 10px; }
+
+.settingServiceProviderPage .row .inputLabel { margin-bottom: 10px; }
+
+.settingServiceProviderPage .pageContainer input,
+.settingServiceProviderPage .pageContainer button { width: 100%; }

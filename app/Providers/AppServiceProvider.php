@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
                     $app->make(\App\Repositorys\LineNoticeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineNoticeTypeRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineRepositoryInterface::class),
+                    $app->make(\App\Repositorys\LineSendMessageFlexRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineSendMessageRepositoryInterface::class),
                     $app->make(\App\Repositorys\LineSendMessageTextRepositoryInterface::class)
                 );

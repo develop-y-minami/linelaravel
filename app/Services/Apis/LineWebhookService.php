@@ -14,6 +14,7 @@ use App\Repositorys\LineMessageTextRepositoryInterface;
 use App\Repositorys\LineNoticeRepositoryInterface;
 use App\Repositorys\LineNoticeTypeRepositoryInterface;
 use App\Repositorys\LineRepositoryInterface;
+use App\Repositorys\LineSendMessageFlexRepositoryInterface;
 use App\Repositorys\LineSendMessageRepositoryInterface;
 use App\Repositorys\LineSendMessageTextRepositoryInterface;
 
@@ -61,6 +62,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      */
     private $lineRepository;
     /**
+     * LineSendMessageFlexRepositoryInterface
+     * 
+     */
+    private $lineSendMessageFlexRepository;
+    /**
      * LineSendMessageRepositoryInterface
      * 
      */
@@ -82,6 +88,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
      * @param LineNoticeRepositoryInterface          lineNoticeRepository
      * @param LineNoticeTypeRepositoryInterface      lineNoticeTypeRepository
      * @param LineRepositoryInterface                lineRepository
+     * @param LineSendMessageFlexRepositoryInterface lineSendMessageFlexRepository
      * @param LineSendMessageRepositoryInterface     lineSendMessageRepository
      * @param LineSendMessageTextRepositoryInterface lineSendMessageTextRepository
      */
@@ -94,6 +101,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         LineNoticeRepositoryInterface $lineNoticeRepository,
         LineNoticeTypeRepositoryInterface $lineNoticeTypeRepository,
         LineRepositoryInterface $lineRepository,
+        LineSendMessageFlexRepositoryInterface $lineSendMessageFlexRepository,
         LineSendMessageRepositoryInterface $lineSendMessageRepository,
         LineSendMessageTextRepositoryInterface $lineSendMessageTextRepository
     )
@@ -106,6 +114,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         $this->lineNoticeRepository = $lineNoticeRepository;
         $this->lineNoticeTypeRepository = $lineNoticeTypeRepository;
         $this->lineRepository = $lineRepository;
+        $this->lineSendMessageFlexRepository = $lineSendMessageFlexRepository;
         $this->lineSendMessageRepository = $lineSendMessageRepository;
         $this->lineSendMessageTextRepository = $lineSendMessageTextRepository;
     }
@@ -128,28 +137,42 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             // sourseタイプを取得
             $sourceType = \ArrayFacade::getArrayValue($source, 'type');
 
-            // IDを保持
-            $sourceId;
-
             // LINE情報を保持
             $line;
 
             if ($sourceType == 'user')
             {
                 // ユーザーIDを設定
-                $sourceId = \ArrayFacade::getArrayValue($source, 'userId');
+                $userId = \ArrayFacade::getArrayValue($source, 'userId');
                 // LINE情報を取得
-                $line = $this->lineRepository->findByLineChannelUserId($sourceId);
+                $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
                 if ($line == null)
                 {
                     // LINE情報に登録
-                    $line = $this->registerLineOneToOne($sourceId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
+                    $line = $this->registerLineOneToOne($userId, \LineAccountStatus::FOLLOW);
                 }
             }
             else
             {
                 // グループIDを設定
-                $sourceId = \ArrayFacade::getArrayValue($source, 'groupId');
+                $groupId = \ArrayFacade::getArrayValue($source, 'groupId');
+                $userId = \ArrayFacade::getArrayValue($source, 'userId');
+
+                // グループトークのLINE情報を取得
+                $lineGroup = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+                if ($lineGroup == null)
+                {
+                    // LINE情報に登録
+                    $lineGroup = $this->registerLineGroup($groupId, \LineAccountStatus::JOIN);
+                }
+
+                // グループメンバーのLINE情報を取得
+                $line = $this->lineRepository->findByLineChannelGroupIdAndUserId($groupId, $userId, \LineAccountStatus::JOIN);
+                if ($line == null)
+                {
+                    // LINE情報に登録
+                    $line = $this->registerLineGroupMember($groupId, $userId, \LineAccountStatus::JOIN, $lineGroup->id);
+                }
             }
 
             // LINEメッセージ種別を取得
@@ -203,11 +226,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelUserId($userId);
+            $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
             if ($line == null)
             {
                 // LINE情報に登録
-                $line = $this->registerLineOneToOne($userId, \LineAccountStatus::FOLLOW, \LineAccountType::ONE_TO_ONE);
+                $line = $this->registerLineOneToOne($userId, \LineAccountStatus::FOLLOW);
             }
             else
             {
@@ -225,7 +248,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             if ($mode == \LineChannelMode::ACTIVE)
             {
                 // リプライメッセージ送信
-                $this->replyFollow($replyToken, $line->id, $line->display_name);
+                $this->replyFollow($replyToken, $line->id, $line->line_channel_display_name);
             }
 
             // コミット
@@ -254,18 +277,18 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelUserId($userId);
+            $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
             if ($line == null)
             {
                 // LINE情報に登録
-                $line = $this->registerLine($userId, \LineAccountStatus::UNFOLLOW, \LineAccountType::ONE_TO_ONE);
+                $line = $this->registerLineOneToOne($userId, \LineAccountStatus::UNFOLLOW);
             }
             else
             {
                 // LINE情報が既に登録済み時の処理を実行
                 if ($line->line_account_status_id == \LineAccountStatus::FOLLOW)
                 {
-                    // ブロック中の場合は友達に状態を変更
+                    // 友達の場合はブロックに状態を変更
                     $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::UNFOLLOW);
                 }
             }
@@ -285,14 +308,162 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     }
 
     /**
-     * LINE情報を登録
+     * グループ参加イベント時の処理を実行
      * 
-     * @param string            userId            ユーザーID
-     * @param LineAccountStatus lineAccountStatus LINEアカウント状態
-     * @param LineAccountType   lineAccountType   LINEアカウント種別
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param int    timestamp タイムスタンプ
+     */
+    public function join($type, $groupId, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // LINE情報を取得
+            $line = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            if ($line == null)
+            {
+                // LINE情報に登録
+                $line = $this->registerLineGroup($groupId, \LineAccountStatus::JOIN);
+            }
+            else
+            {
+                // LINE情報が既に登録済み時の処理を実行
+                if ($line->line_account_status_id == \LineAccountStatus::LEAVE)
+                {
+                    // 退出中の場合は参加中に状態を変更
+                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::JOIN);
+                }
+            }
+
+            // LINE通知情報を作成
+            $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * グループ退出イベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param int    timestamp タイムスタンプ
+     */
+    public function leave($type, $groupId, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // LINE情報を取得
+            $line = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            if ($line == null)
+            {
+                // LINE情報に登録
+                $line = $this->registerLineGroup($groupId, \LineAccountStatus::LEAVE);
+            }
+            else
+            {
+                // LINE情報が既に登録済み時の処理を実行
+                if ($line->line_account_status_id == \LineAccountStatus::JOIN)
+                {
+                    // 参加中の場合は退出中に状態を変更
+                    $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::LEAVE);
+                }
+            }
+
+            // LINE通知情報を作成
+            $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * グループメンバー退出イベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param array  members   退出メンバー情報
+     * @param int    timestamp タイムスタンプ
+     */
+    public function memberLeft($type, $groupId, $members, $timestamp)
+    {
+        // トランザクション開始
+        \DB::beginTransaction();
+
+        try
+        {
+            // グループトークのLINE情報を取得
+            $lineGroup = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            if ($lineGroup == null)
+            {
+                // LINE情報に登録
+                $lineGroup = $this->registerLineGroup($groupId, \LineAccountStatus::LEAVE);
+            }
+
+            // 退出メンバーの件数分処理
+            foreach ($members as $member) {
+                // ユーザーIDを取得
+                $userId = $member['userId'];
+
+                // グループメンバーのLINE情報を取得
+                $line = $this->lineRepository->findByLineChannelGroupIdAndUserId($groupId, $userId, \LineAccountStatus::JOIN);
+                if ($line == null)
+                {
+                    // 退出済みのLINEプロフィール情報は取得できないため登録処理は実行しない
+                }
+                else
+                {
+                    // LINE情報が既に登録済み時の処理を実行
+                    if ($line->line_account_status_id == \LineAccountStatus::JOIN)
+                    {
+                        // 参加中の場合は退出中に状態を変更
+                        $line = $this->lineRepository->saveLineAccountStatus($line, \LineAccountStatus::LEAVE);
+                    }
+                }
+
+                // LINE通知情報を作成
+                $lineNotice = $this->registerLineNotice($type, $line->id, $timestamp);
+            }
+
+            // コミット
+            \DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            // ロールバック
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * １対１トークのLINE情報を登録
+     * 
+     * @param string            userId              ユーザーID
+     * @param LineAccountStatus lineAccountStatusId LINEアカウント状態情報ID
      * @return Line LINE情報
      */
-    private function registerLineOneToOne($userId, $lineAccountStatus, $lineAccountType)
+    private function registerLineOneToOne($userId, $lineAccountStatusId)
     {
         try
         {
@@ -303,12 +474,79 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
 
             // LINE情報に登録
             return $this->lineRepository->register(
-                $userId,
                 null,
+                $userId,
                 $displayName,
                 $pictureUrl,
-                $lineAccountStatus,
-                $lineAccountType
+                $lineAccountStatusId,
+                \LineAccountType::ONE_TO_ONE
+            );
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * グループトークのLINE情報を登録
+     * 
+     * @param string            groupId             グループID
+     * @param LineAccountStatus lineAccountStatusId LINEアカウント状態
+     * @return Line LINE情報
+     */
+    private function registerLineGroup($groupId, $lineAccountStatusId)
+    {
+        try
+        {
+            // LINEグループ情報を取得
+            $response = $this->messagingApi->getGroupSummary($groupId);
+            $groupName = $response->getGroupName();
+            $pictureUrl = $response->getPictureUrl();
+
+            // LINE情報に登録
+            return $this->lineRepository->register(
+                $groupId,
+                null,
+                $groupName,
+                $pictureUrl,
+                $lineAccountStatusId,
+                \LineAccountType::GROUP
+            );
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+    }
+
+    /**
+     * グループメンバーのLINE情報を登録
+     * 
+     * @param string            groupId             グループID
+     * @param string            userId              ユーザーID
+     * @param LineAccountStatus lineAccountStatusId LINEアカウント状態情報ID
+     * @param int               lineId              親LINE情報ID
+     * @return Line LINE情報
+     */
+    private function registerLineGroupMember($groupId, $userId, $lineAccountStatusId, $lineId)
+    {
+        try
+        {
+            // LINEプロフィール情報を取得
+            $response = $this->messagingApi->getGroupMemberProfile($groupId, $userId);
+            $displayName = $response->getDisplayName();
+            $pictureUrl = $response->getPictureUrl();
+
+            // LINE情報に登録
+            return $this->lineRepository->register(
+                $groupId,
+                $userId,
+                $displayName,
+                $pictureUrl,
+                $lineAccountStatusId,
+                \LineAccountType::GROUP_MEMBER,
+                $lineId
             );
         }
         catch (\Exception $e)
@@ -457,36 +695,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     }
 
     /**
-     * TextMessageを返却
-     * 
-     * @param string text メッセージ
-     * 
-     * @return TextMessage
-     */
-    public function getTextMessage($text)
-    {
-        return new TextMessage(['type' => 'text','text' => $text]);
-    }
-
-    /**
-     * FlexMessageを返却
-     * 
-     * @param string altText  メッセージ
-     * @param string contents 表示コンテンツ
-     * 
-     * @return FlexMessage
-     */
-    public function getFlexMessage($altText, $contents)
-    {
-        return new FlexMessage(['type' => 'flex','altText' => $altText, 'contents' => $contents]);
-    }
-
-    /**
-     * リプライメッセージを送信
+     * リプライメッセージ（テキスト形式）を送信
      * 
      * @param string replyToken リプライトークン
      * @param string text       メッセージ
-     * @param string lineId     LINE情報ID
+     * @param int    lineId     LINE情報ID
      * 
      * @return ReplyMessageResponse
      */
@@ -498,7 +711,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
             $sendDateTime = Carbon::now()->format('Y-m-d H:i:s.v');
 
             // LINE送信メッセージ情報を登録
-            $lineSendMessage = $this->lineSendMessageRepository->create(
+            $lineSendMessage = $this->lineSendMessageRepository->register(
                 $sendDateTime,
                 \LineSendMessageOrigin::REPLY,
                 \LineSendMessageType::TEXT,
@@ -506,11 +719,11 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
                 0
             );
 
-            // LINE送信テキストメッセージ情報を登録
-            $lineSendMessageText = $this->lineSendMessageTextRepository->create($lineSendMessage->id, $text);
+            // LINE送信メッセージテキスト情報を登録
+            $lineSendMessageText = $this->lineSendMessageTextRepository->register($lineSendMessage->id, $text);
 
             // テキストメッセージを生成
-            $message = $this->getTextMessage($text);
+            $message = new TextMessage(['type' => 'text','text' => $text]);
 
             // リクエストを生成
             $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => [$message]]);
@@ -527,18 +740,43 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
     }
 
     /**
-     * リプライメッセージ(複数)を送信
+     * リプライメッセージ（Flex形式）を送信
      * 
      * @param string replyToken リプライトークン
-     * @param array  messages   メッセージ
+     * @param string altText    通知テキスト
+     * @param string contents   Flexコンテンツ
+     * @param int    lineId     LINE情報ID
+     * @param int    liffPageId LIFFページ種別情報ID
      * 
      * @return ReplyMessageResponse
      */
-    private function replyTextMessages($replyToken, $messages) {
+    private function replyFlexMessage($replyToken, $altText, $contents ,$lineId ,$liffPageId)
+    {
         try
         {
+            // 送信日時を取得
+            $sendDateTime = Carbon::now()->format('Y-m-d H:i:s.v');
+
+            // LINE送信メッセージ情報を登録
+            $lineSendMessage = $this->lineSendMessageRepository->register(
+                $sendDateTime,
+                \LineSendMessageOrigin::REPLY,
+                \LineSendMessageType::FLEX,
+                $lineId,
+                0
+            );
+
+            // Flexコンテンツをjson文字列に変換
+            $contentJsonString = json_encode($contents);
+
+            // LINE送信メッセージFlex情報を登録
+            $lineSendMessageFlex = $this->lineSendMessageFlexRepository->register($lineSendMessage->id, $liffPageId, $altText, $contentJsonString);
+
+            // Flexメッセージを生成
+            $message = new FlexMessage(['type' => 'flex','altText' => $altText, 'contents' => $contents]);
+
             // リクエストを生成
-            $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => $messages]);
+            $request = new ReplyMessageRequest(['replyToken' => $replyToken, 'messages' => [$message]]);
 
             // リプライメッセージ送信
             $response = $this->messagingApi->replyMessage($request);
@@ -566,14 +804,62 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         {
             // リプレイメッセージのフォーマットを取得
             $replyFollowMessage = config('line.reply_follow_message');
+
             // サービス提供者設定ページのURLを取得
             $settingServiceProviderUrl = config('line.setting_service_provider_url');
 
+            // LINE情報IDをクエリパラメータに設定
+            $settingServiceProviderUrl = $settingServiceProviderUrl.'/?liffPageId='.\LiffPage::SETTING_SERVICE_PROVIDER.'&lineId='.$lineId;
+
             // テキストメッセージを生成
-            $textMessage = sprintf($replyFollowMessage, $displayName, $settingServiceProviderUrl);
+            $textMessage = sprintf($replyFollowMessage, $displayName);
+
+            // 通知テキストを設定
+            $altText = '友達追加ありがとうございます';
+
+            // Flexコンテンツを生成
+            $contents = array (
+                'type' => 'bubble',
+                'body' => array (
+                    'type' => 'box',
+                    'layout' => 'vertical',
+                    'contents' => array (
+                        0 => array (
+                            'type' => 'box',
+                            'layout' => 'vertical',
+                            'contents' => array (
+                                0 => array (
+                                    'type' => 'text',
+                                    'text' => $textMessage,
+                                    'wrap' => true,
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'footer' => array (
+                    'type' => 'box',
+                    'layout' => 'vertical',
+                    'contents' => array (
+                        0 => array (
+                            'type' => 'separator',
+                            'color' => '#849ebf',
+                        ),
+                        1 => array (
+                            'type' => 'button',
+                            'action' => array (
+                                'type' => 'uri',
+                                'label' => 'サービス提供者設定',
+                                'uri' => $settingServiceProviderUrl,
+                            ),
+                        ),
+                    ),
+                    'paddingAll' => 'none',
+                ),
+            );
 
             // リプライメッセージ送信
-            $response = $this->replyTextMessage($replyToken, $textMessage, $lineId);
+            $response = $this->replyFlexMessage($replyToken, $altText, $contents, $lineId, \LiffPage::SETTING_SERVICE_PROVIDER);
 
             return $response;
         }
@@ -581,73 +867,5 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         {
             throw $e;
         }
-    }
-
-    /**
-     * ユーザー登録用のフレックスメッセージを返却
-     * 
-     * @return FlexMessage
-     */
-    private function getUserRegisterFlexMessage()
-    {
-        // ユーザー登録メッセージのコンテンツを取得を取得
-        $userRegisterFlexContents = $this->getUserRegisterFlexContents();
-        // フレックスメッセージを生成
-        $flexMessage = $this->getFlexMessage($userRegisterFlexContents['altText'], $userRegisterFlexContents['contents']);
-
-        return $flexMessage;
-    }
-
-    /**
-     * ユーザー登録用のフレックスメッセージの表示コンテンツを返却
-     * 
-     * @return array
-     */
-    private function getUserRegisterFlexContents()
-    {
-        // 表示コンテンツの配列を生成
-        $flexContents = [
-            'altText' => 'ユーザー登録',
-            'contents' =>  array (
-                'type' => 'bubble',
-                'body' => 
-                array (
-                  'type' => 'box',
-                  'layout' => 'vertical',
-                  'contents' => 
-                  array (
-                    0 => 
-                    array (
-                      'type' => 'image',
-                      'url' => 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png',
-                      'aspectMode' => 'cover',
-                      'size' => 'full',
-                    ),
-                  ),
-                  'paddingAll' => 'none',
-                ),
-                'footer' => 
-                array (
-                  'type' => 'box',
-                  'layout' => 'vertical',
-                  'contents' => 
-                  array (
-                    0 => 
-                    array (
-                      'type' => 'button',
-                      'action' => 
-                      array (
-                        'type' => 'uri',
-                        'label' => 'ユーザー登録',
-                        'uri' => 'https://liff.line.me/2001775635-bAdzwvoB',
-                      ),
-                      'style' => 'primary',
-                    ),
-                  ),
-                ),
-              )
-        ];
-        
-        return $flexContents;
     }
 }

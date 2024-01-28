@@ -8,17 +8,19 @@ use App\Models\LineSendMessageText;
 /**
  * LineSendMessageTextRepository
  * 
+ * LINE送信メッセージテキスト情報
+ * 
  */
 class LineSendMessageTextRepository implements LineSendMessageTextRepositoryInterface
 {
     /**
-     * LINE送信テキストメッセージを登録
+     * 登録
      * 
-     * @param int    lineSendMessageId LINE送信メッセージID
+     * @param int    lineSendMessageId LINE送信メッセージ情報ID
      * @param string text              テキスト
-     * @return LineSendMessageText LINE送信テキストメッセージ
+     * @return LineSendMessageText LINE送信メッセージテキスト情報
      */
-    public function create($lineSendMessageId, $text)
+    public function register($lineSendMessageId, $text)
     {
         return LineSendMessageText::create(['line_send_message_id' => $lineSendMessageId, 'text' => $text]);
     }

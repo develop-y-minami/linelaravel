@@ -59,6 +59,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/liffs/liff.php'));
+            
+            Route::prefix('api/liff')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/liffs/liffApi.php'));
 
             Route::prefix('api/line')
                 ->middleware('api')

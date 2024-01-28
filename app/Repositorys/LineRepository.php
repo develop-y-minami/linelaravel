@@ -54,11 +54,64 @@ class LineRepository implements LineRepositoryInterface
      * LINEユーザーID検索
      * 
      * @param string lineChannelUserId LINEユーザーID
+     * @param int    lineAccountTypeId LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByLineChannelUserId($lineChannelUserId)
+    public function findByLineChannelUserId($lineChannelUserId, $lineAccountTypeId)
     {
-        return Line::whereLineChannelUserId($lineChannelUserId)->first();
+        $query = Line::query();
+
+        // LINEユーザーID
+        $query->whereLineChannelUserId($lineChannelUserId);
+
+        // LINEアカウント種別情報ID
+        $query->whereLineAccountTypeId($lineAccountTypeId);
+
+        return $query->first();
+    }
+
+    /**
+     * LINEグループID検索
+     * 
+     * @param string lineChannelGroupId LINEグループID
+     * @param int    lineAccountTypeId  LINEアカウント種別情報ID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelGroupId($lineChannelGroupId, $lineAccountTypeId)
+    {
+        $query = Line::query();
+
+        // LINEグループID
+        $query->whereLineChannelGroupId($lineChannelGroupId);
+
+        // LINEアカウント種別情報ID
+        $query->whereLineAccountTypeId($lineAccountTypeId);
+
+        return $query->first();
+    }
+
+    /**
+     * LINEグループID、ユーザーID検索
+     * 
+     * @param string lineChannelGroupId LINEグループID
+     * @param string lineChannelUserId  LINEユーザーID
+     * @param int    lineAccountTypeId  LINEアカウント種別情報ID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelGroupIdAndUserId($lineChannelGroupId, $lineChannelUserId, $lineAccountTypeId)
+    {
+        $query = Line::query();
+
+        // LINEグループID
+        $query->whereLineChannelGroupId($lineChannelGroupId);
+
+        // LINEユーザーID
+        $query->whereLineChannelUserId($lineChannelUserId);
+
+        // LINEアカウント種別情報ID
+        $query->whereLineAccountTypeId($lineAccountTypeId);
+
+        return $query->first();
     }
 
     /**
@@ -110,23 +163,25 @@ class LineRepository implements LineRepositoryInterface
     /**
      * 登録
      * 
-     * @param string lineChannelUserId      LINEユーザーID
      * @param string lineChannelGroupId     LINEグループID
+     * @param string lineChannelUserId      LINEユーザーID
      * @param string lineChannelDisplayName LINEプロフィール表示名
      * @param string lineChannelPictureUrl  LINEプロフィール画像URL
      * @param int    lineAccountStatusId    LINEアカウント状態情報ID
      * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineId                 親LINE情報ID
      * @return Line LINE情報
      */
-    public function register($lineChannelUserId, $lineChannelGroupId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId)
+    public function register($lineChannelGroupId, $lineChannelUserId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId, $lineId = null)
     {
         return Line::create([
-            'line_channel_user_id' => $lineChannelUserId,
             'line_channel_group_id' => $lineChannelGroupId,
+            'line_channel_user_id' => $lineChannelUserId,
             'line_channel_display_name' => $lineChannelDisplayName,
             'line_channel_picture_url' => $lineChannelPictureUrl,
             'line_account_status_id' => $lineAccountStatusId,
             'line_account_type_id' => $lineAccountTypeId,
+            'line_id' => $lineId
         ]);
     }
 

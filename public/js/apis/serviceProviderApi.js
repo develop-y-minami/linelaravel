@@ -1,7 +1,7 @@
 /**
  * ServiceProviderApi
  * 
- * サービス提供者情報
+ * サービス提供者情報 Api
  * 
  */
 class ServiceProviderApi {

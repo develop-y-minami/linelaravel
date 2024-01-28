@@ -41,21 +41,30 @@ interface LineWebhookServiceInterface
     public function unfollow($type, $userId, $timestamp);
 
     /**
-     * TextMessageを返却
+     * グループ参加イベント時の処理を実行
      * 
-     * @param string text メッセージ
-     * 
-     * @return TextMessage
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param int    timestamp タイムスタンプ
      */
-    public function getTextMessage($text);
+    public function join($type, $groupId, $timestamp);
 
     /**
-     * FlexMessageを返却
+     * グループ退出イベント時の処理を実行
      * 
-     * @param string altText  メッセージ
-     * @param string contents 表示コンテンツ
-     * 
-     * @return FlexMessage
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param int    timestamp タイムスタンプ
      */
-    public function getFlexMessage($altText, $contents);
+    public function leave($type, $groupId, $timestamp);
+
+    /**
+     * グループメンバー退出イベント時の処理を実行
+     * 
+     * @param string type      タイプ
+     * @param string groupId   グループID
+     * @param array  members   退出メンバー情報
+     * @param int    timestamp タイムスタンプ
+     */
+    public function memberLeft($type, $groupId, $members, $timestamp);
 }

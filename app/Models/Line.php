@@ -38,5 +38,6 @@ class Line extends Model
         'user_setting_date',
         'notice_setting',
         'notice_user_setting',
+        'line_id',
     ];
 }

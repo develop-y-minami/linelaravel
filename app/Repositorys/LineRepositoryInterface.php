@@ -28,9 +28,29 @@ interface LineRepositoryInterface
      * LINEユーザーID検索
      * 
      * @param string lineChannelUserId LINEユーザーID
+     * @param int    lineAccountTypeId LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByLineChannelUserId($lineChannelUserId);
+    public function findByLineChannelUserId($lineChannelUserId, $lineAccountTypeId);
+
+    /**
+     * LINEグループID検索
+     * 
+     * @param string lineChannelGroupId LINEグループID
+     * @param int    lineAccountTypeId  LINEアカウント種別情報ID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelGroupId($lineChannelGroupId, $lineAccountTypeId);
+
+    /**
+     * LINEグループID、ユーザーID検索
+     * 
+     * @param string lineChannelGroupId LINEグループID
+     * @param string lineChannelUserId  LINEユーザーID
+     * @param int    lineAccountTypeId  LINEアカウント種別情報ID
+     * @return Line LINE情報
+     */
+    public function findByLineChannelGroupIdAndUserId($lineChannelGroupId, $lineChannelUserId, $lineAccountTypeId);
 
     /**
      * 条件指定検索
@@ -47,15 +67,16 @@ interface LineRepositoryInterface
     /**
      * 登録
      * 
-     * @param string lineChannelUserId      LINEユーザーID
      * @param string lineChannelGroupId     LINEグループID
+     * @param string lineChannelUserId      LINEユーザーID
      * @param string lineChannelDisplayName LINEプロフィール表示名
      * @param string lineChannelPictureUrl  LINEプロフィール画像URL
      * @param int    lineAccountStatusId    LINEアカウント状態情報ID
      * @param int    lineAccountTypeId      LINEアカウント種別情報ID
+     * @param int    lineId                 親LINE情報ID
      * @return Line LINE情報
      */
-    public function register($lineChannelUserId, $lineChannelGroupId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId);
+    public function register($lineChannelGroupId, $lineChannelUserId, $lineChannelDisplayName, $lineChannelPictureUrl, $lineAccountStatusId, $lineAccountTypeId, $lineId = null);
 
     /**
      * サービス提供者情報複数更新

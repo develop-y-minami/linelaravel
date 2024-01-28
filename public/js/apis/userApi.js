@@ -1,6 +1,8 @@
 /**
  * UserApi
  * 
+ * 担当者情報 Api
+ * 
  */
 class UserApi {
     /**
@@ -17,6 +19,7 @@ class UserApi {
      * @param {number} userAccountTypeId 担当者アカウント種別情報ID
      * @param {string} accountId         アカウントID
      * @param {string} name              名前
+     * @returns {object}  
      */
     static async users({userTypeId = null, serviceProviderId = null, userAccountTypeId = null, accountId = null, name = null}) {
         // パラメータを設定

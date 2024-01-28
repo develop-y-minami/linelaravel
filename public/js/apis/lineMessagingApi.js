@@ -1,6 +1,8 @@
 /**
  * LineMessagingApi
  * 
+ * Messaging Api
+ * 
  */
 class LineMessagingApi {
 
