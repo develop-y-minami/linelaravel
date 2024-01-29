@@ -82,6 +82,14 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // LiffApiService
+        $this->app->bind(
+            \App\Services\Liffs\LiffApiServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Liffs\LiffApiService($app->make(\App\Repositorys\ServiceProviderRepositoryInterface::class));
+            },
+        );
+
         // LineAccountStatusService
         $this->app->bind(
             \App\Services\Webs\LineAccountStatusServiceInterface::class,

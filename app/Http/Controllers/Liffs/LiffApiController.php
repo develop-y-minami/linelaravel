@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Liffs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\VerifyServiceProviderRequest;
+use App\Services\Liffs\LiffApiServiceInterface;
 
 /**
  * LiffApiController
@@ -14,6 +15,22 @@ use App\Http\Requests\VerifyServiceProviderRequest;
  */
 class LiffApiController extends Controller
 {
+    /**
+     * LiffApiService
+     * 
+     */
+    private $liffApiService;
+
+    /**
+     * __construct
+     * 
+     * @param LiffApiServiceInterface liffApiService
+     */
+    public function __construct(LiffApiServiceInterface $liffApiService)
+    {
+        $this->liffApiService = $liffApiService;
+    }
+    
     /**
      * サービス提供者情報.提供者IDを確認する
      * HTTP Method Post

@@ -3,7 +3,10 @@
 /******************************************************
 *   サービス提供者設定ページ
 ******************************************************/
-.settingServiceProviderPage { display: none; }
+.settingServiceProviderPage {
+    position: relative;
+    display: none;
+}
 
 .settingServiceProviderPage .pageContainer { padding: 15px; }
 
@@ -24,3 +27,29 @@
 
 .settingServiceProviderPage .pageContainer input,
 .settingServiceProviderPage .pageContainer button { width: 100%; }
+
+/******************************************************
+*   サービス提供者確認ページ
+******************************************************/
+.verifyServiceProviderPage {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.verifyServiceProviderPage > main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+
+.verifyServiceProviderPage > main .caption { line-height: 20px; }
+
+
+
+.verifyServiceProviderPage button { width: 100%; }

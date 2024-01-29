@@ -21,10 +21,20 @@ $(function() {
      */
     $txtProviderId = $('#txtProviderId');
     /**
-     * 設定ボタン
+     * 送信ボタン
      * 
      */
-    $btnSetting = $('#btnSetting');
+    $btnPost = $('#btnPost');
+    /**
+     * サービス提供者確認ページ
+     * 
+     */
+    $verifyServiceProviderPage = $('#verifyServiceProviderPage');
+    /**
+     * 戻るボタン
+     * 
+     */
+    $btnBack = $('#btnBack');
     /**
      * LIFFページ種別情報ID
      * 
@@ -64,11 +74,11 @@ $(function() {
     });
 
     /**
-     * 設定ボタンクリック時
+     * 送信ボタンクリック時
      * 
      * @param {Event} e
      */
-    $btnSetting.on('click', async function(e) {
+    $btnPost.on('click', async function(e) {
         try {
             // エラーメッセージを非表示
             errorMessage.hide();
@@ -84,20 +94,26 @@ $(function() {
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 
-                liff.sendMessages([
-                    {
-                    type: "text",
-                    text: "Hello, World!",
-                    },
-                ])
-                .then(() => {
+                // ローディングオーバレイを非表示
+                hideLoadingOverlay();
+
+                // サービス提供者確認ページを表示
+                $verifyServiceProviderPage.show();
+
+                // liff.sendMessages([
+                //     {
+                //     type: "text",
+                //     text: "Hello, World!",
+                //     },
+                // ])
+                // .then(() => {
     
     
-                    console.log("message sent");
-                })
-                .catch((error) => {
-                    showAlertSendMessages();
-                });
+                //     console.log("message sent");
+                // })
+                // .catch((error) => {
+                //     showAlertSendMessages();
+                // });
 
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
@@ -117,5 +133,12 @@ $(function() {
             // ローディングオーバレイを非表示
             hideLoadingOverlay();
         }
-    })
+    });
+
+    /**
+     * 戻るボタンクリック時
+     * 
+     * @param {Event} e
+     */
+    $btnBack.on('click', function(e) { $verifyServiceProviderPage.hide(); });
 });

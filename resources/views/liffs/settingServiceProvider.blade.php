@@ -43,8 +43,32 @@
             <div id="errorMessage" class="errorMessage"></div>
 
             <div class="row">
-                <button id="btnSetting" class="blue large">設定</button>
+                {{--送信ボタン--}}
+                <button id="btnPost" class="blue large">送信</button>
             </div>
+        </div>
+
+        {{-- サービス提供者確認ページ --}}
+        <div id="verifyServiceProviderPage" class="verifyServiceProviderPage">
+            <main>
+                <div class="caption">
+                    以下の提供者情報で間違いないですか？<br>
+                    内容にお間違いない場合、設定ボタンをタップしてください
+                </div>
+
+                <div class="">
+                    
+                </div>
+
+                {{--エラーメッセージ--}}
+                <div id="verifyServiceProviderErrorMessage" class="errorMessage"></div>
+
+                {{--設定ボタン--}}
+                <button id="btnSetting" class="blue large">設定</button>
+
+                {{--戻るボタン--}}
+                <button id="btnBack" class="large">戻る</button>
+            </main>
         </div>
     </div>
 @endsection

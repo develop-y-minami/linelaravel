@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 /**
  * VerifyServiceProviderRequest
@@ -29,8 +31,28 @@ class VerifyServiceProviderRequest extends FormRequest
      */
     public function rules(): array
     {
+        // リクエストデータ取得
+        $input = $this->all();
+
         return [
-            'providerId' => ['required', 'string'],
+            'providerId' => [
+                'required',
+                'string',
+                Rule::exists('service_providers', 'provider_id')->where(function($query)
+                {
+                    // 現在日付を取得
+                    $today = Carbon::today()->toDateString();
+
+                    // サービス利用期間内であるか確認
+                    $query->where('use_start_date', '<=', $today);
+                    $query->where(function($query) use ($today)
+                    {
+                        $query->where('use_end_date', '>=', $today);
+                        $query->orWhereNull('use_end_date');
+                    });
+                    $query->whereUseStopFlg(\ServiceProviderUseStopFlg::USE['value']);
+                })
+            ],
         ];
     }
 }
