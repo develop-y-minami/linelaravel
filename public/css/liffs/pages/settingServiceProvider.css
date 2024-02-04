@@ -50,6 +50,29 @@
 
 .verifyServiceProviderPage > main .caption { line-height: 20px; }
 
-
-
 .verifyServiceProviderPage button { width: 100%; }
+
+.verifyServiceProviderPage .infoContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px;
+    border: solid 1px var(--colorLightGray);
+    border-radius: 4px;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.verifyServiceProviderPage .infoContainer .row {
+    display: flex;
+    border-bottom: solid 1px var(--colorLightGray);
+}
+
+.verifyServiceProviderPage .infoContainer .row:last-child { border-bottom: none; }
+
+.verifyServiceProviderPage .infoContainer .itemName {
+    min-width: 100px;
+    color: #ff7373;
+}
+
+.verifyServiceProviderPage .infoContainer .itemName,
+.verifyServiceProviderPage .infoContainer .data { padding: 10px; }

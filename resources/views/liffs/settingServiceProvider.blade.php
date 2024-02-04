@@ -56,8 +56,15 @@
                     内容にお間違いない場合、設定ボタンをタップしてください
                 </div>
 
-                <div class="">
-                    
+                <div class="infoContainer">
+                    <div class="row">
+                        <div class="itemName">提供者ID</div>
+                        <div id="providerId" class="data"></div>
+                    </div>
+                    <div class="row">
+                        <div class="itemName">提供者名</div>
+                        <div id="name" class="data"></div>
+                    </div>
                 </div>
 
                 {{--エラーメッセージ--}}

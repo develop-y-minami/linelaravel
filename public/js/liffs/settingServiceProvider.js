@@ -9,47 +9,72 @@ $(function() {
      * LIFFページ種別情報ID
      * 
      */
-    $txtLiffPageId = $('#txtLiffPageId');
+    let $txtLiffPageId = $('#txtLiffPageId');
     /**
      * LINE情報ID
      * 
      */
-    $txtLineId = $('#txtLineId');
+    let $txtLineId = $('#txtLineId');
     /**
      * 提供者ID
      * 
      */
-    $txtProviderId = $('#txtProviderId');
+    let $txtProviderId = $('#txtProviderId');
     /**
      * 送信ボタン
      * 
      */
-    $btnPost = $('#btnPost');
+    let $btnPost = $('#btnPost');
     /**
      * サービス提供者確認ページ
      * 
      */
-    $verifyServiceProviderPage = $('#verifyServiceProviderPage');
+    let $verifyServiceProviderPage = $('#verifyServiceProviderPage');
+    /**
+     * 提供者ID
+     * 
+     */
+    let $providerId = $('#providerId');
+    /**
+     * 提供者名
+     * 
+     */
+    let $name = $('#name');
+    /**
+     * 設定ボタン
+     * 
+     */
+    let $btnSetting = $('#btnSetting');
     /**
      * 戻るボタン
      * 
      */
-    $btnBack = $('#btnBack');
+    let $btnBack = $('#btnBack');
     /**
      * LIFFページ種別情報ID
      * 
      */
-    $liffPageId = Number($txtLiffPageId.val());
+    let liffPageId = Number($txtLiffPageId.val());
     /**
      * LINE情報ID
      * 
      */
-    $lineId = Number($txtLineId.val());
+    let lineId = Number($txtLineId.val());
+    /**
+     * サービス提供者情報ID
+     * 
+     */
+    let serviceProviderId;
     /**
      * エラーメッセージ
      * 
      */
-    errorMessage = new ErrorMessage();
+    let errorMessage = new ErrorMessage();
+    /**
+     * エラーメッセージ（サービス提供者確認ページ）
+     * 
+     */
+    let verifyServiceProviderErrorMessage = new ErrorMessage('verifyServiceProviderErrorMessage');
 
     /**
      * init
@@ -98,22 +123,7 @@ $(function() {
                 hideLoadingOverlay();
 
                 // サービス提供者確認ページを表示
-                $verifyServiceProviderPage.show();
-
-                // liff.sendMessages([
-                //     {
-                //     type: "text",
-                //     text: "Hello, World!",
-                //     },
-                // ])
-                // .then(() => {
-    
-    
-                //     console.log("message sent");
-                // })
-                // .catch((error) => {
-                //     showAlertSendMessages();
-                // });
+                showVerifyServiceProviderPage(result.data.serviceProvider);
 
             } else {
                 if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
@@ -134,6 +144,127 @@ $(function() {
             hideLoadingOverlay();
         }
     });
+
+    /**
+     * サービス提供者確認ページを表示
+     * 
+     * @param {object} serviceProvider サービス提供者情報
+     */
+    function showVerifyServiceProviderPage(serviceProvider) {
+        serviceProviderId = serviceProvider.id;
+        $providerId.html(serviceProvider.providerId);
+        $name.html(serviceProvider.name);
+
+        // ページを表示
+        $verifyServiceProviderPage.show();
+    }
+
+    /**
+     * 設定ボタンクリック時
+     * 
+     * @param {Event} e
+     */
+    $btnSetting.on('click', function(e) {
+        try {
+
+
+            liff.sendMessages([
+                {
+                    type: "text",
+                    text: "Hello, World!",
+                },
+                {
+                    "type": "flex",
+                    "altText": "This is a Flex Message",
+                    "contents": {
+                        "type": "bubble",
+                        "header": {
+                          "type": "box",
+                          "layout": "vertical",
+                          "contents": [
+                            {
+                              "type": "box",
+                              "layout": "vertical",
+                              "contents": [
+                                {
+                                  "type": "text",
+                                  "text": "サービス提供者情報",
+                                  "size": "xs",
+                                  "color": "#ff7373"
+                                }
+                              ],
+                              "paddingAll": "xl",
+                              "paddingStart": "xl",
+                              "paddingEnd": "xl"
+                            },
+                            {
+                              "type": "separator"
+                            }
+                          ],
+                          "paddingAll": "none"
+                        },
+                        "body": {
+                          "type": "box",
+                          "layout": "vertical",
+                          "contents": [
+                            {
+                              "type": "box",
+                              "layout": "horizontal",
+                              "contents": [
+                                {
+                                  "type": "text",
+                                  "text": "提供者ID",
+                                  "size": "xs",
+                                },
+                                {
+                                  "type": "text",
+                                  "text": "FWFFFFW",
+                                  "size": "xs"
+                                }
+                              ],
+                              "paddingAll": "md",
+                              "paddingStart": "none",
+                              "paddingEnd": "none"
+                            },
+                            {
+                              "type": "box",
+                              "layout": "horizontal",
+                              "contents": [
+                                {
+                                  "type": "text",
+                                  "text": "提供者名",
+                                  "size": "xs",
+                                },
+                                {
+                                  "type": "text",
+                                  "text": "hello, world",
+                                  "size": "xs"
+                                }
+                              ],
+                              "paddingAll": "md",
+                              "paddingStart": "none",
+                              "paddingEnd": "none"
+                            }
+                          ]
+                        }
+                      }
+                },
+            ])
+            .then(() => {
+
+            })
+            .catch((error) => {
+                // メッセージ送信失敗
+                showAlertSendMessages();
+            });
+
+        } catch(error) {
+            alert(error);
+        } finally {
+            // ローディングオーバレイを非表示
+            hideLoadingOverlay();
+        }
+    })
 
     /**
      * 戻るボタンクリック時

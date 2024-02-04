@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\VerifyServiceProviderRequest;
 use App\Services\Liffs\LiffApiServiceInterface;
+use App\Jsons\LiffApis\Responses\VerifyServiceProviderResponse;
 
 /**
  * LiffApiController
@@ -46,8 +47,14 @@ class LiffApiController extends Controller
             // パラメータを取得
             $providerId = $request->input('providerId');
 
+            // サービス提供者情報を取得
+            $serviceProvider = $this->liffApiService->getServiceProviderFindByProviderId($providerId);
+
+            // レスポンスデータを生成
+            $response = new VerifyServiceProviderResponse($serviceProvider);
+
             // HTTPステータスコード:200 
-            return $this->jsonResponse([]);
+            return $this->jsonResponse($response);
         }
         catch (\Exception $e)
         {

@@ -35,6 +35,17 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface
     }
 
     /**
+     * 提供者ID検索
+     * 
+     * @param string providerId 提供者ID
+     * @return ServiceProvider サービス提供者情報
+     */
+    public function findByProviderId($providerId)
+    {
+        return ServiceProvider::whereProviderId($providerId)->first();
+    }
+
+    /**
      * 条件指定検索
      * 
      * @param string providerId   提供者ID

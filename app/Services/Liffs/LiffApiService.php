@@ -3,6 +3,7 @@
 namespace App\Services\Liffs;
 
 use App\Repositorys\ServiceProviderRepositoryInterface;
+use App\Jsons\LiffApis\ServiceProvider;
 
 /**
  * LiffApiService
@@ -28,5 +29,34 @@ class LiffApiService implements LiffApiServiceInterface
     )
     {
         $this->serviceProviderRepository = $serviceProviderRepository;
+    }
+
+    /**
+     * サービス提供者情報を取得
+     * 提供者ID検索
+     * 
+     * @param string providerId 提供者ID
+     * @return ServiceProvider サービス提供者情報
+     */
+    public function getServiceProviderFindByProviderId($providerId)
+    {
+        // サービス提供者情報を取得
+        $data = $this->serviceProviderRepository->findByProviderId($providerId);
+
+        // 返却データを設定
+        $serviceProvider = $this->getServiceProviderJsonObject($data);
+
+        return $serviceProvider;
+    }
+
+    /**
+     * サービス提供者情報JSONオブジェクトを取得
+     * 
+     * @param ServiceProvider data サービス提供者情報
+     * @return ServiceProvider サービス提供者情報JSONオブジェクト
+     */
+    private function getServiceProviderJsonObject($data)
+    {
+        return new ServiceProvider($data->id, $data->provider_id, $data->name);
     }
 }
