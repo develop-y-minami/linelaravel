@@ -26,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
             },
         );
 
+        // LineLoginApiService
+        $this->app->bind(
+            \App\Services\Apis\LineLoginApiServiceInterface::class,
+            function ($app) {
+                return new \App\Services\Apis\LineLoginApiService();
+            },
+        );
+
         // LineMessagingApiService
         $this->app->bind(
             \App\Services\Apis\LineMessagingApiServiceInterface::class,
@@ -86,7 +94,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Services\Liffs\LiffApiServiceInterface::class,
             function ($app) {
-                return new \App\Services\Liffs\LiffApiService($app->make(\App\Repositorys\ServiceProviderRepositoryInterface::class));
+                return new \App\Services\Liffs\LiffApiService(
+                    $app->make(\App\Repositorys\LineRepositoryInterface::class),
+                    $app->make(\App\Repositorys\ServiceProviderRepositoryInterface::class)
+                );
             },
         );
 

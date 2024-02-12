@@ -9,8 +9,6 @@ use App\Objects\Liffs\SettingServiceProvider;
 /**
  * LiffController
  * 
- * LIFF
- * 
  */
 class LiffController extends Controller
 {

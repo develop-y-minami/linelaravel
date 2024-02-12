@@ -38,7 +38,7 @@ Route::post('/notices', [LineController::class, 'notices']);
  * HTTP Method Patch
  * https://{host}/api/line/serviceProvider
  * 
- * @param LineServiceProviderUpdateRequest request リクエスト
+ * @param LinesServiceProviderUpdateRequest request リクエスト
  * @return Json
  */
 Route::patch('/serviceProvider', [LineController::class, 'updatesServiceProvider']);

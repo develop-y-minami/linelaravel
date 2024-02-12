@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\LineServiceProviderUpdateRequest;
+use App\Http\Requests\LinesServiceProviderUpdateRequest;
 use App\Http\Requests\LineUserSettingRequest;
 use App\Services\Apis\LineApiServiceInterface;
 use App\Jsons\LineApis\Responses\LinesResponse;
@@ -119,10 +119,10 @@ class LineController extends Controller
      * HTTP Method Patch
      * https://{host}/api/line/serviceProvider
      * 
-     * @param LineServiceProviderUpdateRequest request リクエスト
+     * @param LinesServiceProviderUpdateRequest request リクエスト
      * @return Json
      */
-    public function updatesServiceProvider(LineServiceProviderUpdateRequest $request)
+    public function updatesServiceProvider(LinesServiceProviderUpdateRequest $request)
     {
         try
         {

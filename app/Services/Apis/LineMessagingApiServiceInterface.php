@@ -15,5 +15,11 @@ interface LineMessagingApiServiceInterface
      */
     public function getBotInfo();
 
+    /**
+     * メッセージコンテンツを取得
+     * 
+     * @param string messageId メッセージID
+     * @return string メッセージコンテンツ
+     */
     public function getMessageContent($messageId);
 }

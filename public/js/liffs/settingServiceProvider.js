@@ -51,6 +51,11 @@ $(function() {
      */
     let $btnBack = $('#btnBack');
     /**
+     * LIFF API
+     * 
+     */
+    let api;
+    /**
      * LIFFページ種別情報ID
      * 
      */
@@ -81,14 +86,12 @@ $(function() {
      * 
      */
     liff.init({liffId: LIFF_ID}).then(() => {
-        // 初期化完了
-
         // 起動OSを確認しページが表示可能か取得
         let checkOsResult = checkOs();
-
+        
         if (checkOsResult === true) {
-            // ページを表示
-            $page.fadeIn();
+            // 初期化処理を実行
+            init();
         } else {
             // アラートを表示
             showAlertMistakeOs();
@@ -97,6 +100,29 @@ $(function() {
         // 初期化失敗
         showAlertLiffInitFailure();
     });
+
+    /**
+     * 初期化
+     * 
+     */
+    async function init() {
+        // アクセストークンを取得
+        let accessToken = liff.getAccessToken();
+
+        // APIのインスタンスを生成
+        api = new LiffApi(accessToken);
+
+        // アクセストークンを検証
+        let result = await api.verifyAccessToken();
+        
+        if (result.status == FetchApi.STATUS_SUCCESS) {
+            // ページを表示
+            $page.fadeIn();
+        } else {
+            // 初期化失敗
+            showAlertLiffInitFailure();
+        }
+    }
 
     /**
      * 送信ボタンクリック時
@@ -115,7 +141,7 @@ $(function() {
             let providerId = $txtProviderId.val().trim();
 
             // サービス提供者情報を確認
-            let result = await LiffApi.verifyServiceProvider(providerId);
+            let result = await api.verifyServiceProvider(providerId);
 
             if (result.status == FetchApi.STATUS_SUCCESS) {
                 
@@ -138,7 +164,7 @@ $(function() {
                 }
             }
         } catch(error) {
-            alert(error);
+            errorMessage.showServerError();
         } finally {
             // ローディングオーバレイを非表示
             hideLoadingOverlay();
@@ -164,107 +190,131 @@ $(function() {
      * 
      * @param {Event} e
      */
-    $btnSetting.on('click', function(e) {
+    $btnSetting.on('click', async function(e) {
         try {
+            // エラーメッセージを非表示
+            errorMessage.hide();
+
+            // ローディングオーバレイを表示
+            showLoadingOverlay();
+            
+            // サービス提供者情報を更新
+            let result = await api.updateServiceProvider(lineId, serviceProviderId);
+
+            if (result.status == FetchApi.STATUS_SUCCESS) {
 
 
-            liff.sendMessages([
-                {
-                    type: "text",
-                    text: "Hello, World!",
-                },
+                // LIFFを閉じる
+                liff.closeWindow();
+            } else {
+                if (result.code === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
+                    // バリデーションエラー時のメッセージを表示
+                    let erros = [];
+                    for (let i = 0; i < result.errors.length; i++) {
+                        erros.push(result.errors[i].message);
+                    }
+                    errorMessage.showMessages(erros);
+                } else {
+                    errorMessage.showServerError();
+                }
+            }
+
+            alert(result.status);
+            /* liff.sendMessages([
                 {
                     "type": "flex",
                     "altText": "This is a Flex Message",
                     "contents": {
                         "type": "bubble",
                         "header": {
-                          "type": "box",
-                          "layout": "vertical",
-                          "contents": [
-                            {
-                              "type": "box",
-                              "layout": "vertical",
-                              "contents": [
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
                                 {
-                                  "type": "text",
-                                  "text": "サービス提供者情報",
-                                  "size": "xs",
-                                  "color": "#ff7373"
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "サービス提供者情報",
+                                            "size": "xs",
+                                            "color": "#ff7373"
+                                        }
+                                    ],
+                                    "paddingAll": "xl",
+                                    "paddingStart": "xl",
+                                    "paddingEnd": "xl"
+                                },
+                                {
+                                    "type": "separator"
                                 }
-                              ],
-                              "paddingAll": "xl",
-                              "paddingStart": "xl",
-                              "paddingEnd": "xl"
-                            },
-                            {
-                              "type": "separator"
-                            }
-                          ],
-                          "paddingAll": "none"
+                            ],
+                            "paddingAll": "none"
                         },
                         "body": {
-                          "type": "box",
-                          "layout": "vertical",
-                          "contents": [
-                            {
-                              "type": "box",
-                              "layout": "horizontal",
-                              "contents": [
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
                                 {
-                                  "type": "text",
-                                  "text": "提供者ID",
-                                  "size": "xs",
+                                    "type": "box",
+                                    "layout": "horizontal",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "提供者ID",
+                                            "size": "xs",
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "FWFFFFW",
+                                            "size": "xs"
+                                        }
+                                    ],
+                                    "paddingAll": "md",
+                                    "paddingStart": "none",
+                                    "paddingEnd": "none"
                                 },
                                 {
-                                  "type": "text",
-                                  "text": "FWFFFFW",
-                                  "size": "xs"
+                                    "type": "box",
+                                    "layout": "horizontal",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "提供者名",
+                                            "size": "xs",
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "hello, world",
+                                            "size": "xs"
+                                        }
+                                    ],
+                                    "paddingAll": "md",
+                                    "paddingStart": "none",
+                                    "paddingEnd": "none"
                                 }
-                              ],
-                              "paddingAll": "md",
-                              "paddingStart": "none",
-                              "paddingEnd": "none"
-                            },
-                            {
-                              "type": "box",
-                              "layout": "horizontal",
-                              "contents": [
-                                {
-                                  "type": "text",
-                                  "text": "提供者名",
-                                  "size": "xs",
-                                },
-                                {
-                                  "type": "text",
-                                  "text": "hello, world",
-                                  "size": "xs"
-                                }
-                              ],
-                              "paddingAll": "md",
-                              "paddingStart": "none",
-                              "paddingEnd": "none"
-                            }
-                          ]
+                            ]
                         }
-                      }
+                    }
                 },
-            ])
-            .then(() => {
+            ]).then(() => {
 
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 // メッセージ送信失敗
                 showAlertSendMessages();
-            });
+            }); */
 
         } catch(error) {
-            alert(error);
+            errorMessage.showServerError();
         } finally {
             // ローディングオーバレイを非表示
             hideLoadingOverlay();
         }
-    })
+    });
+
+    function settingServiceProviderSendMessage() {
+
+    }
 
     /**
      * 戻るボタンクリック時

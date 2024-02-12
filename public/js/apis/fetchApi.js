@@ -27,20 +27,35 @@ class FetchApi {
     /**
      * HTTP Method GET
      * 
-     * @param {string} url - URL
+     * @param {string} url     URL
+     * @param {object} headers HTTP Header
      * @returns {object}
      */
-    static async get(url) {
+    static async get(url, headers = {}) {
+        // response
         let response;
+        
+        // headerを設定
+        headers['Content-Type'] = 'application/json';
+
         try {
-            response = await fetch(FetchApi.URL_ROOT_API + '/' + url);
+            response = await fetch(
+                FetchApi.URL_ROOT_API + '/' + url,
+                {
+                    method: 'GET',
+                    headers: headers
+                }
+            );
             if (response.ok) {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
             } else {
-                return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : response.statusText};
+                let data = await response.json();
+                return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : data.message};
             }
         } catch(error) {
+            alert(error);
+            showAlertLiffInitFailure();
             return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'error' : error};
         }
     }
@@ -48,21 +63,24 @@ class FetchApi {
     /**
      * HTTP Method POST
      * 
-     * @param {string} url  URL
-     * @param {object} data データ
+     * @param {string} url     URL
+     * @param {object} data    データ
+     * @param {object} headers HTTP Header
      * @returns {object}
      */
-    static async post(url, data = {}) {
+    static async post(url, data = {}, headers = {}) {
+        // response
         let response;
+
+        // headerを設定
+        headers['Content-Type'] = 'application/json';
+
         try {
             response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
                 {
                     method: 'POST',
-                    headers: 
-                    {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     body: JSON.stringify(data)
                 }
             );
@@ -75,7 +93,8 @@ class FetchApi {
                     let data = await response.json();
                     return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
                 } else {
-                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : data.message};
                 }
             }
         } catch(error) {
@@ -91,7 +110,9 @@ class FetchApi {
      * @returns {object}
      */
     static async put(url, data = {}) {
+        // response
         let response;
+
         try {
             response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
@@ -113,7 +134,8 @@ class FetchApi {
                     let data = await response.json();
                     return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
                 } else {
-                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : data.message};
                 }
             }
         } catch(error) {
@@ -124,21 +146,23 @@ class FetchApi {
     /**
      * HTTP Method PATCH
      * 
-     * @param {string} url  URL
-     * @param {object} data データ
+     * @param {string} url     URL
+     * @param {object} data    データ
+     * @param {object} headers HTTP Header
      * @returns {object}
      */
-    static async patch(url, data = {}) {
+    static async patch(url, data = {}, headers = {}) {
         let response;
+
+        // headerを設定
+        headers['Content-Type'] = 'application/json';
+
         try {
             response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,
                 {
                     method: 'PATCH',
-                    headers: 
-                    {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     body: JSON.stringify(data)
                 }
             );
@@ -146,12 +170,14 @@ class FetchApi {
                 let data = await response.json();
                 return {'status' : FetchApi.STATUS_SUCCESS, 'code' : response.status,  'data' : data};
             } else {
+                alert(url);
                 if (response.status === FetchApi.STATUS_CODE_VALIDATION_EXCEPTION) {
                     // バリデーションエラー
                     let data = await response.json();
                     return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status,  'errors' : data.errors};
                 } else {
-                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : response.statusText};
+                    let data = await response.json();
+                    return {'status' : FetchApi.STATUS_FAILURE, 'code' : response.status, 'error' : data.message};
                 }
             }
         } catch(error) {
@@ -168,6 +194,7 @@ class FetchApi {
      */
     static async delete(url, data = {}) {
         let response;
+
         try {
             response = await fetch(
                 FetchApi.URL_ROOT_API + '/' + url,

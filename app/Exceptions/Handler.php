@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use GuzzleHttp\Exception\ClientException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -52,6 +53,13 @@ class Handler extends ExceptionHandler
                     }
 					return response()->json(['errors' => $errors], $e->status);
 				}
+                else if ($e instanceof ClientException)
+                {
+                    // 返却するメッセージを設定
+                    $error = json_decode($e->getResponse()->getBody()->getContents());
+                    $message = $error->message;
+                    return response()->json(['message' => $message], $e->getCode());
+                }
                 else
                 {
                     return response()->json(['message' => 'Internal Server Error'], 500);

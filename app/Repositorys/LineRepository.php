@@ -51,13 +51,24 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINEユーザーID検索
+     * LINEグループID検索
+     * 
+     * @param string lineChannelGroupId LINEグループID
+     * @return Collection LINE情報
+     */
+    public function findByLineChannelGroupId($lineChannelGroupId)
+    {
+        return Line::whereLineChannelGroupId($lineChannelGroupId)->get();
+    }
+
+    /**
+     * LINEユーザーID,LINEアカウント種別情報ID検索
      * 
      * @param string lineChannelUserId LINEユーザーID
      * @param int    lineAccountTypeId LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByLineChannelUserId($lineChannelUserId, $lineAccountTypeId)
+    public function findByLineChannelUserIdAndLineAccountTypeId($lineChannelUserId, $lineAccountTypeId)
     {
         $query = Line::query();
 
@@ -71,13 +82,13 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINEグループID検索
+     * LINEグループID,LINEアカウント種別情報ID検索
      * 
      * @param string lineChannelGroupId LINEグループID
      * @param int    lineAccountTypeId  LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByLineChannelGroupId($lineChannelGroupId, $lineAccountTypeId)
+    public function findByLineChannelGroupIdAndLineAccountTypeId($lineChannelGroupId, $lineAccountTypeId)
     {
         $query = Line::query();
 
@@ -91,14 +102,14 @@ class LineRepository implements LineRepositoryInterface
     }
 
     /**
-     * LINEグループID、ユーザーID検索
+     * LINEグループID、ユーザーID,LINEアカウント種別情報ID検索
      * 
      * @param string lineChannelGroupId LINEグループID
      * @param string lineChannelUserId  LINEユーザーID
      * @param int    lineAccountTypeId  LINEアカウント種別情報ID
      * @return Line LINE情報
      */
-    public function findByLineChannelGroupIdAndUserId($lineChannelGroupId, $lineChannelUserId, $lineAccountTypeId)
+    public function findByLineChannelGroupIdAndUserIdAndLineAccountTypeId($lineChannelGroupId, $lineChannelUserId, $lineAccountTypeId)
     {
         $query = Line::query();
 
@@ -182,6 +193,24 @@ class LineRepository implements LineRepositoryInterface
             'line_account_status_id' => $lineAccountStatusId,
             'line_account_type_id' => $lineAccountTypeId,
             'line_id' => $lineId
+        ]);
+    }
+
+    /**
+     * サービス提供者情報更新
+     * 
+     * @param int    id                         ID
+     * @param int    serviceProviderId          サービス提供者情報ID
+     * @param string serviceProviderSettingDate サービス提供者設定日
+     * @return int 更新件数
+     */
+    public function updateServiceProvider($id, $serviceProviderId, $serviceProviderSettingDate)
+    {
+        return Line::find($id)->update([
+            'service_provider_id' => $serviceProviderId,
+            'service_provider_setting_date' => $serviceProviderSettingDate,
+            'user_id' => null,
+            'user_setting_date' => null
         ]);
     }
 

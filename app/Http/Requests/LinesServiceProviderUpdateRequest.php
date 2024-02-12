@@ -5,12 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * LineServiceProviderUpdateRequest
+ * LinesServiceProviderUpdateRequest
  * 
  * LINEサービス提供者情報更新リクエスト
  * 
  */
-class LineServiceProviderUpdateRequest extends FormRequest
+class LinesServiceProviderUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +33,9 @@ class LineServiceProviderUpdateRequest extends FormRequest
         $input = $this->all();
 
         return [
-            'serviceProviderId' => ['required', 'integer'],
+            'ids' => ['required', 'array'],
+            'ids.*' => ['integer'],
+            'serviceProviderId' => ['nullable', 'integer'],
         ];
     }
 }

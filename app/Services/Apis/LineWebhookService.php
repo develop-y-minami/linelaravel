@@ -145,7 +145,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
                 // ユーザーIDを設定
                 $userId = \ArrayFacade::getArrayValue($source, 'userId');
                 // LINE情報を取得
-                $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
+                $line = $this->lineRepository->findByLineChannelUserIdAndLineAccountTypeId($userId, \LineAccountType::ONE_TO_ONE);
                 if ($line == null)
                 {
                     // LINE情報に登録
@@ -159,7 +159,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
                 $userId = \ArrayFacade::getArrayValue($source, 'userId');
 
                 // グループトークのLINE情報を取得
-                $lineGroup = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+                $lineGroup = $this->lineRepository->findByLineChannelGroupIdAndLineAccountTypeId($groupId, \LineAccountType::GROUP);
                 if ($lineGroup == null)
                 {
                     // LINE情報に登録
@@ -167,7 +167,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
                 }
 
                 // グループメンバーのLINE情報を取得
-                $line = $this->lineRepository->findByLineChannelGroupIdAndUserId($groupId, $userId, \LineAccountStatus::JOIN);
+                $line = $this->lineRepository->findByLineChannelGroupIdAndUserIdAndLineAccountTypeId($groupId, $userId, \LineAccountStatus::JOIN);
                 if ($line == null)
                 {
                     // LINE情報に登録
@@ -226,7 +226,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
+            $line = $this->lineRepository->findByLineChannelUserIdAndLineAccountTypeId($userId, \LineAccountType::ONE_TO_ONE);
             if ($line == null)
             {
                 // LINE情報に登録
@@ -277,7 +277,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelUserId($userId, \LineAccountType::ONE_TO_ONE);
+            $line = $this->lineRepository->findByLineChannelUserIdAndLineAccountTypeId($userId, \LineAccountType::ONE_TO_ONE);
             if ($line == null)
             {
                 // LINE情報に登録
@@ -322,7 +322,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            $line = $this->lineRepository->findByLineChannelGroupIdAndLineAccountTypeId($groupId, \LineAccountType::GROUP);
             if ($line == null)
             {
                 // LINE情報に登録
@@ -367,7 +367,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // LINE情報を取得
-            $line = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            $line = $this->lineRepository->findByLineChannelGroupIdAndLineAccountTypeId($groupId, \LineAccountType::GROUP);
             if ($line == null)
             {
                 // LINE情報に登録
@@ -413,7 +413,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
         try
         {
             // グループトークのLINE情報を取得
-            $lineGroup = $this->lineRepository->findByLineChannelGroupId($groupId, \LineAccountType::GROUP);
+            $lineGroup = $this->lineRepository->findByLineChannelGroupIdAndLineAccountTypeId($groupId, \LineAccountType::GROUP);
             if ($lineGroup == null)
             {
                 // LINE情報に登録
@@ -426,7 +426,7 @@ class LineWebhookService extends LineMessagingApiService  implements LineWebhook
                 $userId = $member['userId'];
 
                 // グループメンバーのLINE情報を取得
-                $line = $this->lineRepository->findByLineChannelGroupIdAndUserId($groupId, $userId, \LineAccountStatus::JOIN);
+                $line = $this->lineRepository->findByLineChannelGroupIdAndUserIdAndLineAccountTypeId($groupId, $userId, \LineAccountStatus::JOIN);
                 if ($line == null)
                 {
                     // 退出済みのLINEプロフィール情報は取得できないため登録処理は実行しない

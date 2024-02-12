@@ -13,6 +13,8 @@ class Controller extends BaseController
     /**
      * JsonのResponseを行う
      * 
+     * @param array data Responseデータ
+     * @param int   code HTTPステータスコード
      * @return Json
      */
     public function jsonResponse($data = [], $code = 200)
